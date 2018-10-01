@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import MyDiagram from './MyDiagram';
+//import MyDiagram from './MyDiagram';
+import NPMJS from './npmjs-site';
 
 class App extends Component {
   render() {
@@ -15,7 +16,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
 
-          <MyDiagram/>
+          <NPMJS/>
 
       </div>
     );
