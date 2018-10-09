@@ -27,7 +27,6 @@ class AddChildButton extends React.Component {
                            'py-1 px-1 ' +
                            'rounded-l items-center'}
                 style={{display: 'block', width: 100}}
-                /*style={{transform: `translate(${230}%, ${30}%)`}}*/
                 onClick={this.handleClick}>
                 <FontAwesomeIcon icon={'plus'}/>
             </button>
@@ -58,7 +57,6 @@ class EditButton extends React.Component {
                            'py-1 px-1 ' +
                            'items-center'}
                 style={{display: 'block', width: 100}}
-                /*style={{transform: `translate(${230}%, ${30}%)`}}*/
                 onClick={this.handleClick}>
                 Edit
             </button>
@@ -92,7 +90,6 @@ class ExpandCollapseButton extends React.Component {
                            'py-1 px-1 ' +
                            'rounded-r items-center'}
                 style={{display: 'block', width: 100}}
-                /*style={{transform: `translate(${230}%, ${30}%)`}}*/
                 onClick={this.handleClick}>
                 <FontAwesomeIcon icon={this.state.showChildren ? 'compress' : 'expand'}/>
             </button>
