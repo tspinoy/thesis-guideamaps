@@ -1,23 +1,123 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-//import MyDiagram from './MyDiagram';
-import NPMJS from './npmjs-site';
+import './css/App.css';
+import './css/tailwind.css'
+import GuideaMap from './GuideaMap';
+import * as d3 from "d3";
+
+// Font Awesome for SVG icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlus, faPlusCircle, faEllipsisH, faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faPlus, faPlusCircle, faPlus, faEllipsisH, faExpand, faCompress);
+
+/*
+const nodesData = d3.range(10).map(function (i) {
+    return {
+        index: i,
+        id: i,
+        showChildren: true
+    };
+});
+*/
+
+const nodesDataJson = [
+    {
+        "0": {
+            index: 0,
+            id: 0,
+            showChildren: false
+        }
+    },
+
+    {
+        "1": {
+            index: 1,
+            id: 1,
+            showChildren: false
+        }
+    },
+
+    {
+        "2": {
+            index: 2,
+            id: 2,
+            showChildren: false
+        }
+    },
+
+    {
+        "3": {
+            index: 3,
+            id: 3,
+            showChildren: false
+        }
+    },
+
+    {
+        "4": {
+            index: 4,
+            id: 4,
+            showChildren: false
+        }
+    },
+
+    {
+        "5": {
+            index: 5,
+            id: 5,
+            showChildren: false
+        }
+    },
+
+    {
+        "6": {
+            index: 6,
+            id: 6,
+            showChildren: true
+        }
+    },
+
+    {
+        "7": {
+            index: 7,
+            id: 7,
+            showChildren: false
+        }
+    },
+
+    {
+        "8": {
+            index: 8,
+            id: 8,
+            showChildren: false
+        }
+    },
+
+    {
+        "9": {
+            index: 9,
+            id: 9,
+            showChildren: false
+        }
+    }
+];
+
+const linksData = d3.range(nodesDataJson.length - 1).map(function (i) {
+    const source = Math.floor(Math.sqrt(i));
+    const target = i + 1;
+    return {
+        source,
+        id: `${source}-${target}`,
+        target
+    };
+});
 
 class App extends Component {
   render() {
+      console.log(nodesDataJson);
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-
-          <NPMJS/>
-
+          <GuideaMap width={800} height={800} nodes={nodesDataJson} links={linksData}/>
       </div>
     );
   }
