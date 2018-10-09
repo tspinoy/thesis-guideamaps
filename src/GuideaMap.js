@@ -5,6 +5,67 @@ import PropTypes from 'prop-types';
 import './css/App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+class AddChildButton extends React.Component {
+    constructor(props) {
+        super(props);
+
+        // This binding is necessary to make `this` work in the callback
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    // This syntax ensures `this` is bound within handleClick.
+    // Warning: this is *experimental* syntax.
+    handleClick = () => {
+
+    };
+
+    render() {
+        return (
+            <button
+                className={'bg-grey-light hover:bg-grey ' +
+                           'text-grey-darkest font-bold ' +
+                           'py-1 px-1 ' +
+                           'rounded-l items-center'}
+                style={{display: 'block', width: 100}}
+                /*style={{transform: `translate(${230}%, ${30}%)`}}*/
+                onClick={this.handleClick}>
+                <FontAwesomeIcon icon={'plus'}/>
+            </button>
+        );
+    }
+}
+
+class EditButton extends React.Component {
+    constructor(props) {
+        super(props);
+
+        // This binding is necessary to make `this` work in the callback
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    // This syntax ensures `this` is bound within handleClick.
+    // Warning: this is *experimental* syntax.
+    handleClick = () => {
+
+    };
+
+    render() {
+        return (
+            <button
+                className={'bg-grey-light hover:bg-grey ' +
+                           'text-grey-darkest font-bold ' +
+                           'border-l border-r border-grey border-solid ' +
+                           'py-1 px-1 ' +
+                           'items-center'}
+                style={{display: 'block', width: 100}}
+                /*style={{transform: `translate(${230}%, ${30}%)`}}*/
+                onClick={this.handleClick}>
+                Edit
+            </button>
+        );
+    }
+}
+
 class ExpandCollapseButton extends React.Component {
     constructor(props) {
         super(props);
@@ -26,8 +87,12 @@ class ExpandCollapseButton extends React.Component {
     render() {
         return (
             <button
-                className={'bg-grey-light hover:bg-grey text-grey-darkest font-bold py-1 px-1 rounded inline-flex items-center'}
-                style={{transform: `translate(${230}%, ${30}%)`}}
+                className={'bg-grey-light hover:bg-grey ' +
+                           'text-grey-darkest font-bold ' +
+                           'py-1 px-1 ' +
+                           'rounded-r items-center'}
+                style={{display: 'block', width: 100}}
+                /*style={{transform: `translate(${230}%, ${30}%)`}}*/
                 onClick={this.handleClick}>
                 <FontAwesomeIcon icon={this.state.showChildren ? 'compress' : 'expand'}/>
             </button>
@@ -68,31 +133,31 @@ export default class GuideaMap extends React.Component {
         const {nodes, links, selectedNodeId}=this.state;
         const {width, height}=this.props;
 
-        /*
-        const showChildren = nodes.map((currElement, index) => {
-            return nodes[index].showChildren;
-        });
-        */
-
         const renderedNodes =
             nodes.map(n =>
-                <div className={'absolute bg-white ' +
+                <div
+                    key={n.id}
+                    className={'absolute bg-white ' +
                 '                border border-solid border-black rounded ' +
                 '                p-2 w-32'}
-                     style={{left: n.x, top: n.y, transform: `translate(${-50}%, ${-50}%)`}}>
+                    style={{left: n.x, top: n.y, transform: `translate(${-50}%, ${-50}%)`}}>
                     <div className={'font-sans text-lg mb-2'}>
                         Title
                     </div>
-                    <div className={'font-sans text-base'}
+                    <div className={'font-sans text-base mb-2'}
                          style={{height: '1.2em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                        large content here echt erover zoveel content
+                        The content is not completely shown, great!
                     </div>
-                    <ExpandCollapseButton node={n} nodeId={n.id} showChildren={n.showChildren}/>
+                    <div className={'flex'}>
+                        <AddChildButton/>
+                        <EditButton/>
+                        <ExpandCollapseButton node={n} nodeId={n.id} showChildren={n.showChildren}/>
+                    </div>
                 </div>);
 
         const renderedLinks =
             links.map(({source, id, target}) =>
-                <svg>
+                <svg key={id}>
                     <defs>
                         <marker id={'arrow'}
                                 viewBox={'0 -5 10 10'} /* viewBox={min-x min-y width height} */
@@ -109,7 +174,8 @@ export default class GuideaMap extends React.Component {
                           x2={target.x}
                           y2={target.y}
                           stroke={'black'}
-                          markerEnd='url(#arrow)'>
+                          markerEnd='url(#arrow)'
+                          style={{opacity: true ? 1 : 0}}>/* TODO: make this depending on showChildren parameter */
                     </line>
                 </svg>);
 

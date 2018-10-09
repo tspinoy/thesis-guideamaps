@@ -22,83 +22,63 @@ const nodesData = d3.range(10).map(function (i) {
 
 const nodesDataJson = [
     {
-        "0": {
-            index: 0,
-            id: 0,
-            showChildren: false
-        }
+        index: 0,
+        id: 0,
+        showChildren: false
     },
 
     {
-        "1": {
-            index: 1,
-            id: 1,
-            showChildren: false
-        }
+        index: 1,
+        id: 1,
+        showChildren: false
     },
 
     {
-        "2": {
-            index: 2,
-            id: 2,
-            showChildren: false
-        }
+        index: 2,
+        id: 2,
+        showChildren: false
     },
 
     {
-        "3": {
-            index: 3,
-            id: 3,
-            showChildren: false
-        }
+        index: 3,
+        id: 3,
+        showChildren: false
     },
 
     {
-        "4": {
-            index: 4,
-            id: 4,
-            showChildren: false
-        }
+        index: 4,
+        id: 4,
+        showChildren: false
     },
 
     {
-        "5": {
-            index: 5,
-            id: 5,
-            showChildren: false
-        }
+        index: 5,
+        id: 5,
+        showChildren: false
     },
 
     {
-        "6": {
-            index: 6,
-            id: 6,
-            showChildren: true
-        }
+        index: 6,
+        id: 6,
+        showChildren: true
     },
 
     {
-        "7": {
-            index: 7,
-            id: 7,
-            showChildren: false
-        }
+        index: 7,
+        id: 7,
+        showChildren: false
     },
 
     {
-        "8": {
-            index: 8,
-            id: 8,
-            showChildren: false
-        }
+        index: 8,
+        id: 8,
+        showChildren: false
     },
 
     {
-        "9": {
-            index: 9,
-            id: 9,
-            showChildren: false
-        }
+        index: 9,
+        id: 9,
+        showChildren: false
     }
 ];
 
