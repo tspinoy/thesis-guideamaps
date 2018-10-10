@@ -67,8 +67,9 @@ class EditButton extends React.Component {
 class ExpandCollapseButton extends React.Component {
     constructor(props) {
         super(props);
-        const {node, nodeId, showChildren} = this.props;
-        this.state={node, nodeId, showChildren};
+        const {node, update} = this.props;
+        this.state={node, update};
+
 
         // This binding is necessary to make `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
@@ -77,9 +78,7 @@ class ExpandCollapseButton extends React.Component {
     // This syntax ensures `this` is bound within handleClick.
     // Warning: this is *experimental* syntax.
     handleClick = () => {
-        console.log(this.state.node);
-        console.log('this is:', this.state.nodeId);
-        this.setState({node: this.state.node, nodeId: this.state.nodeId, showChildren: !this.state.showChildren});
+        this.props.update(this.state.node.id);
     };
 
     render() {
@@ -91,7 +90,7 @@ class ExpandCollapseButton extends React.Component {
                            'rounded-r items-center'}
                 style={{display: 'block', width: 100}}
                 onClick={this.handleClick}>
-                <FontAwesomeIcon icon={this.state.showChildren ? 'compress' : 'expand'}/>
+                <FontAwesomeIcon icon={this.state.node.showChildren ? 'compress' : 'expand'}/>
             </button>
         );
     }
@@ -123,12 +122,32 @@ export default class GuideaMap extends React.Component {
     static propTypes = {nodes: PropTypes.array, links: PropTypes.array};
     static defaultProps = {nodes: [], links: [], width: 100, height: 100};
 
-    state = {...this.props, selectedNodeId: null};
+    state = {...this.props};
 
 
     render () {
-        const {nodes, links, selectedNodeId}=this.state;
+        const {nodes, links}=this.state;
         const {width, height}=this.props;
+
+        const updateNodeShowChildren = nodeId => {
+            const newState = this.state.nodes;
+            newState[nodeId].showChildren = !this.state.nodes[nodeId].showChildren;
+            this.setState(newState);
+            console.log(this.state.links);
+            var x;
+            for(x = 0; x < this.state.links.length; x++) {
+                const link = this.state.links[x];
+                if(nodeId === link.source.id) {
+                    updateShowNode(link.target.id);
+                }
+            }
+        };
+
+        const updateShowNode = nodeId => {
+            const newState = this.state.nodes;
+            newState[nodeId].show = !this.state.nodes[nodeId].show;
+            this.setState(newState);
+        };
 
         const renderedNodes =
             nodes.map(n =>
@@ -137,7 +156,7 @@ export default class GuideaMap extends React.Component {
                     className={'absolute bg-white ' +
                 '                border border-solid border-black rounded ' +
                 '                p-2 w-32'}
-                    style={{left: n.x, top: n.y, transform: `translate(${-50}%, ${-50}%)`}}>
+                    style={{left: n.x, top: n.y, opacity: n.show ? 1 : 0, transform: `translate(${-50}%, ${-50}%)`}}>
                     <div className={'font-sans text-lg mb-2'}>
                         Title
                     </div>
@@ -148,7 +167,7 @@ export default class GuideaMap extends React.Component {
                     <div className={'flex'}>
                         <AddChildButton/>
                         <EditButton/>
-                        <ExpandCollapseButton node={n} nodeId={n.id} showChildren={n.showChildren}/>
+                        <ExpandCollapseButton node={this.state.nodes[n.id]} update={updateNodeShowChildren}/>
                     </div>
                 </div>);
 
@@ -172,7 +191,7 @@ export default class GuideaMap extends React.Component {
                           y2={target.y}
                           stroke={'black'}
                           markerEnd='url(#arrow)'
-                          style={{opacity: true ? 1 : 0}}>/* TODO: make this depending on showChildren parameter */
+                          style={{opacity: source.showChildren ? 1 : 0}}>
                     </line>
                 </svg>);
 
