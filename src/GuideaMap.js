@@ -96,6 +96,34 @@ class ExpandCollapseButton extends React.Component {
     }
 }
 
+const VisNodes = (props) => {
+
+    return <div>
+        {
+            props.nodes.map(n =>
+                <div
+                    key={n.id}
+                    className={'absolute bg-white ' +
+                    '                border border-solid border-black rounded ' +
+                    '                p-2 w-32'}
+                    style={{left: n.x, top: n.y, opacity: n.show ? 1 : 0, transform: `translate(${-50}%, ${-50}%)`}}>
+                    <div className={'font-sans text-lg mb-2'}>
+                        Title
+                    </div>
+                    <div className={'font-sans text-base mb-2'}
+                         style={{height: '1.2em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                        The content is not completely shown, great!
+                    </div>
+                    <div className={'flex'}>
+                        <AddChildButton/>
+                        <EditButton/>
+                        <ExpandCollapseButton node={n} update={props.update}/>
+                    </div>
+                </div>)
+        }
+    </div>
+};
+
 export default class GuideaMap extends React.Component {
 
     componentDidMount () {
@@ -149,28 +177,6 @@ export default class GuideaMap extends React.Component {
             this.setState(newState);
         };
 
-        const renderedNodes =
-            nodes.map(n =>
-                <div
-                    key={n.id}
-                    className={'absolute bg-white ' +
-                '                border border-solid border-black rounded ' +
-                '                p-2 w-32'}
-                    style={{left: n.x, top: n.y, opacity: n.show ? 1 : 0, transform: `translate(${-50}%, ${-50}%)`}}>
-                    <div className={'font-sans text-lg mb-2'}>
-                        Title
-                    </div>
-                    <div className={'font-sans text-base mb-2'}
-                         style={{height: '1.2em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                        The content is not completely shown, great!
-                    </div>
-                    <div className={'flex'}>
-                        <AddChildButton/>
-                        <EditButton/>
-                        <ExpandCollapseButton node={this.state.nodes[n.id]} update={updateNodeShowChildren}/>
-                    </div>
-                </div>);
-
         const renderedLinks =
             links.map(({source, id, target}) =>
                 <svg key={id}>
@@ -200,7 +206,7 @@ export default class GuideaMap extends React.Component {
                         {renderedLinks}
                     </svg>
                     <div className={'absolute pin-t pin-l'} style={{width, height}}>
-                        {renderedNodes}
+                        <VisNodes nodes={nodes} update={updateNodeShowChildren}/>
                     </div>
                 </div>
     }
