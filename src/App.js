@@ -158,10 +158,7 @@ let hierarchyData = {
             "name": "Thijs"
         },
         {
-            "name": "Yana"
-        },
-        {
-            "name": "hello"
+            "name": "Node"
         }
     ]
 };
@@ -179,7 +176,7 @@ var width = 960;
 var height = 900;
 var cluster = d3.cluster()
     .size([360, width / 2 - 120])
-    .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
+    .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2); });
 const clusterNodes = cluster(hierarchyData);
 
 
@@ -199,7 +196,7 @@ class App extends Component {
       <div className="App">
           {/*<GuideaMap width={800} height={800} nodes={nodesDataJson} links={linksData}/>*/}
           {/*<Tree width={800} height={800} nodes={treeNodes} links={linksData}/>*/}
-          <Cluster width={width} height={height} nodes={clusterNodes}/>
+          <Cluster width={width} height={height} nodes={clusterNodes} links={clusterNodes.links()}/>
       </div>
     );
   }

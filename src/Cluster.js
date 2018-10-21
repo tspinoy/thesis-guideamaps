@@ -103,6 +103,9 @@ export default class Cluster extends React.Component {
 
         const {width, height, nodes, links}=this.props;
 
+        const nodeWidth = 130;
+        const nodeHeight = 100;
+
         console.log(nodes);
 
         console.log(nodes.descendants());
@@ -119,8 +122,8 @@ export default class Cluster extends React.Component {
                     key={n.data.name}
                     className={'absolute bg-white ' +
                     'border border-solid border-black rounded ' +
-                    'p-2 w-32'}
-                    style={{left: n.x, transform: `translate(${project(n.x, n.y)[0]}px, ${project(n.x, n.y)[1]}px)`}}>
+                    'p-2'}
+                    style={{width: nodeWidth, height: nodeHeight, transform: `translate(${project(n.x, n.y)[0]}px, ${project(n.x, n.y)[1]}px)`}}>
                     <div className={'font-sans text-lg mb-2'}>
                         {n.data.name}
                     </div>
@@ -138,20 +141,38 @@ export default class Cluster extends React.Component {
         };
 
         const returnAllLinks = () => {
-            const allNodes = nodes.descendants().slice(1);
-            return allNodes.map(node =>
-                    <path
-                        d={"M " + project(node.x, node.y) + " L " + project(node.parent.x, node.parent.y)}
-                        stroke={"black"}
-                    />)
+            console.log(links);
+            return links.map((link) =>
+                <svg>
+                    <defs>
+                        <marker
+                            id="arrow"
+                            markerUnits="strokeWidth"
+                            markerWidth="12"
+                            markerHeight="12"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto">
+                            <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{fill: 'black'}}/>
+                        </marker>
+                    </defs>
+                    <path d={
+                            'M ' + project(link.source.x, link.source.y) +
+                            ' L ' + (project(link.source.x, link.source.y)[0] + project(link.target.x, link.target.y)[0])/2 + ',' + (project(link.source.x, link.source.y)[1] + project(link.target.x, link.target.y)[1])/2 +
+                            ' L ' + project(link.target.x, link.target.y)}
+                          stroke={'black'}
+                          markerMid={'url(#arrow)'}
+                          style={{transform: `translate(${(width / 2) + (nodeWidth / 2)}px, ${(height / 2) + (nodeHeight / 2)}px`}}/>
+                </svg>)
         };
 
         return (
-            <div style={{width: width, height: height, transform: `translate(${width/2}px, ${height/2+20}px`}}>
-                <svg className={'absolute pin-t pin-l'}>
+            <div style={{width: width, height: height}}>
+                <svg className={'absolute pin-t pin-l'} style={{width: width, height: height}}>
                     {returnAllLinks()}
                 </svg>
-                <div>
+                <div className={'absolute pin-t pin-l'} style={{width: width, height: height, transform: `translate(${width/2}px, ${height/2}px`}}>
                     {renderAllNodes()}
                 </div>
             </div>
