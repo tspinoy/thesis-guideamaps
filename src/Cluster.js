@@ -1,147 +1,60 @@
 import React from "react";
-import * as d3 from "d3";
-import tree from "d3-hierarchy/src/tree";
+
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
+import Node from './Node';
+
+import { NodeWidth, NodeHeight, project } from './Constants';
 
 import './css/App.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-class AddChildButton extends React.Component {
-    constructor(props) {
-        super(props);
-
-        // This binding is necessary to make `this` work in the callback
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    // This syntax ensures `this` is bound within handleClick.
-    // Warning: this is *experimental* syntax.
-    handleClick = () => {
-
-    };
-
-    render() {
-        return (
-            <button
-                className={'bg-grey-light hover:enabled:bg-grey ' +
-                'text-grey-darkest font-bold ' +
-                'py-1 px-1 ' +
-                'rounded-l items-center'}
-                style={{display: 'block', width: 100}}
-                onClick={this.handleClick}>
-                <FontAwesomeIcon icon={'plus'}/>
-            </button>
-        );
-    }
-}
-
-class EditButton extends React.Component {
-    constructor(props) {
-        super(props);
-
-        // This binding is necessary to make `this` work in the callback
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    // This syntax ensures `this` is bound within handleClick.
-    // Warning: this is *experimental* syntax.
-    handleClick = () => {
-
-    };
-
-    render() {
-        return (
-            <button
-                className={'bg-grey-light hover:enabled:bg-grey ' +
-                'text-grey-darkest font-bold ' +
-                'border-l border-r border-grey border-solid ' +
-                'py-1 px-1 ' +
-                'items-center'}
-                style={{display: 'block', width: 100}}
-                onClick={this.handleClick}>
-                Edit
-            </button>
-        );
-    }
-}
-
-class ExpandCollapseButton extends React.Component {
-    constructor(props) {
-        super(props);
-        const {node, update} = this.props;
-        this.state={node, update};
-
-
-        // This binding is necessary to make `this` work in the callback
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    // This syntax ensures `this` is bound within handleClick.
-    // Warning: this is *experimental* syntax.
-    handleClick = () => {
-        this.props.update(this.state.node.id);
-    };
-
-    render() {
-        return (
-            <button
-                className={'bg-grey-light hover:enabled:bg-grey ' +
-                'text-grey-darkest font-bold ' +
-                'py-1 px-1 ' +
-                'rounded-r items-center'}
-                style={{display: 'block', width: 100}}
-                onClick={this.handleClick}
-                disabled={true}>
-                <FontAwesomeIcon icon={this.state.node.showChildren ? 'compress' : 'expand'}/>
-            </button>
-        );
-    }
-}
-
-export default class Cluster extends React.Component {
-
-    render() {
-
-        const {width, height, nodes, links}=this.props;
-
-        const nodeWidth = 130;
-        const nodeHeight = 100;
-
-        console.log(nodes);
-
-        console.log(nodes.descendants());
-
-        const project = (x, y) => {
-            var angle = (x - 90) / 180 * Math.PI, radius = y;
-            return [radius * Math.cos(angle), radius * Math.sin(angle)];
-        };
-
-        const renderAllNodes = () => {
-            const allNodes = nodes.descendants();
-            return allNodes.map(n =>
-                <div
-                    key={n.data.name}
-                    className={'absolute bg-white ' +
-                    'border border-solid border-black rounded ' +
-                    'p-2'}
-                    style={{width: nodeWidth, height: nodeHeight, transform: `translate(${project(n.x, n.y)[0]}px, ${project(n.x, n.y)[1]}px)`}}>
-                    <div className={'font-sans text-lg mb-2'}>
-                        {n.data.name}
-                    </div>
-                    <div className={'font-sans text-base mb-2'}
-                         style={{height: '1.2em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                        The content is not completely shown, great!
-                    </div>
-                    <div className={'flex'}>
-                        <AddChildButton />
-                        <EditButton />
-                        <ExpandCollapseButton node={n}/>
-                    </div>
-                </div>
+const RenderNodes = (props) => {
+    return <div>
+        {
+            props.nodes.map(n =>
+                <Node node={n} update={props.update}/>
             )
+    }
+    </div>
+};
+
+class Cluster extends React.Component {
+
+    state = {...this.props};
+
+    render() {
+
+        const {width, height, nodes, links}=this.state;
+
+        /**
+         * Expand or collapse a particular node with id = nodeId.
+         * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
+         */
+        const updateNodeShowChildren = nodeId => {
+            // Start from the current state
+            const newState = this.state.nodes;
+            // Invert the showChildren value: collapse => expand and expand => collapse
+            newState[nodeId].showChildren = !this.state.nodes[nodeId].showChildren;
+            // Take all the child nodes on all levels starting from this node (the node itself is included!)
+            const childNodes = this.state.nodes[nodeId].descendants();
+            // Invert the show property of all descending nodes, start from 1 to not hide the node itself!
+            for(let x = 1; x < childNodes.length; x++) {
+                const child = childNodes[x];
+                child.show = newState[nodeId].showChildren;
+                child.showChildren = newState[nodeId].showChildren;
+            }
+            // Save the new state
+            this.setState(newState);
         };
 
+        /**
+         * Draw all the links between the nodes that are currently shown.
+         *
+         * To know a link should be shown, we look at the target node of the link.
+         * If this target node is shown, the link should be visible as well.
+         * */
         const returnAllLinks = () => {
-            console.log(links);
             return links.map((link) =>
                 <svg>
                     <defs>
@@ -163,7 +76,9 @@ export default class Cluster extends React.Component {
                             ' L ' + project(link.target.x, link.target.y)}
                           stroke={'black'}
                           markerMid={'url(#arrow)'}
-                          style={{transform: `translate(${(width / 2) + (nodeWidth / 2)}px, ${(height / 2) + (nodeHeight / 2)}px`}}/>
+                          style={{
+                              transform: `translate(${(width / 2) + (NodeWidth / 2)}px, ${(height / 2) + (NodeHeight / 2)}px)`,
+                              display: link.target.show ? 'block' : 'none'}}/>
                 </svg>)
         };
 
@@ -173,9 +88,11 @@ export default class Cluster extends React.Component {
                     {returnAllLinks()}
                 </svg>
                 <div className={'absolute pin-t pin-l'} style={{width: width, height: height, transform: `translate(${width/2}px, ${height/2}px`}}>
-                    {renderAllNodes()}
+                    <RenderNodes nodes={nodes} update={updateNodeShowChildren}/>
                 </div>
             </div>
         );
     }
 }
+
+export default DragDropContext(HTML5Backend)(Cluster);

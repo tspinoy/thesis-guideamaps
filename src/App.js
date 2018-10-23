@@ -9,7 +9,6 @@ import * as d3 from "d3";
 // Font Awesome for SVG icons
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus, faPlusCircle, faEllipsisH, faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
-import stratify from "d3-hierarchy/src/stratify";
 
 library.add(faPlus, faPlusCircle, faPlus, faEllipsisH, faExpand, faCompress);
 
@@ -140,7 +139,15 @@ let hierarchyData = {
     "name": "Eve",
     "children": [
         {
-            "name": "Cain"
+            "name": "Cain",
+            "children": [
+                {
+                    "name": "Enos"
+                },
+                {
+                    "name": "Noam"
+                }
+            ]
         },
         {
             "name": "Seth"
@@ -163,7 +170,7 @@ let hierarchyData = {
     ]
 };
 
-hierarchyData = d3.hierarchy(hierarchyData, function(d) { return d.children; });
+const root = d3.hierarchy(hierarchyData, function(d) { return d.children; });
 /*
 const tree = d3.tree().size([800, 800]).separation(function separation(a, b) {
     return a.parent === b.parent ? 1 : 2;
@@ -177,7 +184,23 @@ var height = 900;
 var cluster = d3.cluster()
     .size([360, width / 2 - 120])
     .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2); });
-const clusterNodes = cluster(hierarchyData);
+const clusterRoot = cluster(root);
+const clusterNodes = clusterRoot.descendants();
+const clusterLinks = clusterRoot.links();
+
+for(var i = 0; i < clusterNodes.length; i++){
+    clusterNodes[i].id = i;
+    clusterNodes[i].show = true;
+    if(!(clusterNodes[i].parent === null)){
+        clusterNodes[i].showChildren = clusterNodes[i].parent.showChildren;
+    } else {
+        clusterNodes[i].showChildren = true;
+    }
+
+
+}
+
+console.log(clusterNodes);
 
 
 const linksData = d3.range(nodesDataJson.length - 1).map(function (i) {
@@ -194,9 +217,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          {/*<GuideaMap width={800} height={800} nodes={nodesDataJson} links={linksData}/>*/}
+          {/*<GuideaMap width={800} height={800} nodes={nodesDataJson} links={linksData}/>
           {/*<Tree width={800} height={800} nodes={treeNodes} links={linksData}/>*/}
-          <Cluster width={width} height={height} nodes={clusterNodes} links={clusterNodes.links()}/>
+          <Cluster width={width} height={height} nodes={clusterNodes} links={clusterLinks}/>
       </div>
     );
   }
