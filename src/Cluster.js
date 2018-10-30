@@ -14,7 +14,9 @@ const RenderNodes = (props) => {
                       node={n}
                       updateShowChildren={props.updateShowChildren}
                       updatePosition={props.updatePosition}
-                      updateEditing={props.updateEditing}/>
+                      updateEditing={props.updateEditing}
+					  updateData={props.updateData}
+					  updateBackgroundColor={props.updateBackgroundColor}/>
             )
         }
         </div>
@@ -38,7 +40,7 @@ class Cluster extends React.Component {
             // Invert the showChildren value: collapse => expand and expand => collapse
             newState[nodeId].showChildren = !this.state.nodes[nodeId].showChildren;
             // Take all the child nodes on all levels starting from this node (the node itself is included!)
-            const childNodes = this.state.nodes[nodeId].descendants();
+            const childNodes = newState[nodeId].descendants();
             // Invert the show property of all descending nodes, start from 1 to not hide the node itself!
             for(let x = 1; x < childNodes.length; x++) {
                 const child = childNodes[x];
@@ -78,6 +80,29 @@ class Cluster extends React.Component {
 		    // Save the new state
 		    this.setState(newState);
         }
+
+        const updateNodeData = (nodeId, nodeTitle, nodeContent) => {
+			const newState = this.state.nodes;
+			newState[nodeId].data.name = nodeTitle;
+			newState[nodeId].content = nodeContent;
+			this.setState(newState);
+		}
+
+		const updateNodeBackground = (nodeId, hexColor, children) => {
+			const newState = this.state.nodes;
+			if(children) {
+				// Take all the child nodes on all levels starting from this node (the node itself is included!)
+				const childNodes = newState[nodeId].descendants();
+				// Invert the show property of the node and all descending nodes
+				for(let x = 0; x < childNodes.length; x++) {
+					const child = childNodes[x];
+					child.backgroundColor = hexColor;
+				}
+			} else {
+				newState[nodeId].backgroundColor = hexColor;
+			}
+			this.setState(newState);
+		}
 
         /**
          * Draw all the links between the nodes that are currently shown.
@@ -124,7 +149,9 @@ class Cluster extends React.Component {
                     <RenderNodes nodes={nodes}
                                  updateShowChildren={updateNodeShowChildren}
                                  updatePosition={updateNodePosition}
-                                 updateEditing={updateNodeEdit}/>
+                                 updateEditing={updateNodeEdit}
+								 updateData={updateNodeData}
+								 updateBackgroundColor={updateNodeBackground}/>
                 </div>
             </div>
         );

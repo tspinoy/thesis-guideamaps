@@ -58,14 +58,14 @@ class Node extends React.Component {
 	 * */
     render() {
         const {
-          node, updateShowChildren, updatePosition, updateEditing, // passed by the renderNodes-function in Cluster.js
+          node, updateShowChildren, updatePosition, updateEditing, updateData, updateBackgroundColor, // passed by the renderNodes-function in Cluster.js
           connectDragSource, connectDropTarget, isDragging // injected by react dnd
         } = this.props;
         return connectDragSource(connectDropTarget(
             <div
                 key={node.data.name}
                 className={
-                    'absolute bg-white ' +
+                    'absolute ' +
                     'border border-solid border-black rounded ' +
 					(node.editing ? 'z-50 ' : 'z-0 ') +
                     'p-2 '}
@@ -73,6 +73,7 @@ class Node extends React.Component {
                     width: NodeWidth, height: NodeHeight,
                     transform: `translate(${project(node.x, node.y)[0]}px, ${project(node.x, node.y)[1]}px)`,
                     display: node.show ? 'block' : 'none',
+					backgroundColor: node.backgroundColor,
                     cursor: 'move',
                     opacity: isDragging ? 0.5 : 1}}>
 
@@ -89,14 +90,18 @@ class Node extends React.Component {
 						<AddChildButton />
 						<EditButton node={node}
 									leaf={true}
-									update={updateEditing}/>
+									updateEditing={updateEditing}
+									updateData={updateData}
+									updateBackgroundColor={updateBackgroundColor}/>
 					</div> :
 					/* If it is not a leaf node, the expand-collapse-button is also shown */
 					<div className={'flex'}>
 						<AddChildButton />
 						<EditButton node={node}
 									leaf={false}
-									update={updateEditing}/>
+									updateEditing={updateEditing}
+									updateData={updateData}
+									updateBackgroundColor={updateBackgroundColor}/>
 						<ExpandCollapseButton node={node}
 											  update={updateShowChildren}/>
 					</div>

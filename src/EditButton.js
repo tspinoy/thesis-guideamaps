@@ -1,14 +1,19 @@
-import React from 'react'
-import Popup from "reactjs-popup"
+import React from 'react';
+import Popup from "reactjs-popup";
+import { PhotoshopPicker, SketchPicker } from 'react-color';
 
 class EditButton extends React.Component {
 	constructor(props) {
 		super(props);
-		const {node, leaf, update} = this.props;
+		const {node, leaf, updateEditing, updateData, updateBackgroundColor} = this.props;
 		this.state = { node, leaf };
 
-		// This binding is necessary to make `this` work in the callback
+		/* This binding is necessary to make `this` work in the callback.
+		 * For instance to be able to use "this.props..." and "this.state...".
+		 */
 		this.handleOpenCloseEditPopup = this.handleOpenCloseEditPopup.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleColorChange = this.handleColorChange.bind(this);
 	}
 
 	/**
@@ -18,8 +23,30 @@ class EditButton extends React.Component {
 	 * Check out {@link Cluster.render#updateNodeEdit}
 	 */
 	handleOpenCloseEditPopup() {
-		this.props.update(this.state.node.id);
+		this.props.updateEditing(this.state.node.id);
 	};
+
+	handleSubmit(event) {
+		const newTitle = event.target.title.value;
+		const newContent = event.target.content.value;
+		this.props.updateData(this.state.node.id, newTitle, newContent);
+		event.preventDefault();
+	}
+
+	/**
+	 * Use this if you want to update the state for every single change that is made, even if the user did not click
+	 * the save-button. According to me, this is bad for the performance of the app.
+	 * If you want to use it, add "onChange={this.handleChange}" to the form elements.
+	 * @param event
+	 */
+	handleChange(event) {
+		console.log("change");
+		console.log(event);
+	}
+
+	handleColorChange(color) {
+		this.props.updateBackgroundColor(this.state.node.id, color.hex, true);
+	}
 
 	render() {
 		const editButton =
@@ -38,6 +65,9 @@ class EditButton extends React.Component {
 		 * The button we return triggers a popup showing the details of the node.
 		 * Created with reactjs-popup.
 		 */
+		// TODO: avoid fixed width of 500px (responsiveness).
+		// TODO: closeOnDocumentClick -> it should close when the user clicks outside of the popup or opens another.
+		// TODO: convert inline style of the div to tailwind css
 		return (
 			<Popup
 				trigger={editButton}
@@ -47,15 +77,15 @@ class EditButton extends React.Component {
 				closeOnDocumentClick={true}
 			>
 				{close => (
-					<div className="w-full">
-						<form className="bg-white shadow-md rounded px-8 pt-6 pb-8">
+					<div className="w-full" style={{maxHeight: '300px', overflowY: 'scroll'}}>
+						<form onSubmit={this.handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8">
 							<div className="mb-4">
 								<label className="block text-grey-darker text-sm font-bold mb-2">
 									Node title
 								</label>
 								<input
 									className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-									type={'text'} placeholder={'Node title'} defaultValue={this.state.node.data.name}>
+									name={'title'} type={'text'} placeholder={'Node title'} defaultValue={this.state.node.data.name}>
 								</input>
 							</div>
 							<div className="mb-6">
@@ -64,9 +94,10 @@ class EditButton extends React.Component {
 								</label>
 								<textarea
 									className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
-									placeholder={'Node content'} defaultValue={this.state.node.content}>
+									name={'content'} placeholder={'Node content'} defaultValue={this.state.node.content}>
 							</textarea>
 							</div>
+							<SketchPicker color={this.state.node.backgroundColor} onChangeComplete={this.handleColorChange}/>
 							<div className="flex items-center justify-between">
 								<button onClick={() => close()}>
 									Close

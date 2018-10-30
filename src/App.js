@@ -255,6 +255,7 @@ for(var i = 0; i < clusterNodes.length; i++){
     }
     clusterNodes[i].content = 'The content is not completely shown, great!';
     clusterNodes[i].editing = false;
+    clusterNodes[i].backgroundColor = '#ffffff';
 }
 
 console.log(clusterNodes);
