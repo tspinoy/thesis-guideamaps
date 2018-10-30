@@ -1,12 +1,9 @@
 import React from "react";
-
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import Node from './Node';
-
 import { NodeWidth, NodeHeight, project } from './Constants';
-
 import './css/App.css';
 
 const RenderNodes = (props) => {
