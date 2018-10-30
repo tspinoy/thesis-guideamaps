@@ -106,7 +106,11 @@ is present to change the background color of the node and its children.
 Non-leave nodes have the possibility to collapse or expand. This action can be executed by the user by clicking the button.
 A simple onClick-event triggers the updateShowChildren-function in [Node](#Node).
 
-### Remarks
+# Remarks
 
 This way of structuring the code means implies that if we have n possible state modifications, we would have to pass
 n functions from [Cluster](#Cluster) to [Node](#node).
+
+The way of representing a popup is used from the [Reactjs-Popup](https://react-popup.elazizi.com)-plugin.
+
+The color picker comes from [React Color](http://casesandberg.github.io/react-color/).
