@@ -13,10 +13,14 @@ const RenderNodes = (props) => {
     return <div>
         {
             props.nodes.map(n =>
-                <Node node={n} update={props.update}/>
+                <Node key={n.id}
+                      node={n}
+                      updateShowChildren={props.updateShowChildren}
+                      updatePosition={props.updatePosition}
+                      updateEditing={props.updateEditing}/>
             )
-    }
-    </div>
+        }
+        </div>
 };
 
 class Cluster extends React.Component {
@@ -48,6 +52,36 @@ class Cluster extends React.Component {
             this.setState(newState);
         };
 
+		/**
+		 * Update the position of the node after a drag and drop event.
+		 * @param nodeId: The id of the node of which the coordinates have to change.
+		 * @param newX: The new x-coordinate of the node.
+		 * @param newY: The new y-coordinate of the node.
+		 */
+		const updateNodePosition = (nodeId, newX, newY) => {
+        	// Start from the current state
+            const newState = this.state.nodes;
+            // Update the x and y coordinates of the node
+            newState[nodeId].x = newX;
+            newState[nodeId].y = newY;
+            // Save the new state
+            this.setState(newState);
+        }
+
+		/**
+		 * When the popup to edit a node is opened or closed,
+		 * a state change is required to know the value of the z-index for that node.
+		 * @param nodeId: The id of the node of which we have to invert the editing-field.
+		 */
+		const updateNodeEdit = nodeId => {
+			// Start from the current state
+		    const newState = this.state.nodes;
+		    // Invert the editing-field of the node: true => false, false => true
+		    newState[nodeId].editing = !this.state.nodes[nodeId].editing;
+		    // Save the new state
+		    this.setState(newState);
+        }
+
         /**
          * Draw all the links between the nodes that are currently shown.
          *
@@ -55,8 +89,8 @@ class Cluster extends React.Component {
          * If this target node is shown, the link should be visible as well.
          * */
         const returnAllLinks = () => {
-            return links.map((link) =>
-                <svg>
+            return links.map((link, index) =>
+                <svg key={index}>
                     <defs>
                         <marker
                             id="arrow"
@@ -84,11 +118,16 @@ class Cluster extends React.Component {
 
         return (
             <div style={{width: width, height: height}}>
-                <svg className={'absolute pin-t pin-l'} style={{width: width, height: height}}>
+                <svg className={'absolute pin-t pin-l'}
+					 style={{width: width, height: height}}>
                     {returnAllLinks()}
                 </svg>
-                <div className={'absolute pin-t pin-l'} style={{width: width, height: height, transform: `translate(${width/2}px, ${height/2}px`}}>
-                    <RenderNodes nodes={nodes} update={updateNodeShowChildren}/>
+                <div className={'absolute pin-t pin-l'}
+					 style={{width: width, height: height, transform: `translate(${width/2}px, ${height/2}px`}}>
+                    <RenderNodes nodes={nodes}
+                                 updateShowChildren={updateNodeShowChildren}
+                                 updatePosition={updateNodePosition}
+                                 updateEditing={updateNodeEdit}/>
                 </div>
             </div>
         );
