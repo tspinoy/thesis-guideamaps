@@ -7,6 +7,9 @@ import * as d3 from "d3";
 // Font Awesome for SVG icons
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus, faPlusCircle, faEllipsisH, faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
+import GuideMapsNode from './GuideaMapsNode'
+import Zoom from './Zoom'
+import { project } from './Constants'
 
 library.add(faPlus, faPlusCircle, faPlus, faEllipsisH, faExpand, faCompress);
 
@@ -136,6 +139,22 @@ let hierarchyData = {
 let hierarchyData = {
     "name": "Eve",
     "children": [
+
+		{
+			"name": "Thijs"
+		},
+		{
+			"name": "Yana"
+		},
+		{
+			"name": "Lise"
+		},
+		{
+			"name": "Pieter"
+		}
+	]
+
+    	/*
         {
             "name": "Cain",
             "children": [
@@ -222,6 +241,7 @@ let hierarchyData = {
 			]
         }
     ]
+    */
 };
 
 const root = d3.hierarchy(hierarchyData, function(d) { return d.children; });
@@ -234,9 +254,9 @@ const tree = d3.tree().size([800, 800]).separation(function separation(a, b) {
 const treeNodes = tree(hierarchyData);
 */
 
-var width = (root.height + 1) * 360;
+var clusterWidth = (root.height + 1) * 360;
 console.log(root.height);
-var height = (root.height + 1) * 360;
+var clusterHeight = (root.height + 1) * 360;
 // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
 var cluster = d3.cluster()
     .size([360, (root.height + 2) * 130])
@@ -254,11 +274,16 @@ for(var i = 0; i < clusterNodes.length; i++){
         clusterNodes[i].showChildren = true;
     }
     clusterNodes[i].content = 'The content is not completely shown, great!';
-    clusterNodes[i].editing = false;
+    //clusterNodes[i].editing = false;
     clusterNodes[i].backgroundColor = '#ffffff';
+
+    const projectedPositions = project(clusterNodes[i].x, clusterNodes[i].y);
+    clusterNodes[i].x = projectedPositions[0] + clusterWidth;
+    clusterNodes[i].y = projectedPositions[1] + clusterHeight;
 }
 
 console.log(clusterNodes);
+console.log(clusterLinks);
 
 /*
 const linksData = d3.range(nodesDataJson.length - 1).map(function (i) {
@@ -271,14 +296,23 @@ const linksData = d3.range(nodesDataJson.length - 1).map(function (i) {
     };
 });
 */
-
+const TestZoom = () => {
+	return (
+		<Zoom data={clusterNodes} width={800} height={800} selectedId={null} maxZoomScale={20}>
+			{(zoomNodes, zHandler) => (
+				zoomNodes.map(d => <div className={'absolute border'} style={{width: 20, height: 20, left: d.x, top: d.y}}>{d.id}</div>)
+			)
+			}
+		</Zoom>)
+}
 class App extends Component {
     render() {
         return (
             <div className="App">
-                {/*<GuideaMap width={800} height={800} nodes={nodesDataJson} links={linksData}/>
-                {/*<Tree width={800} height={800} nodes={treeNodes} links={linksData}/>*/}
-                <Cluster width={width} height={height} nodes={clusterNodes} links={clusterLinks}/>
+                {/*<GuideaMap clusterWidth={800} clusterHeight={800} nodes={nodesDataJson} links={linksData}/>
+                {/*<Tree clusterWidth={800} clusterHeight={800} nodes={treeNodes} links={linksData}/>*/}
+				<Cluster nodeType={GuideMapsNode} width={clusterWidth * 2} height={clusterHeight * 2} nodes={clusterNodes} links={clusterLinks}/>
+				{/*<TestZoom/>*/}
             </div>
         );
     }

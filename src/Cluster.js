@@ -2,25 +2,11 @@ import React from "react";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import Node from './Node';
+import GuideaMapsNode from './GuideaMapsNode';
 import { NodeWidth, NodeHeight, project } from './Constants';
 import './css/App.css';
-
-const RenderNodes = (props) => {
-    return <div>
-        {
-            props.nodes.map(n =>
-                <Node key={n.id}
-                      node={n}
-                      updateShowChildren={props.updateShowChildren}
-                      updatePosition={props.updatePosition}
-                      updateEditing={props.updateEditing}
-					  updateData={props.updateData}
-					  updateBackgroundColor={props.updateBackgroundColor}/>
-            )
-        }
-        </div>
-};
+import Zoom from './Zoom.js';
+import * as d3 from 'd3'
 
 class Cluster extends React.Component {
 
@@ -28,7 +14,11 @@ class Cluster extends React.Component {
 
     render() {
 
-        const {width, height, nodes, links}=this.state;
+        const {nodeType, width, height, nodes, links}=this.state;
+
+        // The type of the nodes is dynamic: the props define what kind of nodes should be represented.
+		// In the case of GuideaMaps, NodeType = GuideMapsNode.
+		const NodeType = nodeType;
 
         /**
          * Expand or collapse a particular node with id = nodeId.
@@ -89,6 +79,7 @@ class Cluster extends React.Component {
 		}
 
 		const updateNodeBackground = (nodeId, hexColor, children) => {
+			console.log("color");
 			const newState = this.state.nodes;
 			if(children) {
 				// Take all the child nodes on all levels starting from this node (the node itself is included!)
@@ -110,8 +101,20 @@ class Cluster extends React.Component {
          * To know a link should be shown, we look at the target node of the link.
          * If this target node is shown, the link should be visible as well.
          * */
+
         const returnAllLinks = () => {
             return links.map((link, index) =>
+				<path
+					key={index}
+					//d={zHandler.apply(link.source.x, link.source.y)}
+					d={'M ' + link.source.x + "," + link.source.y +
+						' L ' + link.target.x + "," + link.target.y}
+					style={{
+						stroke: 'black',
+						transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
+						display: link.target.show ? 'block' : 'none'}}
+				/>)
+				/*
                 <svg key={index}>
                     <defs>
                         <marker
@@ -135,25 +138,77 @@ class Cluster extends React.Component {
                           style={{
                               transform: `translate(${(width / 2) + (NodeWidth / 2)}px, ${(height / 2) + (NodeHeight / 2)}px)`,
                               display: link.target.show ? 'block' : 'none'}}/>
-                </svg>)
+                </svg>)*/
         };
 
+		/*
+		<svg className={'absolute pin-t pin-l'}
+			 style={{width: width, height: height}}>
+			{returnAllLinks()}
+		</svg>
+
+		{
+						<svg className={'absolute pin-t pin-l'}
+							 style={{width: width, height: height}}>
+							<Zoom data={links} width={width} height={height} center={[width/2, height/2]} selectedId={null}>
+								{(zoomedLinks, zHandler) => (
+									zoomedLinks.map(l =>
+										<line
+											x1={l.source.x}
+											y1={l.source.y}
+											x2={l.target.x}
+											y2={l.target.y}
+											style={{
+												stroke: 'black',
+												transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
+												display: l.target.show ? 'block' : 'none'}}
+										/>
+
+								))}
+							</Zoom>
+						</svg>
+
+					}
+		*/
         return (
-            <div style={{width: width, height: height}}>
-                <svg className={'absolute pin-t pin-l'}
-					 style={{width: width, height: height}}>
-                    {returnAllLinks()}
-                </svg>
-                <div className={'absolute pin-t pin-l'}
-					 style={{width: width, height: height, transform: `translate(${width/2}px, ${height/2}px`}}>
-                    <RenderNodes nodes={nodes}
-                                 updateShowChildren={updateNodeShowChildren}
-                                 updatePosition={updateNodePosition}
-                                 updateEditing={updateNodeEdit}
-								 updateData={updateNodeData}
-								 updateBackgroundColor={updateNodeBackground}/>
-                </div>
-            </div>
+			<div className={'absolute pin-t pin-l'}
+				 style={{width: width, height: height}}
+			>
+				{
+					<div>
+						<Zoom data={links} width={width} height={height} center={[width/2, height/2]} selectedId={null}>
+							{(zoomedLinks, zHandler) => (
+								zoomedLinks.map(l =>
+									<svg className={'absolute pin-t pin-l'} style={{width: width, height: height}}>
+										<path
+											d={'M' + zHandler.apply([l.source.x, l.source.y]) + "L" + zHandler.apply([l.target.x, l.target.y])}
+											style={{
+												stroke: 'black',
+												transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
+												display: l.target.show ? 'block' : 'none'}}
+										/>
+									</svg>
+								))
+							}
+						</Zoom>
+						<Zoom data={nodes} width={width} height={height} center={[width/2, height/2]} selectedId={null}>
+							{(zoomedNodes, zHandler) => (
+								zoomedNodes.map(n =>
+									<NodeType
+										key={n.id}
+										node={n}
+										updateShowChildren={updateNodeShowChildren}
+										updatePosition={updateNodePosition}
+										updateEditing={updateNodeEdit}
+										updateData={updateNodeData}
+										updateBackgroundColor={updateNodeBackground}
+									/>
+								))
+							}
+						</Zoom>
+					</div>
+				}
+			</div>
         );
     }
 }
