@@ -22,6 +22,7 @@ const nodeSource = {
     	console.log(monitor);
     	console.log(component);
     	var newPositions = monitor.getClientOffset();
+    	console.log(newPositions);
 	}
 };
 
@@ -46,7 +47,22 @@ function dropCollect(connect, monitor) {
 	}
 }
 
-class Node extends React.Component {
+class GuideaMapsNode extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = { editing: false };
+
+		// This binding is necessary to make `this` work in the callback
+		this.startStopEditing = this.startStopEditing.bind(this);
+	}
+
+	startStopEditing() {
+		console.log(this.state);
+		const newState = this.state;
+		newState.editing = !newState.editing;
+		this.setState(newState);
+	}
 
 	/**
 	 * To render a node, a div element is created.
@@ -67,11 +83,11 @@ class Node extends React.Component {
                 className={
                     'absolute ' +
                     'border border-solid border-black rounded ' +
-					(node.editing ? 'z-50 ' : 'z-0 ') +
+					(this.state.editing ? 'z-50 ' : 'z-0 ') +
                     'p-2 '}
                 style={{
                     width: NodeWidth, height: NodeHeight,
-                    transform: `translate(${project(node.x, node.y)[0]}px, ${project(node.x, node.y)[1]}px)`,
+                    transform: `translate(${node.x}px, ${node.y}px)`,
                     display: node.show ? 'block' : 'none',
 					backgroundColor: node.backgroundColor,
                     cursor: 'move',
@@ -80,8 +96,9 @@ class Node extends React.Component {
                 <div className={'font-sans text-lg mb-2'}>
                     {node.data.name}
                 </div>
-                <div className={'font-sans text-base mb-2'}
-                     style={{height: '1.2em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                <div className={'font-sans text-base mb-2 ' +
+								'overflow-hidden'}
+                     style={{height: '1.2em', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>
                     {node.content}
                 </div>
 				{node.height === 0 ?
@@ -90,7 +107,7 @@ class Node extends React.Component {
 						<AddChildButton />
 						<EditButton node={node}
 									leaf={true}
-									updateEditing={updateEditing}
+									startStopEditing={this.startStopEditing}
 									updateData={updateData}
 									updateBackgroundColor={updateBackgroundColor}/>
 					</div> :
@@ -99,7 +116,7 @@ class Node extends React.Component {
 						<AddChildButton />
 						<EditButton node={node}
 									leaf={false}
-									updateEditing={updateEditing}
+									startStopEditing={this.startStopEditing}
 									updateData={updateData}
 									updateBackgroundColor={updateBackgroundColor}/>
 						<ExpandCollapseButton node={node}
@@ -111,7 +128,7 @@ class Node extends React.Component {
     }
 }
 
-Node.propTypes = {
+GuideaMapsNode.propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired
@@ -121,4 +138,4 @@ Node.propTypes = {
 export default flow(
 	DragSource(ItemTypes.NODE, nodeSource, dragCollect),
 	DropTarget(ItemTypes.NODE, nodeTarget, dropCollect)
-)(Node);
+)(GuideaMapsNode);

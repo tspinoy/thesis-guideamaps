@@ -1,12 +1,14 @@
 import React from 'react';
 import Popup from "reactjs-popup";
 import { PhotoshopPicker, SketchPicker } from 'react-color';
+import * as ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
 
 class EditButton extends React.Component {
 	constructor(props) {
 		super(props);
-		const {node, leaf, updateEditing, updateData, updateBackgroundColor} = this.props;
-		this.state = { node, leaf };
+		const {node, leaf, startStopEditing, updateData, updateBackgroundColor} = this.props;
+		this.state = { node, leaf, closeId: 'closeBtn' + node.id };
 
 		/* This binding is necessary to make `this` work in the callback.
 		 * For instance to be able to use "this.props..." and "this.state...".
@@ -14,6 +16,22 @@ class EditButton extends React.Component {
 		this.handleOpenCloseEditPopup = this.handleOpenCloseEditPopup.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleColorChange = this.handleColorChange.bind(this);
+		this.handleClickOutside = this.handleClickOutside.bind(this);
+	}
+
+	componentWillMount() {
+		document.addEventListener('click', this.handleClickOutside, false);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener('click', this.handleClickOutside, false);
+	}
+
+	handleClickOutside(e) {
+		if(!ReactDOM.findDOMNode(this).contains(e.target)) {
+			console.log("erbuiten!");
+			//ReactTestUtils.Simulate.click(document.getElementById(this.state.closeId));
+		}
 	}
 
 	/**
@@ -23,7 +41,7 @@ class EditButton extends React.Component {
 	 * Check out {@link Cluster.render#updateNodeEdit}
 	 */
 	handleOpenCloseEditPopup() {
-		this.props.updateEditing(this.state.node.id);
+		this.props.startStopEditing();
 	};
 
 	handleSubmit(event) {
@@ -45,18 +63,22 @@ class EditButton extends React.Component {
 	}
 
 	handleColorChange(color) {
+		console.log("handlecolor");
 		this.props.updateBackgroundColor(this.state.node.id, color.hex, true);
 	}
 
 	render() {
-		const editButton =
-			<button className={
-				'bg-grey-light hover:bg-grey ' +
-				'text-grey-darkest font-bold ' +
-				(this.state.leaf ? 'rounded-r ' : 'border-r ') +
-				'border-l border-grey border-solid ' +
-				'py-1 px-1 ' +
-				'items-center'}
+
+		const button =
+			<button
+					id={this.state.closeId}
+					className={
+						'bg-grey-light hover:bg-grey ' +
+						'text-grey-darkest font-bold ' +
+						(this.state.leaf ? 'rounded-r ' : 'border-r ') +
+						'border-l border-grey border-solid ' +
+						'py-1 px-1 ' +
+						'items-center'}
 					style={{display: 'block', width: 100}}>
 				Edit
 			</button>;
@@ -70,14 +92,15 @@ class EditButton extends React.Component {
 		// TODO: convert inline style of the div to tailwind css
 		return (
 			<Popup
-				trigger={editButton}
+				trigger={button}
 				contentStyle={{width: '500px'}}
 				onOpen={this.handleOpenCloseEditPopup}
 				onClose={this.handleOpenCloseEditPopup}
 				closeOnDocumentClick={true}
+				closeOnEscape={true}
 			>
 				{close => (
-					<div className="w-full" style={{maxHeight: '300px', overflowY: 'scroll'}}>
+					<div className="w-full overflow-y-scroll" style={{maxHeight: '300px'}}>
 						<form onSubmit={this.handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8">
 							<div className="mb-4">
 								<label className="block text-grey-darker text-sm font-bold mb-2">
@@ -97,7 +120,7 @@ class EditButton extends React.Component {
 									name={'content'} placeholder={'Node content'} defaultValue={this.state.node.content}>
 							</textarea>
 							</div>
-							<SketchPicker color={this.state.node.backgroundColor} onChangeComplete={this.handleColorChange}/>
+							<SketchPicker color={this.state.node.backgroundColor} onChange={this.handleColorChange}/>
 							<div className="flex items-center justify-between">
 								<button onClick={() => close()}>
 									Close
