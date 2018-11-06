@@ -95,105 +95,46 @@ class Cluster extends React.Component {
 			this.setState(newState);
 		}
 
-        /**
-         * Draw all the links between the nodes that are currently shown.
-         *
-         * To know a link should be shown, we look at the target node of the link.
-         * If this target node is shown, the link should be visible as well.
-         * */
-
-        const returnAllLinks = () => {
-            return links.map((link, index) =>
-				<path
-					key={index}
-					//d={zHandler.apply(link.source.x, link.source.y)}
-					d={'M ' + link.source.x + "," + link.source.y +
-						' L ' + link.target.x + "," + link.target.y}
-					style={{
-						stroke: 'black',
-						transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
-						display: link.target.show ? 'block' : 'none'}}
-				/>)
-				/*
-                <svg key={index}>
-                    <defs>
-                        <marker
-                            id="arrow"
-                            markerUnits="strokeWidth"
-                            markerWidth="12"
-                            markerHeight="12"
-                            viewBox="0 0 12 12"
-                            refX="6"
-                            refY="6"
-                            orient="auto">
-                            <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{fill: 'black'}}/>
-                        </marker>
-                    </defs>
-                    <path d={
-                            'M ' + project(link.source.x, link.source.y) +
-                            ' L ' + (project(link.source.x, link.source.y)[0] + project(link.target.x, link.target.y)[0])/2 + ',' + (project(link.source.x, link.source.y)[1] + project(link.target.x, link.target.y)[1])/2 +
-                            ' L ' + project(link.target.x, link.target.y)}
-                          stroke={'black'}
-                          markerMid={'url(#arrow)'}
-                          style={{
-                              transform: `translate(${(width / 2) + (NodeWidth / 2)}px, ${(height / 2) + (NodeHeight / 2)}px)`,
-                              display: link.target.show ? 'block' : 'none'}}/>
-                </svg>)*/
-        };
-
-		/*
-		<svg className={'absolute pin-t pin-l'}
-			 style={{width: width, height: height}}>
-			{returnAllLinks()}
-		</svg>
-
-		{
-						<svg className={'absolute pin-t pin-l'}
-							 style={{width: width, height: height}}>
-							<Zoom data={links} width={width} height={height} center={[width/2, height/2]} selectedId={null}>
-								{(zoomedLinks, zHandler) => (
-									zoomedLinks.map(l =>
-										<line
-											x1={l.source.x}
-											y1={l.source.y}
-											x2={l.target.x}
-											y2={l.target.y}
-											style={{
-												stroke: 'black',
-												transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
-												display: l.target.show ? 'block' : 'none'}}
-										/>
-
-								))}
-							</Zoom>
-						</svg>
-
-					}
-		*/
         return (
 			<div className={'absolute pin-t pin-l'}
 				 style={{width: width, height: height}}
 			>
 				{
-					<div>
-						<Zoom data={links} width={width} height={height} center={[width/2, height/2]} selectedId={null}>
-							{(zoomedLinks, zHandler) => (
-								zoomedLinks.map(l =>
-									<svg className={'absolute pin-t pin-l'} style={{width: width, height: height}}>
-										<path
-											d={'M' + zHandler.apply([l.source.x, l.source.y]) + "L" + zHandler.apply([l.target.x, l.target.y])}
-											style={{
-												stroke: 'black',
-												transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
-												display: l.target.show ? 'block' : 'none'}}
-										/>
-									</svg>
-								))
-							}
-						</Zoom>
-						<Zoom data={nodes} width={width} height={height} center={[width/2, height/2]} selectedId={null}>
-							{(zoomedNodes, zHandler) => (
-								zoomedNodes.map(n =>
+					<Zoom data={nodes} width={width} height={height} center={[width/2, height/2]} selectedId={null}>
+						{(zoomedNodes, zHandler) => (
+							<div>
+								<svg className={'absolute pin-t pin-l'} style={{width: width, height: height}}>
+									<defs>
+										<marker
+											id="arrow"
+											markerUnits="strokeWidth"
+											markerWidth="12"
+											markerHeight="12"
+											viewBox="0 0 12 12"
+											refX="6"
+											refY="6"
+											orient="auto">
+											<path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{fill: 'black'}}/>
+										</marker>
+									</defs>
+									{
+										links.map(l =>
+											<path
+												d={	'M' + zHandler.apply([l.source.x, l.source.y]) +
+													'L' + zHandler.apply([(l.source.x + l.target.x)/2, (l.source.y + l.target.y)/2]) +
+													'L' + zHandler.apply([l.target.x, l.target.y])}
+												stroke={'black'}
+												markerMid={'url(#arrow)'}
+												style={{
+													transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
+													display: l.target.show ? 'block' : 'none'}}
+											/>
+
+										)
+									}
+								</svg>
+								{
+									zoomedNodes.map(n =>
 									<NodeType
 										key={n.id}
 										node={n}
@@ -203,10 +144,11 @@ class Cluster extends React.Component {
 										updateData={updateNodeData}
 										updateBackgroundColor={updateNodeBackground}
 									/>
-								))
-							}
-						</Zoom>
-					</div>
+									)
+								}
+							</div>
+						)}
+					</Zoom>
 				}
 			</div>
         );
