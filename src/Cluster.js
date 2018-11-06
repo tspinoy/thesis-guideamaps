@@ -2,11 +2,9 @@ import React from "react";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import GuideaMapsNode from './GuideaMapsNode';
-import { NodeWidth, NodeHeight, project } from './Constants';
+import { NodeWidth, NodeHeight, maxZoomScale } from './Constants';
 import './css/App.css';
 import Zoom from './Zoom.js';
-import * as d3 from 'd3'
 
 class Cluster extends React.Component {
 
@@ -100,7 +98,7 @@ class Cluster extends React.Component {
 				 style={{width: width, height: height}}
 			>
 				{
-					<Zoom data={nodes} width={width} height={height} center={[width/2, height/2]} selectedId={null}>
+					<Zoom data={nodes} width={width} height={height} center={[width/2, height/2]} selectedId={null} maxZoomScale={maxZoomScale}>
 						{(zoomedNodes, zHandler) => (
 							<div>
 								<svg className={'absolute pin-t pin-l'} style={{width: width, height: height}}>
@@ -118,8 +116,9 @@ class Cluster extends React.Component {
 										</marker>
 									</defs>
 									{
-										links.map(l =>
+										links.map((l, index) =>
 											<path
+												key={index}
 												d={	'M' + zHandler.apply([l.source.x, l.source.y]) +
 													'L' + zHandler.apply([(l.source.x + l.target.x)/2, (l.source.y + l.target.y)/2]) +
 													'L' + zHandler.apply([l.target.x, l.target.y])}

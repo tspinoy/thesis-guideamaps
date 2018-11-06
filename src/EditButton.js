@@ -1,13 +1,13 @@
 import React from 'react';
 import Popup from "reactjs-popup";
-import { PhotoshopPicker, SketchPicker } from 'react-color';
+import { SketchPicker } from 'react-color';
 import * as ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 class EditButton extends React.Component {
 	constructor(props) {
 		super(props);
-		const {node, leaf, startStopEditing, updateData, updateBackgroundColor} = this.props;
+		const { node, leaf } = this.props;
 		this.state = { node, leaf, closeId: 'closeBtn' + node.id };
 
 		/* This binding is necessary to make `this` work in the callback.
@@ -52,8 +52,7 @@ class EditButton extends React.Component {
 	}
 
 	/**
-	 * Use this if you want to update the state for every single change that is made, even if the user did not click
-	 * the save-button. According to me, this is bad for the performance of the app.
+	 * Use this if you want to update the state for every single change that is made.
 	 * If you want to use it, add "onChange={this.handleChange}" to the form elements.
 	 * @param event
 	 */
@@ -100,34 +99,40 @@ class EditButton extends React.Component {
 				closeOnEscape={true}
 			>
 				{close => (
-					<div className="w-full overflow-y-scroll" style={{maxHeight: '300px'}}>
-						<form onSubmit={this.handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8">
-							<div className="mb-4">
-								<label className="block text-grey-darker text-sm font-bold mb-2">
+					<div className={'w-full overflow-y-scroll'} style={{maxHeight: '300px'}}>
+						<form onSubmit={this.handleSubmit} className={'bg-white shadow-md rounded px-8 pt-6 pb-8'}>
+							<div className={'mb-4'}>
+								<label className={'block text-grey-darker text-sm font-bold mb-2'}>
 									Node title
 								</label>
 								<input
-									className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-									name={'title'} type={'text'} placeholder={'Node title'} defaultValue={this.state.node.data.name}>
+									className={
+										'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+										'leading-tight focus:outline-none focus:shadow-outline'}
+									name={'title'} type={'text'} placeholder={'Node title'}
+									defaultValue={this.state.node.data.name} onChange={this.handleChange}>
 								</input>
 							</div>
-							<div className="mb-6">
-								<label className="block text-grey-darker text-sm font-bold mb-2">
+							<div className={'mb-6'}>
+								<label className={'block text-grey-darker text-sm font-bold mb-2'}>
 									Content
 								</label>
 								<textarea
-									className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
-									name={'content'} placeholder={'Node content'} defaultValue={this.state.node.content}>
+									className={
+										'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+										'mb-3 leading-tight focus:outline-none focus:shadow-outline'}
+									name={'content'} placeholder={'Node content'}
+									defaultValue={this.state.node.content} onChange={this.handleChange}>
 							</textarea>
 							</div>
 							<SketchPicker color={this.state.node.backgroundColor} onChange={this.handleColorChange}/>
-							<div className="flex items-center justify-between">
+							<div className={'flex items-center justify-between'}>
 								<button onClick={() => close()}>
 									Close
 								</button>
 								<button
-									className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-									type="submit">
+									className={'bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}
+									type={'submit'}>
 									Save
 								</button>
 							</div>

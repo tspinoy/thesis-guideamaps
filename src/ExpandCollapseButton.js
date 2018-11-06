@@ -14,7 +14,6 @@ class ExpandCollapseButton extends React.Component {
 
 	// This syntax ensures `this` is bound within handleClick.
 	handleClick () {
-
 		const newState = this.state;
 		newState.showChildren = !newState.showChildren;
 		this.setState(newState);

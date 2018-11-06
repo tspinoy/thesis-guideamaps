@@ -5,7 +5,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import flow from 'lodash/flow';
 
 import './css/App.css';
-import { NodeWidth, NodeHeight, project } from './Constants';
+import { NodeWidth, NodeHeight } from './Constants';
 import AddChildButton from './AddChildButton';
 import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
@@ -21,7 +21,7 @@ const nodeSource = {
     	console.log(props);
     	console.log(monitor);
     	console.log(component);
-    	var newPositions = monitor.getClientOffset();
+    	let newPositions = monitor.getClientOffset();
     	console.log(newPositions);
 	}
 };
@@ -73,10 +73,10 @@ class GuideaMapsNode extends React.Component {
 	 * - Expand or collapse the current node to show or hide the child nodes (only visible if the node does have children)
 	 * */
     render() {
-        const {
-          node, updateShowChildren, updatePosition, updateEditing, updateData, updateBackgroundColor, // passed by the renderNodes-function in Cluster.js
-          connectDragSource, connectDropTarget, isDragging // injected by react dnd
-        } = this.props;
+		const {
+			node, updateShowChildren, updatePosition, updateEditing, updateData, updateBackgroundColor, // passed by the renderNodes-function in Cluster.js
+			connectDragSource, connectDropTarget, isDragging // injected by react dnd
+		} = this.props;
         return connectDragSource(connectDropTarget(
             <div
                 key={node.data.name}
