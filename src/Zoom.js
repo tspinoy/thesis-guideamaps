@@ -85,9 +85,9 @@ class ZoomContainer extends Component {
 
   componentDidMount() {
     this.zoomFactoryCont = this.zoomFactory(this.props);
-    d3.select(this.zoomCont).call(this.zoomFactoryCont);
-    //   .on('dblclick.zoom', null)
-    // .duration(0);
+    d3.select(this.zoomCont).call(this.zoomFactoryCont)
+      .on('dblclick.zoom', null); // disable zoom on double click
+     //.duration(0);
     // .on('.zoom', null);
 
     //const zoomHandler = centerView(this.props);

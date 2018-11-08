@@ -35,7 +35,7 @@ thesis-guideamaps/
         ExpandCollapseButton.js
         index.js
         logo.svg
-        Node.js
+        GuideaMapsNode.js
     package.json
     package.lock.json
     README.md

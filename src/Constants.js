@@ -5,7 +5,7 @@ export const ItemTypes = {
 export const NodeWidth  = 130;
 export const NodeHeight = 100;
 
-export const maxZoomScale = 2;
+export const maxZoomScale = 3;
 
 /**
  * Function to position the nodes in a way to get a radial layout.

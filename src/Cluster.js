@@ -8,15 +8,45 @@ import Zoom from './Zoom.js';
 
 class Cluster extends React.Component {
 
-    state = {...this.props};
+	constructor(props) {
+		super(props);
+		const { nodeType, nodes, links } = this.props;
+		this.state = { width: window.innerWidth, height: window.innerHeight, nodeType, nodes, links };
+		this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+		this.test = this.test.bind(this);
+	}
+
+	componentDidMount() {
+		this.updateWindowDimensions();
+		window.addEventListener("resize", this.updateWindowDimensions.bind(this));
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.updateWindowDimensions.bind(this));
+	}
+
+	updateWindowDimensions() {
+		console.log(window.innerWidth);
+		console.log(window.innerHeight);
+		this.setState({ width: window.innerWidth, height: window.innerHeight });
+	}
+
+	test() {
+		let i;
+		console.log('test-start');
+		for(i = 0; i < this.state.nodes.length; i++) {
+			let node = this.state.nodes[i];
+			console.log(node.x);
+		}
+		console.log('test-end');
+	}
+
 
     render() {
 
-        const {nodeType, width, height, nodes, links}=this.state;
-
         // The type of the nodes is dynamic: the props define what kind of nodes should be represented.
 		// In the case of GuideaMaps, NodeType = GuideMapsNode.
-		const NodeType = nodeType;
+		const NodeType = this.state.nodeType;
 
         /**
          * Expand or collapse a particular node with id = nodeId.
@@ -94,62 +124,56 @@ class Cluster extends React.Component {
 		}
 
         return (
-			<div className={'absolute pin-t pin-l'}
-				 style={{width: width, height: height}}
-			>
-				{
-					<Zoom data={nodes} width={width} height={height} center={[width/2, height/2]} selectedId={null} maxZoomScale={maxZoomScale}>
-						{(zoomedNodes, zHandler) => (
-							<div>
-								<svg className={'absolute pin-t pin-l'} style={{width: width, height: height}}>
-									<defs>
-										<marker
-											id="arrow"
-											markerUnits="strokeWidth"
-											markerWidth="12"
-											markerHeight="12"
-											viewBox="0 0 12 12"
-											refX="6"
-											refY="6"
-											orient="auto">
-											<path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{fill: 'black'}}/>
-										</marker>
-									</defs>
-									{
-										links.map((l, index) =>
-											<path
-												key={index}
-												d={	'M' + zHandler.apply([l.source.x, l.source.y]) +
-													'L' + zHandler.apply([(l.source.x + l.target.x)/2, (l.source.y + l.target.y)/2]) +
-													'L' + zHandler.apply([l.target.x, l.target.y])}
-												stroke={'black'}
-												markerMid={'url(#arrow)'}
-												style={{
-													transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
-													display: l.target.show ? 'block' : 'none'}}
-											/>
-
-										)
-									}
-								</svg>
-								{
-									zoomedNodes.map(n =>
-									<NodeType
-										key={n.id}
-										node={n}
-										updateShowChildren={updateNodeShowChildren}
-										updatePosition={updateNodePosition}
-										updateEditing={updateNodeEdit}
-										updateData={updateNodeData}
-										updateBackgroundColor={updateNodeBackground}
+			<Zoom data={this.state.nodes} width={this.state.width} height={this.state.height} center={[this.state.width/2, this.state.height/2]} selectedId={null} maxZoomScale={maxZoomScale}>
+				{(zoomedNodes, zHandler) => (
+					<div className={'absolute pin-t pin-l'} style={{width: this.state.width, height: this.state.height}}>
+						<svg className={'absolute pin-t pin-l'} style={{width: this.state.width, height: this.state.height}}>
+							<defs>
+								<marker
+									id="arrow"
+									markerUnits="strokeWidth"
+									markerWidth="12"
+									markerHeight="12"
+									viewBox="0 0 12 12"
+									refX="6"
+									refY="6"
+									orient="auto">
+									<path d="M2,2 L10,6 L2,10 L6,6 L2,2" style={{fill: 'black'}}/>
+								</marker>
+							</defs>
+							{
+								this.state.links.map((l, index) =>
+									<path
+										key={index}
+										d={	'M' + zHandler.apply([l.source.x, l.source.y]) +
+											'L' + zHandler.apply([(l.source.x + l.target.x)/2, (l.source.y + l.target.y)/2]) +
+											'L' + zHandler.apply([l.target.x, l.target.y])}
+										stroke={'black'}
+										markerMid={'url(#arrow)'}
+										style={{
+											transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
+											display: l.target.show ? 'block' : 'none'}}
 									/>
-									)
-								}
-							</div>
-						)}
-					</Zoom>
-				}
-			</div>
+
+								)
+							}
+						</svg>
+						{
+							zoomedNodes.map(n =>
+							<NodeType
+								key={n.id}
+								node={n}
+								updateShowChildren={updateNodeShowChildren}
+								updatePosition={updateNodePosition}
+								updateEditing={updateNodeEdit}
+								updateData={updateNodeData}
+								updateBackgroundColor={updateNodeBackground}
+							/>
+							)
+						}
+					</div>
+				)}
+			</Zoom>
         );
     }
 }

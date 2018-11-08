@@ -14,21 +14,10 @@ import { project, maxZoomScale } from './Constants';
 library.add(faPlus, faPlusCircle, faPlus, faEllipsisH, faExpand, faCompress);
 
 let hierarchyData = {
-    "name": "Eve",
-    "children": [
-        {
-            "name": "Cain",
-            "children": [
-                {
-                    "name": "Enos"
-                },
-                {
-                    "name": "Noam"
-                }
-            ]
-        },
-        {
-            "name": "Seth",
+	"name": "Eve",
+	"children": [
+		{
+			"name": "Cain",
 			"children": [
 				{
 					"name": "Enos"
@@ -36,8 +25,19 @@ let hierarchyData = {
 				{
 					"name": "Noam"
 				}
-            ]
-        },
+			]
+		},
+		{
+			"name": "Seth",
+			"children": [
+				{
+					"name": "Enos"
+				},
+				{
+					"name": "Noam"
+				}
+			]
+		},
         {
             "name": "Abel",
 			"children": [
@@ -129,15 +129,16 @@ for(let i = 0; i < clusterNodes.length; i++){
     clusterNodes[i].backgroundColor = '#ffffff';
 
     const projectedPositions = project(clusterNodes[i].x, clusterNodes[i].y);
-    clusterNodes[i].x = projectedPositions[0] + clusterWidth;
-    clusterNodes[i].y = projectedPositions[1] + clusterHeight;
+    // Center the content
+    clusterNodes[i].x = projectedPositions[0] + (window.innerWidth / 2);
+    clusterNodes[i].y = projectedPositions[1] + (window.innerHeight / 2);
 }
 
 class App extends Component {
     render() {
         return (
             <div className="App">
-				<Cluster nodeType={GuideMapsNode} width={clusterWidth * 2} height={clusterHeight * 2} nodes={clusterNodes} links={clusterLinks}/>
+				<Cluster nodeType={GuideMapsNode} nodes={clusterNodes} links={clusterLinks}/>
             </div>
         );
     }
