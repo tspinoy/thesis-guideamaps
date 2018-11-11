@@ -12,35 +12,22 @@ class Cluster extends React.Component {
 		super(props);
 		const { nodeType, nodes, links } = this.props;
 		this.state = { width: window.innerWidth, height: window.innerHeight, nodeType, nodes, links };
+
 		this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-		this.test = this.test.bind(this);
 	}
 
 	componentDidMount() {
 		this.updateWindowDimensions();
-		window.addEventListener("resize", this.updateWindowDimensions.bind(this));
+		window.addEventListener('resize', this.updateWindowDimensions);
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener("resize", this.updateWindowDimensions.bind(this));
+		window.removeEventListener('resize', this.updateWindowDimensions);
 	}
 
 	updateWindowDimensions() {
-		console.log(window.innerWidth);
-		console.log(window.innerHeight);
 		this.setState({ width: window.innerWidth, height: window.innerHeight });
 	}
-
-	test() {
-		let i;
-		console.log('test-start');
-		for(i = 0; i < this.state.nodes.length; i++) {
-			let node = this.state.nodes[i];
-			console.log(node.x);
-		}
-		console.log('test-end');
-	}
-
 
     render() {
 
@@ -126,7 +113,7 @@ class Cluster extends React.Component {
         return (
 			<Zoom data={this.state.nodes} width={this.state.width} height={this.state.height} center={[this.state.width/2, this.state.height/2]} selectedId={null} maxZoomScale={maxZoomScale}>
 				{(zoomedNodes, zHandler) => (
-					<div className={'absolute pin-t pin-l'} style={{width: this.state.width, height: this.state.height}}>
+					<div id={'cluster'} className={'absolute pin-t pin-l'} style={{width: this.state.width, height: this.state.height}}>
 						<svg className={'absolute pin-t pin-l'} style={{width: this.state.width, height: this.state.height}}>
 							<defs>
 								<marker
