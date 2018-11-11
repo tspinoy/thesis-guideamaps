@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 import 'event-propagation-path';
+import data from './data'
+import { NodeHeight, NodeWidth } from './Constants'
 
 // import { getBoundingBox } from '../utils';
 
@@ -78,20 +80,41 @@ class ZoomContainer extends Component {
   }
 
   state = {
-    zoomHandler: d3.zoomIdentity //
+    zoomHandler: d3.zoomIdentity, x: 0 //
   };
-
-
 
   componentDidMount() {
     this.zoomFactoryCont = this.zoomFactory(this.props);
     d3.select(this.zoomCont).call(this.zoomFactoryCont)
-      .on('dblclick.zoom', null); // disable zoom on double click
+      	.on('dblclick.zoom', null) // disable zoom on double click
+		.on('click', () => {
+			this.zoomToNode(this.props.data);
+			/*
+			console.log(this.zoomFactory);
+			let x = window.innerWidth - d3.event.clientX - window.innerWidth / 2;
+			let y = window.innerHeight - d3.event.clientY - window.innerHeight / 2;
+			let transform = d3.zoomIdentity
+				.translate(x, y)
+				.scale(1);
+			d3.select(this.zoomCont).transition().duration(300).call(this.zoomFactoryCont.transform, transform);
+			*/
+		});
      //.duration(0);
     // .on('.zoom', null);
 
     //const zoomHandler = centerView(this.props);
     //d3.select(this.zoomCont).call(this.zoomFactoryCont.transform, zoomHandler);
+  }
+
+  zoomToNode(node) {
+  	console.log(node);
+  	let node1 = node[this.state.x];
+  	console.log(node1);
+	let transform = d3.zoomIdentity
+	  .translate(window.innerWidth - node1.x - window.innerWidth / 2 - NodeWidth / 2, window.innerHeight - node1.y - window.innerHeight / 2 - NodeHeight / 2)
+	  .scale(1);
+	d3.select(this.zoomCont).transition().duration(300).call(this.zoomFactoryCont.transform, transform);
+	this.setState({x: this.state.x+1});
   }
 
   render() {
@@ -112,23 +135,23 @@ class ZoomContainer extends Component {
     });
 
     return (
-      <div>
-        <div
-          className={'zoom-target'}
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width,
-            height,
-            pointerEvents: 'all',
-            ...style
-          }}
-          ref={node => (this.zoomCont = node)}
-        >
-          {children(zoomedNodes, zoomHandler)}
-        </div>
-      </div>
+		<div>
+			<div
+				className={'zoom-target'}
+				style={{
+					position: 'absolute',
+					left: 0,
+					top: 0,
+					width,
+					height,
+					pointerEvents: 'all',
+					...style
+				}}
+				ref={node => (this.zoomCont = node)}
+			>
+				{children(zoomedNodes, zoomHandler)}
+			</div>
+		</div>
     );
   }
 }
