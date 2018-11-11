@@ -111,17 +111,16 @@ class ZoomContainer extends Component {
       return { ...d, x, y };
     });
 
-
     return (
       <div>
         <div
-          className={'zoom-target w-full h-full overflow-hidden'}
+          className={'zoom-target'}
           style={{
             position: 'absolute',
             left: 0,
             top: 0,
-            //width,
-            //height,
+            width,
+            height,
             pointerEvents: 'all',
             ...style
           }}
