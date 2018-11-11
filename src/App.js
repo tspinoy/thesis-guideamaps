@@ -9,7 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus, faPlusCircle, faEllipsisH, faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
 
 import GuideMapsNode from './GuideaMapsNode';
-import { project, maxZoomScale } from './Constants';
+import { project, NodeWidth, NodeHeight } from './Constants';
 
 library.add(faPlus, faPlusCircle, faPlus, faEllipsisH, faExpand, faCompress);
 
@@ -106,9 +106,6 @@ let hierarchyData = {
 
 const root = d3.hierarchy(hierarchyData, function(d) { return d.children; });
 
-const clusterWidth = (root.height + 1) * (100 * (maxZoomScale + 1));
-const clusterHeight = (root.height + 1) * (100 * (maxZoomScale + 1));
-
 // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
 const cluster = d3.cluster()
     .size([360, (root.height + 2) * 130])
@@ -130,14 +127,15 @@ for(let i = 0; i < clusterNodes.length; i++){
 
     const projectedPositions = project(clusterNodes[i].x, clusterNodes[i].y);
     // Center the content
-    clusterNodes[i].x = projectedPositions[0] + (window.innerWidth / 2);
-    clusterNodes[i].y = projectedPositions[1] + (window.innerHeight / 2);
+    clusterNodes[i].x = projectedPositions[0] + (window.innerWidth / 2) - (NodeWidth / 2);
+    clusterNodes[i].y = projectedPositions[1] + (window.innerHeight / 2) - (NodeHeight / 2);
 }
 
 class App extends Component {
+
     render() {
         return (
-            <div className="App">
+            <div className={'App'}>
 				<Cluster nodeType={GuideMapsNode} nodes={clusterNodes} links={clusterLinks}/>
             </div>
         );
