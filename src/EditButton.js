@@ -29,17 +29,11 @@ class EditButton extends React.Component {
 
 	handleClickOutside(e) {
 		if(!ReactDOM.findDOMNode(this).contains(e.target)) {
-			console.log("erbuiten!");
+			//console.log("erbuiten!");
 			//ReactTestUtils.Simulate.click(document.getElementById(this.state.closeId));
 		}
 	}
 
-	/**
-	 * When the popup is opened, we want to make sure the popup is on top of all other elements.
-	 * We call the update function to temporarily update the 'editing'-field of the node.
-	 * This field is checked to know which z-index to apply.
-	 * Check out {@link Cluster.render#updateNodeEdit}
-	 */
 	handleOpenCloseEditPopup() {
 		this.props.startStopEditing();
 	};
@@ -69,8 +63,7 @@ class EditButton extends React.Component {
 	render() {
 
 		const button =
-			<button
-					id={this.state.closeId}
+			<button id={this.state.closeId}
 					className={
 						'bg-grey-light hover:bg-grey ' +
 						'text-grey-darkest font-bold ' +

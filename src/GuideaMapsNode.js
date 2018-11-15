@@ -60,10 +60,7 @@ class GuideaMapsNode extends React.Component {
 	}
 
 	startStopEditing() {
-		console.log(this.state);
-		const newState = this.state;
-		newState.editing = !newState.editing;
-		this.setState(newState);
+		this.setState({editing: !this.state.editing});
 	}
 
 	handleClick() {
@@ -109,29 +106,20 @@ class GuideaMapsNode extends React.Component {
                      style={{height: '1.2em', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>
                     {node.content}
                 </div>
-				{node.height === 0 ?
-					/* Is this a leaf node? Only show the add- and edit-button */
-					<div className={'flex'}>
-						<AddChildButton />
-						<EditButton node={node}
-									leaf={true}
-									startStopEditing={this.startStopEditing}
-									updateData={updateData}
-									updateBackgroundColor={updateBackgroundColor}/>
-					</div> :
-					/* If it is not a leaf node, the expand-collapse-button is also shown */
-					<div className={'flex'}>
-						<AddChildButton />
-						<EditButton node={node}
-									leaf={false}
-									startStopEditing={this.startStopEditing}
-									updateData={updateData}
-									updateBackgroundColor={updateBackgroundColor}/>
-						<ExpandCollapseButton node={node}
-											  update={updateShowChildren}/>
-					</div>
-				}
-				<div>{node.editing}</div>
+				<div className={'flex'}>
+					<AddChildButton />
+					<EditButton node={node}
+								leaf={node.height === 0}
+								startStopEditing={this.startStopEditing}
+								updateData={updateData}
+								updateBackgroundColor={updateBackgroundColor}/>
+					{
+						// At non-child nodes the expand-collapse button should be added
+						node.height !== 0 ?
+							<ExpandCollapseButton node={node}
+												  update={updateShowChildren}/> : null
+					}
+				</div>
             </div>))
     }
 }
