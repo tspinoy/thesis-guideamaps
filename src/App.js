@@ -9,93 +9,117 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus, faPlusCircle, faEllipsisH, faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
 
 import GuideMapsNode from './GuideaMapsNode';
-import { initializeNode } from './Constants';
+import { initializeNode, NodeTypes } from './Constants';
 
 library.add(faPlus, faPlusCircle, faPlus, faEllipsisH, faExpand, faCompress);
 
 let hierarchyData = {
 	"name": "Eve",
+	"type": NodeTypes.CHOICE,
 	"children": [
 		{
 			"name": "Cain",
+			"type": NodeTypes.DEFAULT,
 			"children": [
 				{
-					"name": "Enos"
+					"name": "Enos",
+					"type": NodeTypes.DEFAULT
 				},
 				{
-					"name": "Noam"
+					"name": "Noam",
+					"type": NodeTypes.DEFAULT
 				}
 			]
 		},
 		{
 			"name": "Seth",
+			"type": NodeTypes.DEFAULT,
 			"children": [
 				{
-					"name": "Enos"
+					"name": "Enos",
+					"type": NodeTypes.DEFAULT
 				},
 				{
-					"name": "Noam"
+					"name": "Noam",
+					"type": NodeTypes.DEFAULT
 				}
 			]
 		},
         {
             "name": "Abel",
+			"type": NodeTypes.DEFAULT,
 			"children": [
 				{
-					"name": "Enos"
+					"name": "Enos",
+					"type": NodeTypes.DEFAULT
 				},
 				{
-					"name": "Noam"
+					"name": "Noam",
+					"type": NodeTypes.DEFAULT
 				}
             ]
         },
         {
             "name": "Awan",
+			"type": NodeTypes.DEFAULT,
 			"children": [
 				{
-					"name": "Enos"
+					"name": "Enos",
+					"type": NodeTypes.DEFAULT
 				},
 				{
-					"name": "Noam"
+					"name": "Noam",
+					"type": NodeTypes.DEFAULT
 				}
             ]
         },
         {
             "name": "Azura",
+			"type": NodeTypes.DEFAULT,
 			"children": [
 				{
-					"name": "Enos"
+					"name": "Enos",
+					"type": NodeTypes.DEFAULT
 				},
 				{
-					"name": "Noam"
+					"name": "Noam",
+					"type": NodeTypes.DEFAULT
 				}
             ]
         },
         {
             "name": "Thijs",
+			"type": NodeTypes.DEFAULT,
 			"children": [
 				{
-					"name": "Enos"
+					"name": "Enos",
+					"type": NodeTypes.DEFAULT
 				},
 				{
-					"name": "Noam"
+					"name": "Noam",
+					"type": NodeTypes.DEFAULT
 				}
 			]
         },
         {
             "name": "Node",
+			"type": NodeTypes.DEFAULT,
 			"children": [
 				{
-					"name": "Enos"
+					"name": "Enos",
+					"type": NodeTypes.DEFAULT
 				},
 				{
 					"name": "Noam",
+					"type": NodeTypes.DEFAULT,
 					"children": [
 						{
-							"name": "Enos"
+							"name": "Enos",
+							"type": NodeTypes.DEFAULT
 						},
 						{
-							"name": "Noam"
+							"name": "Noam",
+							"type": NodeTypes.DEFAULT
 						}
 					]
 				}

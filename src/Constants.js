@@ -2,6 +2,11 @@ export const ItemTypes = {
    NODE: 'node'
 };
 
+export const NodeTypes = {
+	DEFAULT: "default",
+	CHOICE: "choice"
+}
+
 export const NodeWidth  = 130;
 export const NodeHeight = 100;
 
