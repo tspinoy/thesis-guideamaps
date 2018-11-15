@@ -2,13 +2,12 @@ import React from 'react';
 import Popup from "reactjs-popup";
 import { SketchPicker } from 'react-color';
 import * as ReactDOM from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
 
 class EditButton extends React.Component {
 	constructor(props) {
 		super(props);
 		const { node, leaf } = this.props;
-		this.state = { node, leaf, closeId: 'closeBtn' + node.id };
+		this.state = { node, leaf, backgroundColor: node.backgroundColor, includeChildren: true };
 
 		/* This binding is necessary to make `this` work in the callback.
 		 * For instance to be able to use "this.props..." and "this.state...".
@@ -41,23 +40,17 @@ class EditButton extends React.Component {
 	handleSubmit(event) {
 		const newTitle = event.target.title.value;
 		const newContent = event.target.content.value;
+		const includeChildren = event.target.includeChildren.checked;
+		this.setState({includeChildren: includeChildren});
 		this.props.updateData(this.state.node.id, newTitle, newContent);
+		this.props.updateBackgroundColor(this.state.node.id, this.state.backgroundColor, includeChildren);
+		document.getElementById('closeBtn').click();
 		event.preventDefault();
 	}
 
-	/**
-	 * Use this if you want to update the state for every single change that is made.
-	 * If you want to use it, add "onChange={this.handleChange}" to the form elements.
-	 * @param event
-	 */
-	handleChange(event) {
-		console.log("change");
-		console.log(event);
-	}
-
 	handleColorChange(color) {
-		console.log("handlecolor");
-		this.props.updateBackgroundColor(this.state.node.id, color.hex, true);
+		console.log(color);
+		this.setState({backgroundColor: color.hex});
 	}
 
 	render() {
@@ -103,7 +96,7 @@ class EditButton extends React.Component {
 										'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
 										'leading-tight focus:outline-none focus:shadow-outline'}
 									name={'title'} type={'text'} placeholder={'Node title'}
-									defaultValue={this.state.node.data.name} onChange={this.handleChange}>
+									defaultValue={this.state.node.data.name}>
 								</input>
 							</div>
 							<div className={'mb-6'}>
@@ -115,18 +108,26 @@ class EditButton extends React.Component {
 										'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
 										'mb-3 leading-tight focus:outline-none focus:shadow-outline'}
 									name={'content'} placeholder={'Node content'}
-									defaultValue={this.state.node.content} onChange={this.handleChange}>
+									defaultValue={this.state.node.content}>
 							</textarea>
 							</div>
-							<SketchPicker color={this.state.node.backgroundColor} onChange={this.handleColorChange}/>
+							<div className={'mb-6'}>
+								<SketchPicker name={'colorPicker'} color={this.state.backgroundColor} onChange={this.handleColorChange}/>
+								<br/>
+								<input type={'checkbox'}
+									   id={'includeChildren'}
+									   name={'includeChildren'}
+									   defaultChecked={this.state.includeChildren}/>
+								<label htmlFor={'includeChildren'}> Include children</label>
+							</div>
 							<div className={'flex items-center justify-between'}>
-								<button onClick={() => close()}>
+								<button id={'closeBtn'} onClick={() => close()}>
 									Close
 								</button>
 								<button
 									className={'bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}
 									type={'submit'}>
-									Save
+									Save and close
 								</button>
 							</div>
 						</form>
