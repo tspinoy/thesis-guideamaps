@@ -72,20 +72,6 @@ class Cluster extends React.Component {
             this.setState(newState);
         }
 
-		/**
-		 * When the popup to edit a node is opened or closed,
-		 * a state change is required to know the value of the z-index for that node.
-		 * @param nodeId: The id of the node of which we have to invert the editing-field.
-		 */
-		const updateNodeEdit = nodeId => {
-			// Start from the current state
-		    const newState = this.state.nodes;
-		    // Invert the editing-field of the node: true => false, false => true
-		    newState[nodeId].editing = !this.state.nodes[nodeId].editing;
-		    // Save the new state
-		    this.setState(newState);
-        }
-
         const updateNodeData = (nodeId, nodeTitle, nodeContent) => {
 			const newState = this.state.nodes;
 			newState[nodeId].data.name = nodeTitle;
@@ -146,15 +132,14 @@ class Cluster extends React.Component {
 						</svg>
 						{
 							zoomedNodes.map(n =>
-							<NodeType
-								key={n.id}
-								node={n}
-								updateShowChildren={updateNodeShowChildren}
-								updatePosition={updateNodePosition}
-								updateEditing={updateNodeEdit}
-								updateData={updateNodeData}
-								updateBackgroundColor={updateNodeBackground}
-							/>
+								<NodeType
+									key={n.id}
+									node={n}
+									updateShowChildren={updateNodeShowChildren}
+									updatePosition={updateNodePosition}
+									updateData={updateNodeData}
+									updateBackgroundColor={updateNodeBackground}
+								/>
 							)
 						}
 					</div>

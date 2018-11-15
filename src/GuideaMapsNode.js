@@ -9,6 +9,7 @@ import { NodeWidth, NodeHeight } from './Constants';
 import AddChildButton from './AddChildButton';
 import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
+import Zoom from './Zoom';
 
 const nodeSource = {
     beginDrag(props, monitor, component) {
@@ -55,6 +56,7 @@ class GuideaMapsNode extends React.Component {
 
 		// This binding is necessary to make `this` work in the callback
 		this.startStopEditing = this.startStopEditing.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 	}
 
 	startStopEditing() {
@@ -62,6 +64,10 @@ class GuideaMapsNode extends React.Component {
 		const newState = this.state;
 		newState.editing = !newState.editing;
 		this.setState(newState);
+	}
+
+	handleClick() {
+		console.log("clicked node " + this.props.node.id);
 	}
 
 	/**
@@ -74,7 +80,7 @@ class GuideaMapsNode extends React.Component {
 	 * */
     render() {
 		const {
-			node, updateShowChildren, updatePosition, updateEditing, updateData, updateBackgroundColor, // passed by the renderNodes-function in Cluster.js
+			node, updateShowChildren, updatePosition, updateData, updateBackgroundColor, // passed by the renderNodes-function in Cluster.js
 			connectDragSource, connectDropTarget, isDragging // injected by react dnd
 		} = this.props;
         return connectDragSource(connectDropTarget(
@@ -91,7 +97,9 @@ class GuideaMapsNode extends React.Component {
                     display: node.show ? 'block' : 'none',
 					backgroundColor: node.backgroundColor,
                     cursor: 'move',
-                    opacity: isDragging ? 0.5 : 1}}>
+                    opacity: isDragging ? 0.5 : 1}}
+				//onClick={Zoom.prototype.zoomToNode(node)}
+				>
 
                 <div className={'font-sans text-lg mb-2'}>
                     {node.data.name}
