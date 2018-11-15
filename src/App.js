@@ -9,7 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus, faPlusCircle, faEllipsisH, faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
 
 import GuideMapsNode from './GuideaMapsNode';
-import { project, NodeWidth, NodeHeight } from './Constants';
+import { initializeNode } from './Constants';
 
 library.add(faPlus, faPlusCircle, faPlus, faEllipsisH, faExpand, faCompress);
 
@@ -115,20 +115,7 @@ const clusterNodes = clusterRoot.descendants();
 const clusterLinks = clusterRoot.links();
 
 for(let i = 0; i < clusterNodes.length; i++){
-    clusterNodes[i].id = i;
-    clusterNodes[i].show = true;
-    if(!(clusterNodes[i].parent === null)){
-        clusterNodes[i].showChildren = clusterNodes[i].parent.showChildren;
-    } else {
-        clusterNodes[i].showChildren = true;
-    }
-    clusterNodes[i].content = 'The content is not completely shown, great!';
-    clusterNodes[i].backgroundColor = '#ffffff';
-
-    const projectedPositions = project(clusterNodes[i].x, clusterNodes[i].y);
-    // Center the content
-    clusterNodes[i].x = projectedPositions[0] + (window.innerWidth / 2) - (NodeWidth / 2);
-    clusterNodes[i].y = projectedPositions[1] + (window.innerHeight / 2) - (NodeHeight / 2);
+    clusterNodes[i] = initializeNode(clusterNodes[i], i);
 }
 
 class App extends Component {

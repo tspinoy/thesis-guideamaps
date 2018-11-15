@@ -2,9 +2,10 @@ import React from "react";
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import { NodeWidth, NodeHeight, maxZoomScale } from './Constants';
+import { initializeNode, NodeWidth, NodeHeight, maxZoomScale } from './Constants'
 import './css/App.css';
 import Zoom from './Zoom.js';
+import * as d3 from 'd3'
 
 class Cluster extends React.Component {
 
@@ -34,6 +35,39 @@ class Cluster extends React.Component {
         // The type of the nodes is dynamic: the props define what kind of nodes should be represented.
 		// In the case of GuideaMaps, NodeType = GuideMapsNode.
 		const NodeType = this.state.nodeType;
+
+		const addChildNode = parent => {
+			let newNode = {
+				name: Date.now(),
+				children: []
+			}
+			newNode = d3.hierarchy(newNode, function(d) { return d.children});
+
+			newNode = initializeNode(newNode, this.state.nodes.length)
+
+			newNode.depth = parent.depth + 1;
+			newNode.height = parent.height - 1;
+			newNode.parent = parent;
+
+			//Selected is a node, to which we are adding the new node as a child
+			//If no child array, create an empty array
+			if(!parent.children){
+				parent.children = [];
+				parent.data.children = [];
+			}
+
+			//Push it to parent.children array
+			parent.children.push(newNode);
+			parent.data.children.push(newNode.data);
+
+			const newNodesState = this.state.nodes;
+			newNodesState[parent.id] = parent;
+			newNodesState.push(newNode);
+			this.setState({nodes: newNodesState});
+
+			console.log(this.state);
+
+		}
 
         /**
          * Expand or collapse a particular node with id = nodeId.
@@ -80,7 +114,6 @@ class Cluster extends React.Component {
 		}
 
 		const updateNodeBackground = (nodeId, hexColor, children) => {
-			console.log("color");
 			const newState = this.state.nodes;
 			if(children) {
 				// Take all the child nodes on all levels starting from this node (the node itself is included!)
@@ -97,7 +130,7 @@ class Cluster extends React.Component {
 		}
 
         return (
-			<Zoom data={this.state.nodes} width={this.state.width} height={this.state.height} center={[this.state.width/2, this.state.height/2]} selectedId={null} maxZoomScale={maxZoomScale}>
+			<Zoom data={this.props.nodes} width={this.state.width} height={this.state.height} center={[this.state.width/2, this.state.height/2]} selectedId={null} maxZoomScale={maxZoomScale}>
 				{(zoomedNodes, zHandler) => (
 					<div id={'cluster'} className={'absolute pin-t pin-l overflow-hidden'} style={{width: this.state.width, height: this.state.height}}>
 						<svg className={'absolute pin-t pin-l'} style={{width: this.state.width, height: this.state.height}}>
@@ -135,6 +168,7 @@ class Cluster extends React.Component {
 								<NodeType
 									key={n.id}
 									node={n}
+									addChildNode={addChildNode}
 									updateShowChildren={updateNodeShowChildren}
 									updatePosition={updateNodePosition}
 									updateData={updateNodeData}

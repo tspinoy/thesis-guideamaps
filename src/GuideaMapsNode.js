@@ -9,7 +9,6 @@ import { NodeWidth, NodeHeight } from './Constants';
 import AddChildButton from './AddChildButton';
 import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
-import Zoom from './Zoom';
 
 const nodeSource = {
     beginDrag(props, monitor, component) {
@@ -77,7 +76,7 @@ class GuideaMapsNode extends React.Component {
 	 * */
     render() {
 		const {
-			node, updateShowChildren, updatePosition, updateData, updateBackgroundColor, // passed by the renderNodes-function in Cluster.js
+			node, updateShowChildren, addChildNode, updatePosition, updateData, updateBackgroundColor, // passed by the renderNodes-function in Cluster.js
 			connectDragSource, connectDropTarget, isDragging // injected by react dnd
 		} = this.props;
         return connectDragSource(connectDropTarget(
@@ -107,7 +106,8 @@ class GuideaMapsNode extends React.Component {
                     {node.content}
                 </div>
 				<div className={'flex'}>
-					<AddChildButton />
+					<AddChildButton node={node}
+									addChildNode={addChildNode}/>
 					<EditButton node={node}
 								leaf={node.height === 0}
 								startStopEditing={this.startStopEditing}
