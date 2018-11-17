@@ -4,18 +4,18 @@ import './css/tailwind.css'
 import Cluster from './Cluster';
 import * as d3 from "d3";
 
-// Font Awesome for SVG icons
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPlus, faPlusCircle, faEllipsisH, faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
-
 import GuideMapsNode from './GuideaMapsNode';
 import { initializeNode, NodeTypes } from './Constants';
 
-library.add(faPlus, faPlusCircle, faPlus, faEllipsisH, faExpand, faCompress);
+// Font Awesome for SVG icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCircle as faCircleSolid, faCompress, faEllipsisH, faExpand, faPlus, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircle as faCircleRegular } from '@fortawesome/free-regular-svg-icons';
+library.add(faCircleRegular, faCircleSolid, faCompress, faEllipsisH, faExpand, faPlus, faPlusCircle);
 
 let hierarchyData = {
 	"name": "Eve",
-	"type": NodeTypes.CHOICE,
+	"type": NodeTypes.DEFAULT,
 	"children": [
 		{
 			"name": "Cain",
@@ -37,11 +37,11 @@ let hierarchyData = {
 			"children": [
 				{
 					"name": "Enos",
-					"type": NodeTypes.DEFAULT
+					"type": NodeTypes.CHOICE
 				},
 				{
 					"name": "Noam",
-					"type": NodeTypes.DEFAULT
+					"type": NodeTypes.CHOICE
 				}
 			]
 		},
@@ -51,11 +51,11 @@ let hierarchyData = {
 			"children": [
 				{
 					"name": "Enos",
-					"type": NodeTypes.DEFAULT
+					"type": NodeTypes.CHOICE
 				},
 				{
 					"name": "Noam",
-					"type": NodeTypes.DEFAULT
+					"type": NodeTypes.CHOICE
 				}
             ]
         },
@@ -115,11 +115,11 @@ let hierarchyData = {
 					"children": [
 						{
 							"name": "Enos",
-							"type": NodeTypes.DEFAULT
+							"type": NodeTypes.CHOICE
 						},
 						{
 							"name": "Noam",
-							"type": NodeTypes.DEFAULT
+							"type": NodeTypes.CHOICE
 						}
 					]
 				}
@@ -140,6 +140,12 @@ const clusterLinks = clusterRoot.links();
 
 for(let i = 0; i < clusterNodes.length; i++){
     clusterNodes[i] = initializeNode(clusterNodes[i], i);
+}
+
+for (let i = 0; i < clusterLinks.length; i++) {
+	let current = clusterLinks[i];
+	console.log(current);
+	current.optional = current.target.data.type !== NodeTypes.DEFAULT;
 }
 
 class App extends Component {

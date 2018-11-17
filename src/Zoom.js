@@ -85,7 +85,8 @@ class ZoomContainer extends Component {
   componentDidMount() {
     this.zoomFactoryCont = this.zoomFactory(this.props);
     d3.select(this.zoomCont).call(this.zoomFactoryCont)
-      	.on('dblclick.zoom', null) // disable zoom on double click
+      	.on('dblclick.zoom', null); // disable zoom on double click
+		/*
 		.on('click', () => {
 			this.zoomToNode(this.props.data);
 
@@ -99,7 +100,7 @@ class ZoomContainer extends Component {
 			d3.select(this.zoomCont).transition().duration(300).call(this.zoomFactoryCont.transform, transform);
 			*/
 
-		});
+		//});
      //.duration(0);
     // .on('.zoom', null);
 
@@ -108,12 +109,12 @@ class ZoomContainer extends Component {
   }
 
   zoomToNode(data) {
-  	let node = data[this.state.x];
+  	{/*let node = data[this.state.x];*/}
 	let transform = d3.zoomIdentity
-	  .translate(window.innerWidth - node.x - window.innerWidth / 2 - NodeWidth / 2, window.innerHeight - node.y - window.innerHeight / 2 - NodeHeight / 2)
+	  .translate(window.innerWidth - data.x - window.innerWidth / 2 - NodeWidth / 2, window.innerHeight - data.y - window.innerHeight / 2 - NodeHeight / 2)
 	  .scale(1);
 	d3.select(this.zoomCont).transition().duration(300).call(this.zoomFactoryCont.transform, transform);
-	this.setState({x: (this.state.x+1) % data.length});
+	{/*this.setState({x: (this.state.x+1) % data.length});*/}
   }
 
   render() {

@@ -9,6 +9,7 @@ import { NodeWidth, NodeHeight } from './Constants';
 import AddChildButton from './AddChildButton';
 import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const nodeSource = {
     beginDrag(props, monitor, component) {
@@ -97,7 +98,8 @@ class GuideaMapsNode extends React.Component {
 							opacity: isDragging ? 0.5 : 1}}
 						//onClick={Zoom.prototype.zoomToNode(node)}
 					>
-
+						{/*<FontAwesomeIcon className={'absolute pin-r pin-t'} style={{color: 'grey'}}
+										 icon={['far', 'circle']}/>*/}
 						<div className={'font-sans text-lg mb-2'}>
 							{node.data.name}
 						</div>

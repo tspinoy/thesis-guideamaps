@@ -36,6 +36,7 @@ class Cluster extends React.Component {
 		// In the case of GuideaMaps, NodeType = GuideMapsNode.
 		const NodeType = this.state.nodeType;
 
+		// based on https://stackoverflow.com/questions/43140325/add-node-to-d3-tree-v4
 		const addChildNode = parent => {
 			let newNode = {
 				name: Date.now(),
@@ -106,6 +107,12 @@ class Cluster extends React.Component {
             this.setState(newState);
         }
 
+        /**
+		 * Update the data of a node after it was edited and the form was submitted.
+		 * @param nodeId: The id of the node of which the data have to change.
+		 * @param nodeTitle: The new title of the node.
+		 * @param nodeContent: The new content of the node.
+		 * */
         const updateNodeData = (nodeId, nodeTitle, nodeContent) => {
 			const newState = this.state.nodes;
 			newState[nodeId].data.name = nodeTitle;
@@ -113,6 +120,12 @@ class Cluster extends React.Component {
 			this.setState(newState);
 		}
 
+		/**
+		 * Update the background color of a node and eventually its children.
+		 * @param nodeId: The id of the node of which we have to change the background color.
+		 * @param hexColor: The new color of the node in hexadecimal.
+		 * @param children: A boolean to tell whether the children have to be updated with the new color or not.
+		 */
 		const updateNodeBackground = (nodeId, hexColor, children) => {
 			const newState = this.state.nodes;
 			if(children) {
@@ -155,6 +168,7 @@ class Cluster extends React.Component {
 											'L' + zHandler.apply([(l.source.x + l.target.x)/2, (l.source.y + l.target.y)/2]) +
 											'L' + zHandler.apply([l.target.x, l.target.y])}
 										stroke={'black'}
+										strokeDasharray={l.optional ? 3 : 0}
 										markerMid={'url(#arrow)'}
 										style={{
 											transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
