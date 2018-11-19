@@ -41,7 +41,9 @@ class EditButton extends React.Component {
 		const newTitle = event.target.title.value;
 		const newContent = event.target.content.value;
 		const includeChildren = event.target.includeChildren.checked;
+		// Update the local state
 		this.setState({includeChildren: includeChildren});
+		// Update the global state
 		this.props.updateData(this.state.node.id, newTitle, newContent);
 		this.props.updateBackgroundColor(this.state.node.id, this.state.backgroundColor, includeChildren);
 		document.getElementById('closeBtn').click();
@@ -49,15 +51,14 @@ class EditButton extends React.Component {
 	}
 
 	handleColorChange(color) {
-		console.log(color);
+		// Update the local state
 		this.setState({backgroundColor: color.hex});
 	}
 
 	render() {
 
 		const button =
-			<button id={this.state.closeId}
-					className={
+			<button className={
 						'bg-grey-light hover:bg-grey ' +
 						'text-grey-darkest font-bold ' +
 						(this.state.leaf ? 'rounded-r ' : 'border-r ') +
