@@ -11,6 +11,7 @@ export const NodeWidth  = 130;
 export const NodeHeight = 100;
 
 export const maxZoomScale = 3;
+export const minZoomScale = 0.5;
 
 /**
  * Function to position the nodes in a way to get a radial layout.
