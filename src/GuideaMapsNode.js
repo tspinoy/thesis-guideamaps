@@ -91,6 +91,7 @@ class GuideaMapsNode extends React.Component {
 							display: node.show ? 'block' : 'none',
 							backgroundColor: node.backgroundColor,
 							opacity: isDragging ? 0.5 : 1}}
+						onClick={node.onclick}
 					>
 						{/*<FontAwesomeIcon className={'absolute pin-r pin-t'} style={{color: 'grey'}}
 										 icon={['far', 'circle']}/>*/}

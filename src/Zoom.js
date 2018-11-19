@@ -85,7 +85,7 @@ class ZoomContainer extends Component {
   componentDidMount() {
     this.zoomFactoryCont = this.zoomFactory(this.props);
     d3.select(this.zoomCont).call(this.zoomFactoryCont)
-      	.on('dblclick.zoom', null); // disable zoom on double click
+      	.on('dblclick.zoom', null) // disable zoom on double click
 		/*
 		.on('click', () => {
 			this.zoomToNode(this.props.data);
@@ -139,7 +139,6 @@ class ZoomContainer extends Component {
     return (
 		<div>
 			<div
-				id={'zoom-target'}
 				className={'zoom-target'}
 				style={{
 					position: 'absolute',
