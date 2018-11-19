@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 import 'event-propagation-path';
-import { NodeHeight, NodeWidth } from './Constants'
+import { NodeHeight, NodeWidth, minZoomScale } from './Constants'
 
 // import { getBoundingBox } from '../utils';
 
@@ -24,7 +24,7 @@ function zoomFactory(props) {
     .zoom()
     .duration(-2000)
     .wheelDelta(() => (-d3.event.deltaY * (d3.event.deltaMode ? 50 : 1)) / 500)
-    .scaleExtent([1, maxZoomScale])
+    .scaleExtent([minZoomScale, maxZoomScale])
     .extent([[0, 0], [width, height]])
     .filter(() => {
       // Take care: this is Polyfill: propagationPath
@@ -108,12 +108,12 @@ class ZoomContainer extends Component {
     //d3.select(this.zoomCont).call(this.zoomFactoryCont.transform, zoomHandler);
   }
 
-  zoomToNode(data) {
+  zoomToNode =  (data) => {
   	{/*let node = data[this.state.x];*/}
 	let transform = d3.zoomIdentity
 	  .translate(window.innerWidth - data.x - window.innerWidth / 2 - NodeWidth / 2, window.innerHeight - data.y - window.innerHeight / 2 - NodeHeight / 2)
 	  .scale(1);
-	d3.select(this.zoomCont).transition().duration(300).call(this.zoomFactoryCont.transform, transform);
+	d3.select(this.zoomCont).transition().duration(800).call(this.zoomFactoryCont.transform, transform);
 	{/*this.setState({x: (this.state.x+1) % data.length});*/}
   }
 
@@ -130,13 +130,16 @@ class ZoomContainer extends Component {
     const { zoomHandler } = this.state;
 
     const zoomedNodes = data.map(d => {
-      const [x, y] = zoomHandler.apply([d.x, d.y]);
-      return { ...d, x, y };
+		let zoomToNode = this.zoomToNode;
+		const [x, y] = zoomHandler.apply([d.x, d.y]);
+		d.onclick = function() {zoomToNode(d)};
+		return { ...d, x, y };
     });
 
     return (
 		<div>
 			<div
+				id={'zoom-target'}
 				className={'zoom-target'}
 				style={{
 					position: 'absolute',
@@ -154,6 +157,12 @@ class ZoomContainer extends Component {
 		</div>
     );
   }
+}
+
+export const zoomFit = (scale, translate) => {
+	let root = document.getElementById('zoom-target');
+	//console.trace("zoomFit", translate, scale);
+	d3.select(this.zoomCont).scale(scale);
 }
 
 export default ZoomContainer;

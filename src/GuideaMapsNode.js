@@ -56,15 +56,10 @@ class GuideaMapsNode extends React.Component {
 
 		// This binding is necessary to make `this` work in the callback
 		this.startStopEditing = this.startStopEditing.bind(this);
-		this.handleClick = this.handleClick.bind(this);
 	}
 
 	startStopEditing() {
 		this.setState({editing: !this.state.editing});
-	}
-
-	handleClick() {
-		console.log("clicked node " + this.props.node.id);
 	}
 
 	/**
@@ -96,7 +91,6 @@ class GuideaMapsNode extends React.Component {
 							display: node.show ? 'block' : 'none',
 							backgroundColor: node.backgroundColor,
 							opacity: isDragging ? 0.5 : 1}}
-						//onClick={Zoom.prototype.zoomToNode(node)}
 					>
 						{/*<FontAwesomeIcon className={'absolute pin-r pin-t'} style={{color: 'grey'}}
 										 icon={['far', 'circle']}/>*/}
