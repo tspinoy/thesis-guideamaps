@@ -35,6 +35,7 @@ class EditButton extends React.Component {
 
 	handleOpenCloseEditPopup() {
 		this.props.startStopEditing();
+		this.props.node.onEditClick();
 	};
 
 	handleSubmit(event) {

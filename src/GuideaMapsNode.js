@@ -133,9 +133,8 @@ class GuideaMapsNode extends React.Component {
 							transform: `translate(${node.x}px, ${node.y + NodeHeight / 4}px)`,
 							display: node.show ? 'block' : 'none',
 							backgroundColor: node.backgroundColor,
-							cursor: 'move',
 							opacity: isDragging ? 0.5 : 1}}
-						//onClick={Zoom.prototype.zoomToNode(node)}
+						onClick={node.onclick}
 					>
 						Other node type
 					</div>))
