@@ -5,7 +5,7 @@ import Cluster from './Cluster';
 import * as d3 from "d3";
 
 import GuideMapsNode from './GuideaMapsNode';
-import { initializeNode, NodeTypes } from './Constants';
+import { initializeNode, NodeTypes } from './Constants'
 
 // Font Awesome for SVG icons
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -144,7 +144,7 @@ for(let i = 0; i < clusterNodes.length; i++){
 
 for (let i = 0; i < clusterLinks.length; i++) {
 	let current = clusterLinks[i];
-	console.log(current);
+	// Mark all edges to non-default nodes as optional
 	current.optional = current.target.data.type !== NodeTypes.DEFAULT;
 }
 

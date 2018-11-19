@@ -143,7 +143,7 @@ class Cluster extends React.Component {
 		}
 
         return (
-			<Zoom data={this.props.nodes} width={this.state.width} height={this.state.height} center={[this.state.width/2, this.state.height/2]} selectedId={null} maxZoomScale={maxZoomScale}>
+			<Zoom data={this.props.nodes} style={{width: this.state.width, height: this.state.height}} selectedId={null} maxZoomScale={maxZoomScale}>
 				{(zoomedNodes, zHandler) => (
 					<div id={'cluster'} className={'absolute pin-t pin-l overflow-hidden'} style={{width: this.state.width, height: this.state.height}}>
 						<svg className={'absolute pin-t pin-l'} style={{width: this.state.width, height: this.state.height}}>
