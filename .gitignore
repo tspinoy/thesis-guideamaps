@@ -19,3 +19,20 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.cb
+*.cb2
+*.fls
+*.fmt
+*.fot
+*.lof
+*.log
+*.lol
+*.lot
+*.out
+*.synctex.gz
+*.thm
+*.toc
+.*.lb
