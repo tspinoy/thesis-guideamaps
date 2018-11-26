@@ -143,6 +143,8 @@ let hierarchyData = {
   ],
 };
 
+const [width, height] = [1200, 700];
+
 const root = d3.hierarchy(hierarchyData, function(d) {
   return d.children;
 });
@@ -158,13 +160,12 @@ const clusterRoot = cluster(root);
 
 const clusterNodes = clusterRoot
   .descendants()
-  .map((node, index) => initializeNode(node, index));
+  .map((node, index) => initializeNode(node, index, width, height));
 
 const clusterLinks = clusterRoot.links().map(link => initializeLink(link));
 
 class App extends Component {
   render() {
-    const [width, height] = [1200, 700];
     return (
       <div className="w-screen h-screen flex justify-center items-center">
         <Cluster

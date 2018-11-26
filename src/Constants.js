@@ -25,7 +25,7 @@ export const project = (x, y) => {
   return [radius * Math.cos(angle), radius * Math.sin(angle)];
 };
 
-export const initializeNode = (node, id) => {
+export const initializeNode = (node, id, width, height) => {
   node.id = id;
   node.show = true;
   if (!(node.parent === null)) {
@@ -39,8 +39,8 @@ export const initializeNode = (node, id) => {
 
   const projectedPositions = project(node.x, node.y);
   // Center the content
-  node.x = projectedPositions[0] + window.innerWidth / 2 - NodeWidth / 2;
-  node.y = projectedPositions[1] + window.innerHeight / 2 - NodeHeight / 2;
+  node.x = projectedPositions[0] + width / 2 - NodeWidth / 2;
+  node.y = projectedPositions[1] + height / 2 - NodeHeight / 2;
 
   return node;
 };

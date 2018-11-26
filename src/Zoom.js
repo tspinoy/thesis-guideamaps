@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 import 'event-propagation-path';
 import {NodeHeight, NodeWidth, minZoomScale} from './Constants';
+import posed from 'react-pose';
 
 // import { getBoundingBox } from '../utils';
 
@@ -118,8 +119,8 @@ class ZoomContainer extends Component {
       const {x, y} = selected;
 
       const newZoomHandler = d3.zoomIdentity.translate(
-        width / 2 - x,
-        height / 2 - y,
+        width / 2 - x - NodeWidth / 2,
+        height / 2 - y - NodeHeight / 2,
       );
 
       this.setState({
