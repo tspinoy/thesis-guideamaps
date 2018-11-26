@@ -38,6 +38,28 @@ function createZoom(props) {
       this.setState({
         zoomHandler: d3.event.transform || d3.zoomIdentity,
       });
+    })
+    .on('start', () => {
+      // While panning or zooming, we don't need smooth transitions
+      let links = document.getElementsByClassName('link');
+      for (let i = 0; i < links.length; i++) {
+        links.item(i).style.transition = 'all 0ms ease 0s';
+      }
+      let nodes = document.getElementsByClassName('node');
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].style.transition = 'all 0ms ease 0s';
+      }
+    })
+    .on('end', () => {
+      // We still want smooth transitions when we click on a node and pan to it
+      let links = document.getElementsByClassName('link');
+      for (let i = 0; i < links.length; i++) {
+        links[i].style.transition = 'all 500ms ease 0s';
+      }
+      let nodes = document.getElementsByClassName('node');
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].style.transition = 'all 500ms ease 0s';
+      }
     });
 }
 
@@ -143,7 +165,6 @@ class ZoomContainer extends Component {
     const {zoomHandler} = this.state;
 
     const zoomedNodes = data.map(d => {
-      let zoomToCenterNode = this.zoomToCenterNode;
       const [x, y] = zoomHandler.apply([d.x, d.y]);
       return {...d, x, y};
     });

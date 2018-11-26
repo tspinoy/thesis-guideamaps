@@ -9,7 +9,10 @@ class LinksSVG extends React.Component {
     const line = d3.line().curve(d3.curveCatmullRom.alpha(0.5));
 
     return (
-      <svg className={'absolute pin-t pin-l'} style={{width, height}}>
+      <svg
+        id={'linksSVG'}
+        className={'absolute pin-t pin-l'}
+        style={{width, height}}>
         <defs>
           <marker
             id={'arrow'}
@@ -26,6 +29,7 @@ class LinksSVG extends React.Component {
         {links.map((l, index) => (
           <path
             key={index}
+            className={'link'}
             d={line([
               zHandler.apply([l.source.x, l.source.y]), // starting point
               zHandler.apply([

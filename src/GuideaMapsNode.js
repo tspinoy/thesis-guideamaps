@@ -79,8 +79,8 @@ class GuideaMapsNode extends React.Component {
       updateBackgroundColor, // passed by the renderNodes-function in Cluster.js
       connectDragSource,
       connectDropTarget,
-      isDragging,
-      onClick, // injected by react dnd
+      isDragging, // injected by react dnd
+      onClick,
     } = this.props;
     switch (node.data.type) {
       case NodeTypes.CHOICE:
@@ -89,7 +89,7 @@ class GuideaMapsNode extends React.Component {
             <div
               key={node.data.name}
               className={
-                'absolute ' +
+                'node absolute ' +
                 'border border-solid border-black rounded ' +
                 (this.state.editing ? 'z-50 ' : 'z-0 ') +
                 'p-2 '
@@ -97,14 +97,14 @@ class GuideaMapsNode extends React.Component {
               style={{
                 width: NodeWidth,
                 height: NodeHeight / 2,
-                transform: `translate(${node.x}px, ${node.y +
-                  NodeHeight / 4}px)`,
-                transition: 'all 200ms',
+                transform: `translate(
+                              ${node.x}px,
+                              ${node.y + NodeHeight / 4}px)`,
                 display: node.show ? 'block' : 'none',
                 backgroundColor: node.backgroundColor,
                 opacity: isDragging ? 0.5 : 1,
               }}
-              onClick={node.onclick}>
+              onClick={onClick}>
               Other node type
             </div>,
           ),
@@ -116,7 +116,7 @@ class GuideaMapsNode extends React.Component {
             <div
               key={node.data.name}
               className={
-                'absolute ' +
+                'node absolute ' +
                 'border border-solid border-black rounded ' +
                 (this.state.editing ? 'z-50 ' : 'z-0 ') +
                 'p-2 '
@@ -125,7 +125,6 @@ class GuideaMapsNode extends React.Component {
                 width: NodeWidth,
                 height: NodeHeight,
                 transform: `translate(${node.x}px, ${node.y}px)`,
-                transition: 'all 200ms',
                 display: node.show ? 'block' : 'none',
                 backgroundColor: node.backgroundColor,
                 opacity: isDragging ? 0.5 : 1,
@@ -135,7 +134,7 @@ class GuideaMapsNode extends React.Component {
 										 icon={['far', 'circle']}/>*/}
               <div className={'font-sans text-lg mb-2'}>{node.data.name}</div>
               <div
-                className={'font-sans text-base mb-2 ' + 'overflow-hidden'}
+                className={'font-sans text-base mb-2 overflow-hidden'}
                 style={{
                   height: '1.2em',
                   whiteSpace: 'nowrap',
@@ -152,14 +151,13 @@ class GuideaMapsNode extends React.Component {
                   updateData={updateData}
                   updateBackgroundColor={updateBackgroundColor}
                 />
-                {// At non-child nodes the expand-collapse button should be added
-                node.height !== 0 ? (
-                    <ExpandCollapseButton
-                      node={node}
-                      update={updateShowChildren}
-                    />
-                  ) : null
-                }
+                {node.height !== 0 ? (
+                  // At non-child nodes the expand-collapse button should be added
+                  <ExpandCollapseButton
+                    node={node}
+                    update={updateShowChildren}
+                  />
+                ) : null}
               </div>
             </div>,
           ),
