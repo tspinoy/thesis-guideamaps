@@ -109,6 +109,38 @@ class ZoomContainer extends Component {
     // ),
   };
 
+  zoomToBoundingBox() {
+    const nodes = this.props.data;
+    let nodesX = [];
+    let nodesY = [];
+    nodes.forEach(node => {
+      nodesX.push(node.x);
+      nodesY.push(node.y);
+    });
+    let minX = Math.min(...nodesX);
+    let maxX = Math.max(...nodesX) + NodeWidth;
+    let minY = Math.min(...nodesY);
+    let maxY = Math.max(...nodesY) + NodeHeight;
+
+    // The distance from the left of the leftmost node to the right of the rightmost
+    let maxWidth = maxX - minX;
+    // The distance from the top of the highest node to the bottom of the lowest node
+    let maxHeight = maxY - minY;
+
+    let boxWidth = this.props.width;
+    let boxHeight = this.props.height;
+
+    let scale = 0.9 / Math.max(maxWidth / boxWidth, maxHeight / boxHeight);
+
+    const newZoomHandler = d3.zoomIdentity.translate(
+      boxWidth / 2 - scale * (boxWidth / 2),
+      boxHeight / 2 - scale * (boxHeight / 2) - boxHeight / 25,
+    );
+    newZoomHandler.k = scale;
+
+    d3.select(this.contDOM).call(this.zoomBehavior.transform, newZoomHandler);
+  }
+
   componentDidMount() {
     const {zoomBehavior} = this.props;
     const {zoomHandler} = this.state;
@@ -116,7 +148,8 @@ class ZoomContainer extends Component {
 
     d3.select(this.contDOM)
       .call(this.zoomBehavior)
-      .on('dblclick.zoom', null); // disable zoom on double click
+      .on('dblclick.zoom', null) // disable zoom on double click
+      .on('dblclick', () => this.zoomToBoundingBox());
 
     d3.select(this.contDOM).call(this.zoomBehavior.transform, zoomHandler);
   }

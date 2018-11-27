@@ -143,7 +143,7 @@ let hierarchyData = {
   ],
 };
 
-const [width, height] = [1200, 700];
+const [width, height] = [1200, 800];
 
 const root = d3.hierarchy(hierarchyData, function(d) {
   return d.children;
