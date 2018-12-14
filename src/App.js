@@ -3,9 +3,11 @@ import './css/App.css';
 import './css/tailwind.css';
 import Cluster from './Cluster';
 import * as d3 from 'd3';
+import logo from './logo.svg';
 
+import {data} from './NodesData';
 import GuideMapsNode from './GuideaMapsNode';
-import {initializeLink, initializeNode, NodeTypes} from './Constants';
+import {initializeLink, initializeNode} from './Constants';
 
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -28,124 +30,9 @@ library.add(
   faPlusCircle,
 );
 
-let hierarchyData = {
-  name: 'Eve',
-  type: NodeTypes.DEFAULT,
-  children: [
-    {
-      name: 'Cain',
-      type: NodeTypes.DEFAULT,
-      children: [
-        {
-          name: 'Enos',
-          type: NodeTypes.DEFAULT,
-        },
-        {
-          name: 'Noam',
-          type: NodeTypes.DEFAULT,
-        },
-      ],
-    },
-    {
-      name: 'Seth',
-      type: NodeTypes.DEFAULT,
-      children: [
-        {
-          name: 'Enos',
-          type: NodeTypes.CHOICE,
-        },
-        {
-          name: 'Noam',
-          type: NodeTypes.CHOICE,
-        },
-      ],
-    },
-    {
-      name: 'Abel',
-      type: NodeTypes.DEFAULT,
-      children: [
-        {
-          name: 'Enos',
-          type: NodeTypes.CHOICE,
-        },
-        {
-          name: 'Noam',
-          type: NodeTypes.CHOICE,
-        },
-      ],
-    },
-    {
-      name: 'Awan',
-      type: NodeTypes.DEFAULT,
-      children: [
-        {
-          name: 'Enos',
-          type: NodeTypes.DEFAULT,
-        },
-        {
-          name: 'Noam',
-          type: NodeTypes.DEFAULT,
-        },
-      ],
-    },
-    {
-      name: 'Azura',
-      type: NodeTypes.DEFAULT,
-      children: [
-        {
-          name: 'Enos',
-          type: NodeTypes.DEFAULT,
-        },
-        {
-          name: 'Noam',
-          type: NodeTypes.DEFAULT,
-        },
-      ],
-    },
-    {
-      name: 'Thijs',
-      type: NodeTypes.DEFAULT,
-      children: [
-        {
-          name: 'Enos',
-          type: NodeTypes.DEFAULT,
-        },
-        {
-          name: 'Noam',
-          type: NodeTypes.DEFAULT,
-        },
-      ],
-    },
-    {
-      name: 'Node',
-      type: NodeTypes.DEFAULT,
-      children: [
-        {
-          name: 'Enos',
-          type: NodeTypes.DEFAULT,
-        },
-        {
-          name: 'Noam',
-          type: NodeTypes.DEFAULT,
-          children: [
-            {
-              name: 'Enos',
-              type: NodeTypes.CHOICE,
-            },
-            {
-              name: 'Noam',
-              type: NodeTypes.CHOICE,
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+const [width, height] = [1200, 700];
 
-const [width, height] = [1200, 800];
-
-const root = d3.hierarchy(hierarchyData, function(d) {
+const root = d3.hierarchy(data, function(d) {
   return d.children;
 });
 
@@ -164,17 +51,75 @@ const clusterNodes = clusterRoot
 
 const clusterLinks = clusterRoot.links().map(link => initializeLink(link));
 
+/* ClusterNodes contains a lot of information about each node.
+ * Some parts of this information will be changed while using the app,
+ * other parts will/should not.
+ * The variable nodeOptions stores the fields that are allowed to be updated.
+ * */
+const nodeOptions = clusterNodes.map(function(node) {
+  return {
+    id: node.id,
+    show: node.show,
+    showChildren: node.showChildren,
+    title: node.title,
+    content: node.content,
+    background: node.background,
+  };
+});
+
 class App extends Component {
   render() {
     return (
-      <div className="w-screen h-screen flex justify-center items-center">
-        <Cluster
-          width={width}
-          height={height}
-          NodeType={GuideMapsNode}
-          nodes={clusterNodes}
-          links={clusterLinks}
-        />
+      <div>
+        <div
+          className={'w-screen text-center flex h-1 pin-t bg-grey mb-2'}
+          style={{height: '50px'}}>
+          <div
+            className={'w-1/3'}
+            style={{
+              verticalAlign: 'middle',
+              display: 'table-cell',
+              height: '50px',
+            }}>
+            <input type={'file'} />
+          </div>
+          <div
+            className={'w-1/3 items-center'}
+            style={{
+              verticalAlign: 'baseline',
+              display: 'inline-flex',
+              justifyContent: 'center',
+            }}>
+            <img
+              src={logo}
+              alt={'logo'}
+              style={{width: '50px', height: '50px'}}
+            />
+            GuideaMaps
+          </div>
+          <div
+            className={'w-1/3 flex'}
+            style={{alignItems: 'center', justifyContent: 'center'}}>
+            <button
+              id={'zoom-to-fit-btn'}
+              className={
+                'rounded border border-black hover:bg-black hover:text-grey'
+              }
+              style={{width: '110px', height: '35px'}}>
+              Zoom to fit
+            </button>
+          </div>
+        </div>
+        <div className={'w-screen flex justify-center items-center'}>
+          <Cluster
+            width={width}
+            height={height}
+            NodeType={GuideMapsNode}
+            nodes={clusterNodes}
+            nodeOptions={nodeOptions}
+            links={clusterLinks}
+          />
+        </div>
       </div>
     );
   }
