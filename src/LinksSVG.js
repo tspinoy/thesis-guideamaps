@@ -3,10 +3,20 @@ import {NodeHeight, NodeWidth} from './Constants';
 import * as d3 from 'd3';
 
 class LinksSVG extends React.Component {
+
+  state = {willCenter: false, prevId: null};
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.prevId = this.props.selectedId;
+
+  }
+
   render() {
-    const {links, width, height, zHandler} = this.props;
+    const {links, width, height, zHandler, selectedId, centered} = this.props;
 
     const line = d3.line().curve(d3.curveCatmullRom.alpha(0.5));
+
+    const trans = this.prevId !== selectedId;
 
     return (
       <svg
@@ -33,8 +43,8 @@ class LinksSVG extends React.Component {
             d={line([
               zHandler.apply([l.source.x, l.source.y]), // starting point
               zHandler.apply([
-                (l.source.x + l.target.x) / 2 + 20,
-                (l.source.y + l.target.y) / 2 + 20,
+                (l.source.x + l.target.x) / 2, // + 20,
+                (l.source.y + l.target.y) / 2, // + 20,
               ]), // mid point, necessary to put the marker on
               zHandler.apply([l.target.x, l.target.y]), // end point
             ])}
@@ -45,6 +55,7 @@ class LinksSVG extends React.Component {
             style={{
               transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
               display: l.target.show ? 'block' : 'none',
+              transition: centered && 'all 500ms ease 0s',
             }}
           />
         ))}

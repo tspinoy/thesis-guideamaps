@@ -1,6 +1,7 @@
 import React from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
 
 import {initializeNode, maxZoomScale} from './Constants';
 import './css/App.css';
@@ -9,15 +10,17 @@ import * as d3 from 'd3';
 import LinksSVG from './LinksSVG';
 
 class Cluster extends React.Component {
-  state = {selectedId: null};
+  state = {selectedId: null, nodes: null};
+
+  componentDidMount() {
+    this.setState({nodes: this.props.nodes});
+  }
 
   render() {
-    const {NodeType, nodes, links, width, height} = this.props;
-    const {selectedId} = this.state;
     // The type of the nodes is dynamic: the props define what kind of nodes should be represented.
     // In the case of GuideaMaps, NodeType = GuideMapsNode.
-
-    const line = d3.line().curve(d3.curveCatmullRom.alpha(0.5));
+    const {NodeType, nodes, links, width, height} = this.props;
+    const {selectedId, nodeOptions} = this.state;
 
     // based on https://stackoverflow.com/questions/43140325/add-node-to-d3-tree-v4
     const addChildNode = parent => {
@@ -59,6 +62,8 @@ class Cluster extends React.Component {
      * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
      */
     const updateNodeShowChildren = nodeId => {
+      console.log(this.state.nodes);
+
       // Start from the current state
       const newState = this.state.nodes;
       // Invert the showChildren value: collapse => expand and expand => collapse
@@ -73,6 +78,8 @@ class Cluster extends React.Component {
       }
       // Save the new state
       this.setState(newState);
+
+      console.log(this.state.nodes);
     };
 
     /**
@@ -133,8 +140,11 @@ class Cluster extends React.Component {
           width={width}
           height={height}
           selectedId={selectedId}
-          maxZoomScale={maxZoomScale}>
-          {(zoomedNodes, zHandler) => (
+          maxZoomScale={maxZoomScale}
+          onZoom={() => {
+            this.setState({selectedId: null});
+          }}>
+          {(zoomedNodes, zHandler, centered) => (
             <div
               id={'cluster'}
               className={'absolute pin-t pin-l overflow-hidden border'}
@@ -144,19 +154,22 @@ class Cluster extends React.Component {
                 width={width}
                 height={height}
                 zHandler={zHandler}
+                selectedId={selectedId}
+                centered={centered}
               />
               {zoomedNodes.map(n => (
                 <NodeType
                   key={n.id}
                   node={n}
-                  onClick={() => this.setState({selectedId: n.id})}
-                  /*
+                  onClick={() => {
+                    this.setState({selectedId: n.id});
+                  }}
                   addChildNode={addChildNode}
                   updateShowChildren={updateNodeShowChildren}
                   updatePosition={updateNodePosition}
                   updateData={updateNodeData}
                   updateBackgroundColor={updateNodeBackground}
-                  */
+                  centered={centered}
                 />
               ))}
             </div>

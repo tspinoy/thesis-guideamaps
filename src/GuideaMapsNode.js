@@ -81,6 +81,7 @@ class GuideaMapsNode extends React.Component {
       connectDropTarget,
       isDragging, // injected by react dnd
       onClick,
+      centered,
     } = this.props;
     switch (node.data.type) {
       case NodeTypes.CHOICE:
@@ -91,6 +92,7 @@ class GuideaMapsNode extends React.Component {
               className={
                 'node absolute ' +
                 'border border-solid border-black rounded ' +
+                'hover:border-red ' +
                 (this.state.editing ? 'z-50 ' : 'z-0 ') +
                 'p-2 '
               }
@@ -103,6 +105,7 @@ class GuideaMapsNode extends React.Component {
                 display: node.show ? 'block' : 'none',
                 backgroundColor: node.backgroundColor,
                 opacity: isDragging ? 0.5 : 1,
+                transition: centered && 'all 500ms ease 0s',
               }}
               onClick={onClick}>
               Other node type
@@ -118,6 +121,7 @@ class GuideaMapsNode extends React.Component {
               className={
                 'node absolute ' +
                 'border border-solid border-black rounded ' +
+                'hover:border-red ' +
                 (this.state.editing ? 'z-50 ' : 'z-0 ') +
                 'p-2 '
               }
@@ -128,6 +132,7 @@ class GuideaMapsNode extends React.Component {
                 display: node.show ? 'block' : 'none',
                 backgroundColor: node.backgroundColor,
                 opacity: isDragging ? 0.5 : 1,
+                transition: centered && 'all 500ms ease 0s',
               }}
               onClick={onClick}>
               {/*<FontAwesomeIcon className={'absolute pin-r pin-t'} style={{color: 'grey'}}

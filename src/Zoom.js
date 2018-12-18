@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 import 'event-propagation-path';
 import {NodeHeight, NodeWidth, minZoomScale} from './Constants';
-import posed from 'react-pose';
 
 // import { getBoundingBox } from '../utils';
 
@@ -18,7 +17,7 @@ function centerView(props) {
 }
 
 function createZoom(props) {
-  const {width, height, maxZoomScale} = props;
+  const {width, height, maxZoomScale, onZoom} = props;
 
   return d3
     .zoom()
@@ -35,10 +34,13 @@ function createZoom(props) {
       );
     })
     .on('zoom', () => {
+      onZoom();
       this.setState({
         zoomHandler: d3.event.transform || d3.zoomIdentity,
+        centered: false,
       });
-    })
+    });
+  /*
     .on('start', () => {
       // While panning or zooming, we don't need smooth transitions
       let links = document.getElementsByClassName('link');
@@ -61,6 +63,7 @@ function createZoom(props) {
         nodes[i].style.transition = 'all 500ms ease 0s';
       }
     });
+    */
 }
 
 class ZoomContainer extends Component {
@@ -148,10 +151,12 @@ class ZoomContainer extends Component {
 
     d3.select(this.contDOM)
       .call(this.zoomBehavior)
-      .on('dblclick.zoom', null) // disable zoom on double click
-      .on('dblclick', () => this.zoomToBoundingBox());
+      .on('dblclick.zoom', null); // disable zoom on double click
+    //.on('dblclick', () => this.zoomToBoundingBox());
 
     d3.select(this.contDOM).call(this.zoomBehavior.transform, zoomHandler);
+
+    d3.select('#zoom-to-fit-btn').on('click', () => this.zoomToBoundingBox());
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -161,26 +166,15 @@ class ZoomContainer extends Component {
     const {zoomHandler} = this.state;
     const {zoomHandler: oldZoomHandler} = prevState;
 
-    if (
-      zoomHandler.x !== oldZoomHandler.x ||
-      zoomHandler.y !== oldZoomHandler.y ||
-      zoomHandler.k !== oldZoomHandler.k
-    ) {
-      d3.select(this.contDOM).call(this.zoomBehavior.transform, zoomHandler);
-    }
-
-    if (prevSelectedId !== selectedId) {
+    if (selectedId !== null && prevSelectedId !== selectedId) {
       const selected = data.find(d => d.id === selectedId);
       const {x, y} = selected;
-
       const newZoomHandler = d3.zoomIdentity.translate(
         width / 2 - x - NodeWidth / 2,
         height / 2 - y - NodeHeight / 2,
       );
-
-      this.setState({
-        zoomHandler: newZoomHandler,
-      });
+      d3.select(this.contDOM).call(this.zoomBehavior.transform, newZoomHandler);
+      this.setState({centered: true});
     }
   }
 
@@ -193,9 +187,10 @@ class ZoomContainer extends Component {
       className,
       data,
       onZoom,
+      selectedId,
     } = this.props;
 
-    const {zoomHandler} = this.state;
+    const {zoomHandler, centered} = this.state;
 
     const zoomedNodes = data.map(d => {
       const [x, y] = zoomHandler.apply([d.x, d.y]);
@@ -215,7 +210,7 @@ class ZoomContainer extends Component {
           pointerEvents: 'all',
         }}
         ref={node => (this.contDOM = node)}>
-        {children(zoomedNodes, zoomHandler)}
+        {children(zoomedNodes, zoomHandler, centered)}
       </div>
     );
   }
