@@ -75,13 +75,29 @@ class App extends Component {
           className={'w-screen text-center flex h-1 pin-t bg-grey mb-2'}
           style={{height: '50px'}}>
           <div
-            className={'w-1/3'}
-            style={{
-              verticalAlign: 'middle',
-              display: 'table-cell',
-              height: '50px',
-            }}>
-            <input type={'file'} />
+            className={'w-1/3 flex'}
+            style={{alignItems: 'center', justifyContent: 'center'}}>
+            <label
+              className={
+                'rounded border border-black hover:bg-black hover:text-grey'
+              }
+              style={{
+                width: '130px',
+                height: '35px',
+                cursor: 'pointer',
+                // three rules to center the label
+                display: 'block',
+                textAlign: 'center',
+                lineHeight: '35px',
+              }}>
+              Enter your file
+              <input
+                type="file"
+                id="file"
+                size="60"
+                style={{display: 'none'}}
+              />
+            </label>
           </div>
           <div
             className={'w-1/3 items-center'}
