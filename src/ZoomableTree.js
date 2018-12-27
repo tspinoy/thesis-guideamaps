@@ -1,7 +1,6 @@
 import React from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
 
 import {initializeNode, maxZoomScale} from './Constants';
 import './css/App.css';
@@ -9,7 +8,7 @@ import Zoom from './Zoom.js';
 import * as d3 from 'd3';
 import LinksSVG from './LinksSVG';
 
-class Cluster extends React.Component {
+class ZoomableTree extends React.Component {
   state = {selectedId: null, nodes: null};
 
   componentDidMount() {
@@ -17,10 +16,10 @@ class Cluster extends React.Component {
   }
 
   render() {
-    // The type of the nodes is dynamic: the props define what kind of nodes should be represented.
-    // In the case of GuideaMaps, NodeType = GuideMapsNode.
-    const {NodeType, nodes, links, width, height} = this.props;
-    const {selectedId, nodeOptions} = this.state;
+    // The nodes can be represented by different kinds of components.
+    // In the case of GuideaMaps, NodeComp = GuideMapsNode.
+    const {NodeComp, nodes, links, width, height} = this.props;
+    const {selectedId} = this.state;
 
     // based on https://stackoverflow.com/questions/43140325/add-node-to-d3-tree-v4
     const addChildNode = parent => {
@@ -106,7 +105,7 @@ class Cluster extends React.Component {
      * */
     const updateNodeData = (nodeId, nodeTitle, nodeContent) => {
       const newState = this.state.nodes;
-      newState[nodeId].data.name = nodeTitle;
+      newState[nodeId].title = nodeTitle;
       newState[nodeId].content = nodeContent;
       this.setState(newState);
     };
@@ -158,7 +157,7 @@ class Cluster extends React.Component {
                 centered={centered}
               />
               {zoomedNodes.map(n => (
-                <NodeType
+                <NodeComp
                   key={n.id}
                   node={n}
                   onClick={() => {
@@ -180,4 +179,4 @@ class Cluster extends React.Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(Cluster);
+export default DragDropContext(HTML5Backend)(ZoomableTree);
