@@ -3,12 +3,12 @@
 - [Folder structure](#folder-structure)
 - [Launch the application](#launch-the-application)
 - [Code structure](#code-structure)
-    - [Cluster](#cluster)
+    - [ZoomableTree](#cluster)
     - [Node](#node)
         - [AddChildButton](#addchildbutton)
         - [EditButton](#editbutton)
         - [ExpandCollapseButton](#expandcollapsebutton)
-- [Remarks](#remarks) 
+- [Remarks](#remarks)
 
 
 # Folder Structure
@@ -29,13 +29,18 @@ thesis-guideamaps/
         AddChildButton.js
         App.js
         App.test.js
-        Cluster.js
         Constants.js
         EditButton.js
+        EditModal.js
         ExpandCollapseButton.js
-        index.js
-        logo.svg
         GuideaMapsNode.js
+        index.js
+        LinksSVG.js
+        logo.svg
+        NodesData.js
+        GuideaMapsNode.js
+        Zoom.js
+        ZoomableTree.js
     package.json
     package.lock.json
     README.md
@@ -49,26 +54,22 @@ To start the application, go to the project directory and run:
 
 ### `npm start`
 
-Or if you use yarn:
-
-### `yarn start`
-
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 # Code structure
 
-## Cluster
+## ZoomableTree
 
 The layout of the nodes in the tree is adapted in such a way to have a radial layout.
 The cluster renders all nodes and links needed by the structure.<br>
-Most important to know is that the **global state** of the application is maintained here. Whenever a use wants to change
-something (data, content, background color, ...) about a particular node, a function in Cluster will be called to update
+Most important to know is that the **global state** of the application is maintained here. Whenever a user wants to change
+something (data, content, background color, ...) about a particular node, a function in ZoomableTree will be called to update
 the state. In this way, we try to have a consistent state, because all traffic about updates passes at the same point.
 We never update the state at another place in the application.
 
 ## Node
 
-As already said, the Cluster class renders all nodes. Each rendered node is an instance of the Node class. Cluster passes
+As already said, the ZoomableTree class renders all nodes. Each rendered node is an instance of the Node class. ZoomableTree passes
 important information to the node:
 
 - node data (title, content, background-color, child nodes, ...)
@@ -97,9 +98,13 @@ This button is currently not yet configured.
 
 ### EditButton
 
+First try:
 The editButton is a little bit special because when we click the button, it triggers a popup to be opened. This popup
 consists of a form where the user has the chance to adapt the title and the content of the node. Further, a color picker
 is present to change the background color of the node and its children.
+
+Optimized:
+Instead of the popup, we use a modal now, based on this [link](https://daveceddia.com/open-modal-in-react/).
 
 ### ExpandCollapseButton
 
@@ -109,8 +114,8 @@ A simple onClick-event triggers the updateShowChildren-function in [Node](#Node)
 # Remarks
 
 This way of structuring the code means implies that if we have n possible state modifications, we would have to pass
-n functions from [Cluster](#Cluster) to [Node](#node).
+n functions from [ZoomableTree](#ZoomableTree) to [Node](#node).
 
-The way of representing a popup is used from the [Reactjs-Popup](https://react-popup.elazizi.com)-plugin.
+The popup representation of the first try to edit nodes was used from the [Reactjs-Popup](https://react-popup.elazizi.com)-plugin.
 
 The color picker comes from [React Color](http://casesandberg.github.io/react-color/).
