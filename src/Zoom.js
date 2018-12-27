@@ -141,7 +141,10 @@ class ZoomContainer extends Component {
     );
     newZoomHandler.k = scale;
 
-    d3.select(this.contDOM).transition().duration(1000).call(this.zoomBehavior.transform, newZoomHandler);
+    d3.select(this.contDOM)
+      .transition()
+      .duration(1000)
+      .call(this.zoomBehavior.transform, newZoomHandler);
   }
 
   componentDidMount() {
@@ -152,7 +155,6 @@ class ZoomContainer extends Component {
     d3.select(this.contDOM)
       .call(this.zoomBehavior)
       .on('dblclick.zoom', null); // disable zoom on double click
-    //.on('dblclick', () => this.zoomToBoundingBox());
 
     d3.select(this.contDOM).call(this.zoomBehavior.transform, zoomHandler);
 
