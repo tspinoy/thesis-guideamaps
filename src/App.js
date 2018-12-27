@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './css/App.css';
 import './css/tailwind.css';
-import Cluster from './Cluster';
+import ZoomableTree from './ZoomableTree';
 import * as d3 from 'd3';
 import logo from './logo.svg';
 
@@ -12,6 +12,7 @@ import {initializeLink, initializeNode} from './Constants';
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {
+  faAdjust,
   faCircle as faCircleSolid,
   faCompress,
   faEllipsisH,
@@ -21,6 +22,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {faCircle as faCircleRegular} from '@fortawesome/free-regular-svg-icons';
 library.add(
+  faAdjust,
   faCircleRegular,
   faCircleSolid,
   faCompress,
@@ -72,7 +74,7 @@ class App extends Component {
     return (
       <div>
         <div
-          className={'w-screen text-center flex h-1 pin-t bg-grey mb-2'}
+          className={'w-full text-center flex h-1 pin-t bg-grey mb-2'}
           style={{height: '50px'}}>
           <div
             className={'w-1/3 flex'}
@@ -88,7 +90,7 @@ class App extends Component {
                 // three rules to center the label
                 display: 'block',
                 textAlign: 'center',
-                lineHeight: '35px',
+                lineHeight: '35px', // must be equal to height
               }}>
               Enter your file
               <input
@@ -126,11 +128,13 @@ class App extends Component {
             </button>
           </div>
         </div>
+        {/*<div ref={'editField'} id={'editField'} className={'w-full overflow-y-scroll z-50'} style={{maxHeight: '300px', position: 'fixed', top: '50px'}}/>*/}
+        <div id={'editField'} />
         <div className={'w-screen flex justify-center items-center'}>
-          <Cluster
+          <ZoomableTree
             width={width}
             height={height}
-            NodeType={GuideMapsNode}
+            NodeComp={GuideMapsNode}
             nodes={clusterNodes}
             nodeOptions={nodeOptions}
             links={clusterLinks}

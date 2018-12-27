@@ -51,14 +51,67 @@ function dropCollect(connect, monitor) {
 class GuideaMapsNode extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {editing: false};
+    this.state = {
+      allChildren: [],
+    };
 
-    // This binding is necessary to make `this` work in the callback
-    this.startStopEditing = this.startStopEditing.bind(this);
+    this.getAllChildren = this.getAllChildren.bind(this);
   }
 
-  startStopEditing() {
-    this.setState({editing: !this.state.editing});
+  static completeNode(node) {
+    return node.title !== '' && node.content !== '';
+  }
+
+  getAllChildren(node, result) {
+    if (node.children === undefined) {
+      return result;
+    } else {
+      for (let i = 0; i < node.children.length; i++) {
+        let child = node.children[i];
+        result.push(child);
+        this.getAllChildren(child, result);
+      }
+      return result;
+    }
+  }
+
+  completeChildren(node) {
+    if (node.children === undefined) {
+      return true;
+    } else {
+      // run over all children
+      let children = this.getAllChildren(node, []);
+      for (let i = 0; i < children.length; i++) {
+        let child = children[i];
+        // When an incomplete node is detected, false is immediately returned
+        if (!GuideaMapsNode.completeNode(child)) {
+          return false;
+        }
+      }
+      // All nodes are complete => return true
+      return true;
+    }
+  }
+
+  completenessIcon(node) {
+    switch (node.data.type) {
+      case NodeTypes.CHOICE:
+        return ['fas', 'circle'];
+      default:
+        // default node
+        if (GuideaMapsNode.completeNode(node)) {
+          // The node itself is complete, now check the children
+          if (this.completeChildren(node)) {
+            // Complete children
+            return ['fas', 'circle'];
+          } else {
+            // At least one of the children is incomplete
+            return ['fas', 'adjust'];
+          }
+        } else {
+          return ['fas', 'adjust'];
+        }
+    }
   }
 
   /**
@@ -74,99 +127,116 @@ class GuideaMapsNode extends React.Component {
       node,
       updateShowChildren,
       addChildNode,
-      updatePosition,
+      //updatePosition,
       updateData,
-      updateBackgroundColor, // passed by the renderNodes-function in Cluster.js
-      connectDragSource,
-      connectDropTarget,
+      updateBackgroundColor, // passed by the renderNodes-function in ZoomableTree.js
+      //connectDragSource,
+      //connectDropTarget,
       isDragging, // injected by react dnd
       onClick,
       centered,
     } = this.props;
+    //console.log(this.getAllChildren(node, []));
     switch (node.data.type) {
       case NodeTypes.CHOICE:
-        return connectDragSource(
-          connectDropTarget(
-            <div
-              key={node.data.name}
-              className={
-                'node absolute ' +
-                'border border-solid border-black rounded ' +
-                'hover:border-red ' +
-                (this.state.editing ? 'z-50 ' : 'z-0 ') +
-                'p-2 '
-              }
-              style={{
-                width: NodeWidth,
-                height: NodeHeight / 2,
-                transform: `translate(
+        return (
+          //connectDragSource(connectDropTarget(
+          <div
+            ref={'node' + node.id}
+            key={node.title}
+            className={
+              'node absolute ' +
+              'border border-solid border-black rounded ' +
+              'hover:border-red ' +
+              'p-2 '
+            }
+            style={{
+              width: NodeWidth,
+              height: NodeHeight / 2,
+              transform: `translate(
                               ${node.x}px,
                               ${node.y + NodeHeight / 4}px)`,
-                display: node.show ? 'block' : 'none',
-                backgroundColor: node.backgroundColor,
-                opacity: isDragging ? 0.5 : 1,
-                transition: centered && 'all 500ms ease 0s',
-              }}
-              onClick={onClick}>
-              Other node type
-            </div>,
-          ),
+              display: node.show ? 'block' : 'none',
+              backgroundColor: node.backgroundColor,
+              opacity: isDragging ? 0.5 : 1,
+              transition: centered && 'all 500ms ease 0s',
+            }}
+            onClick={onClick}>
+            <FontAwesomeIcon
+              className={'absolute pin-r pin-t'}
+              style={{color: 'grey'}}
+              icon={this.completenessIcon(node)}
+            />
+            Other node type
+          </div>
         );
+      //),
+      //);
       default:
         // node.data.type === NodeTypes.DEFAULT
-        return connectDragSource(
-          connectDropTarget(
+        return (
+          //connectDragSource(connectDropTarget(
+          <div
+            ref={'node' + node.id}
+            key={node.title}
+            className={
+              'node absolute ' +
+              'border border-solid border-black rounded ' +
+              'hover:border-red ' +
+              'p-2 '
+            }
+            style={{
+              width: NodeWidth,
+              height: NodeHeight,
+              transform: `translate(${node.x}px, ${node.y}px)`,
+              display: node.show ? 'block' : 'none',
+              backgroundColor: node.backgroundColor,
+              opacity: isDragging ? 0.5 : 1,
+              transition: centered && 'all 500ms ease 0s',
+            }}
+            onClick={onClick}>
+            <FontAwesomeIcon
+              className={'absolute pin-r pin-t'}
+              style={{color: 'grey'}}
+              icon={this.completenessIcon(node)}
+            />
+            <div className={'font-sans text-lg mb-2'}>
+              {node.title === '' ? 'No title' : node.title}
+            </div>
             <div
-              key={node.data.name}
-              className={
-                'node absolute ' +
-                'border border-solid border-black rounded ' +
-                'hover:border-red ' +
-                (this.state.editing ? 'z-50 ' : 'z-0 ') +
-                'p-2 '
-              }
+              className={'font-sans text-base mb-2 overflow-hidden'}
               style={{
-                width: NodeWidth,
-                height: NodeHeight,
-                transform: `translate(${node.x}px, ${node.y}px)`,
-                display: node.show ? 'block' : 'none',
-                backgroundColor: node.backgroundColor,
-                opacity: isDragging ? 0.5 : 1,
-                transition: centered && 'all 500ms ease 0s',
-              }}
-              onClick={onClick}>
-              {/*<FontAwesomeIcon className={'absolute pin-r pin-t'} style={{color: 'grey'}}
-										 icon={['far', 'circle']}/>*/}
-              <div className={'font-sans text-lg mb-2'}>{node.data.name}</div>
-              <div
-                className={'font-sans text-base mb-2 overflow-hidden'}
-                style={{
-                  height: '1.2em',
-                  whiteSpace: 'nowrap',
-                  textOverflow: 'ellipsis',
-                }}>
-                {node.content}
-              </div>
-              <div className={'flex'}>
-                <AddChildButton node={node} addChildNode={addChildNode} />
-                <EditButton
+                height: '1.2em',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+              }}>
+              {node.content === '' ? 'No content' : node.content}
+            </div>
+            <div className={'flex'}>
+              <AddChildButton
+                className={'w-1/3'}
+                node={node}
+                addChildNode={addChildNode}
+              />
+              <EditButton
+                className={'w-1/3'}
+                node={node}
+                leaf={node.height === 0}
+                updateData={updateData}
+                updateBackgroundColor={updateBackgroundColor}
+              />
+              {node.height !== 0 && (
+                // At non-child nodes the expand-collapse button should be added
+                <ExpandCollapseButton
+                  className={'w-1/3'}
                   node={node}
-                  leaf={node.height === 0}
-                  startStopEditing={this.startStopEditing}
-                  updateData={updateData}
-                  updateBackgroundColor={updateBackgroundColor}
+                  update={updateShowChildren}
                 />
-                {node.height !== 0 ? (
-                  // At non-child nodes the expand-collapse button should be added
-                  <ExpandCollapseButton
-                    node={node}
-                    update={updateShowChildren}
-                  />
-                ) : null}
-              </div>
-            </div>,
-          ),
+              )}
+            </div>
+          </div>
         );
+      //),);
     }
   }
 }
