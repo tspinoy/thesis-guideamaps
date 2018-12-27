@@ -3,20 +3,16 @@ import {NodeHeight, NodeWidth} from './Constants';
 import * as d3 from 'd3';
 
 class LinksSVG extends React.Component {
-
   state = {willCenter: false, prevId: null};
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     this.prevId = this.props.selectedId;
-
   }
 
   render() {
-    const {links, width, height, zHandler, selectedId, centered} = this.props;
+    const {links, width, height, zHandler, centered} = this.props;
 
     const line = d3.line().curve(d3.curveCatmullRom.alpha(0.5));
-
-    const trans = this.prevId !== selectedId;
 
     return (
       <svg
