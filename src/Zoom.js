@@ -133,10 +133,10 @@ class ZoomContainer extends Component {
     let boxWidth = this.props.width;
     let boxHeight = this.props.height;
 
-    let scale = 0.9 / Math.max(maxWidth / boxWidth, maxHeight / boxHeight);
+    let scale = 0.85 / Math.max(maxWidth / boxWidth, maxHeight / boxHeight);
 
     const newZoomHandler = d3.zoomIdentity.translate(
-      boxWidth / 2 - scale * (boxWidth / 2),
+      boxWidth / 2 - scale * (boxWidth / 2) - boxWidth / 35,
       boxHeight / 2 - scale * (boxHeight / 2) - boxHeight / 25,
     );
     newZoomHandler.k = scale;
