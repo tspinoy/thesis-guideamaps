@@ -32,7 +32,9 @@ library.add(
   faPlusCircle,
 );
 
-const [width, height] = [1200, 700];
+const windowWidth = window.innerWidth;
+const windowHeight = window.innerHeight;
+const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 
 const root = d3.hierarchy(data, function(d) {
   return d.children;
