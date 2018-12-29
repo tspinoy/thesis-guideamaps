@@ -163,7 +163,7 @@ class GuideaMapsNode extends React.Component {
             }}
             onClick={onClick}>
             <FontAwesomeIcon
-              className={'absolute pin-r pin-t'}
+              className={'absolute pin-r'}
               style={{color: 'grey'}}
               icon={this.completenessIcon(node)}
             />
@@ -195,13 +195,22 @@ class GuideaMapsNode extends React.Component {
               transition: centered && 'all 500ms ease 0s',
             }}
             onClick={onClick}>
-            <FontAwesomeIcon
-              className={'absolute pin-r pin-t'}
-              style={{color: 'grey'}}
-              icon={this.completenessIcon(node)}
-            />
-            <div className={'font-sans text-lg mb-2'}>
-              {node.title === '' ? 'No title' : node.title}
+            <div className={'flex'}>
+              <div
+                className={'w-5/6 font-sans text-lg mb-2 overflow-hidden'}
+                style={{
+                  height: '1.2em',
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                }}>
+                {node.title === '' ? 'No title' : node.title}
+              </div>
+              <div className={'w-1/6'}>
+                <FontAwesomeIcon
+                  style={{color: 'grey'}}
+                  icon={this.completenessIcon(node)}
+                />
+              </div>
             </div>
             <div
               className={'font-sans text-base mb-2 overflow-hidden'}
