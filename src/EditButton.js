@@ -44,7 +44,7 @@ class EditButton extends React.Component {
             'py-1 px-1 ' +
             'items-center '
           }
-          style={{width: '100%'}}
+          style={{width: '100%', borderColor: this.props.bgcolor}}
           onClick={this.toggleModal}>
           Edit
         </button>

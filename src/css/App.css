@@ -1,0 +1,5 @@
+.invertColors {
+    filter: invert(100%) saturate(0%) brightness(100%) contrast(1000%);
+    -moz-osx-font-smoothing: grayscale; /* used to avoid "boldlike" font */
+    -webkit-font-smoothing: antialiased; /* used to avoid "boldlike" font */
+}

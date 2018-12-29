@@ -162,12 +162,20 @@ class GuideaMapsNode extends React.Component {
               transition: centered && 'all 500ms ease 0s',
             }}
             onClick={onClick}>
-            <FontAwesomeIcon
-              className={'absolute pin-r'}
-              style={{color: 'grey'}}
-              icon={this.completenessIcon(node)}
-            />
-            Other node type
+            <div
+              style={{
+                color: node.backgroundColor,
+                filter:
+                  'invert(100%) saturate(0%) brightness(100%) contrast(1000%)',
+                '-moz-osx-font-smoothing': 'grayscale', // used to avoid "boldlike" font
+                '-webkit-font-smoothing': 'antialiased', // used to avoid "boldlike" font
+              }}>
+              <FontAwesomeIcon
+                className={'absolute pin-r'}
+                icon={this.completenessIcon(node)}
+              />
+              NodeType 2
+            </div>
           </div>
         );
       //),
@@ -177,7 +185,6 @@ class GuideaMapsNode extends React.Component {
         return (
           //connectDragSource(connectDropTarget(
           <div
-            ref={'node' + node.id}
             key={node.title}
             className={
               'node absolute ' +
@@ -195,29 +202,36 @@ class GuideaMapsNode extends React.Component {
               transition: centered && 'all 500ms ease 0s',
             }}
             onClick={onClick}>
-            <div className={'flex'}>
+            <div
+              className={'flex invertColors'}
+              style={{
+                borderBottom: '1px solid',
+                borderColor: node.backgroundColor,
+                color: node.backgroundColor,
+              }}>
               <div
-                className={'w-5/6 font-sans text-lg mb-2 overflow-hidden'}
+                className={'w-5/6 font-sans text-lg overflow-hidden'}
                 style={{
                   height: '1.2em',
                   whiteSpace: 'nowrap',
                   textOverflow: 'ellipsis',
+                  //textAlign: 'center',
                 }}>
                 {node.title === '' ? 'No title' : node.title}
               </div>
               <div className={'w-1/6'}>
-                <FontAwesomeIcon
-                  style={{color: 'grey'}}
-                  icon={this.completenessIcon(node)}
-                />
+                <FontAwesomeIcon icon={this.completenessIcon(node)} />
               </div>
             </div>
             <div
-              className={'font-sans text-base mb-2 overflow-hidden'}
+              className={
+                'font-sans text-base mb-2 mt-2 overflow-hidden invertColors'
+              }
               style={{
                 height: '1.2em',
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
+                color: node.backgroundColor,
               }}>
               {node.content === '' ? 'No content' : node.content}
             </div>
@@ -226,6 +240,7 @@ class GuideaMapsNode extends React.Component {
                 width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                 node={node}
                 addChildNode={addChildNode}
+                bgcolor={node.backgroundColor}
               />
               <EditButton
                 width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
@@ -233,6 +248,7 @@ class GuideaMapsNode extends React.Component {
                 leaf={node.height === 0}
                 updateData={updateData}
                 updateBackgroundColor={updateBackgroundColor}
+                bgcolor={node.backgroundColor}
               />
               {node.height !== 0 && (
                 // At non-child nodes the expand-collapse button should be added
@@ -240,6 +256,7 @@ class GuideaMapsNode extends React.Component {
                   width={'w-1/3'}
                   node={node}
                   update={updateShowChildren}
+                  bgcolor={node.backgroundColor}
                 />
               )}
             </div>
