@@ -11,6 +11,7 @@ import {initializeLink, initializeNode} from './Constants';
 
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
+// Import solid icons
 import {
   faAdjust,
   faCircle as faCircleSolid,
@@ -20,7 +21,11 @@ import {
   faPlus,
   faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import {faCircle as faCircleRegular} from '@fortawesome/free-regular-svg-icons';
+// Import regular icons
+import {
+  faCircle as faCircleRegular,
+  faSave,
+} from '@fortawesome/free-regular-svg-icons';
 library.add(
   faAdjust,
   faCircleRegular,
@@ -30,6 +35,7 @@ library.add(
   faExpand,
   faPlus,
   faPlusCircle,
+  faSave,
 );
 
 const windowWidth = window.innerWidth;

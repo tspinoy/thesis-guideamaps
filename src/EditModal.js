@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {SketchPicker} from 'react-color';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class EditModal extends React.Component {
   constructor(props) {
@@ -56,87 +57,111 @@ class EditModal extends React.Component {
 
     return (
       <div
-        className={'backdrop'}
+        className={'backdrop overflow-y-scroll'}
         style={{
-          position: 'fixed',
+          position: 'absolute',
           top: 0,
           bottom: 0,
           left: 0,
           right: 0,
           backgroundColor: 'rgba(0,0,0,0.3)', // gray background
-          padding: 50,
+          paddingTop: 50,
+          paddingLeft: 50,
+          paddingRight: 50,
           zIndex: 5000,
         }}>
         <div
           className={'modal'}
           style={{
             backgroundColor: '#fff',
-            borderRadius: 5,
-            maxWidth: 500,
+            borderBottomLeftRadius: 5,
+            borderBottomRightRadius: 5,
             minHeight: 300,
+            //maxHeight: 500,
             margin: '0 auto',
-            padding: 30,
+            padding: 15,
+            width: '100%',
+            maxWidth: '750px',
           }}>
           <form
             onSubmit={this.handleSubmit}
-            className={'bg-white shadow-md rounded px-8 pt-6 pb-8'}>
-            <div className={'mb-4'}>
-              <label
-                className={'block text-grey-darker text-sm font-bold mb-2'}>
-                Node title
-              </label>
-              <input
-                className={
-                  'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                  'leading-tight focus:outline-none focus:shadow-outline'
-                }
-                name={'title'}
-                type={'text'}
-                placeholder={'Node title'}
-                defaultValue={this.state.nodeTitle}
-                onChange={this.handleTitleChange}
-              />
-            </div>
-            <div className={'mb-6'}>
-              <label
-                className={'block text-grey-darker text-sm font-bold mb-2'}>
-                Content
-              </label>
-              <textarea
-                className={
-                  'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                  'mb-3 leading-tight focus:outline-none focus:shadow-outline'
-                }
-                name={'content'}
-                placeholder={'Node content'}
-                defaultValue={this.state.nodeContent}
-                onChange={this.handleContentChange}
-              />
-            </div>
-            <div className={'mb-6'}>
-              <SketchPicker
-                name={'colorPicker'}
-                color={this.state.nodeBackground}
-                onChange={this.handleColorChange}
-              />
-              <br />
-              <input
-                type={'checkbox'}
-                id={'includeChildren'}
-                name={'includeChildren'}
-                defaultChecked={this.state.includeChildren}
-                onChange={this.handleIncludeChildrenChange}
-              />
-              <label htmlFor={'includeChildren'}> Include children</label>
-            </div>
-            <div className={'flex items-center justify-between'}>
-              <button onClick={this.props.onClose}>Close</button>
-              <button
-                className={
-                  'bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                }>
-                Save and close
-              </button>
+            className={'bg-white shadow-md rounded px-8'}>
+            <div className={'flex content-start overflow-scroll'}>
+              <div className={'m-4'}>
+                <div className={'mb-4 all:flex sm:block items-center'}>
+                  <button
+                    className={
+                      'hover:bg-red hover:text-white border border-red border-solid rounded py-2 px-4 mr-2 mb-2'
+                    }
+                    style={{width: '200px'}}
+                    onClick={this.props.onClose}>
+                    Cancel
+                  </button>
+                  <button
+                    className={
+                      'bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                    }
+                    style={{width: '200px'}}>
+                    <FontAwesomeIcon icon={['far', 'save']} />
+                    &nbsp;Save and close
+                  </button>
+                </div>
+                <div className={'mb-4'}>
+                  <label
+                    className={'block text-grey-darker text-sm font-bold mb-2'}>
+                    Node title
+                  </label>
+                  <input
+                    className={
+                      'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                      'leading-tight focus:outline-none focus:shadow-outline'
+                    }
+                    name={'title'}
+                    type={'text'}
+                    placeholder={'Node title'}
+                    defaultValue={this.state.nodeTitle}
+                    onChange={this.handleTitleChange}
+                  />
+                </div>
+                <div className={'mb-4'}>
+                  <label
+                    className={'block text-grey-darker text-sm font-bold mb-2'}>
+                    Content
+                  </label>
+                  <textarea
+                    className={
+                      'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                      'leading-tight focus:outline-none focus:shadow-outline'
+                    }
+                    name={'content'}
+                    placeholder={'Node content'}
+                    defaultValue={this.state.nodeContent}
+                    onChange={this.handleContentChange}
+                  />
+                </div>
+              </div>
+              <div className={'m-4'}>
+                <label
+                  className={'block text-grey-darker text-sm font-bold mb-2'}>
+                  Background color
+                </label>
+                <SketchPicker
+                  name={'colorPicker'}
+                  width={180}
+                  disableAlpha={true}
+                  color={this.state.nodeBackground}
+                  onChange={this.handleColorChange}
+                />
+                <br />
+                <input
+                  type={'checkbox'}
+                  id={'includeChildren'}
+                  name={'includeChildren'}
+                  defaultChecked={this.state.includeChildren}
+                  onChange={this.handleIncludeChildrenChange}
+                />
+                <label htmlFor={'includeChildren'}> Include children</label>
+              </div>
             </div>
           </form>
         </div>
