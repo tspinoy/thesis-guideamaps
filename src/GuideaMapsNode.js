@@ -214,12 +214,12 @@ class GuideaMapsNode extends React.Component {
             </div>
             <div className={'flex'}>
               <AddChildButton
-                className={'w-1/3'}
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                 node={node}
                 addChildNode={addChildNode}
               />
               <EditButton
-                className={'w-1/3'}
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                 node={node}
                 leaf={node.height === 0}
                 updateData={updateData}
@@ -228,7 +228,7 @@ class GuideaMapsNode extends React.Component {
               {node.height !== 0 && (
                 // At non-child nodes the expand-collapse button should be added
                 <ExpandCollapseButton
-                  className={'w-1/3'}
+                  width={'w-1/3'}
                   node={node}
                   update={updateShowChildren}
                 />

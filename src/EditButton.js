@@ -34,7 +34,7 @@ class EditButton extends React.Component {
   render() {
     const {node} = this.props;
     return (
-      <div>
+      <div className={this.props.width}>
         <button
           className={
             'bg-grey-light hover:bg-grey ' +
@@ -42,8 +42,9 @@ class EditButton extends React.Component {
             (this.props.leaf ? 'rounded-r ' : 'border-r ') +
             'border-l border-grey border-solid ' +
             'py-1 px-1 ' +
-            'items-center'
+            'items-center '
           }
+          style={{width: '100%'}}
           onClick={this.toggleModal}>
           Edit
         </button>

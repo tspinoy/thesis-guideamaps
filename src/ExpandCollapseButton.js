@@ -30,9 +30,9 @@ class ExpandCollapseButton extends React.Component {
           'text-grey-darkest font-bold ' +
           'py-1 px-1 ' +
           'rounded-r items-center ' +
-          'block'
+          'block ' +
+          this.props.width
         }
-        style={{width: 100}}
         onClick={this.handleClick}>
         <FontAwesomeIcon
           icon={this.state.showChildren ? 'compress' : 'expand'}
