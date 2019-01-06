@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import './css/App.css';
 import './css/tailwind.css';
-import ZoomableTree from './ZoomableTree';
 import * as d3 from 'd3';
 import logo from './logo.svg';
 
-import {data} from './NodesData';
-import GuideMapsNode from './GuideaMapsNode';
 import {initializeLink, initializeNode} from './Constants';
+import GuideMapsNode from './GuideaMapsNode';
+import LinksSVG from './LinksSVG';
+import {data} from './NodesData';
+import ZoomableTree from './ZoomableTree';
 
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -145,6 +146,7 @@ class App extends Component {
             NodeComp={GuideMapsNode}
             nodes={clusterNodes}
             nodeOptions={nodeOptions}
+            LinkComp={LinksSVG}
             links={clusterLinks}
           />
         </div>

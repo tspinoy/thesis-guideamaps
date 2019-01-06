@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -18,7 +19,7 @@ class ZoomableTree extends React.Component {
   render() {
     // The nodes can be represented by different kinds of components.
     // In the case of GuideaMaps, NodeComp = GuideMapsNode.
-    const {NodeComp, nodes, links, width, height} = this.props;
+    const {NodeComp, nodes, LinkComp, links, width, height} = this.props;
     const {selectedId} = this.state;
 
     // based on https://stackoverflow.com/questions/43140325/add-node-to-d3-tree-v4
@@ -148,7 +149,7 @@ class ZoomableTree extends React.Component {
               id={'cluster'}
               className={'absolute pin-t pin-l overflow-hidden border'}
               style={{width, height}}>
-              <LinksSVG
+              <LinkComp
                 links={links}
                 width={width}
                 height={height}
