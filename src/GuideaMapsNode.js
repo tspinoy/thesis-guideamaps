@@ -58,11 +58,24 @@ class GuideaMapsNode extends React.Component {
     this.getAllChildren = this.getAllChildren.bind(this);
   }
 
+  /**
+   * A {@param node} is defined as complete if both "title"- and "content"-fields
+   * are filled in.
+   * @param node
+   * @return {boolean}
+   */
   static completeNode(node) {
     return node.title !== '' && node.content !== '';
   }
 
-  getAllChildren(node, result) {
+  /**
+   * A helper function for {@see completenessIcon}
+   * to get all the children of a {@param node}.
+   * @param node: the node of which we want all children
+   * @param result: the result is built into the array in this argument
+   * @return {Array}: an array with all children of the {@param node}
+   */
+  getAllChildren(node, result = []) {
     if (node.children === undefined) {
       return result;
     } else {
@@ -75,12 +88,18 @@ class GuideaMapsNode extends React.Component {
     }
   }
 
+  /**
+   * A helper function for {@see completenessIcon} to check the completeness
+   * of the children of a {@param node}.
+   * @param node: the node of which we will check the children for completeness
+   * @return {boolean}: the children are complete (true) or not (false)
+   */
   completeChildren(node) {
     if (node.children === undefined) {
       return true;
     } else {
       // run over all children
-      let children = this.getAllChildren(node, []);
+      let children = this.getAllChildren(node);
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
         // When an incomplete node is detected, false is immediately returned
@@ -93,6 +112,14 @@ class GuideaMapsNode extends React.Component {
     }
   }
 
+  /**
+   * Check what the completenss-icon should look like. If the node itself and all
+   * children are completed, a solid filled circle should be visible.
+   * Otherwise (if the node and/or one or more of its children is incomplete),
+   * a half filled circle should be visible.
+   * @param node: the node to check for completeness
+   * @return {string[]}: the specifications of the icon
+   */
   completenessIcon(node) {
     switch (node.data.type) {
       case NodeTypes.CHOICE:
