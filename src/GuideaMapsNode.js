@@ -216,76 +216,84 @@ class GuideaMapsNode extends React.Component {
             className={
               'node absolute ' +
               'border border-solid border-black rounded ' +
-              'hover:border-red ' +
-              'p-2 '
+              'hover:border-red '
             }
             style={{
               width: NodeWidth,
               height: NodeHeight,
               transform: `translate(${node.x}px, ${node.y}px)`,
               display: node.show ? 'block' : 'none',
-              backgroundColor: node.backgroundColor,
+              color: node.backgroundColor,
               opacity: isDragging ? 0.5 : 1,
               transition: centered && 'all 500ms ease 0s',
             }}
             onClick={onClick}>
             <div
-              className={'flex invertColors'}
-              style={{
-                borderBottom: '1px solid',
-                borderColor: node.backgroundColor,
-                color: node.backgroundColor,
-              }}>
-              <div
-                className={'w-5/6 font-sans text-lg overflow-hidden'}
+              className={'rounded'}
+              style={{backgroundColor: node.backgroundColor}}>
+              <div // title div
+                className={'flex pb-1 pt-1 pl-2 pr-2 rounded-t'}
                 style={{
-                  height: '1.2em',
+                  borderBottom: '1px solid',
+                  borderColor: 'black',
+                  color: 'black',
+                  backgroundColor: 'white',
+                }}>
+                <div
+                  className={'w-5/6 font-sans text-lg overflow-hidden'}
+                  style={{
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                    //textAlign: 'center',
+                  }}>
+                  {node.title === '' ? 'No title' : node.title}
+                </div>
+                <div className={'w-1/6'}>
+                  <FontAwesomeIcon
+                    icon={this.completenessIcon(node)}
+                    style={{fontSize: '18px'}}
+                  />
+                </div>
+              </div>
+              <div // content div
+                className={
+                  'font-sans text-base pl-2 pr-2 pt-1 pb-1 overflow-hidden invertColors'
+                }
+                style={{
                   whiteSpace: 'nowrap',
                   textOverflow: 'ellipsis',
-                  //textAlign: 'center',
+                  color: node.backgroundColor, // this is inverted by the invertColors-class
+                  height: '2.6em',
                 }}>
-                {node.title === '' ? 'No title' : node.title}
+                {node.content === '' ? 'No content' : node.content}
               </div>
-              <div className={'w-1/6'}>
-                <FontAwesomeIcon icon={this.completenessIcon(node)} />
-              </div>
-            </div>
-            <div
-              className={
-                'font-sans text-base mb-2 mt-2 overflow-hidden invertColors'
-              }
-              style={{
-                height: '1.2em',
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-                color: node.backgroundColor,
-              }}>
-              {node.content === '' ? 'No content' : node.content}
-            </div>
-            <div className={'flex'}>
-              <AddChildButton
-                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
-                node={node}
-                addChildNode={addChildNode}
-                bgcolor={node.backgroundColor}
-              />
-              <EditButton
-                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
-                node={node}
-                leaf={node.height === 0}
-                updateData={updateData}
-                updateBackgroundColor={updateBackgroundColor}
-                bgcolor={node.backgroundColor}
-              />
-              {node.height !== 0 && (
-                // At non-child nodes the expand-collapse button should be added
-                <ExpandCollapseButton
-                  width={'w-1/3'}
+              <div // controls div
+                className={'flex rounded-b'}
+                style={{backgroundColor: node.backgroundColor}}>
+                <AddChildButton
+                  width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                   node={node}
-                  update={updateShowChildren}
+                  addChildNode={addChildNode}
                   bgcolor={node.backgroundColor}
                 />
-              )}
+                <EditButton
+                  width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+                  node={node}
+                  leaf={node.height === 0}
+                  updateData={updateData}
+                  updateBackgroundColor={updateBackgroundColor}
+                  bgcolor={node.backgroundColor}
+                />
+                {node.height !== 0 && (
+                  // At non-child nodes the expand-collapse button should be added
+                  <ExpandCollapseButton
+                    width={'w-1/3'}
+                    node={node}
+                    update={updateShowChildren}
+                    bgcolor={node.backgroundColor}
+                  />
+                )}
+              </div>
             </div>
           </div>
         );

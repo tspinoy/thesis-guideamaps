@@ -18,13 +18,17 @@ class AddChildButton extends React.Component {
     return (
       <button
         className={
-          'bg-grey-light hover:bg-grey ' +
-          'text-grey-darkest font-bold ' +
-          'py-1 px-1 invertColors' +
-          'rounded-l items-center rounded-l ' +
+          'block text-grey-darkest font-bold ' +
+          'py-1 px-1 ' +
+          'rounded-bl items-center invertColors ' +
           this.props.width
         }
-        style={{display: 'block', borderColor: this.props.bgcolor}}
+        style={{
+          borderTop: '1px solid',
+          borderRight: '1px solid',
+          borderColor: this.props.node.backgroundColor,
+          color: this.props.node.backgroundColor,
+        }}
         onClick={this.handleClick}>
         <FontAwesomeIcon icon={'plus'} />
       </button>

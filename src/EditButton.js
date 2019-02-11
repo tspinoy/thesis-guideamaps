@@ -37,14 +37,18 @@ class EditButton extends React.Component {
       <div className={this.props.width}>
         <button
           className={
-            'bg-grey-light hover:bg-grey ' +
             'text-grey-darkest font-bold ' +
             (this.props.leaf ? 'rounded-r ' : 'border-r ') +
-            'border-l border-grey border-solid ' +
             'py-1 px-1 ' +
-            'items-center '
+            'items-center invertColors'
           }
-          style={{width: '100%', borderColor: this.props.bgcolor}}
+          style={{
+            width: '100%',
+            borderTop: '1px solid',
+            borderRight: '1px solid',
+            borderColor: node.backgroundColor,
+            color: node.backgroundColor,
+          }}
           onClick={this.toggleModal}>
           Edit
         </button>
