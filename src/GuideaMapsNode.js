@@ -189,14 +189,9 @@ class GuideaMapsNode extends React.Component {
               transition: centered && 'all 500ms ease 0s',
             }}
             onClick={onClick}>
-            <div
-              style={{
-                color: node.backgroundColor,
-                filter:
-                  'invert(100%) saturate(0%) brightness(100%) contrast(1000%)',
-                '-moz-osx-font-smoothing': 'grayscale', // used to avoid "boldlike" font
-                '-webkit-font-smoothing': 'antialiased', // used to avoid "boldlike" font
-              }}>
+            <div // content div
+              className={'invertColors'}
+              style={{color: node.backgroundColor}}>
               <FontAwesomeIcon
                 className={'absolute pin-r'}
                 icon={this.completenessIcon(node)}

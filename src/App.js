@@ -17,6 +17,7 @@ import {
   faAdjust,
   faCircle as faCircleSolid,
   faCompress,
+  faEdit,
   faEllipsisH,
   faExpand,
   faPlus,
@@ -32,6 +33,7 @@ library.add(
   faCircleRegular,
   faCircleSolid,
   faCompress,
+  faEdit,
   faEllipsisH,
   faExpand,
   faPlus,
@@ -59,6 +61,8 @@ const clusterRoot = cluster(root);
 const clusterNodes = clusterRoot
   .descendants()
   .map((node, index) => initializeNode(node, index, width, height));
+
+console.log(clusterNodes);
 
 const clusterLinks = clusterRoot.links().map(link => initializeLink(link));
 

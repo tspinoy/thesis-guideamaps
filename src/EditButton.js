@@ -1,6 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import EditModal from './EditModal';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class EditButton extends React.Component {
   constructor(props) {
@@ -37,20 +38,19 @@ class EditButton extends React.Component {
       <div className={this.props.width}>
         <button
           className={
-            'text-grey-darkest font-bold ' +
-            (this.props.leaf ? 'rounded-r ' : 'border-r ') +
+            'block text-grey-darkest font-bold ' +
+            (this.props.leaf ? '' : 'border-r ') +
             'py-1 px-1 ' +
             'items-center invertColors'
           }
           style={{
             width: '100%',
             borderTop: '1px solid',
-            borderRight: '1px solid',
-            borderColor: node.backgroundColor,
-            color: node.backgroundColor,
+            borderColor: node.backgroundColor, // inverted by invertColors
+            color: node.backgroundColor, // inverted by invertColors
           }}
           onClick={this.toggleModal}>
-          Edit
+          <FontAwesomeIcon icon={'edit'} />
         </button>
         {this.state.isOpen &&
           ReactDOM.createPortal(
