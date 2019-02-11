@@ -7,7 +7,6 @@ import {initializeNode, maxZoomScale} from './Constants';
 import './css/App.css';
 import Zoom from './Zoom.js';
 import * as d3 from 'd3';
-import LinksSVG from './LinksSVG';
 
 class ZoomableTree extends React.Component {
   state = {selectedId: null, nodes: null};
@@ -62,8 +61,31 @@ class ZoomableTree extends React.Component {
      * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
      */
     const updateNodeShowChildren = nodeId => {
-      console.log(this.state.nodes);
+      //console.log(this.state.nodes);
 
+      console.log(this.state.nodes[nodeId].showChildren);
+
+      const newNodes = this.state.nodes.map((item, j) => {
+        if (j === nodeId) {
+          item.showChildren = !item.showChildren;
+          const childNodes = item.descendants();
+          // Invert the show property of all descending nodes, start from x=1 to not hide the node itself!
+          for (let x = 1; x < childNodes.length; x++) {
+            const child = childNodes[x];
+            child.show = item.showChildren;
+            child.showChildren = item.showChildren;
+          }
+          return item;
+        } else {
+          return item;
+        }
+      });
+
+      console.log(newNodes[nodeId].showChildren);
+
+      this.setState({nodes: newNodes});
+
+      /*
       // Start from the current state
       const newState = this.state.nodes;
       // Invert the showChildren value: collapse => expand and expand => collapse
@@ -78,8 +100,8 @@ class ZoomableTree extends React.Component {
       }
       // Save the new state
       this.setState(newState);
-
-      console.log(this.state.nodes);
+*/
+      //console.log(this.state.nodes);
     };
 
     /**
@@ -105,10 +127,25 @@ class ZoomableTree extends React.Component {
      * @param nodeContent: The new content of the node.
      * */
     const updateNodeData = (nodeId, nodeTitle, nodeContent) => {
+      const newNodes = this.state.nodes.map((item, j) => {
+        if (j === nodeId) {
+          item.title = nodeTitle;
+          item.content = nodeContent;
+          return item;
+        } else {
+          return item;
+        }
+      });
+
+      console.log(newNodes[nodeId].showChildren);
+
+      this.setState({nodes: newNodes});
+      /*
       const newState = this.state.nodes;
       newState[nodeId].title = nodeTitle;
       newState[nodeId].content = nodeContent;
       this.setState(newState);
+      */
     };
 
     /**
@@ -118,6 +155,27 @@ class ZoomableTree extends React.Component {
      * @param children: A boolean to tell whether the children have to be updated with the new color or not.
      */
     const updateNodeBackground = (nodeId, hexColor, children) => {
+      const newNodes = this.state.nodes.map((item, j) => {
+        if (j === nodeId) {
+          item.backgroundColor = hexColor;
+          if (children) {
+            const childNodes = item.descendants();
+            // Invert the show property of all descending nodes, start from x=1 because the node itself is already changed
+            for (let x = 1; x < childNodes.length; x++) {
+              const child = childNodes[x];
+              child.backgroundColor = hexColor;
+            }
+          }
+          return item;
+        } else {
+          return item;
+        }
+      });
+
+      console.log(newNodes[nodeId].showChildren);
+
+      this.setState({nodes: newNodes});
+      /*
       const newState = this.state.nodes;
       if (children) {
         // Take all the child nodes on all levels starting from this node (the node itself is included!)
@@ -131,6 +189,7 @@ class ZoomableTree extends React.Component {
         newState[nodeId].backgroundColor = hexColor;
       }
       this.setState(newState);
+      */
     };
 
     return (
@@ -166,7 +225,7 @@ class ZoomableTree extends React.Component {
                   }}
                   addChildNode={addChildNode}
                   updateShowChildren={updateNodeShowChildren}
-                  updatePosition={updateNodePosition}
+                  //updatePosition={updateNodePosition}
                   updateData={updateNodeData}
                   updateBackgroundColor={updateNodeBackground}
                   centered={centered}
