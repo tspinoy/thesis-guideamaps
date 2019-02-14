@@ -5,8 +5,8 @@ import * as d3 from 'd3';
 import logo from './logo.svg';
 
 import {initializeLink, initializeNode} from './Constants';
-import GuideMapsNode from './GuideaMapsNode';
-import LinksSVG from './LinksSVG';
+import GuideaMapsNode from './GuideaMapsNode';
+import GuideaMapsLink from './GuideaMapsLink';
 import {data} from './NodesData';
 import ZoomableTree from './ZoomableTree';
 
@@ -141,16 +141,16 @@ class App extends Component {
             </button>
           </div>
         </div>
-        {/*<div ref={'editField'} id={'editField'} className={'w-full overflow-y-scroll z-50'} style={{maxHeight: '300px', position: 'fixed', top: '50px'}}/>*/}
         <div id={'editField'} />
         <div className={'w-screen flex justify-center items-center'}>
           <ZoomableTree
             width={width}
             height={height}
-            NodeComp={GuideMapsNode}
+            NodeComp={GuideaMapsNode}
+            onAdd={() => this.setState()} // TODO: complete this
             nodes={clusterNodes}
             nodeOptions={nodeOptions}
-            LinkComp={LinksSVG}
+            LinkComp={GuideaMapsLink}
             links={clusterLinks}
           />
         </div>

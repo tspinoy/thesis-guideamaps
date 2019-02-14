@@ -113,7 +113,7 @@ class GuideaMapsNode extends React.Component {
   }
 
   /**
-   * Check what the completenss-icon should look like. If the node itself and all
+   * Check what the completeness-icon should look like. If the node itself and all
    * children are completed, a solid filled circle should be visible.
    * Otherwise (if the node and/or one or more of its children is incomplete),
    * a half filled circle should be visible.
@@ -164,6 +164,7 @@ class GuideaMapsNode extends React.Component {
       centered,
     } = this.props;
     //console.log(this.getAllChildren(node, []));
+
     switch (node.data.type) {
       case NodeTypes.CHOICE:
         return (
@@ -175,7 +176,8 @@ class GuideaMapsNode extends React.Component {
               'node absolute ' +
               'border border-solid border-black rounded ' +
               'hover:border-red ' +
-              'p-2 '
+              'p-2 ' +
+              (node.show ? 'visibleNode ' : 'hiddenNode ')
             }
             style={{
               width: NodeWidth,
@@ -183,10 +185,9 @@ class GuideaMapsNode extends React.Component {
               transform: `translate(
                               ${node.x}px,
                               ${node.y + NodeHeight / 4}px)`,
-              display: node.show ? 'block' : 'none',
               backgroundColor: node.backgroundColor,
-              opacity: isDragging ? 0.5 : 1,
-              transition: centered && 'all 500ms ease 0s',
+              //opacity: isDragging ? 0.5 : 1,
+              transition: centered && 'all 1s ease 0s',
             }}
             onClick={onClick}>
             <div // content div
@@ -211,16 +212,16 @@ class GuideaMapsNode extends React.Component {
             className={
               'node absolute ' +
               'border border-solid border-black rounded ' +
-              'hover:border-red '
+              'hover:border-red ' +
+              (node.show ? 'visibleNode ' : 'hiddenNode ')
             }
             style={{
               width: NodeWidth,
               height: NodeHeight,
               transform: `translate(${node.x}px, ${node.y}px)`,
-              display: node.show ? 'block' : 'none',
               color: node.backgroundColor,
-              opacity: isDragging ? 0.5 : 1,
-              transition: centered && 'all 500ms ease 0s',
+              //opacity: isDragging ? 0.5 : 1,
+              transition: centered && 'all 1s ease 0s',
             }}
             onClick={onClick}>
             <div
@@ -298,12 +299,14 @@ class GuideaMapsNode extends React.Component {
 }
 
 GuideaMapsNode.propTypes = {
-  connectDragSource: PropTypes.func.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired,
+  connectDragSource: PropTypes.func, //.isRequired,
+  connectDropTarget: PropTypes.func, //.isRequired,
+  isDragging: PropTypes.bool, //.isRequired,
 };
 
-export default flow(
+export default GuideaMapsNode;
+
+/*export default flow(
   DragSource(ItemTypes.NODE, nodeSource, dragCollect),
   DropTarget(ItemTypes.NODE, nodeTarget, dropCollect),
-)(GuideaMapsNode);
+)(GuideaMapsNode);*/

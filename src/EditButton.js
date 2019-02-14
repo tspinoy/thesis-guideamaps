@@ -1,7 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import EditModal from './EditModal';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class EditButton extends React.Component {
   constructor(props) {

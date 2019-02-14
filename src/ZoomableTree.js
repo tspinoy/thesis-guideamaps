@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -17,7 +16,7 @@ class ZoomableTree extends React.Component {
 
   render() {
     // The nodes can be represented by different kinds of components.
-    // In the case of GuideaMaps, NodeComp = GuideMapsNode.
+    // In the case of GuideaMaps, NodeComp = GuideaMapsNode.
     const {NodeComp, nodes, LinkComp, links, width, height} = this.props;
     const {selectedId} = this.state;
 
@@ -61,47 +60,25 @@ class ZoomableTree extends React.Component {
      * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
      */
     const updateNodeShowChildren = nodeId => {
-      //console.log(this.state.nodes);
-
-      console.log(this.state.nodes[nodeId].showChildren);
-
-      const newNodes = this.state.nodes.map((item, j) => {
+      const newNodes = this.state.nodes.map((node, j) => {
         if (j === nodeId) {
-          item.showChildren = !item.showChildren;
-          const childNodes = item.descendants();
+          // update the node ith this nodeId
+          node.showChildren = !node.showChildren;
+          const childNodes = node.descendants();
           // Invert the show property of all descending nodes, start from x=1 to not hide the node itself!
           for (let x = 1; x < childNodes.length; x++) {
             const child = childNodes[x];
-            child.show = item.showChildren;
-            child.showChildren = item.showChildren;
+            child.show = node.showChildren;
+            child.showChildren = node.showChildren;
           }
-          return item;
+          return node;
         } else {
-          return item;
+          // other nodes remain the same
+          return node;
         }
       });
 
-      console.log(newNodes[nodeId].showChildren);
-
       this.setState({nodes: newNodes});
-
-      /*
-      // Start from the current state
-      const newState = this.state.nodes;
-      // Invert the showChildren value: collapse => expand and expand => collapse
-      newState[nodeId].showChildren = !this.state.nodes[nodeId].showChildren;
-      // Take all the child nodes on all levels starting from this node (the node itself is included!)
-      const childNodes = newState[nodeId].descendants();
-      // Invert the show property of all descending nodes, start from 1 to not hide the node itself!
-      for (let x = 1; x < childNodes.length; x++) {
-        const child = childNodes[x];
-        child.show = newState[nodeId].showChildren;
-        child.showChildren = newState[nodeId].showChildren;
-      }
-      // Save the new state
-      this.setState(newState);
-*/
-      //console.log(this.state.nodes);
     };
 
     /**
@@ -127,25 +104,18 @@ class ZoomableTree extends React.Component {
      * @param nodeContent: The new content of the node.
      * */
     const updateNodeData = (nodeId, nodeTitle, nodeContent) => {
-      const newNodes = this.state.nodes.map((item, j) => {
+      const newNodes = this.state.nodes.map((node, j) => {
         if (j === nodeId) {
-          item.title = nodeTitle;
-          item.content = nodeContent;
-          return item;
+          // update the node with this nodeId
+          node.title = nodeTitle;
+          node.content = nodeContent;
+          return node;
         } else {
-          return item;
+          // other nodes remain the same
+          return node;
         }
       });
-
-      console.log(newNodes[nodeId].showChildren);
-
       this.setState({nodes: newNodes});
-      /*
-      const newState = this.state.nodes;
-      newState[nodeId].title = nodeTitle;
-      newState[nodeId].content = nodeContent;
-      this.setState(newState);
-      */
     };
 
     /**
@@ -155,41 +125,26 @@ class ZoomableTree extends React.Component {
      * @param children: A boolean to tell whether the children have to be updated with the new color or not.
      */
     const updateNodeBackground = (nodeId, hexColor, children) => {
-      const newNodes = this.state.nodes.map((item, j) => {
+      const newNodes = this.state.nodes.map((node, j) => {
         if (j === nodeId) {
-          item.backgroundColor = hexColor;
+          // update the node with this nodeId
+          node.backgroundColor = hexColor;
           if (children) {
-            const childNodes = item.descendants();
+            const childNodes = node.descendants();
             // Invert the show property of all descending nodes, start from x=1 because the node itself is already changed
             for (let x = 1; x < childNodes.length; x++) {
               const child = childNodes[x];
               child.backgroundColor = hexColor;
             }
           }
-          return item;
+          return node;
         } else {
-          return item;
+          // other nodes remain the same
+          return node;
         }
       });
 
-      console.log(newNodes[nodeId].showChildren);
-
       this.setState({nodes: newNodes});
-      /*
-      const newState = this.state.nodes;
-      if (children) {
-        // Take all the child nodes on all levels starting from this node (the node itself is included!)
-        const childNodes = newState[nodeId].descendants();
-        // Invert the show property of the node and all descending nodes
-        for (let x = 0; x < childNodes.length; x++) {
-          const child = childNodes[x];
-          child.backgroundColor = hexColor;
-        }
-      } else {
-        newState[nodeId].backgroundColor = hexColor;
-      }
-      this.setState(newState);
-      */
     };
 
     return (
@@ -208,14 +163,35 @@ class ZoomableTree extends React.Component {
               id={'cluster'}
               className={'absolute pin-t pin-l overflow-hidden border'}
               style={{width, height}}>
-              <LinkComp
-                links={links}
-                width={width}
-                height={height}
-                zHandler={zHandler}
-                selectedId={selectedId}
-                centered={centered}
-              />
+              <svg
+                id={'linksSVG'}
+                className={'absolute pin-t pin-l'}
+                style={{width, height}}>
+                <defs>
+                  <marker
+                    id={'arrow'}
+                    markerUnits={'strokeWidth'}
+                    markerWidth={'12'}
+                    markerHeight={'12'}
+                    viewBox={'0 0 12 12'}
+                    refX={'6'}
+                    refY={'6'}
+                    orient={'auto'}>
+                    <path
+                      d={'M2,2 L10,6 L2,10 L6,6 L2,2'}
+                      style={{fill: 'black'}}
+                    />
+                  </marker>
+                </defs>
+                {links.map(link => (
+                  <LinkComp
+                    link={link}
+                    zHandler={zHandler}
+                    selectedId={selectedId}
+                    centered={centered}
+                  />
+                ))}
+              </svg>
               {zoomedNodes.map(n => (
                 <NodeComp
                   key={n.id}

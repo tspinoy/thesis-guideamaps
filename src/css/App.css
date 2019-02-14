@@ -3,3 +3,13 @@
     -moz-osx-font-smoothing: grayscale; /* used to avoid "boldlike" font */
     -webkit-font-smoothing: antialiased; /* used to avoid "boldlike" font */
 }
+
+.visibleNode {
+    visibility: visible;
+    opacity: 1;
+}
+
+.hiddenNode {
+    visibility: hidden;
+    opacity: 0;
+}
