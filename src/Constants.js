@@ -27,11 +27,11 @@ export const project = (x, y) => {
 
 export const initializeGMNode = (node, id, width, height) => {
   node.id = id;
-  node.show = true;
+  node.visible = true;
   if (!(node.parent === null)) {
-    node.showChildren = node.parent.showChildren;
+    node.visibleChildren = node.parent.visibleChildren;
   } else {
-    node.showChildren = true;
+    node.visibleChildren = true;
   }
   node.title = node.data.name;
   node.content = 'The content is not completely shown, great!';

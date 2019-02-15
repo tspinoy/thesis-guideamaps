@@ -24,7 +24,7 @@ class GuideaMapsLink extends React.Component {
       <path
         key={link.target}
         className={
-          'link ' + (link.target.show ? 'visibleNode ' : 'hiddenNode ')
+          'link ' + (link.target.visible ? 'visibleNode ' : 'hiddenNode ')
         }
         d={line([
           zHandler.apply([link.source.x, link.source.y]), // starting point
@@ -40,7 +40,7 @@ class GuideaMapsLink extends React.Component {
         markerMid={'url(#arrow)'}
         style={{
           transform: `translate(${GMNodeWidth / 2}px, ${GMNodeHeight / 2}px)`,
-          //display: links.target.show ? 'block' : 'none',
+          //display: links.target.visible ? 'block' : 'none',
           transition: centered && 'all 1s ease 0s',
         }}
       />

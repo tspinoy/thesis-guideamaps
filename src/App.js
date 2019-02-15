@@ -119,8 +119,8 @@ const root = d3.hierarchy(data, function(d) {
 const nodeOptions = clusterNodes.map(function(node) {
   return {
     id: node.id,
-    show: node.show,
-    showChildren: node.showChildren,
+    show: node.visible,
+    showChildren: node.visibleChildren,
     title: node.title,
     content: node.content,
     background: node.background,
@@ -214,13 +214,13 @@ class App extends Component {
       const newNodes = this.state.nodes.map((node, j) => {
         if (j === nodeId) {
           // update the node ith this nodeId
-          node.showChildren = !node.showChildren;
+          node.visibleChildren = !node.visibleChildren;
           const childNodes = node.descendants();
           // Invert the show property of all descending nodes, start from x=1 to not hide the node itself!
           for (let x = 1; x < childNodes.length; x++) {
             const child = childNodes[x];
-            child.show = node.showChildren;
-            child.showChildren = node.showChildren;
+            child.visible = node.visibleChildren;
+            child.visibleChildren = node.visibleChildren;
           }
           return node;
         } else {

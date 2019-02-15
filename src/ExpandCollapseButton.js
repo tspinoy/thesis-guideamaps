@@ -6,7 +6,11 @@ class ExpandCollapseButton extends React.Component {
     super(props);
     const {node, update} = this.props;
     //this.state = { node, update };
-    this.state = {nodeId: node.id, showChildren: node.showChildren, update};
+    this.state = {
+      nodeId: node.id,
+      visibleChildren: node.visibleChildren,
+      update,
+    };
 
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
@@ -15,7 +19,7 @@ class ExpandCollapseButton extends React.Component {
   // This syntax ensures `this` is bound within handleClick.
   handleClick() {
     // Update the local state
-    this.setState({showChildren: !this.state.showChildren});
+    this.setState({visibleChildren: !this.state.visibleChildren});
 
     // Update the global state. The local state is only to know which icon to represent.
     // The global state makes sure to collapse all child nodes of this node on all deeper levels.
@@ -39,7 +43,7 @@ class ExpandCollapseButton extends React.Component {
         }}
         onClick={this.handleClick}>
         <FontAwesomeIcon
-          icon={this.state.showChildren ? 'compress' : 'expand'}
+          icon={this.state.visibleChildren ? 'compress' : 'expand'}
         />
       </button>
     );

@@ -63,7 +63,9 @@ class ZoomableTree extends React.Component {
               id={'cluster'}
               className={
                 'absolute pin-t pin-l border ' +
-                (NodeComp === PlateformeDDNode ? 'flex overflow-scroll' : 'overflow-hidden')
+                (NodeComp === PlateformeDDNode
+                  ? 'flex overflow-scroll'
+                  : 'overflow-hidden')
               }
               style={{width, height}}>
               <svg

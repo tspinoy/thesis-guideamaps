@@ -176,7 +176,7 @@ class GuideaMapsNode extends React.Component {
               'border border-solid border-black rounded ' +
               'hover:border-red ' +
               'p-2 ' +
-              (node.show ? 'visibleNode ' : 'hiddenNode ')
+              (node.visible ? 'visibleNode ' : 'hiddenNode ')
             }
             style={{
               width: GMNodeWidth,
@@ -207,12 +207,12 @@ class GuideaMapsNode extends React.Component {
         return (
           //connectDragSource(connectDropTarget(
           <div
-            key={node.title}
+            key={node.id}
             className={
               'node absolute ' +
               'border border-solid border-black rounded ' +
               'hover:border-red ' +
-              (node.show ? 'visibleNode ' : 'hiddenNode ')
+              (node.visible ? 'visibleNode ' : 'hiddenNode ')
             }
             style={{
               width: GMNodeWidth,
