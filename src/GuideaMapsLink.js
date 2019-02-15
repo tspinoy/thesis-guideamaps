@@ -1,5 +1,5 @@
 import React from 'react';
-import {NodeHeight, NodeWidth} from './Constants';
+import {GMNodeHeight, GMNodeWidth} from './Constants';
 import * as d3 from 'd3';
 
 class GuideaMapsLink extends React.Component {
@@ -39,7 +39,7 @@ class GuideaMapsLink extends React.Component {
         strokeDasharray={link.optional ? 3 : 0} // default lines are solid, others are dashed
         markerMid={'url(#arrow)'}
         style={{
-          transform: `translate(${NodeWidth / 2}px, ${NodeHeight / 2}px)`,
+          transform: `translate(${GMNodeWidth / 2}px, ${GMNodeHeight / 2}px)`,
           //display: links.target.show ? 'block' : 'none',
           transition: centered && 'all 1s ease 0s',
         }}

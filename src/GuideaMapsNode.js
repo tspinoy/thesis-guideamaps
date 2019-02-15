@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ItemTypes, NodeTypes} from './Constants';
+import {ItemTypes, GMNodeTypes} from './Constants';
 import {DragSource, DropTarget} from 'react-dnd';
 import flow from 'lodash/flow';
 
 import './css/App.css';
-import {NodeWidth, NodeHeight} from './Constants';
+import {GMNodeWidth, GMNodeHeight} from './Constants';
 import AddChildButton from './AddChildButton';
 import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
@@ -122,7 +122,7 @@ class GuideaMapsNode extends React.Component {
    */
   completenessIcon(node) {
     switch (node.data.type) {
-      case NodeTypes.CHOICE:
+      case GMNodeTypes.CHOICE:
         return ['fas', 'circle'];
       default:
         // default node
@@ -165,7 +165,7 @@ class GuideaMapsNode extends React.Component {
     //console.log(this.getAllChildren(node, []));
 
     switch (node.data.type) {
-      case NodeTypes.CHOICE:
+      case GMNodeTypes.CHOICE:
         return (
           //connectDragSource(connectDropTarget(
           <div
@@ -179,11 +179,11 @@ class GuideaMapsNode extends React.Component {
               (node.show ? 'visibleNode ' : 'hiddenNode ')
             }
             style={{
-              width: NodeWidth,
-              height: NodeHeight / 2,
+              width: GMNodeWidth,
+              height: GMNodeHeight / 2,
               transform: `translate(
                               ${node.x}px,
-                              ${node.y + NodeHeight / 4}px)`,
+                              ${node.y + GMNodeHeight / 4}px)`,
               backgroundColor: node.backgroundColor,
               //opacity: isDragging ? 0.5 : 1,
               transition: centered && 'all 1s ease 0s',
@@ -203,7 +203,7 @@ class GuideaMapsNode extends React.Component {
       //),
       //);
       default:
-        // node.data.type === NodeTypes.DEFAULT
+        // node.data.type === GMNodeTypes.DEFAULT
         return (
           //connectDragSource(connectDropTarget(
           <div
@@ -215,79 +215,75 @@ class GuideaMapsNode extends React.Component {
               (node.show ? 'visibleNode ' : 'hiddenNode ')
             }
             style={{
-              width: NodeWidth,
-              height: NodeHeight,
+              width: GMNodeWidth,
+              height: GMNodeHeight,
               transform: `translate(${node.x}px, ${node.y}px)`,
               color: node.backgroundColor,
+              backgroundColor: node.backgroundColor,
               //opacity: isDragging ? 0.5 : 1,
               transition: centered && 'all 1s ease 0s',
             }}
             onClick={onClick}>
-            <div
-              className={'rounded'}
-              style={{backgroundColor: node.backgroundColor}}>
-              <div // title div
-                className={'flex pb-1 pt-1 pl-2 pr-2 rounded-t'}
-                style={{
-                  borderBottom: '1px solid',
-                  borderColor: 'black',
-                  color: 'black',
-                  backgroundColor: 'white',
-                }}>
-                <div
-                  className={'w-5/6 font-sans text-lg overflow-hidden'}
-                  style={{
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
-                    //textAlign: 'center',
-                  }}>
-                  {node.title === '' ? 'No title' : node.title}
-                </div>
-                <div className={'w-1/6'}>
-                  <FontAwesomeIcon
-                    icon={this.completenessIcon(node)}
-                    style={{fontSize: '18px'}}
-                  />
-                </div>
-              </div>
-              <div // content div
-                className={
-                  'font-sans text-base pl-2 pr-2 pt-1 pb-1 overflow-hidden invertColors'
-                }
+            <div // title div
+              className={'flex pb-1 pt-1 pl-2 pr-2 rounded-t'}
+              style={{
+                borderBottom: '1px solid',
+                borderColor: 'black',
+                color: 'black',
+                backgroundColor: 'white',
+              }}>
+              <div
+                className={'w-5/6 font-sans text-lg overflow-hidden'}
                 style={{
                   whiteSpace: 'nowrap',
                   textOverflow: 'ellipsis',
-                  color: node.backgroundColor, // this is inverted by the invertColors-class
-                  height: '2.6em',
+                  //textAlign: 'center',
                 }}>
-                {node.content === '' ? 'No content' : node.content}
+                {node.title === '' ? 'No title' : node.title}
               </div>
-              <div // controls div
-                className={'flex rounded-b'}
-                style={{backgroundColor: node.backgroundColor}}>
-                <AddChildButton
-                  width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+              <div className={'w-1/6'}>
+                <FontAwesomeIcon
+                  icon={this.completenessIcon(node)}
+                  style={{fontSize: '18px'}}
+                />
+              </div>
+            </div>
+            <div // content div
+              className={
+                'font-sans text-base pl-2 pr-2 pt-1 pb-1 overflow-hidden invertColors'
+              }
+              style={{
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                color: node.backgroundColor, // this is inverted by the invertColors-class
+                height: '2.6em',
+              }}>
+              {node.content === '' ? 'No content' : node.content}
+            </div>
+            <div // controls div
+              className={'flex rounded-b'}>
+              <AddChildButton
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+                node={node}
+                onAddNode={onAddNode}
+                bgcolor={node.backgroundColor}
+              />
+              <EditButton
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+                node={node}
+                leaf={node.height === 0}
+                onNodeDataChange={onNodeDataChange}
+                bgcolor={node.backgroundColor}
+              />
+              {node.height !== 0 && (
+                // At non-child nodes the expand-collapse button should be added
+                <ExpandCollapseButton
+                  width={'w-1/3'}
                   node={node}
-                  onAddNode={onAddNode}
+                  onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
                   bgcolor={node.backgroundColor}
                 />
-                <EditButton
-                  width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
-                  node={node}
-                  leaf={node.height === 0}
-                  onNodeDataChange={onNodeDataChange}
-                  bgcolor={node.backgroundColor}
-                />
-                {node.height !== 0 && (
-                  // At non-child nodes the expand-collapse button should be added
-                  <ExpandCollapseButton
-                    width={'w-1/3'}
-                    node={node}
-                    onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
-                    bgcolor={node.backgroundColor}
-                  />
-                )}
-              </div>
+              )}
             </div>
           </div>
         );

@@ -2,13 +2,13 @@ export const ItemTypes = {
   NODE: 'node',
 };
 
-export const NodeTypes = {
+export const GMNodeTypes = {
   DEFAULT: 'default',
   CHOICE: 'choice',
 };
 
-export const NodeWidth = 130;
-export const NodeHeight = 100;
+export const GMNodeWidth = 130;
+export const GMNodeHeight = 100;
 
 export const maxZoomScale = 3;
 export const minZoomScale = 0.38;
@@ -25,7 +25,7 @@ export const project = (x, y) => {
   return [radius * Math.cos(angle), radius * Math.sin(angle)];
 };
 
-export const initializeNode = (node, id, width, height) => {
+export const initializeGMNode = (node, id, width, height) => {
   node.id = id;
   node.show = true;
   if (!(node.parent === null)) {
@@ -39,14 +39,14 @@ export const initializeNode = (node, id, width, height) => {
 
   const projectedPositions = project(node.x, node.y);
   // Center the content
-  node.x = projectedPositions[0] + width / 2 - NodeWidth / 2;
-  node.y = projectedPositions[1] + height / 2 - NodeHeight / 2;
+  node.x = projectedPositions[0] + width / 2 - GMNodeWidth / 2;
+  node.y = projectedPositions[1] + height / 2 - GMNodeHeight / 2;
 
   return node;
 };
 
-export const initializeLink = link => {
+export const initializeGMLink = link => {
   // Mark all edges to non-default nodes as optional
-  link.optional = link.target.data.type !== NodeTypes.DEFAULT;
+  link.optional = link.target.data.type !== GMNodeTypes.DEFAULT;
   return link;
 };

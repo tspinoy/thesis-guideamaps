@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 import 'event-propagation-path';
-import {NodeHeight, NodeWidth, minZoomScale} from './Constants';
+import {GMNodeHeight, GMNodeWidth, minZoomScale} from './Constants';
 
 // import { getBoundingBox } from '../utils';
 
@@ -121,9 +121,9 @@ class ZoomContainer extends Component {
       nodesY.push(node.y);
     });
     let minX = Math.min(...nodesX);
-    let maxX = Math.max(...nodesX) + NodeWidth;
+    let maxX = Math.max(...nodesX) + GMNodeWidth;
     let minY = Math.min(...nodesY);
-    let maxY = Math.max(...nodesY) + NodeHeight;
+    let maxY = Math.max(...nodesY) + GMNodeHeight;
 
     // The distance from the left of the leftmost node to the right of the rightmost
     let maxWidth = maxX - minX;
@@ -172,8 +172,8 @@ class ZoomContainer extends Component {
       const selected = data.find(d => d.id === selectedId);
       const {x, y} = selected;
       const newZoomHandler = d3.zoomIdentity.translate(
-        width / 2 - x - NodeWidth / 2,
-        height / 2 - y - NodeHeight / 2,
+        width / 2 - x - GMNodeWidth / 2,
+        height / 2 - y - GMNodeHeight / 2,
       );
       d3.select(this.contDOM).call(this.zoomBehavior.transform, newZoomHandler);
       this.setState({centered: true});

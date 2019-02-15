@@ -37,7 +37,7 @@ thesis-guideamaps/
         index.js
         LinksSVG.js
         logo.svg
-        NodesData.js
+        GMData.js
         GuideaMapsNode.js
         Zoom.js
         ZoomableTree.js
