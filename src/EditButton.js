@@ -18,9 +18,10 @@ class EditButton extends React.Component {
   }
 
   updateNode(newTitle, newContent, newBackground, includeChildren) {
-    this.props.updateData(this.props.node.id, newTitle, newContent);
-    this.props.updateBackgroundColor(
+    this.props.onNodeDataChange(
       this.props.node.id,
+      newTitle,
+      newContent,
       newBackground,
       includeChildren,
     );

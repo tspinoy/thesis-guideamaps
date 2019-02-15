@@ -152,11 +152,10 @@ class GuideaMapsNode extends React.Component {
   render() {
     const {
       node,
-      updateShowChildren,
-      addChildNode,
       //updatePosition,
-      updateData,
-      updateBackgroundColor, // passed by the renderNodes-function in ZoomableTree.js
+      onAddNode,
+      onNodeDataChange,
+      onNodeVisibleChildrenChange,
       //connectDragSource,
       //connectDropTarget,
       isDragging, // injected by react dnd
@@ -269,15 +268,14 @@ class GuideaMapsNode extends React.Component {
                 <AddChildButton
                   width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                   node={node}
-                  addChildNode={addChildNode}
+                  onAddNode={onAddNode}
                   bgcolor={node.backgroundColor}
                 />
                 <EditButton
                   width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                   node={node}
                   leaf={node.height === 0}
-                  updateData={updateData}
-                  updateBackgroundColor={updateBackgroundColor}
+                  onNodeDataChange={onNodeDataChange}
                   bgcolor={node.backgroundColor}
                 />
                 {node.height !== 0 && (
@@ -285,7 +283,7 @@ class GuideaMapsNode extends React.Component {
                   <ExpandCollapseButton
                     width={'w-1/3'}
                     node={node}
-                    update={updateShowChildren}
+                    onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
                     bgcolor={node.backgroundColor}
                   />
                 )}

@@ -83,7 +83,110 @@ const nodeOptions = clusterNodes.map(function(node) {
 });
 
 class App extends Component {
+  state = {nodes: clusterNodes};
+
   render() {
+    // based on https://stackoverflow.com/questions/43140325/add-node-to-d3-tree-v4
+    const addGMChildNode = parent => {
+      let newNode = {
+        name: Date.now(),
+        children: [],
+      };
+      newNode = d3.hierarchy(newNode, function(d) {
+        return d.children;
+      });
+
+      newNode = initializeNode(newNode, this.state.nodes.length);
+
+      newNode.depth = parent.depth + 1;
+      newNode.height = parent.height - 1;
+      newNode.parent = parent;
+
+      //Selected is a node, to which we are adding the new node as a child
+      //If no child array, create an empty array
+      if (!parent.children) {
+        parent.children = [];
+        parent.data.children = [];
+      }
+
+      //Push it to parent.children array
+      parent.children.push(newNode);
+      parent.data.children.push(newNode.data);
+
+      const newNodesState = this.state.nodes;
+      newNodesState[parent.id] = parent;
+      newNodesState.push(newNode);
+      this.setState({nodes: newNodesState});
+
+      console.log(this.state);
+    };
+
+    /**
+     * Update the data of a node after it was edited and the form was submitted.
+     * @param nodeId: The id of the node of which the data have to change.
+     * @param nodeTitle: The new title of the node.
+     * @param nodeContent: The new content of the node.
+     * @param hexColor: The new color of the node in hexadecimal.
+     * @param children: A boolean to tell whether the children have to be updated with the new color or not.
+     * */
+    const updateGMNodeData = (
+      nodeId,
+      nodeTitle,
+      nodeContent,
+      hexColor,
+      children,
+    ) => {
+      const newNodes = this.state.nodes.map((node, j) => {
+        if (j === nodeId) {
+          // update the node with this nodeId
+          node.title = nodeTitle;
+          node.content = nodeContent;
+
+          node.backgroundColor = hexColor;
+          if (children) {
+            const childNodes = node.descendants();
+            // Invert the show property of all descending nodes, start from x=1 because the node itself is already changed
+            for (let x = 1; x < childNodes.length; x++) {
+              const child = childNodes[x];
+              child.backgroundColor = hexColor;
+            }
+          }
+
+          return node;
+        } else {
+          // other nodes remain the same
+          return node;
+        }
+      });
+      this.setState({nodes: newNodes});
+    };
+
+    /**
+     * Expand or collapse a particular node with id = nodeId.
+     * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
+     */
+    const updateGMNodeVisibleChildren = nodeId => {
+      const newNodes = this.state.nodes.map((node, j) => {
+        if (j === nodeId) {
+          // update the node ith this nodeId
+          node.showChildren = !node.showChildren;
+          const childNodes = node.descendants();
+          // Invert the show property of all descending nodes, start from x=1 to not hide the node itself!
+          for (let x = 1; x < childNodes.length; x++) {
+            const child = childNodes[x];
+            child.show = node.showChildren;
+            child.showChildren = node.showChildren;
+          }
+          return node;
+        } else {
+          // other nodes remain the same
+          return node;
+        }
+      });
+
+      this.setState({nodes: newNodes});
+    };
+
     return (
       <div>
         <div
@@ -147,7 +250,25 @@ class App extends Component {
             width={width}
             height={height}
             NodeComp={GuideaMapsNode}
-            onAdd={() => this.setState()} // TODO: complete this
+            onAddNode={(parent) => addGMChildNode(parent)}
+            onNodeDataChange={(
+              nodeId,
+              nodeTitle,
+              nodeContent,
+              hexColor,
+              children,
+            ) =>
+              updateGMNodeData(
+                nodeId,
+                nodeTitle,
+                nodeContent,
+                hexColor,
+                children,
+              )
+            }
+            onNodeVisibleChildrenChange={nodeId =>
+              updateGMNodeVisibleChildren(nodeId)
+            }
             nodes={clusterNodes}
             nodeOptions={nodeOptions}
             LinkComp={GuideaMapsLink}

@@ -19,7 +19,7 @@ class ExpandCollapseButton extends React.Component {
 
     // Update the global state. The local state is only to know which icon to represent.
     // The global state makes sure to collapse all child nodes of this node on all deeper levels.
-    this.props.update(this.state.nodeId);
+    this.props.onNodeVisibleChildrenChange(this.state.nodeId);
   }
 
   render() {

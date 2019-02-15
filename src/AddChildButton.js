@@ -11,7 +11,7 @@ class AddChildButton extends React.Component {
 
   // This syntax ensures `this` is bound within handleClick.
   handleClick() {
-    //this.props.addChildNode(this.props.node);
+    //this.props.onAddNode(this.props.node);
   }
 
   render() {
