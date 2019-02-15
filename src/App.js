@@ -7,7 +7,7 @@ import logo from './logo.svg';
 import {initializeLink, initializeNode} from './Constants';
 import GuideaMapsNode from './GuideaMapsNode';
 import GuideaMapsLink from './GuideaMapsLink';
-import {data} from './NodesData';
+import {data, data2} from './NodesData';
 import ZoomableTree from './ZoomableTree';
 
 // Font Awesome for SVG icons
@@ -45,9 +45,20 @@ const windowWidth = window.innerWidth;
 const windowHeight = window.innerHeight;
 const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 
+/*
 const root = d3.hierarchy(data, function(d) {
   return d.children;
 });
+*/
+
+const root = d3
+  .stratify()
+  .id(function(d) {
+    return d.id;
+  })
+  .parentId(function(d) {
+    return d.parent;
+  })(data2);
 
 // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
 const cluster = d3
