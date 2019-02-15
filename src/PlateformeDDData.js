@@ -44,4 +44,36 @@ export const PDDData = [
     authors: 'INFORSCIENCES',
     place: '',
   },
+  {
+    id: 3,
+    title: 'LA FILIERE ALIMENTAIRE',
+    text:
+      'Pour élaborer cette plateforme, nous avons réalisé une analyse (non-exhaustive) des flux alimentaires à Bruxelles (Photo ci-contre)',
+    media:
+      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Plateforme-DD-Fili%C3%A8re-alimentaire.png',
+    parent: 1,
+    authors: 'INFORSCIENCES',
+    place: '',
+  },
+  {
+    id: 4,
+    title: 'LA TRANSFORMATION ALIMENTAIRE',
+    text:
+      'La plupart de nos aliments sont transformés pour pouvoir être consommés. Notre pain quotidien, aliment de base depuis des millénaires en est le parfait exemple. Ainsi, les graines des céréales, riches en nutriments, sont broyées pour en faire de la farine, transformée à son tour grâce à la fermentation par des levures et avant une dernière transformation lors de la cuisson. Une série d’étapes que la science nous permet de comprendre et de maîtriser.',
+    media: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/IMG_0942.jpg',
+    parent: 1,
+    authors: 'INFORSCIENCES',
+    place: '',
+  },
+  {
+    id: 5,
+    title: "L'ASSIETTE",
+    text:
+      'Les campagnes se vident et les villes grandissent. Le lien avec la nature se distant. Aujourd’hui, beaucoup de jeunes citadins peinent à identifier ce qu’ils mangent. Quelle partie du céleri mangeons-nous ? Les feuilles, la tige ou la racine ? Les tomates sont elles des fruits ou des légumes ? Etes-vous bien sur que les pommes de terre ne sont pas des racines ? Quelle est la nature chimique de ces aliments et comment pouvons nous l’analyser ? Voici quelques questions auxquelles les élèves bruxellois ont essayé de répondre. Découvrez leurs travaux…',
+    media:
+      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/alimentation.jpg',
+    parent: 1,
+    authors: 'INFORSCIENCES',
+    place: '',
+  },
 ];
