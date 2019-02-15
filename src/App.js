@@ -4,11 +4,14 @@ import './css/tailwind.css';
 import * as d3 from 'd3';
 import logo from './logo.svg';
 
-import {initializeLink, initializeNode} from './Constants';
+import {initializeGMLink, initializeGMNode} from './Constants';
 import GuideaMapsNode from './GuideaMapsNode';
 import GuideaMapsLink from './GuideaMapsLink';
-import {data, data2} from './NodesData';
+import {GMData, GMData2} from './GMData';
 import ZoomableTree from './ZoomableTree';
+
+import PlateformeDDNode from './PlateformeDDNode';
+import {PDDData} from './PlateformeDDData';
 
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -45,37 +48,68 @@ const windowWidth = window.innerWidth;
 const windowHeight = window.innerHeight;
 const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 
+const GUIDEAMAPS = 'GuideaMaps';
+const PLATEFORMEDD = 'PlateformeDD';
+const current_visualization = GUIDEAMAPS;
+
+if (current_visualization === PLATEFORMEDD) {
+  const root = d3
+    .stratify()
+    .id(function(d) {
+      return d.id;
+    })
+    .parentId(function(d) {
+      return d.parent;
+    })(PDDData);
+
+  // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
+  const cluster = d3
+    .cluster()
+    .size([360, (root.height + 2) * 130])
+    .separation(function(a, b) {
+      return a.parent === b.parent ? 50 : 50;
+    });
+  const clusterRoot = cluster(root);
+
+  var clusterNodes = clusterRoot
+    .descendants()
+    .map((node, index) => initializeGMNode(node, index, width, height));
+
+  console.log(clusterNodes);
+
+  var clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
+} else {
+  const root = d3
+    .stratify()
+    .id(function(d) {
+      return d.id;
+    })
+    .parentId(function(d) {
+      return d.parent;
+    })(GMData2);
+
+  // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
+  const cluster = d3
+    .cluster()
+    .size([360, (root.height + 2) * 130])
+    .separation(function(a, b) {
+      return a.parent === b.parent ? 50 : 50;
+    });
+  const clusterRoot = cluster(root);
+
+  var clusterNodes = clusterRoot
+    .descendants()
+    .map((node, index) => initializeGMNode(node, index, width, height));
+
+  console.log(clusterNodes);
+
+  var clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
+}
 /*
 const root = d3.hierarchy(data, function(d) {
   return d.children;
 });
 */
-
-const root = d3
-  .stratify()
-  .id(function(d) {
-    return d.id;
-  })
-  .parentId(function(d) {
-    return d.parent;
-  })(data2);
-
-// A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
-const cluster = d3
-  .cluster()
-  .size([360, (root.height + 2) * 130])
-  .separation(function(a, b) {
-    return a.parent === b.parent ? 50 : 50;
-  });
-const clusterRoot = cluster(root);
-
-const clusterNodes = clusterRoot
-  .descendants()
-  .map((node, index) => initializeNode(node, index, width, height));
-
-console.log(clusterNodes);
-
-const clusterLinks = clusterRoot.links().map(link => initializeLink(link));
 
 /* ClusterNodes contains a lot of information about each node.
  * Some parts of this information will be changed while using the app,
@@ -107,7 +141,7 @@ class App extends Component {
         return d.children;
       });
 
-      newNode = initializeNode(newNode, this.state.nodes.length);
+      newNode = initializeGMNode(newNode, this.state.nodes.length);
 
       newNode.depth = parent.depth + 1;
       newNode.height = parent.height - 1;
@@ -260,29 +294,32 @@ class App extends Component {
           <ZoomableTree
             width={width}
             height={height}
-            NodeComp={GuideaMapsNode}
-            onAddNode={(parent) => addGMChildNode(parent)}
-            onNodeDataChange={(
-              nodeId,
-              nodeTitle,
-              nodeContent,
-              hexColor,
-              children,
-            ) =>
-              updateGMNodeData(
-                nodeId,
-                nodeTitle,
-                nodeContent,
-                hexColor,
-                children,
-              )
-            }
-            onNodeVisibleChildrenChange={nodeId =>
-              updateGMNodeVisibleChildren(nodeId)
+            NodeComp={
+              current_visualization === GUIDEAMAPS
+                ? GuideaMapsNode
+                : PlateformeDDNode
             }
             nodes={clusterNodes}
+            onAddNode={
+              current_visualization === GUIDEAMAPS
+                ? parent => addGMChildNode(parent)
+                : () => null
+            }
+            onNodeDataChange={
+              current_visualization === GUIDEAMAPS
+                ? (nodeId, nodeTitle, nodeContent, hexColor, children) =>
+                  updateGMNodeData(nodeId, nodeTitle, nodeContent, hexColor, children,)
+                : () => null
+            }
+            onNodeVisibleChildrenChange={
+              current_visualization === GUIDEAMAPS
+                ? nodeId => updateGMNodeVisibleChildren(nodeId)
+                : () => null
+            }
             nodeOptions={nodeOptions}
-            LinkComp={GuideaMapsLink}
+            LinkComp={
+              current_visualization === GUIDEAMAPS ? GuideaMapsLink : null
+            }
             links={clusterLinks}
           />
         </div>

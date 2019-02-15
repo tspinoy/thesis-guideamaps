@@ -2,10 +2,11 @@ import React from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import {initializeNode, maxZoomScale} from './Constants';
+import {initializeGMNode, maxZoomScale} from './Constants';
 import './css/App.css';
 import Zoom from './Zoom.js';
 import * as d3 from 'd3';
+import PlateformeDDNode from './PlateformeDDNode';
 
 class ZoomableTree extends React.Component {
   state = {selectedId: null, nodes: null};
@@ -60,7 +61,10 @@ class ZoomableTree extends React.Component {
           {(zoomedNodes, zHandler, centered) => (
             <div
               id={'cluster'}
-              className={'absolute pin-t pin-l overflow-hidden border'}
+              className={
+                'absolute pin-t pin-l border ' +
+                (NodeComp === PlateformeDDNode ? 'flex overflow-scroll' : 'overflow-hidden')
+              }
               style={{width, height}}>
               <svg
                 id={'linksSVG'}
@@ -82,14 +86,15 @@ class ZoomableTree extends React.Component {
                     />
                   </marker>
                 </defs>
-                {links.map(link => (
-                  <LinkComp
-                    link={link}
-                    zHandler={zHandler}
-                    selectedId={selectedId}
-                    centered={centered}
-                  />
-                ))}
+                {LinkComp !== null &&
+                  links.map(link => (
+                    <LinkComp
+                      link={link}
+                      zHandler={zHandler}
+                      selectedId={selectedId}
+                      centered={centered}
+                    />
+                  ))}
               </svg>
               {zoomedNodes.map(n => (
                 <NodeComp
