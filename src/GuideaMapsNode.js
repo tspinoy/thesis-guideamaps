@@ -253,12 +253,18 @@ class GuideaMapsNode extends React.Component {
                 'font-sans text-base pl-2 pr-2 pt-1 pb-1 overflow-hidden invertColors'
               }
               style={{
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
                 color: node.backgroundColor, // this is inverted by the invertColors-class
-                height: '2.6em',
+                height: '2.6em', // 1.2 times WebkitLineClamp of the paragraph
               }}>
-              {node.content === '' ? 'No content' : node.content}
+              <p
+                style={{
+                  WebkitLineClamp: 2,
+                  display: '-webkit-box',
+                  overflow: 'hidden',
+                  WebkitBoxOrient: 'vertical',
+                }}>
+                {node.content === '' ? 'No content' : node.content}
+              </p>
             </div>
             <div // controls div
               className={'flex rounded-b'}>
