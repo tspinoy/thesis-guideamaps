@@ -59,7 +59,7 @@ class EditModal extends React.Component {
       <div
         className={'backdrop overflow-y-scroll'}
         style={{
-          position: 'absolute',
+          height: window.innerHeight,
           top: 0,
           bottom: 0,
           left: 0,
@@ -94,7 +94,7 @@ class EditModal extends React.Component {
                       'hover:bg-red hover:text-white border border-red border-solid rounded py-2 px-4 mr-2 mb-2'
                     }
                     style={{width: '200px'}}
-                    onClick={this.props.onClose}>
+                    onClick={() => this.props.onClose}>
                     Cancel
                   </button>
                   <button

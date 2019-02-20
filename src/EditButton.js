@@ -27,14 +27,20 @@ class EditButton extends React.Component {
     );
   }
 
+  updateOpenState() {
+    this.setState({isOpen: !this.state.isOpen});
+  }
+
   toggleModal() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
+    this.props.onEditNode();
+    // Depending on the animation, you have to wait before the state is changed.
+    // The content of #editField is deleted when the this.state.isOpen = false.
+    // Hence, we have to wait to delete it until the animation is finished.
+    setTimeout(() => this.updateOpenState(), this.state.isOpen ? 3000 : 1000);
   }
 
   render() {
-    const {node} = this.props;
+    const {node, onClick} = this.props;
     return (
       <div className={this.props.width}>
         <button
@@ -50,7 +56,7 @@ class EditButton extends React.Component {
             borderColor: node.backgroundColor, // inverted by invertColors
             color: node.backgroundColor, // inverted by invertColors
           }}
-          onClick={this.toggleModal}>
+          onClick={() => this.toggleModal()}>
           <FontAwesomeIcon icon={'edit'} />
         </button>
         {this.state.isOpen &&
