@@ -4,10 +4,17 @@ import './css/tailwind.css';
 import * as d3 from 'd3';
 import logo from './logo.svg';
 
-import {initializeGMLink, initializeGMNode} from './Constants';
+import {
+  GMNodeHeight,
+  GMNodeWidth,
+  PDDNodeWidth,
+  PDDNodeHeight,
+  initializeGMLink,
+  initializeGMNode,
+} from './Constants';
 import GuideaMapsNode from './GuideaMapsNode';
 import GuideaMapsLink from './GuideaMapsLink';
-import {GMData, GMData2} from './GMData';
+import {GMData2} from './GMData';
 import ZoomableTree from './ZoomableTree';
 
 import PlateformeDDNode from './PlateformeDDNode';
@@ -67,15 +74,13 @@ if (current_visualization === PLATEFORMEDD) {
     .cluster()
     .size([360, (root.height + 2) * 130])
     .separation(function(a, b) {
-      return a.parent === b.parent ? 50 : 50;
+      return a.parent === b.parent ? PDDNodeWidth : PDDNodeWidth;
     });
   const clusterRoot = cluster(root);
 
   var clusterNodes = clusterRoot
     .descendants()
     .map((node, index) => initializeGMNode(node, index, width, height));
-
-  console.log(clusterNodes);
 
   var clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
 } else {
@@ -100,8 +105,6 @@ if (current_visualization === PLATEFORMEDD) {
   var clusterNodes = clusterRoot
     .descendants()
     .map((node, index) => initializeGMNode(node, index, width, height));
-
-  console.log(clusterNodes);
 
   var clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
 }
@@ -128,7 +131,7 @@ const nodeOptions = clusterNodes.map(function(node) {
 });
 
 class App extends Component {
-  state = {nodes: clusterNodes};
+  state = {nodes: clusterNodes, editing: false};
 
   render() {
     // based on https://stackoverflow.com/questions/43140325/add-node-to-d3-tree-v4
@@ -207,6 +210,25 @@ class App extends Component {
     };
 
     /**
+     * Update the position of the node after a drag and drop event.
+     * @param nodeId: The id of the node of which the coordinates have to change.
+     * @param newX: The new x-coordinate of the node.
+     * @param newY: The new y-coordinate of the node.
+     */
+    const updateGMNodePosition = (nodeId, newX, newY) => {
+      const newNodes = this.state.nodes.map((node, j) => {
+        if (j === nodeId) {
+          node.x = newX;
+          node.y = newY;
+          return node;
+        } else {
+          return node;
+        }
+      });
+      this.setState({nodes: newNodes});
+    };
+
+    /**
      * Expand or collapse a particular node with id = nodeId.
      * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
      */
@@ -215,12 +237,16 @@ class App extends Component {
         if (j === nodeId) {
           // update the node ith this nodeId
           node.visibleChildren = !node.visibleChildren;
-          const childNodes = node.descendants();
-          // Invert the show property of all descending nodes, start from x=1 to not hide the node itself!
-          for (let x = 1; x < childNodes.length; x++) {
-            const child = childNodes[x];
-            child.visible = node.visibleChildren;
-            child.visibleChildren = node.visibleChildren;
+          if (node.visibleChildren) {
+            node.children.map(child => (child.visible = true));
+          } else {
+            const childNodes = node.descendants();
+            // Invert the show property of all descending nodes, start from x=1 to not hide the node itself!
+            for (let x = 1; x < childNodes.length; x++) {
+              const child = childNodes[x];
+              child.visible = false;
+              child.visibleChildren = false;
+            }
           }
           return node;
         } else {
@@ -232,38 +258,48 @@ class App extends Component {
       this.setState({nodes: newNodes});
     };
 
+    const editNode = () => {
+      console.log("editnode");
+      this.setState({editing: !this.state.editing});
+    };
+
     return (
       <div>
         <div
           className={'w-full text-center flex h-1 pin-t bg-grey mb-2'}
           style={{height: '50px'}}>
+          {current_visualization === GUIDEAMAPS && (
+            <div
+              className={'w-1/3 flex'}
+              style={{alignItems: 'center', justifyContent: 'center'}}>
+              <label
+                className={
+                  'rounded border border-black hover:bg-black hover:text-grey'
+                }
+                style={{
+                  width: '130px',
+                  height: '35px',
+                  cursor: 'pointer',
+                  // three rules to center the label
+                  display: 'block',
+                  textAlign: 'center',
+                  lineHeight: '35px', // must be equal to height
+                }}>
+                Enter your file
+                <input
+                  type="file"
+                  id="file"
+                  size="60"
+                  style={{display: 'none'}}
+                />
+              </label>
+            </div>
+          )}
           <div
-            className={'w-1/3 flex'}
-            style={{alignItems: 'center', justifyContent: 'center'}}>
-            <label
-              className={
-                'rounded border border-black hover:bg-black hover:text-grey'
-              }
-              style={{
-                width: '130px',
-                height: '35px',
-                cursor: 'pointer',
-                // three rules to center the label
-                display: 'block',
-                textAlign: 'center',
-                lineHeight: '35px', // must be equal to height
-              }}>
-              Enter your file
-              <input
-                type="file"
-                id="file"
-                size="60"
-                style={{display: 'none'}}
-              />
-            </label>
-          </div>
-          <div
-            className={'w-1/3 items-center'}
+            className={
+              'items-center ' +
+              (current_visualization === PLATEFORMEDD ? 'w-full' : 'w-1/3')
+            }
             style={{
               verticalAlign: 'baseline',
               display: 'inline-flex',
@@ -274,22 +310,25 @@ class App extends Component {
               alt={'logo'}
               style={{width: '50px', height: '50px'}}
             />
-            GuideaMaps
+            {current_visualization === GUIDEAMAPS
+              ? 'GuideaMaps'
+              : 'Plateforme DD'}
           </div>
-          <div
-            className={'w-1/3 flex'}
-            style={{alignItems: 'center', justifyContent: 'center'}}>
-            <button
-              id={'zoom-to-fit-btn'}
-              className={
-                'rounded border border-black hover:bg-black hover:text-grey'
-              }
-              style={{width: '110px', height: '35px'}}>
-              Zoom to fit
-            </button>
-          </div>
+          {current_visualization === GUIDEAMAPS && (
+            <div
+              className={'w-1/3 flex'}
+              style={{alignItems: 'center', justifyContent: 'center'}}>
+              <button
+                id={'zoom-to-fit-btn'}
+                className={
+                  'rounded border border-black hover:bg-black hover:text-grey'
+                }
+                style={{width: '110px', height: '35px'}}>
+                Zoom to fit
+              </button>
+            </div>
+          )}
         </div>
-        <div id={'editField'} />
         <div className={'w-screen flex justify-center items-center'}>
           <ZoomableTree
             width={width}
@@ -311,18 +350,30 @@ class App extends Component {
                   updateGMNodeData(nodeId, nodeTitle, nodeContent, hexColor, children,)
                 : () => null
             }
-            onNodeVisibleChildrenChange={
+            onNodePositionChange={
               current_visualization === GUIDEAMAPS
-                ? nodeId => updateGMNodeVisibleChildren(nodeId)
+                ? (nodeId, newX, newY) =>
+                    updateGMNodePosition(nodeId, newX, newY)
                 : () => null
             }
-            nodeOptions={nodeOptions}
-            LinkComp={
-              current_visualization === GUIDEAMAPS ? GuideaMapsLink : null
+            onNodeVisibleChildrenChange={nodeId =>
+              updateGMNodeVisibleChildren(nodeId)
             }
+            onEditNode={() => editNode()}
+            nodeOptions={nodeOptions}
+            LinkComp={GuideaMapsLink}
             links={clusterLinks}
           />
         </div>
+        <div
+          id={'editField'}
+          className={
+            'absolute pin-t ' + (this.state.editing ? 'editing' : 'finished')
+          }
+          style={{
+            width: '100%',
+          }}
+        />
       </div>
     );
   }

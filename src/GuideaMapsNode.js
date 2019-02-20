@@ -52,11 +52,74 @@ class GuideaMapsNode extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allChildren: [],
+      x: this.props.node.x,
+      y: this.props.node.y,
+      dragging: false,
+      editing: false,
     };
-
     this.getAllChildren = this.getAllChildren.bind(this);
+    //this.handleMouseDown = this.handleMouseDown.bind(this);
+    //this.handleMouseMove = this.handleMouseMove.bind(this);
+    //this.handleMouseUp = this.handleMouseUp.bind(this);
   }
+
+  /*
+  offsetWidth;
+  offsetHeight;
+
+  componentDidMount() {
+    //this.offsetWidth = document.getElementById('node' + this.props.node.id).offsetWidth;
+    //this.offsetHeight = document.getElementById('node' + this.props.node.id).offsetHeight;
+    this.offsetHeight = document.getElementById('node' + this.props.node.id).getBoundingClientRect().top;
+    this.offsetWidth = document.getElementById('node' + this.props.node.id).getBoundingClientRect().left;
+    document
+      .getElementById('node' + this.props.node.id)
+      .addEventListener('pointerdown', this.handleMouseDown);
+    document.addEventListener('pointermove', this.handleMouseMove);
+    document.addEventListener('pointerup', this.handleMouseUp);
+  }
+
+  componentWillUnmount() {
+    //Don't forget to unlisten!
+    document
+      .getElementById('node' + this.props.node.id)
+      .removeEventListener('pointerdown', this.handleMouseDown);
+    document.removeEventListener('pointermove', this.handleMouseMove);
+    document
+      .getElementById('node' + this.props.node.id)
+      .removeEventListener('pointerup', this.handleMouseUp);
+  }
+
+  handleMouseDown(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    //console.log('mousedown');
+    this.setState({dragging: true, x: e.pageX, y: e.pageY});
+  }
+
+  handleMouseUp(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    //console.log('mouseup');
+    this.setState({dragging: false});
+  }
+
+  handleMouseMove(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (this.state.dragging) {
+      var x =
+        this.props.node.x - e.pageX / 2 + this.props.width / 2 - GMNodeWidth;
+      var y =
+        this.props.node.y - (this.props.node.y - e.pageY) - GMNodeHeight;
+
+      console.log(this.state.x, this.state.y, e.pageX, e.pageY, x, y);
+
+      this.props.onNodePositionChange(this.props.node.id, x, y);
+      //document.getElementById('node' + this.props.node.id).style.transform = `translate(${x}px, ${y}px)`
+    }
+  }
+  */
 
   /**
    * A {@param node} is defined as complete if both "title"- and "content"-fields
@@ -152,12 +215,13 @@ class GuideaMapsNode extends React.Component {
   render() {
     const {
       node,
-      //updatePosition,
       onAddNode,
+      onEditNode,
       onNodeDataChange,
+      onNodePositionChange,
       onNodeVisibleChildrenChange,
-      //connectDragSource,
-      //connectDropTarget,
+      connectDragSource,
+      connectDropTarget,
       isDragging, // injected by react dnd
       onClick,
       centered,
@@ -169,8 +233,8 @@ class GuideaMapsNode extends React.Component {
         return (
           //connectDragSource(connectDropTarget(
           <div
-            ref={'node' + node.id}
-            key={node.title}
+            key={node.id}
+            id={'node' + node.id}
             className={
               'node absolute ' +
               'border border-solid border-black rounded ' +
@@ -182,10 +246,10 @@ class GuideaMapsNode extends React.Component {
               width: GMNodeWidth,
               height: GMNodeHeight / 2,
               transform: `translate(
-                              ${node.x}px,
-                              ${node.y + GMNodeHeight / 4}px)`,
+                            ${node.x}px,
+                            ${node.y + GMNodeHeight / 4}px)`,
               backgroundColor: node.backgroundColor,
-              //opacity: isDragging ? 0.5 : 1,
+              opacity: isDragging ? 0.5 : '',
               transition: centered && 'all 1s ease 0s',
             }}
             onClick={onClick}>
@@ -200,14 +264,13 @@ class GuideaMapsNode extends React.Component {
             </div>
           </div>
         );
-      //),
-      //);
       default:
         // node.data.type === GMNodeTypes.DEFAULT
         return (
           //connectDragSource(connectDropTarget(
           <div
             key={node.id}
+            id={'node' + node.id}
             className={
               'node absolute ' +
               'border border-solid border-black rounded ' +
@@ -220,7 +283,7 @@ class GuideaMapsNode extends React.Component {
               transform: `translate(${node.x}px, ${node.y}px)`,
               color: node.backgroundColor,
               backgroundColor: node.backgroundColor,
-              //opacity: isDragging ? 0.5 : 1,
+              //opacity: isDragging ? 0.5 : '',
               transition: centered && 'all 1s ease 0s',
             }}
             onClick={onClick}>
@@ -267,7 +330,7 @@ class GuideaMapsNode extends React.Component {
               </p>
             </div>
             <div // controls div
-              className={'flex rounded-b'}>
+              className={'absolute pin-b flex rounded-b w-full'}>
               <AddChildButton
                 width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                 node={node}
@@ -280,6 +343,7 @@ class GuideaMapsNode extends React.Component {
                 leaf={node.height === 0}
                 onNodeDataChange={onNodeDataChange}
                 bgcolor={node.backgroundColor}
+                onEditNode={onEditNode}
               />
               {node.height !== 0 && (
                 // At non-child nodes the expand-collapse button should be added
@@ -293,7 +357,6 @@ class GuideaMapsNode extends React.Component {
             </div>
           </div>
         );
-      //),);
     }
   }
 }
@@ -304,9 +367,9 @@ GuideaMapsNode.propTypes = {
   isDragging: PropTypes.bool, //.isRequired,
 };
 
-export default GuideaMapsNode;
+//export default GuideaMapsNode;
 
-/*export default flow(
+export default flow(
   DragSource(ItemTypes.NODE, nodeSource, dragCollect),
   DropTarget(ItemTypes.NODE, nodeTarget, dropCollect),
-)(GuideaMapsNode);*/
+)(GuideaMapsNode);

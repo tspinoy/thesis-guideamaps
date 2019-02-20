@@ -9,6 +9,8 @@ export const GMNodeTypes = {
 
 export const GMNodeWidth = 130;
 export const GMNodeHeight = 100;
+export const PDDNodeWidth = 175;
+export const PDDNodeHeight = 300;
 
 export const maxZoomScale = 3;
 export const minZoomScale = 0.38;
