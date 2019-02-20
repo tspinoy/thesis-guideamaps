@@ -4,12 +4,10 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 class ExpandCollapseButton extends React.Component {
   constructor(props) {
     super(props);
-    const {node, update} = this.props;
-    //this.state = { node, update };
+    const {node} = this.props;
     this.state = {
       nodeId: node.id,
       visibleChildren: node.visibleChildren,
-      update,
     };
 
     // This binding is necessary to make `this` work in the callback
