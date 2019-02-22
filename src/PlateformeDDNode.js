@@ -22,15 +22,20 @@ class PlateformeDDNode extends React.Component {
           'node absolute ' +
           'border border-solid border-black rounded ' +
           'hover:border-red m-2 ' +
+          (node.visible ? 'z-40 ' : 'z-0 ') +
           (node.visible ? 'visibleNode ' : 'hiddenNode ')
         }
         style={{
           width: PDDNodeWidth,
           height: PDDNodeHeight,
-          transform: `translate(${node.x}px, ${node.y}px)`,
+          //transform: `translate(${node.x}px, ${node.y}px)`,
           color: node.backgroundColor,
           backgroundColor: node.backgroundColor,
           transition: centered && 'all 1s ease 0s',
+          '--nodex': node.x + 'px',
+          '--nodey': node.y + 'px',
+          '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
+          '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
         }}
         onClick={onClick}>
         <div // title div

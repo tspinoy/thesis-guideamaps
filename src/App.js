@@ -3,6 +3,7 @@ import './css/App.css';
 import './css/tailwind.css';
 import * as d3 from 'd3';
 import logo from './logo.svg';
+import Tree from 'react-d3-tree';
 
 import {
   GMNodeHeight,
@@ -38,6 +39,7 @@ import {
   faCircle as faCircleRegular,
   faSave,
 } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 library.add(
   faAdjust,
   faCircleRegular,
@@ -259,7 +261,7 @@ class App extends Component {
     };
 
     const editNode = () => {
-      console.log("editnode");
+      console.log('editnode');
       this.setState({editing: !this.state.editing});
     };
 
@@ -347,13 +349,19 @@ class App extends Component {
             onNodeDataChange={
               current_visualization === GUIDEAMAPS
                 ? (nodeId, nodeTitle, nodeContent, hexColor, children) =>
-                  updateGMNodeData(nodeId, nodeTitle, nodeContent, hexColor, children,)
+                  updateGMNodeData(
+                    nodeId,
+                    nodeTitle,
+                    nodeContent,
+                    hexColor,
+                    children,
+                  )
                 : () => null
             }
             onNodePositionChange={
               current_visualization === GUIDEAMAPS
                 ? (nodeId, newX, newY) =>
-                    updateGMNodePosition(nodeId, newX, newY)
+                  updateGMNodePosition(nodeId, newX, newY)
                 : () => null
             }
             onNodeVisibleChildrenChange={nodeId =>
@@ -365,10 +373,11 @@ class App extends Component {
             links={clusterLinks}
           />
         </div>
+
         <div
           id={'editField'}
           className={
-            'absolute pin-t ' + (this.state.editing ? 'editing' : 'finished')
+            'absolute pin-t z-50 ' + (this.state.editing ? 'editing' : 'finished')
           }
           style={{
             width: '100%',

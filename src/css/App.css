@@ -4,14 +4,75 @@
     -webkit-font-smoothing: antialiased; /* used to avoid "boldlike" font */
 }
 
+@keyframes moveFromParent {
+    from {
+        top: var(--parenty);
+        left: var(--parentx);
+        visibility: hidden;
+        opacity: 0;
+    }
+    to {
+        top: var(--nodey);
+        left: var(--nodex);
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+@keyframes moveToParent {
+    from {
+        top: var(--nodey);
+        left: var(--nodex);
+        visibility: visible;
+        opacity: 1;
+    }
+    to {
+        top: var(--parenty);
+        left: var(--parentx);
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+.node {
+    left: var(--nodex);
+    top: var(--nodey);
+}
+
 .visibleNode {
-    visibility: visible;
-    opacity: 1;
+    animation: moveFromParent 2s linear forwards;
 }
 
 .hiddenNode {
-    visibility: hidden;
-    opacity: 0;
+    animation: moveToParent 2s linear forwards;
+}
+
+@keyframes linkIn {
+    from {
+        stroke-dashoffset: 1000;
+    }
+    to {
+        marker-mid: url(#arrow);
+        stroke-dashoffset: var(--strokeDashArray);
+    }
+}
+
+@keyframes linkOut {
+    from {
+        stroke-dashoffset: var(--strokeDashArray);
+    }
+    to {
+        marker-mid: none;
+        stroke-dashoffset: 1000;
+    }
+}
+
+.visibleLink {
+    animation: linkIn 5s linear forwards;
+}
+
+.hiddenLink {
+    animation: linkOut 1.5s linear forwards;
 }
 
 @keyframes moveIn {
@@ -39,3 +100,11 @@
 #editField.editing {
     animation: moveIn 2s ease-in-out 0.95s forwards;
 }
+
+/*.node.visibleNode {
+    animation: moveIn 2s ease-in-out 0.95s forwards;
+}
+
+.node.hiddenNode {
+    animation: moveOut 2s ease-in-out forwards;
+}*/

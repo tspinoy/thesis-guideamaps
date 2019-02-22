@@ -51,17 +51,49 @@ function dropCollect(connect, monitor) {
 class GuideaMapsNode extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      x: this.props.node.x,
-      y: this.props.node.y,
-      dragging: false,
-      editing: false,
-    };
     this.getAllChildren = this.getAllChildren.bind(this);
     //this.handleMouseDown = this.handleMouseDown.bind(this);
     //this.handleMouseMove = this.handleMouseMove.bind(this);
     //this.handleMouseUp = this.handleMouseUp.bind(this);
   }
+
+  componentDidMount() {
+    let node = document.getElementById('node' + this.props.node.id);
+    setTimeout(() => {
+      if (node.classList.contains('visibleNode')) {
+        node.classList.remove('visibleNode');
+        node.classList.add('node');
+      }
+    }, 2100);
+  }
+
+  componentDidUpdate() {
+    let node = document.getElementById('node' + this.props.node.id);
+    setTimeout(() => {
+      if (node.classList.contains('visibleNode')) {
+        node.classList.remove('visibleNode');
+        node.classList.add('node');
+      }
+    }, 2100);
+  }
+
+  /*
+  setInterval(() => {
+    if (this.state.last === 'in') {
+      if (this.props.node.visible) {
+        setTimeout(() => this.setState({keyframesFinished: true}), 2000);
+      } else {
+        this.setState({keyframesFinished: false, last: 'out'});
+      }
+    } else {
+      if (this.props.node.visible) {
+        this.setState({keyframesFinished: false, last: 'in'});
+      } else {
+        setTimeout(() => this.setState({keyframesFinished: true}), 2000);
+      }
+    }
+  }, 100);
+  */
 
   /*
   offsetWidth;
@@ -204,6 +236,14 @@ class GuideaMapsNode extends React.Component {
     }
   }
 
+  getRootXY(node) {
+    let current = node;
+    while (current.parent !== null) {
+      current = current.parent;
+    }
+    return [current.x, current.y];
+  }
+
   /**
    * To render a node, a div element is created.
    * Inside this div we have another div to display the title of the node + a second div showing the content of it.
@@ -240,17 +280,20 @@ class GuideaMapsNode extends React.Component {
               'border border-solid border-black rounded ' +
               'hover:border-red ' +
               'p-2 ' +
+              (node.visible ? 'z-40 ' : 'z-0 ') +
               (node.visible ? 'visibleNode ' : 'hiddenNode ')
             }
             style={{
               width: GMNodeWidth,
               height: GMNodeHeight / 2,
-              transform: `translate(
-                            ${node.x}px,
-                            ${node.y + GMNodeHeight / 4}px)`,
+              //transform: `translate(${node.x}px,${node.y + GMNodeHeight / 4}px)`,
               backgroundColor: node.backgroundColor,
               opacity: isDragging ? 0.5 : '',
               transition: centered && 'all 1s ease 0s',
+              '--nodex': node.x + 'px',
+              '--nodey': node.y + GMNodeHeight / 4 + 'px',
+              '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
+              '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
             }}
             onClick={onClick}>
             <div // content div
@@ -275,16 +318,21 @@ class GuideaMapsNode extends React.Component {
               'node absolute ' +
               'border border-solid border-black rounded ' +
               'hover:border-red ' +
+              (node.visible ? 'z-40 ' : 'z-0 ') +
               (node.visible ? 'visibleNode ' : 'hiddenNode ')
             }
             style={{
               width: GMNodeWidth,
               height: GMNodeHeight,
-              transform: `translate(${node.x}px, ${node.y}px)`,
+              //transform: `translate(${node.x}px, ${node.y}px)`,
               color: node.backgroundColor,
               backgroundColor: node.backgroundColor,
               //opacity: isDragging ? 0.5 : '',
               transition: centered && 'all 1s ease 0s',
+              '--nodex': node.x + 'px',
+              '--nodey': node.y + 'px',
+              '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
+              '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
             }}
             onClick={onClick}>
             <div // title div
