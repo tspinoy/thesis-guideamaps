@@ -12,6 +12,9 @@
 \usepackage[inline]{enumitem}
 \usepackage{stackengine}
 \usepackage{rotating}
+\usepackage[none]{hyphenat} % disable hyphenation to avoid words are cut in two at the end of a line
+\setlength{\parindent}{0pt}
+\usepackage{float}
 
 \usepackage{listings}
 \usepackage[dvipsnames]{xcolor}
@@ -92,6 +95,7 @@
 % --------------------------
 %\usepackage[nosectionbib, tocbib]{apacite}
 \usepackage{apacite}
+%\usepackage{apalike}
 \usepackage{quotchap}
 \usepackage{amssymb}
 \usepackage{pdfpages}
@@ -100,6 +104,7 @@
 \usepackage[english]{babel}
 \usepackage{lscape}
 \usepackage{graphicx}
+\graphicspath{{images/}} %Setting the graphicspath
 \usepackage[noabbrev, capitalise]{cleveref} % must be loaded after hyperref!
 \usepackage{appendix}
 \usepackage{url}
@@ -125,13 +130,6 @@
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \addtocontents{toc}{\cftpagenumbersoff{chapter}}
-\newtheorem{hyp}{Hypothesis} 
-\newframedtheorem{defshad}{Definition}
-\newtheorem{defPim}{Definition}
-\newtheorem{proof}{Proof}
-\newframedtheorem{pilePrinc}{Principle}
-\newframedtheorem{theo}{}
-\newtheorem{req}{Requirement}
 \setlength{\marginparwidth}{0pt}
 \makeatletter
 \renewcommand*{\sectfont}{\bfseries}
@@ -166,7 +164,9 @@
 
 \fancypagestyle{plain}{
   \fancyhf{}
-  \fancyfoot[C]{}%
+  \fancyfoot[C]{GuideaMaps 2.0}
+  \fancyfoot[LO,RE]{\MakeUppercase\leftmark}
+  \fancyfoot[LE,RO]{\thepage}
   \renewcommand{\headrulewidth}{0pt}% Line at the header invisible
 }
 
@@ -197,16 +197,19 @@
 \newtheorem{definition}{Definition}
           
 \begin{document}
+\sloppy % avoid words coming into right margin
 %\setlength{\parskip}{0pt}
 \pagestyle{fancy}
 \setlength{\headheight}{14.5pt}
-\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\chaptername}\ \thechapter.\ #1}{}}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+%\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\chaptername}\ \thechapter.\ #1}{}}
 \renewcommand{\sectionmark}[1]{\markright{#1}{}}
 \fancyhf{}
 %\fancyhead[LO,RE]{\thepage}
 %\fancyfoot[RO]{\bfseries\leftmark}
 %\fancyfoot[LE]{\bfseries\rightmark}
-\fancyfoot[LO,RE]{GuideaMaps 2.0}
+\fancyfoot[C]{GuideaMaps 2.0}
+\fancyfoot[LO,RE]{\MakeUppercase\leftmark}
 \fancyfoot[LE,RO]{\thepage}
 \renewcommand{\headrulewidth}{0pt} % 0pt -> line invisible
 \renewcommand{\footrulewidth}{0.1pt} % 0pt -> line invisible
@@ -236,39 +239,49 @@
  \pagenumbering{roman}
 
 \input{sections/abstract-eng}
-\cleardoublepage
+\clearemptydoublepage
+
 \input{sections/samenvatting}
-\cleardoublepage
-\input{sections/acknow}
-\cleardoublepage
+\clearemptydoublepage
+
+\input{sections/acknowledgements}
+\clearemptydoublepage
+
 \input{sections/declaration}
-\cleardoublepage
+\clearemptydoublepage
 
 \tableofcontents
-\cleardoublepage
-\listoffigures
-\cleardoublepage
-\lstlistoflistings
-\cleardoublepage
-\listoftables
+%\addcontentsline{toc}{section}{List of figures}
+%\addcontentsline{toc}{section}{List of tables}
+%\addcontentsline{toc}{section}{Listings}
+\clearemptydoublepage
 
-\cleardoublepage
+\listoffigures
+\clearemptydoublepage
+
+\lstlistoflistings
+\clearemptydoublepage
+
+\listoftables
+\clearemptydoublepage
+
 \setcounter{page}{1}
  \pagenumbering{arabic}
 
-\input{sections/chapter1-introduction}
+\input{sections/ch-introduction}
+\clearemptydoublepage
 
-\input{sections/chapter2-literature-study}
+\input{sections/ch-requirements}
+\clearemptydoublepage
 
-%\input{sections/chapter3-SECROs}
+\input{sections/ch-related-work}
+\clearemptydoublepage
 
-%\input{sections/chapter4-cscript}
+\input{sections/ch-implementation}
+\clearemptydoublepage
 
-%\input{sections/chapter5-implementation}
-
-%\input{sections/chapter6-evaluation}
-
-%\include{sections/chapter7-conclusion}
+\input{sections/ch-conclusion}
+\clearemptydoublepage
 
 \newpage
 \appendix
@@ -276,8 +289,8 @@
 %\input{sections/appendix}
 
 \cleardoublepage
-%\bibliography style{apacite}
-%\bibliography{ThesisBib} % change to your bib!
+\bibliographystyle{apacite}
+\bibliography{thesisbib} % change to your bib!
 
 
 \end{document}

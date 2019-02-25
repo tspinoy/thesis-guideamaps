@@ -1,0 +1,110 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+\APACcitebtitle {2D layout algorithms for visualizing hierarchical data.:
+  d3/d3-hierarchy}}{%
+\APACcitebtitle {2D layout algorithms for visualizing hierarchical data.:
+  d3/d3-hierarchy}}{%
+{\protect \APACyear {2019}}%
+}]{%
+d3hierarchy}
+\APACinsertmetastar {%
+d3hierarchy}%
+\APACrefbtitle {2D layout algorithms for visualizing hierarchical data.:
+  d3/d3-hierarchy.} {2d layout algorithms for visualizing hierarchical data.:
+  d3/d3-hierarchy.}
+\newblock
+\APACrefYearMonthDay{2019}{{\APACmonth{02}}}{}.
+\newblock
+\APACaddressPublisher{}{D3}.
+\newblock
+\begin{APACrefURL} [{2019-02-25}]\url{https://github.com/d3/d3-hierarchy}
+  \end{APACrefURL}
+\newblock
+\APACrefnote{original-date: 2015-07-15T18:01:35Z}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+\APACcitebtitle {React – {A} {JavaScript} library for building user
+  interfaces}}{%
+\APACcitebtitle {React – {A} {JavaScript} library for building user
+  interfaces}}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+reactjs.org}
+\APACinsertmetastar {%
+reactjs.org}%
+\APACrefbtitle {React – {A} {JavaScript} library for building user
+  interfaces.} {React – {A} {JavaScript} library for building user
+  interfaces.}
+\newblock
+\APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
+\newblock
+\begin{APACrefURL} [{2019-02-13}]\url{https://reactjs.org/index.html}
+  \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+\APACcitebtitle {Tailwind {CSS} - {A} {Utility}-{First} {CSS} {Framework} for
+  {Rapid} {UI} {Development}}}{%
+\APACcitebtitle {Tailwind {CSS} - {A} {Utility}-{First} {CSS} {Framework} for
+  {Rapid} {UI} {Development}}}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+tailwind-css}
+\APACinsertmetastar {%
+tailwind-css}%
+\APACrefbtitle {Tailwind {CSS} - {A} {Utility}-{First} {CSS} {Framework} for
+  {Rapid} {UI} {Development}.} {Tailwind {CSS} - {A} {Utility}-{First} {CSS}
+  {Framework} for {Rapid} {UI} {Development}.}
+\newblock
+\APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
+\newblock
+\begin{APACrefURL} [{2019-02-25}]\url{https://tailwindcss.com/}
+  \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Thinkwik%
+}{%
+Thinkwik%
+}{%
+{\protect \APACyear {2017}}%
+}]{%
+thinkwik_why_2017}
+\APACinsertmetastar {%
+thinkwik_why_2017}%
+\begin{APACrefauthors}%
+Thinkwik.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2017}{{\APACmonth{12}}}{}.
+\newblock
+\APACrefbtitle {Why {ReactJS} is gaining so much popularity these days.} {Why
+  {ReactJS} is gaining so much popularity these days.}
+\newblock
+\begin{APACrefURL}
+  [{2019-02-13}]\url{https://medium.com/@thinkwik/why-reactjs-is-gaining-so-much-popularity-these-days-c3aa686ec0b3}
+  \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+\APACcitebtitle {Why {React}? {\textbar} {React}}}{%
+\APACcitebtitle {Why {React}? {\textbar} {React}}}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+githubwhyreact}
+\APACinsertmetastar {%
+githubwhyreact}%
+\APACrefbtitle {Why {React}? {\textbar} {React}.} {Why {React}? {\textbar}
+  {React}.}
+\newblock
+\APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
+\newblock
+\begin{APACrefURL}
+  [{2019-02-13}]\url{https://facebook.github.io/react/docs/why-react.html}
+  \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}
