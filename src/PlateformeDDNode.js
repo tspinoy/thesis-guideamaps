@@ -1,33 +1,65 @@
 import React from 'react';
 
 import './css/App.css';
-import {PDDNodeHeight, PDDNodeWidth} from './Constants';
+import { GMNodeWidth, PDDNodeHeight, PDDNodeWidth } from "./Constants";
 import AddChildButton from './AddChildButton';
 import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
 
 class PlateformeDDNode extends React.Component {
+  componentDidMount() {
+    let node = document.getElementById('node' + this.props.node.id);
+    setTimeout(() => {
+      if (node.classList.contains('visibleNode')) {
+        node.classList.remove('visibleNode');
+        node.classList.add('node');
+      }
+    }, 1600);
+  }
+
+  componentDidUpdate() {
+    let node = document.getElementById('node' + this.props.node.id);
+    setTimeout(() => {
+      if (node.classList.contains('visibleNode')) {
+        node.classList.remove('visibleNode');
+        node.classList.add('node');
+      }
+    }, 1600);
+  }
+
+  getRootXY(node) {
+    let current = node;
+    while (current.parent !== null) {
+      current = current.parent;
+    }
+    return [current.x, current.y];
+  }
+
   render() {
     const {
       node,
       onAddNode,
+      onEditNode,
       onNodeDataChange,
       onNodePositionChange,
-      onNodeVisibleChildrenChange, onClick, centered
+      onNodeVisibleChildrenChange,
+      onClick,
+      centered,
     } = this.props;
     return (
       <div
         key={node.id}
+        id={'node' + node.id}
         className={
-          'node absolute ' +
+          'node absolute hoverarea ' +
           'border border-solid border-black rounded ' +
-          'hover:border-red m-2 ' +
+          'hover:border-red m-2 overflow-hidden ' +
           (node.visible ? 'z-40 ' : 'z-0 ') +
           (node.visible ? 'visibleNode ' : 'hiddenNode ')
         }
         style={{
-          width: PDDNodeWidth,
-          height: PDDNodeHeight,
+          width: GMNodeWidth,
+          //height: PDDNodeHeight,
           //transform: `translate(${node.x}px, ${node.y}px)`,
           color: node.backgroundColor,
           backgroundColor: node.backgroundColor,
@@ -53,20 +85,20 @@ class PlateformeDDNode extends React.Component {
               textOverflow: 'ellipsis',
               //textAlign: 'center',
             }}>
-            {node.data.title === '' ? 'No title' : node.data.title}
+            {node.data.titre === '' ? 'No title' : node.data.titre}
           </p>
         </div>
         {node.data.media !== '' && (
           <img
             className={'relative'}
-            src={node.data.media}
+            src={node.data.image}
             alt={'Smiley face'}
             style={{maxHeight: '45%', width: 'auto'}}
           />
         )}
         <div // content div
           className={
-            'font-sans text-base pl-2 pr-2 pt-1 pb-1 overflow-hidden invertColors'
+            'relative inner font-sans text-base pl-2 pr-2 pt-1 pb-1 overflow-hidden invertColors'
           }
           style={{
             color: node.backgroundColor, // this is inverted by the invertColors-class
@@ -79,11 +111,12 @@ class PlateformeDDNode extends React.Component {
               overflow: 'hidden',
               WebkitBoxOrient: 'vertical',
             }}>
-            {node.data.text === '' ? 'No content' : node.data.text}
+            {node.data.resume === '' ? 'No content' : node.data.resume}
           </p>
         </div>
         <div // controls div
-          className={'absolute pin-b flex rounded-b w-full'}>
+          className={'relative inner pin-b rounded-b w-full'}
+          style={{display: 'flex'}}>
           <AddChildButton
             width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
             node={node}
@@ -96,6 +129,7 @@ class PlateformeDDNode extends React.Component {
             leaf={node.height === 0}
             onNodeDataChange={onNodeDataChange}
             bgcolor={node.backgroundColor}
+            onEditNode={onEditNode}
           />
           {node.height !== 0 && (
             // At non-child nodes the expand-collapse button should be added
