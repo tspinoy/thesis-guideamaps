@@ -26,24 +26,26 @@ class ExpandCollapseButton extends React.Component {
 
   render() {
     return (
-      <button
-        className={
-          'text-grey-darkest font-bold ' +
-          'py-1 px-1 ' +
-          'rounded-br items-center ' +
-          'block invertColors ' +
-          this.props.width
-        }
-        style={{
-          borderTop: '1px solid',
-          borderColor: this.props.node.backgroundColor, // inverted by invertColors
-          color: this.props.node.backgroundColor, // inverted by invertColors
-        }}
-        onClick={this.handleClick}>
-        <FontAwesomeIcon
-          icon={this.state.visibleChildren ? 'compress' : 'expand'}
-        />
-      </button>
+      <div className={'tooltip ' + this.props.width}>
+        <button
+          className={
+            'text-grey-darkest font-bold ' +
+            'py-1 px-1 ' +
+            'rounded-br items-center ' +
+            'block invertColors w-full'
+          }
+          style={{
+            borderTop: '1px solid',
+            borderColor: this.props.node.backgroundColor, // inverted by invertColors
+            color: this.props.node.backgroundColor, // inverted by invertColors
+          }}
+          onClick={this.handleClick}>
+          <FontAwesomeIcon
+            icon={this.state.visibleChildren ? 'compress' : 'expand'}
+          />
+        </button>
+        <span className="tooltiptext">{this.state.visibleChildren ? 'Collapse' : 'Expand'}</span>
+      </div>
     );
   }
 }

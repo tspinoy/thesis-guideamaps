@@ -16,22 +16,24 @@ class AddChildButton extends React.Component {
 
   render() {
     return (
-      <button
-        className={
-          'block text-grey-darkest font-bold ' +
-          'py-1 px-1 ' +
-          'rounded-bl items-center invertColors ' +
-          this.props.width
-        }
-        style={{
-          borderTop: '1px solid',
-          borderRight: '1px solid',
-          borderColor: this.props.node.backgroundColor,
-          color: this.props.node.backgroundColor,
-        }}
-        onClick={this.handleClick}>
-        <FontAwesomeIcon icon={'plus'} />
-      </button>
+      <div className={'tooltip ' + this.props.width}>
+        <button
+          className={
+            'block text-grey-darkest font-bold ' +
+            'py-1 px-1 ' +
+            'rounded-bl items-center invertColors w-full'
+          }
+          style={{
+            borderTop: '1px solid',
+            borderRight: '1px solid',
+            borderColor: this.props.node.backgroundColor,
+            color: this.props.node.backgroundColor,
+          }}
+          onClick={this.handleClick}>
+          <FontAwesomeIcon icon={'plus'} />
+        </button>
+        <span className="tooltiptext">Add child node</span>
+      </div>
     );
   }
 }

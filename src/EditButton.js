@@ -42,7 +42,7 @@ class EditButton extends React.Component {
   render() {
     const {node, onClick} = this.props;
     return (
-      <div className={this.props.width}>
+      <div className={'tooltip ' + this.props.width}>
         <button
           className={
             'block text-grey-darkest font-bold ' +
@@ -59,6 +59,7 @@ class EditButton extends React.Component {
           onClick={() => this.toggleModal()}>
           <FontAwesomeIcon icon={'edit'} />
         </button>
+        <span className="tooltiptext">Open & edit</span>
         {this.state.isOpen &&
           ReactDOM.createPortal(
             <EditModal

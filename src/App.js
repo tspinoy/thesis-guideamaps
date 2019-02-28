@@ -3,7 +3,6 @@ import './css/App.css';
 import './css/tailwind.css';
 import * as d3 from 'd3';
 import logo from './logo.svg';
-import Tree from 'react-d3-tree';
 
 import {
   GMNodeHeight,
@@ -19,7 +18,7 @@ import {GMData2} from './GMData';
 import ZoomableTree from './ZoomableTree';
 
 import PlateformeDDNode from './PlateformeDDNode';
-import {PDDData} from './PlateformeDDData';
+import {PDDData, PDDData2} from './PlateformeDDData';
 
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -69,7 +68,7 @@ if (current_visualization === PLATEFORMEDD) {
     })
     .parentId(function(d) {
       return d.parent;
-    })(PDDData);
+    })(PDDData2);
 
   // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
   const cluster = d3
@@ -83,6 +82,8 @@ if (current_visualization === PLATEFORMEDD) {
   var clusterNodes = clusterRoot
     .descendants()
     .map((node, index) => initializeGMNode(node, index, width, height));
+
+  console.log(clusterNodes);
 
   var clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
 } else {
@@ -270,38 +271,33 @@ class App extends Component {
         <div
           className={'w-full text-center flex h-1 pin-t bg-grey mb-2'}
           style={{height: '50px'}}>
-          {current_visualization === GUIDEAMAPS && (
-            <div
-              className={'w-1/3 flex'}
-              style={{alignItems: 'center', justifyContent: 'center'}}>
-              <label
-                className={
-                  'rounded border border-black hover:bg-black hover:text-grey'
-                }
-                style={{
-                  width: '130px',
-                  height: '35px',
-                  cursor: 'pointer',
-                  // three rules to center the label
-                  display: 'block',
-                  textAlign: 'center',
-                  lineHeight: '35px', // must be equal to height
-                }}>
-                Enter your file
-                <input
-                  type="file"
-                  id="file"
-                  size="60"
-                  style={{display: 'none'}}
-                />
-              </label>
-            </div>
-          )}
           <div
-            className={
-              'items-center ' +
-              (current_visualization === PLATEFORMEDD ? 'w-full' : 'w-1/3')
-            }
+            className={'w-1/3 flex'}
+            style={{alignItems: 'center', justifyContent: 'center'}}>
+            <label
+              className={
+                'rounded border border-black hover:bg-black hover:text-grey'
+              }
+              style={{
+                width: '130px',
+                height: '35px',
+                cursor: 'pointer',
+                // three rules to center the label
+                display: 'block',
+                textAlign: 'center',
+                lineHeight: '35px', // must be equal to height
+              }}>
+              Enter your file
+              <input
+                type="file"
+                id="file"
+                size="60"
+                style={{display: 'none'}}
+              />
+            </label>
+          </div>
+          <div
+            className={'items-center w-1/3'}
             style={{
               verticalAlign: 'baseline',
               display: 'inline-flex',
@@ -316,20 +312,18 @@ class App extends Component {
               ? 'GuideaMaps'
               : 'Plateforme DD'}
           </div>
-          {current_visualization === GUIDEAMAPS && (
-            <div
-              className={'w-1/3 flex'}
-              style={{alignItems: 'center', justifyContent: 'center'}}>
-              <button
-                id={'zoom-to-fit-btn'}
-                className={
-                  'rounded border border-black hover:bg-black hover:text-grey'
-                }
-                style={{width: '110px', height: '35px'}}>
-                Zoom to fit
-              </button>
-            </div>
-          )}
+          <div
+            className={'w-1/3 flex'}
+            style={{alignItems: 'center', justifyContent: 'center'}}>
+            <button
+              id={'zoom-to-fit-btn'}
+              className={
+                'rounded border border-black hover:bg-black hover:text-grey'
+              }
+              style={{width: '110px', height: '35px'}}>
+              Zoom to fit
+            </button>
+          </div>
         </div>
         <div className={'w-screen flex justify-center items-center'}>
           <ZoomableTree
@@ -377,7 +371,8 @@ class App extends Component {
         <div
           id={'editField'}
           className={
-            'absolute pin-t z-50 ' + (this.state.editing ? 'editing' : 'finished')
+            'absolute pin-t z-50 ' +
+            (this.state.editing ? 'editing' : 'finished')
           }
           style={{
             width: '100%',
