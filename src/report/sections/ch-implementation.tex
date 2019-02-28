@@ -19,12 +19,70 @@ With ReactJS and d3, the two most important pillars the application relies on ar
 
 The application is developed in such a way that it can be used as a library for other purposes than GuideaMaps as well. The general, always-returning part of the code can be found in App.js, ZoomableTree.js and Zoom.js, where the layout of the nodes is defined as well as the implementation to allow the user to zoom the visualization in and out. When talking about the library, the layer of the NodeComp and LinkComp is very interesting and important. For the GuideaMaps, an implementation for a GuideaMapsNode and GuideaMapsLink is provided. Each implementation describes what every node and every link should look like in the visualization \textcolor{red}{(TODO: provide more explanation about this somewhere else)}.\\
 
-The strength of the library can be seen when a particular user would like to have a different representation for the nodes or the links or both. In that case, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GuideaMapsNode and GuideaMapsLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GuideaMapsNode by MyCustomNode and GuideaMapsLink by MyCustomLink.
+The strength of the library can be seen when a particular user would like to have a different representation for the nodes or the links or both. In that case, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GuideaMapsNode and GuideaMapsLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GuideaMapsNode by MyCustomNode and GuideaMapsLink by MyCustomLink. Figure \ref{fig:examplecode-library} shows the part of the code in App.js that should be adapted as explained. Note that NodeComp and LinkComp are not the only props that are passed to ZoomableTree. The others are omitted to improve the readability.
+
+\begin{figure}[H]
+	\begin{minipage}{0.5\textwidth}
+ 		 \centering
+		 \begin{minted}[linenos]{html}
+<ZoomableTree
+    NodeComp={GuideaMapsNode}
+    LinkComp={GuideaMapsLink}
+/>
+		\end{minted}
+		\label{lst:default-components}
+		\captionof{lstlisting}{Default components.}
+	\end{minipage}
+ 	\begin{minipage}{0.5\textwidth}
+  		\centering
+  		\begin{minted}{html}
+<ZoomableTree
+    NodeComp={MyCustomNode}
+    LinkComp={MyCustomLink}
+/>
+		\end{minted}
+		\label{lst:custom-components}
+ 	 	\captionof{lstlisting}{Custom components.}
+ 	\end{minipage}
+	\caption{Two listings showing how to use the library.}
+	\label{fig:examplecode-library}
+ 	%\captionof{figure}{Two listings showing the difference between the default and custom use of the library.}
+\end{figure}
 
 \section{Styling}\label{sec:styling}
 The styling of the application is very important for the end user. Everything should look pretty and as already mentioned in section \ref{sec:usability-requirements}, the possibilities should be straightforward and visible. Therefore, the styling has to be as good as possible. While developing and creating a beautiful style for applications and websites, the code for these styles can become a big part of the implementation. Hence, a good framework is necessary to reduce the lines of code to a reasonable number. \\
 
-Tailwind CSS \cite{tailwind-css} is a framework that helps developers with styling. The difference with more famous frameworks, like Bootstrap, is that Tailwind CSS has no default theme. If you want to use a Bootstrap-feature, this eventually comes along with other features you don't always wanted and it can be quite hard to undo the part you didn't ask for. With tailwind on the other hand, you can grab only the features you want, without side-effects. 
+Tailwind CSS \cite{tailwind-css} is a framework that helps developers with styling. The difference with more famous frameworks, like Bootstrap, is that Tailwind CSS has no default theme. If you want to use a Bootstrap-feature, this eventually comes along with other features you don't always wanted and it can be quite hard to undo the part you didn't ask for. With tailwind on the other hand, you can grab only the features you want, without side-effects. Figure \ref{fig:examplecode-tailwindcss} shows an example with two small listings. The first uses inline style while the second makes use of tailwindCSS.\\
 
-TODO: discuss animations created with normal css.
+\begin{figure}[t!]
+	\begin{minipage}[b]{0.5\textwidth}
+ 		\centering
+  		\begin{minted}[linenos, escapeinside=||]{html}
+<div
+  style={{
+    position: absolute|,|
+    border: 1px solid black|,|
+    borderRadius: O.25rem|,|
+    padding: 0.5rem|,|
+  }}
+/>
+		\end{minted}
+		\label{lst:no-tailwind}
+		\captionof{lstlisting}{Normal CSS, no tailwind.}
+	\end{minipage}
+ 	\begin{minipage}[b]{0.5\textwidth}
+  		\centering
+		\begin{minted}[breaklines, escapeinside=||]{html}
+<div
+    className={
+      |'|absolute border border-solid border-black rounded p-2|'|
+    }
+/>
+		\end{minted}
+		\label{lst:tailwind}
+ 	 	\captionof{lstlisting}{With tailwind CSS.}
+ 	\end{minipage}
+	\caption{Difference when using tailwind CSS or not.}
+	\label{fig:examplecode-tailwindcss}
+\end{figure}
 

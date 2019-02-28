@@ -15,55 +15,15 @@
 \usepackage[none]{hyphenat} % disable hyphenation to avoid words are cut in two at the end of a line
 \setlength{\parindent}{0pt}
 \usepackage{float}
+\usepackage{parcolumns}
 
 \usepackage{listings}
 \usepackage[dvipsnames]{xcolor}
 
-% Define CScript language
-% TODO: Change @accessor to be colored dark grey
-\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
-\lstdefinelanguage{CScript}{
-  keywords={const, rep, pre, post, deftype, publish, as, subscribe, with, typeof, new, catch, function, return, catch, switch, var, if, in, while, do, else, case, break},
-  keywordstyle=\color{blue}\bfseries,
-  ndkeywords={service, class, export, boolean, throw, implements, import, this, true, false, null, undefined},
-  ndkeywordstyle=\color{darkgreen}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
-  commentstyle=\color{JungleGreen}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  morestring=[b]',
-  morestring=[b]",
-  moredelim=[il][\textcolor{pgrey}]{$$}
-}
-
-% Define language for pseudocode
-\lstdefinelanguage{pseudocode}{
-  keywords={def, if, else, for, in, let, return, <-, :=},
-  keywordstyle=\color{blue}\bfseries,
-  ndkeywords={self, throw, nil, true, false},
-  ndkeywordstyle=\color{darkgreen}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{\#},
-  morecomment=[s]{/*}{*/},
-  commentstyle=\color{JungleGreen}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  %morestring=[b]',
-  morestring=[b]"
-  %moredelim=[il][\textcolor{pgrey}]{$$}
-}
-
-\lstset{
-  language=pseudocode,
-  numbers=left,
-  firstnumber=1,
-  numberfirstline=true,
-  escapeinside={@}{@}, %{@*}{*@}, 
-  basicstyle=\footnotesize, 
-  captionpos=b
-}
+\usepackage{color}
+\definecolor{bgcolor}{rgb}{0.95, 0.95, 0.95}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0} % #FF7F00 -> rgb(239, 169, 0)
+\definecolor{editorGreen}{rgb}{0, 0.5, 0} % #007C00 -> rgb(0, 124, 0)
 
 % FOR COMMENTS
 \definecolor{red}{RGB}{200,0,0}
@@ -114,7 +74,6 @@
 \usepackage{stmaryrd}
 \usepackage{array}
 \usepackage{caption}
-\usepackage{subcaption}
 \usepackage{vub}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -126,17 +85,48 @@
 \usepackage{fancyhdr}
 \definecolor{java}{RGB}{127,0,85}
 \newcommand{\code}[1]{\texttt{#1}}
-\lstset{language=Java, basicstyle=\scriptsize,breaklines=true, keywordstyle=\color{java},tabsize=1, frame=single}
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\addtocontents{toc}{\cftpagenumbersoff{chapter}}
-\setlength{\marginparwidth}{0pt}
+%\lstset{language=Java, basicstyle=\scriptsize,breaklines=true, keywordstyle=\color{java},tabsize=1, frame=single}
+%\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%\addtocontents{toc}{\cftpagenumbersoff{chapter}}
+%\setlength{\marginparwidth}{0pt}
 \makeatletter
 \renewcommand*{\sectfont}{\bfseries}
 \renewcommand*{\chapnumfont}{%
   \usefont{T1}{\@defaultcnfont}{b}{n}\fontsize{120}{150}\selectfont% Default: 100/130
   \color{chaptergrey}%
 }
+
+\usepackage[]{minted}
+\usepackage{mdframed}
+\surroundwithmdframed[backgroundcolor=bgcolor]{minted}
+
+\usepackage{tocloft}
+\makeatletter
+\begingroup\let\newcounter\@gobble\let\setcounter\@gobbletwo
+  \globaldefs\@ne \let\c@loldepth\@ne
+  \newlistof{listings}{lol}{\lstlistlistingname}
+\endgroup
+\let\l@lstlisting\l@listings
+\AtBeginDocument{\addtocontents{lol}{\protect\addvspace{10\p@}}}
+\makeatother
+\renewcommand\cftlistingsindent{0pt}  % no indentation
+\renewcommand{\lstlistoflistings}{\listoflistings}
+\renewcommand\cftlistingspresnum{Listing }   % prefix "Listing " before listing number
+\renewcommand\cftlistingsaftersnum{} % affix "" after listing number
+% adjust spacing
+\newlength{\lollen} % list of figures length
+\settowidth{\lollen}{10\cftlistingspresnum\cftlistingsaftersnum}
+\addtolength{\cftlistingsnumwidth}{\lollen}
+% same for the figures
+\renewcommand\cftfigindent{0pt}  % no indentation
+\renewcommand\cftfigpresnum{Figure }   % prefix "Figure " before figure number
+\renewcommand\cftfigaftersnum{} % affix "" after figure number
+% adjust spacing
+\newlength{\loflen} % list of figures length
+\settowidth{\loflen}{\cftfigpresnum\cftfigaftersnum}
+\addtolength{\cftfignumwidth}{\loflen}
+
 
 \newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}%
   \cleardoublepage}}
@@ -188,13 +178,6 @@
 \date{June 2019}
 
 \promotors{Prof.\ Dr.\ Olga De Troyer\\ \vspace{0.5mm} \\Advisor: \\Jan Maushagen \vspace{0.5mm} }
-
-% …
-
-
-% FOR DEFINITIONS
-%\newtheorem{thm}{Theorem}
-\newtheorem{definition}{Definition}
           
 \begin{document}
 \sloppy % avoid words coming into right margin
@@ -251,18 +234,22 @@
 \clearemptydoublepage
 
 \tableofcontents
+\addcontentsline{toc}{chapter}{Contents}
 %\addcontentsline{toc}{section}{List of figures}
 %\addcontentsline{toc}{section}{List of tables}
 %\addcontentsline{toc}{section}{Listings}
 \clearemptydoublepage
 
 \listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
 \clearemptydoublepage
 
 \lstlistoflistings
+\addcontentsline{toc}{chapter}{List of Listings}
 \clearemptydoublepage
 
 \listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
 \clearemptydoublepage
 
 \setcounter{page}{1}
