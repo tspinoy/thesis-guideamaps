@@ -41,7 +41,7 @@ class GuideaMapsLink extends React.Component {
         style={{
           transform: `translate(${GMNodeWidth / 2}px, ${GMNodeHeight / 2}px)`,
           //display: links.target.visible ? 'block' : 'none',
-          transition: centered && 'all 1s ease 0s',
+          transition: centered && 'all 500ms ease 0s',
           '--strokeDashArray': link.optional ? 3 : 0,
         }}
       />

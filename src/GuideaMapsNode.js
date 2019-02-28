@@ -64,7 +64,7 @@ class GuideaMapsNode extends React.Component {
         node.classList.remove('visibleNode');
         node.classList.add('node');
       }
-    }, 2100);
+    }, 1100);
   }
 
   componentDidUpdate() {
@@ -74,7 +74,7 @@ class GuideaMapsNode extends React.Component {
         node.classList.remove('visibleNode');
         node.classList.add('node');
       }
-    }, 2100);
+    }, 1100);
   }
 
   /*
@@ -289,7 +289,7 @@ class GuideaMapsNode extends React.Component {
               //transform: `translate(${node.x}px,${node.y + GMNodeHeight / 4}px)`,
               backgroundColor: node.backgroundColor,
               opacity: isDragging ? 0.5 : '',
-              transition: centered && 'all 1s ease 0s',
+              transition: centered && 'all 500ms ease 0s',
               '--nodex': node.x + 'px',
               '--nodey': node.y + GMNodeHeight / 4 + 'px',
               '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
@@ -328,7 +328,7 @@ class GuideaMapsNode extends React.Component {
               color: node.backgroundColor,
               backgroundColor: node.backgroundColor,
               //opacity: isDragging ? 0.5 : '',
-              transition: centered && 'all 1s ease 0s',
+              transition: centered && 'all 500ms ease 0s',
               '--nodex': node.x + 'px',
               '--nodey': node.y + 'px',
               '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
