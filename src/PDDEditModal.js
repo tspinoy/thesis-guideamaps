@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {SketchPicker} from 'react-color';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {PDDData2} from './PDDData';
 
 class PDDEditModal extends React.Component {
   constructor(props) {
@@ -24,6 +23,7 @@ class PDDEditModal extends React.Component {
     );
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.clickNode = this.clickNode.bind(this);
   }
 
   handleColorChange(color) {
@@ -52,11 +52,39 @@ class PDDEditModal extends React.Component {
     this.setState({nodeTitle: event.target.value});
   }
 
+  clickEvent = new MouseEvent('click', {
+    view: window,
+    bubbles: true,
+    cancelable: false,
+  });
+
+  static getDataById(id) {
+    for (let i = 0; i < PDDData2.length; i++) {
+      if (PDDData2[i].id === id) {
+        return PDDData2[i];
+      }
+    }
+  }
+
+  clickNode(ref) {
+    setTimeout(
+      () =>
+        document.getElementById('node' + ref).dispatchEvent(this.clickEvent),
+      500,
+    );
+  }
+
   render() {
     // Render nothing if the "show" prop is false
     if (!this.props.show) {
       return null;
     }
+
+    const trStyle = {
+      border: '1px solid black',
+      width: '100%',
+      height: '50px',
+    };
 
     return (
       <div
@@ -67,7 +95,7 @@ class PDDEditModal extends React.Component {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: 'rgba(0,0,0,0.3)', // gray background
+          //backgroundColor: 'rgba(0,0,0,0.3)', // gray background
           paddingTop: 50,
           paddingLeft: 50,
           paddingRight: 50,
@@ -85,9 +113,10 @@ class PDDEditModal extends React.Component {
             padding: 15,
             width: '100%',
             maxWidth: '750px',
+            border: '2px solid black',
           }}>
           <div className={'flex text-center'}>
-            <div className={'w-1/3'}>
+            <div className={'w-1/2'}>
               <button
                 className={
                   'w-1/2 py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
@@ -99,19 +128,7 @@ class PDDEditModal extends React.Component {
                 Content
               </button>
             </div>
-            <div className={'w-1/3'}>
-              <button
-                className={
-                  'w-1/2 py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
-                  (this.state.selectedTab === 'edit'
-                    ? 'bg-blue hover:bg-blue-dark text-white '
-                    : 'bg-white text-blue hover:bg-blue-dark hover:text-white')
-                }
-                onClick={() => this.setState({selectedTab: 'edit'})}>
-                Edit
-              </button>
-            </div>
-            <div className={'w-1/3'}>
+            <div className={'w-1/2'}>
               <button
                 className={
                   'w-1/2 hover:bg-red hover:text-white border border-red border-solid rounded py-2 px-4 mr-2 mb-2'
@@ -122,116 +139,68 @@ class PDDEditModal extends React.Component {
             </div>
           </div>
           <hr style={{backgroundColor: 'black', opacity: 0.5, height: 1}} />
-          <div className="p-2">
+          <div
+            className={'flex'}
+            style={{height: '250px', border: '1px solid'}}>
             <div
-              style={{
-                display:
-                  this.state.selectedTab === 'content' ? 'block' : 'none',
-              }}
-              onClick={() => this.setState({selectedTab: 'content'})}>
-              <table>
-                <tr>
-                  <td className={'w-auto p-2'}>Node title</td>
-                  <td>{this.state.nodeTitle}</td>
-                </tr>
-                <tr>
-                  <td className={'w-auto p-2'}>Node content</td>
-                  <td>{this.state.nodeContent}</td>
-                </tr>
-              </table>
+              className={
+                this.props.node.data.crossRefs.length === 0 ? 'w-full' : 'w-2/3'
+              }>
+              <div
+                className={'p-3 overflow-scroll'}
+                style={{
+                  backgroundColor: '#ecf5d5',
+                  height: '250px',
+                  borderRight:
+                    this.props.node.data.crossRefs.length !== 0 && 'solid 1px',
+                }}>
+                <h1 className={'pb-2'} style={{color: '#5cb85c'}}>
+                  {this.props.node.data.titre}
+                </h1>
+                <img
+                  src={this.props.node.data.image}
+                  alt={'Image'}
+                  width={'25%'}
+                  style={{float: 'left', marginRight: '10px'}}
+                />
+                {this.props.node.data.resume}
+              </div>
             </div>
             <div
+              className={'w-1/3'}
               style={{
-                display: this.state.selectedTab === 'edit' ? 'block' : 'none',
-              }}
-              onClick={() => this.setState({selectedTab: 'edit'})}>
-              <form
-                onSubmit={this.handleSubmit}
-                className={'bg-white shadow-md rounded px-8'}>
-                <div className={'flex content-start overflow-scroll'}>
-                  <div className={'m-4'}>
-                    <div className={'mb-4 all:flex sm:block items-center'}>
-                      <button
-                        className={
-                          'hover:bg-red hover:text-white border border-red border-solid rounded py-2 px-4 mr-2 mb-2'
-                        }
-                        style={{width: '200px'}}
-                        onClick={() => this.props.onClose}>
-                        Cancel
-                      </button>
-                      <button
-                        className={
-                          'bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                        }
-                        style={{width: '200px'}}>
-                        <FontAwesomeIcon icon={['far', 'save']} />
-                        &nbsp;Save and close
-                      </button>
-                    </div>
-                    <div className={'mb-4'}>
-                      <label
-                        className={
-                          'block text-grey-darker text-sm font-bold mb-2'
-                        }>
-                        Node title
-                      </label>
-                      <input
-                        className={
-                          'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                          'leading-tight focus:outline-none focus:shadow-outline'
-                        }
-                        name={'title'}
-                        type={'text'}
-                        placeholder={'Node title'}
-                        defaultValue={this.state.nodeTitle}
-                        onChange={this.handleTitleChange}
-                      />
-                    </div>
-                    <div className={'mb-4'}>
-                      <label
-                        className={
-                          'block text-grey-darker text-sm font-bold mb-2'
-                        }>
-                        Content
-                      </label>
-                      <textarea
-                        className={
-                          'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                          'leading-tight focus:outline-none focus:shadow-outline'
-                        }
-                        name={'content'}
-                        placeholder={'Node content'}
-                        defaultValue={this.state.nodeContent}
-                        onChange={this.handleContentChange}
-                      />
-                    </div>
-                  </div>
-                  <div className={'m-4'}>
-                    <label
-                      className={
-                        'block text-grey-darker text-sm font-bold mb-2'
-                      }>
-                      Background color
-                    </label>
-                    <SketchPicker
-                      name={'colorPicker'}
-                      width={180}
-                      disableAlpha={true}
-                      color={this.state.nodeBackground}
-                      onChange={this.handleColorChange}
-                    />
-                    <br />
-                    <input
-                      type={'checkbox'}
-                      id={'includeChildren'}
-                      name={'includeChildren'}
-                      defaultChecked={this.state.includeChildren}
-                      onChange={this.handleIncludeChildrenChange}
-                    />
-                    <label htmlFor={'includeChildren'}> Include children</label>
-                  </div>
-                </div>
-              </form>
+                display:
+                  this.props.node.data.crossRefs.length === 0
+                    ? 'none'
+                    : 'block',
+              }}>
+              <div
+                className={'p-3 overflow-scroll'}
+                style={{backgroundColor: '#ecf5d5', height: '250px'}}>
+                <h1 className={'pb-2'} style={{color: '#5cb85c'}}>
+                  Cross refs
+                </h1>
+                <table
+                  className={'w-full'}
+                  style={{borderCollapse: 'separate', borderSpacing: '0 5px'}}>
+                  <tbody>
+                    {this.props.node.data.crossRefs.map(ref => (
+                      <tr key={ref} style={trStyle}>
+                        <td
+                          style={{border: '1px solid black', padding: '5px'}}
+                          onClick={() => {
+                            console.log('clicked on ' + ref);
+                            console.log(PDDEditModal.getDataById(ref));
+                            this.clickNode(ref);
+                            this.props.onClose();
+                          }}>
+                          {PDDEditModal.getDataById(ref)['titre']}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
