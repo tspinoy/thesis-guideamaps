@@ -36,7 +36,7 @@ class PDDLink extends React.Component {
         ])}
         fill={'none'}
         stroke={'black'}
-        strokeDasharray={1000} //{link.optional ? 3 : 0} // default lines are solid, others are dashed
+        //strokeDasharray={1000} //{link.optional ? 3 : 0} // default lines are solid, others are dashed
         //markerMid={link.target.visible ? 'url(#arrow)' : ''}
         style={{
           transform: `translate(${PDDNodeWidth / 2}px, ${PDDNodeHeight / 2}px)`,

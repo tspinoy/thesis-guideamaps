@@ -50,20 +50,24 @@
 @keyframes linkIn {
     from {
         stroke-dashoffset: 1000;
+        stroke-dasharray: 1000;
     }
     to {
         marker-mid: url(#arrow);
         stroke-dashoffset: var(--strokeDashArray);
+        stroke-dasharray: 0;
     }
 }
 
 @keyframes linkOut {
     from {
         stroke-dashoffset: var(--strokeDashArray);
+        stroke-dasharray: 0;
     }
     to {
         marker-mid: none;
         stroke-dashoffset: 1000;
+        stroke-dasharray: 1000;
     }
 }
 
