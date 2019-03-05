@@ -80,11 +80,10 @@ export const PDDData = [
 
 export const PDDData2 = [
   {
-    id: 1,
-    titre: 'Bioconversion alimentaire',
+    id: 0,
+    titre: 'Plateforme DD',
     sousTitre: '',
-    resume:
-      "**Valorisation des résidus alimentaires végétaux pour élever des larves de mouches soldat noire**;**La recherche participative ValueBugs** a été implémentée dans 5 classes de 3 ecoles différentes : Collège St-Michel, 1ère et 6ème secondaire Ecole Van Meyel, 5ème et 6ème primaire Institut Alexandre Herlin, 1ère secondaire forme 3. \nLe principe est d'utiliser les résidus alimentaires végétaux pour nourrir des larves de mouches soldat noire (Hermetia illucens). Ces larves pourront être utilisées comme aliment pour nourrir des animaux d’élevage (poules ou de poissons) ou de compagnie. L’avantage de cette conversion est de produire des aliments à haute valeur protéique.  \n\nLes **partenaires** de ce projet de recherche participative sont: La ferme du parc Maximilien, la ligue de protection des oiseaux, le CERVA (Centre d'étude et de recherches vétérinaires et agrochimiques) et l’asbl WORMS.  Objectifs pour les classes était de réaliser un dispositif permettant d'accueillir les larve et un autre pour faire la reproduction des mouches sur base de matériaux de récupération.  Mais aussi de réaliser des observations et des mesures (taille, poid, etc.) sur l’expérience en cours.   Résultats Plus de la moitié des dispositifs (55%) ont fonctionné. \n\nConcernant l’élevage, il faut en moyenne 94 jours pour le développement à maturité des premières larves. Il faut entre 1 à 2 semaines pour que ces larves mûres se transforment en mouche. Dans certaines classes, elles pèsent en moyenne 0,31g.  \nLes aliments préférés par les larves sont la pomme (trognon), la salade, la carotte (râpée) et le pain. Elles n’aiment pas le céleri.  Les élèves recommandent d’alimenter les larves lorsque la majeure partie de la nourriture est transformée/consommée.  Ils proposent de ne pas faire l’élevage en plein hiver car les écarts de températures augmentent probablement le taux de mortalité des larves. Ils disent aussi avoir besoin de plus d’informations sur la mouche et son développement pour mieux pouvoir conduire l'élevage. \n\nConcernant les dispositifs, certains ont commencé à sentir relativement vite (début décembre). Pour pallier à cela ils ont utilisé du marc de café. L’utilisation de pain sec leur a permit de contrôler l’excès d’humidité.  La technique de la bouteille couchée fonctionne bien !  \nPour ce qui est de la gestion en classe, ils ont organisé pour la plupart une tournante par groupe de 2 élèves mais que cela n’a fonctionné qu’un certain temps. Dans la plupart des classes, un petit groupe d’élèves motivés a prit en charge la gestion de l’élevage.  Ils ont été chercher la nourriture à la cantine de l’ecole ou des restes de collations des élèves. Ils proposent pour structurer le travail de :  prendre du temps sur le cours pour s’occuper de l’élevage installer un tableau mis en évidence à compléter par les groupes, noter dans le journal de classe  \n\n**Conclusion**, Les élèves se sont bien débrouillés dans ce projet de recherche totalement nouveau. Ils ont eu l’opportunité de communiquer leurs apprentissages à la ferme du parc Maximilien qui lance une unité de démonstration du projet et à Etienne Toffin qui coordonne le projet de recherche. Ces échanges valorisent leurs travaux et font d’eux des élèves-chercheurs.\n\nSuite à la participation de 5 classes de 3 ecoles différentes au projet de recherche participative **ValueBugs**, les résultats ont été récupérés et compilés dans ce document. Les élèves ont réalisés des dispositifs d'élevage et des volières uniques pour faire avancer la recherche !",
+    resume: '',
     parent: '',
     enfants: '',
     entrant: 7,
@@ -95,8 +94,27 @@ export const PDDData2 = [
     auteur:
       "Les élèves de 5è et 6è primaire de l'ecole Van Meyel, de 1ère secondaire forme 3 de l'Institut Alexandre Herlin et de 2è secondaire complémentaire et de rhétorique du Collège St-Michel ainsi que Inforsciences",
     source: '',
+    image: 'https://sciences.brussels/dd/imgs/logo-DD.png',
+    crossRefs: [],
+  },
+  {
+    id: 1,
+    titre: 'Bioconversion alimentaire',
+    sousTitre: '',
+    resume:
+      "**Valorisation des résidus alimentaires végétaux pour élever des larves de mouches soldat noire**;**La recherche participative ValueBugs** a été implémentée dans 5 classes de 3 ecoles différentes : Collège St-Michel, 1ère et 6ème secondaire Ecole Van Meyel, 5ème et 6ème primaire Institut Alexandre Herlin, 1ère secondaire forme 3. \nLe principe est d'utiliser les résidus alimentaires végétaux pour nourrir des larves de mouches soldat noire (Hermetia illucens). Ces larves pourront être utilisées comme aliment pour nourrir des animaux d’élevage (poules ou de poissons) ou de compagnie. L’avantage de cette conversion est de produire des aliments à haute valeur protéique.  \n\nLes **partenaires** de ce projet de recherche participative sont: La ferme du parc Maximilien, la ligue de protection des oiseaux, le CERVA (Centre d'étude et de recherches vétérinaires et agrochimiques) et l’asbl WORMS.  Objectifs pour les classes était de réaliser un dispositif permettant d'accueillir les larve et un autre pour faire la reproduction des mouches sur base de matériaux de récupération.  Mais aussi de réaliser des observations et des mesures (taille, poid, etc.) sur l’expérience en cours.   Résultats Plus de la moitié des dispositifs (55%) ont fonctionné. \n\nConcernant l’élevage, il faut en moyenne 94 jours pour le développement à maturité des premières larves. Il faut entre 1 à 2 semaines pour que ces larves mûres se transforment en mouche. Dans certaines classes, elles pèsent en moyenne 0,31g.  \nLes aliments préférés par les larves sont la pomme (trognon), la salade, la carotte (râpée) et le pain. Elles n’aiment pas le céleri.  Les élèves recommandent d’alimenter les larves lorsque la majeure partie de la nourriture est transformée/consommée.  Ils proposent de ne pas faire l’élevage en plein hiver car les écarts de températures augmentent probablement le taux de mortalité des larves. Ils disent aussi avoir besoin de plus d’informations sur la mouche et son développement pour mieux pouvoir conduire l'élevage. \n\nConcernant les dispositifs, certains ont commencé à sentir relativement vite (début décembre). Pour pallier à cela ils ont utilisé du marc de café. L’utilisation de pain sec leur a permit de contrôler l’excès d’humidité.  La technique de la bouteille couchée fonctionne bien !  \nPour ce qui est de la gestion en classe, ils ont organisé pour la plupart une tournante par groupe de 2 élèves mais que cela n’a fonctionné qu’un certain temps. Dans la plupart des classes, un petit groupe d’élèves motivés a prit en charge la gestion de l’élevage.  Ils ont été chercher la nourriture à la cantine de l’ecole ou des restes de collations des élèves. Ils proposent pour structurer le travail de :  prendre du temps sur le cours pour s’occuper de l’élevage installer un tableau mis en évidence à compléter par les groupes, noter dans le journal de classe  \n\n**Conclusion**, Les élèves se sont bien débrouillés dans ce projet de recherche totalement nouveau. Ils ont eu l’opportunité de communiquer leurs apprentissages à la ferme du parc Maximilien qui lance une unité de démonstration du projet et à Etienne Toffin qui coordonne le projet de recherche. Ces échanges valorisent leurs travaux et font d’eux des élèves-chercheurs.\n\nSuite à la participation de 5 classes de 3 ecoles différentes au projet de recherche participative **ValueBugs**, les résultats ont été récupérés et compilés dans ce document. Les élèves ont réalisés des dispositifs d'élevage et des volières uniques pour faire avancer la recherche !",
+    parent: 0,
+    enfants: '',
+    entrant: 7,
+    sortant: '',
+    ecole:
+      "WORMS asbl;Collège St-Michel d'Etterbeek 17-18;Ferme du Parc Maximilien;Ecole Van Meyel 2017-18;Institut Alexandre Herlin 2017-18",
+    multimedia: '',
+    auteur:
+      "Les élèves de 5è et 6è primaire de l'ecole Van Meyel, de 1ère secondaire forme 3 de l'Institut Alexandre Herlin et de 2è secondaire complémentaire et de rhétorique du Collège St-Michel ainsi que Inforsciences",
+    source: '',
     image: 'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/ValueBugs.jpg',
-    crossRefs: 19,
+    crossRefs: [19, 11, 14, 2, 8, 5, 16],
   },
   {
     id: 2,
@@ -113,11 +131,11 @@ export const PDDData2 = [
     auteur: 'Inforsciences',
     source: '',
     image: 'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/P1044655.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 3,
-    titre: 'la consommation d’eau',
+    titre: 'La consommation d’eau',
     sousTitre: '',
     resume:
       "*Suite aux quatre activités du programme scolaire, les élèves du Collège Saint-Hubert de Watermael-Boisfort ont travaillé, réfléchi et écrit sur la consommation d'eau*\n***\n&quot;Dans cette vidéo, nous vous montrons plusieurs actions que nous faisons quotidiennement mais qui consomment beaucoup plus d’eau que nous le pensons. Donc, nous vous montrons ce qu’il faut faire pour consommer le moins possible d’eau.\n\n**Exemples :**\n- Quand vous vous lavez ne pas laisser l’eau couler.\n- Essayer de prendre  le moins possible de bain et donc le plus possible de douche.\n- Quand vous allez eau toilette ne pas tirer la chasse tout de suite, attendez que 2/3 personnes soient passées pour la tirer.\n-…\n\n*Les actions quotidiennes utilisant le plus d’eau :*\n1. Douche et bain : 39% \n2. Sanitaires : 20% \n3. Lavage du linge : 12% \n4. Vaisselle : 10% \n5. Divers : 6% \n6. Lavage de voiture/jardin : 6% \n7. Cuisine : 6% \n8. Boisson : 1% \n\n\npar : Marie Neuville, Florence Rouvez, Manpreet Singh&quot;",
@@ -131,11 +149,11 @@ export const PDDData2 = [
       'les élèves de la classe de 2ème secondaire du Collège Saint-Hubert',
     source: '',
     image: 'https://www.youtube.com/embed/UJAU_4F5smI?controls=1',
-    crossRefs: 'la consommation énergétique',
+    crossRefs: [],
   },
   {
     id: 4,
-    titre: 'la pollution',
+    titre: 'La pollution',
     sousTitre: '',
     resume:
       "*Suite aux quatre activités du programme scolaire les élèves de 3ème secondaire de l'athénée Serge Creuz ont réalisé des panneaux de sensibilisation à l'impact de la pollution*\n***\n&quot;La pollution a des mauvaises répercussions sur la Terre, elle est la cause du réchauffement climatique et elle entraîne de grave problème de santé. Il existe plusieurs sorte de pollution : la pollution de l'air, la pollution marine, ... Cela est en partie la cause de la disparition des animaux. Comment peut-on remédier à ce problème ? Que devrait-on faire ? Doit-on agit ou doit-on rester dans notre confort ?&quot;\n\n&quot;La pollution a un impact réel dans notre société (Molembeek). Il faut savoir que l'environnement joue un très grand rôle dans le comportement de la population molembeekoise. Un mauvais environnement voudrait donc dire des comportements inappropriés. Favoriser le réchauffement climatique voudrait-il donc dire favoriser des attitudes malheureuses ? Quelle joie y a-t-il a vivre dans un environnement malpropre ? Si nous sommes fiers de nous revendiquer molembeekois, pourquoi ne pas entretenir notre quartier ? En arrêtant de jeter nos papiers par terre, en recyclant un peu plus, nous contribuons moins au réchauffement climatique.&quot;\n\n&quot;*Pour une terre plus saine, donnez le meilleur de vous même.* \n\nNous sommes à l'origine de la pollution et du réchauffement climatique. En effet, beaucoup d'inventions, qui n'ont pas été utilisées de la bonne manière, ont changé l'apparence de notre jolie Terre. Ce phénomène détruit notre planète et engendre de graves catastrophes telles que la fonte des glaces. Ainsi au lieu de vouloir changer de planète, essayez de modifier vos comportements envers la nôtre. &quot;",
@@ -149,11 +167,11 @@ export const PDDData2 = [
       "les élèves de la classe de 3ème secondaire de l'Athénée Royal Serge Creuz",
     source: '',
     image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Pollution.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 5,
-    titre: 'la pollution atmosphérique',
+    titre: 'La pollution atmosphérique',
     sousTitre: '',
     resume:
       "*Suite aux quatre activités du programme scolaire, les élèves du Collège Saint-Hubert de Watermael-Boisfort ont  travaillé, réfléchi et écrit sur la pollution atmosphérique*\n***\n&quot;La pollution atmosphérique des transports est trop importante : Le secteur des transports, en particulier les transports routiers, est en grande partie responsable de la pollution atmosphérique. En effet, les véhicules rejettent des émissions polluantes qui sont nocives pour notre santé. Ceci est d’autant plus vrai dans les villes car c’est là que la pollution est la plus importante et que les populations vivent. Le trafic routier est donc le premier responsable de la pollution dans les agglomérations.\n\nLa pollution atmosphérique, due en grande partie aux gaz d'échappements, cause des maladies respiratoires et contribue au réchauffement de la planète. En effet, le dioxyde de carbone (CO2) qui est rejeté entre autres par les voitures pollue l'atmosphère. On voit aussi apparaître au-dessus des grandes villes un « smog », sorte de brouillard causé par les pollutions urbaines. Ce smog est plus présent au-dessus des grandes villes asiatiques.\n\n\nCamille NEUVILLE, Eliane KERVYN et Elise WYNGAERDEN  &quot;",
@@ -167,11 +185,11 @@ export const PDDData2 = [
       'les élèves de 2 ème secondaire du Collège Saint-Hubert de Watermael-Boisfort',
     source: '',
     image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/smog.jpg',
-    crossRefs: 10,
+    crossRefs: [10],
   },
   {
     id: 6,
-    titre: "l'eau chaude",
+    titre: "L'eau chaude",
     sousTitre: '',
     resume:
       "*Suite aux quatre activités du programme scolaire, les élèves du Collège Saint-Hubert de Watermael-Boisfort ont travaillé et écrit sur l'eau chaude*\n***\n&quot;Lorsque l’on dit “réduire sa consommation d’énergie”, on pense à  : \n- Éteindre la lumière une fois que l’on quitte une pièce\n- Mettre moins de chauffage lorsqu’il fait chaud ou s’habiller plus chaudement \n- Utiliser moins souvent la voiture et plus marcher \n\nMais peu de personnes pensent à l’eau chaude.  \n\nActuellement, l’eau chaude est principalement produite grâce à l’électricité ou au gaz. Mais il existe d’autres moyens beaucoup plus écologiques : par exemple, utiliser l’énergie solaire ou géothermique.\n\nLe chauffe-eau solaire est un moyen de plus en plus répandu. Il capte l’énergie lumineuse du soleil qu’il transforme en énergie thermique. Généralement placé sur le toit d’une maison, disposant ainsi d’une bonne lumière, il peut durer une bonne vingtaine d’années mais nécessite quand même, de temps à autre, un entretien. Il peut apporter une grande économie d’énergie, principalement dans les pays chauds et fortement ensoleillés. Il peut satisfaire ainsi une bonne partie de la demande en eau chaude et peut également produire de l’électricité.\n\nLa pompe à chaleur est aussi une alternative. Elle prélève la chaleur naturelle présente dans les sous-sols ou nappes phréatiques et l’amène au milieu à chauffer là où un ballon d’eau l’attend et pourra ainsi être chauffé.\n\nEn dehors de ces grandes mesures, parfois de simples petits gestes répétés peuvent faire une grande différence. Par exemple, privilégiez les douches plutôt que les bains qui peuvent consommer jusqu’au triple de la consommation d’eau chaude d’une seule douche, coupez l’eau lorsque vous vous lavez les mains ou les cheveux ou encore faites de grandes vaisselles au lieu de faire tourner votre lave-vaisselle avec trois couteaux et une assiette !\n\nDiane Bilgischer – Tessa Rouvez – Juliette Hubert&quot;",
@@ -185,11 +203,11 @@ export const PDDData2 = [
       'les élèves de 2ème secondaire A du Collège Saint-Hubert de Watermael-Boisfort',
     source: '',
     image: 'https://www.youtube.com/embed/UJAU_4F5smI',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 7,
-    titre: 'le gaspillage alimentaire',
+    titre: 'Le gaspillage alimentaire',
     sousTitre: "Partie de la nourriture produite qui n'est pas consommée",
     resume:
       "*Suite au travail effectué sur la gestion des déchets, la classe de 2ème du Collège Saint-Michel d'Etterbeek a décidé de passer à l'action pour réduire le gaspillage alimentaire. Voici leur lettre, adressée à la direction du collège :*\n\n&quot;Bonjour Madame,\n\nAvant tout chose, nous sommes l'équipe de SDA (Structures des apprentissages) de \n2ème humanité et nous aimerions vous proposer une idée qui nous intéresse et qui vous intéressera certainement. Dans le cadre du cours, nous avons eu l'occasion de débattre, d'être informés et de réaliser des expériences scientifiques sur le tri des déchets. Tout ça nous a interpellé jusqu'à vous proposer cette idée de génie !\nQuoi de plus formidable, pour une ecole de protéger l'environnement au lieu de le polluer ?\n\nNous trouvons que ce serait une très bonne idée d'avoir, ici au Collège, des poubelles oranges car cela pourrait aider les cuisiniers, les élèves,.. à mieux s'y retrouver au niveau du tri. \nVous connaissez déjà l'importance du recyclage à travers les sacs poubelles bleus et jaunes. Depuis le début janvier, Bruxelles-Propreté a décidé de mettre en place un sac poubelle orange qui peut contenir tous nos restes de nourriture en passant par le sachet de thé, le marc de café ou encore les épluchures et autres emballages biodégradables. Les déchets de la poubelle orange deviendront du biogaz qui se trouve dans un biométhaniseur qui permettra de faire de l’électricité.\n\nCe serait sympa que nous soyons la première ecole à utiliser cette poubelle orange. En disposant de poubelles oranges, le collège deviendrait un bon exemple pour d'autres ecoles et donnerait une belle image. Un bon emplacement pour les placer serait de les mettre à l'entrée des réfectoires, à la salle des professeurs et dans les cours.\n\nMerci de votre compréhension.\n\nCordialement\nPour le groupe SDA,\nMoudjaoui Imane\nDeluga Karolina&quot;",
@@ -205,11 +223,11 @@ export const PDDData2 = [
       'Bruxelles-Propreté : https://www.arp-gan.be/fr/tri/22-dchets-alimentaires.html',
     image:
       'http://www.insidebrussels.be/V2/wp-content/uploads/2017/01/Screen-Shot-2017-01-08-at-20.23.51.png',
-    crossRefs: 'Alimentation',
+    crossRefs: [0],
   },
   {
     id: 8,
-    titre: 'le recyclage',
+    titre: 'Le recyclage',
     sousTitre: 'pour mieux collaborer avec la nature.',
     resume:
       "*Suite aux quatre activités du programme scolaire les élèves de 3ème secondaire de l'Athénée Serge Creuz ont réalisé des panneaux de sensibilisation au recyclage.*\n***\n&quot;Recycler, c'est redonner une seconde vie aux choses. C'est éviter que des produits gaspillés se trouvent dans la nature et prennent des années, voire des centaines d'années, à disparaître. Recycler c'est protéger l'environnement, penser à l'avenir des prochaines générations. En recyclant, vous protéger l'environnement, vous économiser de l’énergie, vous développer le secteur du tri sélectif.&quot;",
@@ -223,11 +241,11 @@ export const PDDData2 = [
       "les élèves de la classe de 3ème secondaire de l'Athénée Royal Serge Creuz",
     source: '',
     image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Recyclage.png',
-    crossRefs: 'Dechets',
+    crossRefs: [],
   },
   {
     id: 9,
-    titre: 'le recyclage des panneaux photovoltaïques',
+    titre: 'Le recyclage des panneaux photovoltaïques',
     sousTitre: '',
     resume:
       "*Suite aux activités réalisées avec les élèves de 2ème secondaire de l'Athénée Léon Lepage, certains d'entre eux ont décidé de rédiger les pages concernant les panneaux solaires.*\n***\n&quot;La plupart des composants d'un module solaire photovoltaïque, tout le verre et de grandes quantités de métaux peuvent être récupérés et recyclés. Certaines entreprises privées et des organismes sans but lucratif mettent en place des systèmes de collecte et de recyclage pour les panneaux photovoltaïques en fin de vie. \n\nEntre 2010 et 2014, plusieurs enquêtes et l'union européenne ont estimé que les deux tiers des déchets de cette nature n'arrivent jamais aux centres de retraitement agréés mais finissent en décharge ou à l'étranger.\n\nHassun Noura&quot;",
@@ -241,11 +259,11 @@ export const PDDData2 = [
     source: 'http://energies-renouvelables.consoneo.com ; http://energreen.be/',
     image:
       'http://sciences.ulb.ac.be/wp-content/uploads/2017/06/Recyclage-des-panneaux-solaires-photovoltaiques.jpg',
-    crossRefs: 'les panneaux photovoltaiques;8',
+    crossRefs: [8],
   },
   {
     id: 10,
-    titre: 'les déchets dans la nature',
+    titre: 'Les déchets dans la nature',
     sousTitre: 'Dégradation des déchets dans la nature',
     resume:
       "*Suite à un atelier sur la gestion des déchets, les élèves ont appris que les déchets se dégradaient dans la nature. Mais chaque déchets a un temps de dégradation propre selon sa forme et sa composition. Suite à cela, les élèves de 2ème secondaire du collège Saint-Michel d'Etterbeek, ont réalisé la ligne du temps (ci-contre) représentant le temps de dégradation des déchets de leur ecole .*",
@@ -260,11 +278,11 @@ export const PDDData2 = [
     source: "la classe de 2 ème secondaire du Collège Saint Michel d'Etterbeek",
     image:
       'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/temps-de-dégradation-des-déchets-de-lecole.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 11,
-    titre: 'les déchets dans les oceans',
+    titre: 'Les déchets dans les oceans',
     sousTitre: 'Le huitième continent',
     resume:
       "*Texte issu d'une présentation PowerPoint, réalisé par les élèves de la classe de 2ème secondaire du Collège Saint Michel d'Etterbeek pour sensibiliser les autres élèves à la gestion des déchets.*\n\n&quot;Après avoir travaillé sur le tri des déchets et ses conséquences, nous voulons nous mobiliser et vous en faire prendre conscience…\n\nActuellement, les océans sont pollués par plus de 100 millions de tonnes de plastiques. Le huitième continent qu'est ce que c'est ? C'est tous les déchets non recyclés. Ils se trouvent entre les Etats - Unis et le Japon, dans l'océan pacifique.\nD'où viennent les plastiques ?\nLes plastiques proviennent des grands cargos qui coulent, des gens au bord de la plage qui jettent leurs déchets et aussi de pays qui n'ont pas les moyens de recycler donc ils les rejettent dans la mer.\n\nComment les gens réagissent ... ? Les gens à travers le monde ne prennent pas conscience de la quantité de plastiques dispersés dans les différents milieux aquatiques.\nAprès une réflexion de longue durée, des personnes se sont mobilisées pour ne consommer que 25 kilos de déchets par an et éviter de polluer autant nos océans ... Aidez nous à ne pas former le 8ème continent !\n\nAmine, Charles, Chloé, Elisa, Grâce, Grégoire, Hazem, Hrandy, Imane, Karolina, Mateo, Matthaeus, Michel, Mohamed, Salma et Yassin&quot;",
@@ -278,7 +296,7 @@ export const PDDData2 = [
     source: '',
     image:
       'http://2.bp.blogspot.com/-3vuMU4pzzHQ/T1EdtX4OSKI/AAAAAAAAAFU/ZO9ByYlW2bU/s1600/vortex.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 12,
@@ -296,7 +314,7 @@ export const PDDData2 = [
     source: '',
     image:
       'http://sciences.ulb.ac.be/wp-content/uploads/2018/05/tri-densitaire.jpg',
-    crossRefs: 8,
+    crossRefs: [8],
   },
   {
     id: 13,
@@ -315,7 +333,7 @@ export const PDDData2 = [
     source:
       'Eurostat : http://ec.europa.eu/eurostat/statistics-explained/index.php/Municipal_waste_statistics',
     image: 'https://www.arp-gan.be/images/upload/images/Sacs_orange_plus.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 14,
@@ -333,7 +351,7 @@ export const PDDData2 = [
       'les élèves de la classe de CM2.7 (5ème primaire) du Lycée Français Jean Monnet',
     source: 'INFORSCIENCES',
     image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/IMG_9904.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 15,
@@ -352,7 +370,7 @@ export const PDDData2 = [
     source: '',
     image:
       'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/repartition-des-transports.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 16,
@@ -370,7 +388,7 @@ export const PDDData2 = [
     source: 'https://www.bebat.be/fr/programmescolaire#menu',
     image:
       'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/IMG_2642-e1528712886440.jpg',
-    crossRefs: 13,
+    crossRefs: [13],
   },
   {
     id: 17,
@@ -389,7 +407,7 @@ export const PDDData2 = [
       'les élèves de 2ème secondaire du Collège Saint-Hubert de Watermael-Boisfort',
     source: '',
     image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/smog.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 18,
@@ -406,7 +424,7 @@ export const PDDData2 = [
     auteur: 'Inforsciences',
     source: '',
     image: 'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/P1044655.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
   {
     id: 19,
@@ -424,6 +442,6 @@ export const PDDData2 = [
     source: '',
     image:
       'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/zero-déchets.jpg',
-    crossRefs: '',
+    crossRefs: [],
   },
 ];

@@ -12,13 +12,13 @@ import {
   initializeGMLink,
   initializeGMNode,
 } from './Constants';
-import GuideaMapsNode from './GuideaMapsNode';
-import GuideaMapsLink from './GuideaMapsLink';
+import GuideaMapsNode from './GMNode';
+import GMLink from './GMLink';
 import {GMData2} from './GMData';
 import ZoomableTree from './ZoomableTree';
 
-import PlateformeDDNode from './PlateformeDDNode';
-import {PDDData, PDDData2} from './PlateformeDDData';
+import PDDNode from './PDDNode';
+import {PDDData, PDDData2} from './PDDData';
 
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -41,6 +41,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PDDEditModal from "./PDDEditModal";
 import GMEditModal from "./GMEditModal";
+import PDDLink from "./PDDLink";
 library.add(
   faAdjust,
   faCircleRegular,
@@ -60,7 +61,7 @@ const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 
 const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
-const current_visualization = GUIDEAMAPS;
+const current_visualization = PLATEFORMEDD;
 
 if (current_visualization === PLATEFORMEDD) {
   const root = d3
@@ -189,8 +190,8 @@ class App extends Component {
       hexColor,
       children,
     ) => {
-      const newNodes = this.state.nodes.map((node, j) => {
-        if (j === nodeId) {
+      const newNodes = this.state.nodes.map(node => {
+        if (node.data.id === nodeId) {
           // update the node with this nodeId
           node.title = nodeTitle;
           node.content = nodeContent;
@@ -221,8 +222,8 @@ class App extends Component {
      * @param newY: The new y-coordinate of the node.
      */
     const updateGMNodePosition = (nodeId, newX, newY) => {
-      const newNodes = this.state.nodes.map((node, j) => {
-        if (j === nodeId) {
+      const newNodes = this.state.nodes.map(node => {
+        if (node.data.id === nodeId) {
           node.x = newX;
           node.y = newY;
           return node;
@@ -238,8 +239,8 @@ class App extends Component {
      * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
      */
     const updateGMNodeVisibleChildren = nodeId => {
-      const newNodes = this.state.nodes.map((node, j) => {
-        if (j === nodeId) {
+      const newNodes = this.state.nodes.map(node => {
+        if (node.data.id === nodeId) {
           // update the node ith this nodeId
           node.visibleChildren = !node.visibleChildren;
           if (node.visibleChildren) {
@@ -334,7 +335,7 @@ class App extends Component {
             NodeComp={
               current_visualization === GUIDEAMAPS
                 ? GuideaMapsNode
-                : PlateformeDDNode
+                : PDDNode
             }
             nodes={clusterNodes}
             onAddNode={
@@ -345,6 +346,7 @@ class App extends Component {
             EditNodeComp={
               current_visualization === GUIDEAMAPS ? GMEditModal : PDDEditModal
             }
+            onEditNode={() => editNode()}
             onNodeDataChange={
               current_visualization === GUIDEAMAPS
                 ? (nodeId, nodeTitle, nodeContent, hexColor, children) =>
@@ -366,9 +368,8 @@ class App extends Component {
             onNodeVisibleChildrenChange={nodeId =>
               updateGMNodeVisibleChildren(nodeId)
             }
-            onEditNode={() => editNode()}
             nodeOptions={nodeOptions}
-            LinkComp={GuideaMapsLink}
+            LinkComp={current_visualization === GUIDEAMAPS ? GMLink : PDDLink}
             links={clusterLinks}
           />
         </div>

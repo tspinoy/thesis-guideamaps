@@ -62,6 +62,7 @@ class EditButton extends React.Component {
         {this.state.isOpen &&
           ReactDOM.createPortal(
             <EditNodeComp
+              node={node}
               nodeTitle={node.title}
               nodeContent={node.content}
               nodeBackground={node.backgroundColor}

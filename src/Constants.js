@@ -9,8 +9,8 @@ export const GMNodeTypes = {
 
 export const GMNodeWidth = 130;
 export const GMNodeHeight = 100;
-export const PDDNodeWidth = 175;
-export const PDDNodeHeight = 300;
+export const PDDNodeWidth = 140;
+export const PDDNodeHeight = 100;
 
 export const maxZoomScale = 3;
 export const minZoomScale = 0.38;
@@ -28,7 +28,6 @@ export const project = (x, y) => {
 };
 
 export const initializeGMNode = (node, id, width, height) => {
-  node.id = id;
   node.visible = true;
   if (!(node.parent === null)) {
     node.visibleChildren = node.parent.visibleChildren;

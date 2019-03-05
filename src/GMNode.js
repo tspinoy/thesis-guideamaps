@@ -48,7 +48,7 @@ function dropCollect(connect, monitor) {
   };
 }
 
-class GuideaMapsNode extends React.Component {
+class GMNode extends React.Component {
   constructor(props) {
     super(props);
     this.getAllChildren = this.getAllChildren.bind(this);
@@ -58,23 +58,23 @@ class GuideaMapsNode extends React.Component {
   }
 
   componentDidMount() {
-    let node = document.getElementById('node' + this.props.node.id);
+    let node = document.getElementById('node' + this.props.node.data.id);
     setTimeout(() => {
       if (node.classList.contains('visibleNode')) {
         node.classList.remove('visibleNode');
         node.classList.add('node');
       }
-    }, 1100);
+    }, 600);
   }
 
   componentDidUpdate() {
-    let node = document.getElementById('node' + this.props.node.id);
+    let node = document.getElementById('node' + this.props.node.data.id);
     setTimeout(() => {
       if (node.classList.contains('visibleNode')) {
         node.classList.remove('visibleNode');
         node.classList.add('node');
       }
-    }, 1100);
+    }, 600);
   }
 
   /*
@@ -198,7 +198,7 @@ class GuideaMapsNode extends React.Component {
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
         // When an incomplete node is detected, false is immediately returned
-        if (!GuideaMapsNode.completeNode(child)) {
+        if (!GMNode.completeNode(child)) {
           return false;
         }
       }
@@ -221,7 +221,7 @@ class GuideaMapsNode extends React.Component {
         return ['fas', 'circle'];
       default:
         // default node
-        if (GuideaMapsNode.completeNode(node)) {
+        if (GMNode.completeNode(node)) {
           // The node itself is complete, now check the children
           if (this.completeChildren(node)) {
             // Complete children
@@ -274,8 +274,8 @@ class GuideaMapsNode extends React.Component {
         return (
           //connectDragSource(connectDropTarget(
           <div
-            key={node.id}
-            id={'node' + node.id}
+            key={node.data.id}
+            id={'node' + node.data.id}
             className={
               'node absolute ' +
               'border border-solid border-black rounded ' +
@@ -313,8 +313,8 @@ class GuideaMapsNode extends React.Component {
         return (
           //connectDragSource(connectDropTarget(
           <div
-            key={node.id}
-            id={'node' + node.id}
+            key={node.data.id}
+            id={'node' + node.data.id}
             className={
               'node absolute ' +
               'border border-solid border-black rounded ' +
@@ -411,15 +411,15 @@ class GuideaMapsNode extends React.Component {
   }
 }
 
-GuideaMapsNode.propTypes = {
+GMNode.propTypes = {
   connectDragSource: PropTypes.func, //.isRequired,
   connectDropTarget: PropTypes.func, //.isRequired,
   isDragging: PropTypes.bool, //.isRequired,
 };
 
-//export default GuideaMapsNode;
+//export default GMNode;
 
 export default flow(
   DragSource(ItemTypes.NODE, nodeSource, dragCollect),
   DropTarget(ItemTypes.NODE, nodeTarget, dropCollect),
-)(GuideaMapsNode);
+)(GMNode);

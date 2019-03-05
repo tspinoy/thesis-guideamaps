@@ -2,7 +2,7 @@ import React from 'react';
 import {GMNodeHeight, GMNodeWidth} from './Constants';
 import * as d3 from 'd3';
 
-class GuideaMapsLink extends React.Component {
+class GMLink extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,4 +49,4 @@ class GuideaMapsLink extends React.Component {
   }
 }
 
-export default GuideaMapsLink;
+export default GMLink;
