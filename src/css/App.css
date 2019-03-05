@@ -94,20 +94,11 @@
 }
 
 #editField.finished {
-    animation: moveOut 2s ease-in-out forwards;
+    animation: moveOut 500ms ease-in-out forwards;
 }
 
 #editField.editing {
-    animation: moveIn 2s ease-in-out 0.95s forwards;
-}
-
-.inner {
-    max-height: 0;
-    transition: max-height 1s ease-in-out;
-}
-.hoverarea:hover > .inner {
-    display: block;
-    max-height: 500px;
+    animation: moveIn 500ms ease-in-out 500ms forwards;
 }
 
 .tooltip {

@@ -1,6 +1,5 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
-import EditModal from './EditModal';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class EditButton extends React.Component {
@@ -36,11 +35,11 @@ class EditButton extends React.Component {
     // Depending on the animation, you have to wait before the state is changed.
     // The content of #editField is deleted when the this.state.isOpen = false.
     // Hence, we have to wait to delete it until the animation is finished.
-    setTimeout(() => this.updateOpenState(), this.state.isOpen ? 3000 : 1000);
+    setTimeout(() => this.updateOpenState(), this.state.isOpen ? 1000 : 600);
   }
 
   render() {
-    const {node, onClick} = this.props;
+    const {node, EditNodeComp, onClick} = this.props;
     return (
       <div className={'tooltip ' + this.props.width}>
         <button
@@ -59,10 +58,10 @@ class EditButton extends React.Component {
           onClick={() => this.toggleModal()}>
           <FontAwesomeIcon icon={'edit'} />
         </button>
-        <span className="tooltiptext">Open & edit</span>
+        <span className={'tooltiptext'}>Open & edit</span>
         {this.state.isOpen &&
           ReactDOM.createPortal(
-            <EditModal
+            <EditNodeComp
               nodeTitle={node.title}
               nodeContent={node.content}
               nodeBackground={node.backgroundColor}
