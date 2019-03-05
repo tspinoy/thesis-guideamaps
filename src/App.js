@@ -39,6 +39,8 @@ import {
   faSave,
 } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PDDEditModal from "./PDDEditModal";
+import GMEditModal from "./GMEditModal";
 library.add(
   faAdjust,
   faCircleRegular,
@@ -339,6 +341,9 @@ class App extends Component {
               current_visualization === GUIDEAMAPS
                 ? parent => addGMChildNode(parent)
                 : () => null
+            }
+            EditNodeComp={
+              current_visualization === GUIDEAMAPS ? GMEditModal : PDDEditModal
             }
             onNodeDataChange={
               current_visualization === GUIDEAMAPS

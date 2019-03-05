@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {SketchPicker} from 'react-color';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-class EditModal extends React.Component {
+class PDDEditModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -240,9 +240,9 @@ class EditModal extends React.Component {
   }
 }
 
-EditModal.propTypes = {
+PDDEditModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   show: PropTypes.bool,
 };
 
-export default EditModal;
+export default PDDEditModal;

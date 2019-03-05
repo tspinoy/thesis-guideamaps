@@ -256,6 +256,7 @@ class GuideaMapsNode extends React.Component {
     const {
       node,
       onAddNode,
+      EditNodeComp,
       onEditNode,
       onNodeDataChange,
       onNodePositionChange,
@@ -391,6 +392,7 @@ class GuideaMapsNode extends React.Component {
                 leaf={node.height === 0}
                 onNodeDataChange={onNodeDataChange}
                 bgcolor={node.backgroundColor}
+                EditNodeComp={EditNodeComp}
                 onEditNode={onEditNode}
               />
               {node.height !== 0 && (

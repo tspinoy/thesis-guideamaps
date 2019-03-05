@@ -21,6 +21,7 @@ class ZoomableTree extends React.Component {
       nodes,
       LinkComp,
       links,
+      EditNodeComp,
       width,
       height,
       onAddNode,
@@ -90,6 +91,7 @@ class ZoomableTree extends React.Component {
                   onNodePositionChange={onNodePositionChange}
                   onNodeDataChange={onNodeDataChange}
                   centered={centered}
+                  EditNodeComp={EditNodeComp}
                   width={width}
                   height={height}
                 />
