@@ -298,13 +298,13 @@ class GuideaMapsNode extends React.Component {
             }}
             onClick={onClick}>
             <div // content div
-              className={'invertColors'}
+              className={'invertColors text-base'}
               style={{color: node.backgroundColor}}>
               <FontAwesomeIcon
-                className={'absolute pin-r'}
+                className={'absolute pin-r text-base'}
                 icon={this.completenessIcon(node)}
               />
-              NodeType 2
+              {'NodeType 2'}
             </div>
           </div>
         );
@@ -345,7 +345,7 @@ class GuideaMapsNode extends React.Component {
                 backgroundColor: 'white',
               }}>
               <div
-                className={'w-5/6 font-sans text-lg overflow-hidden'}
+                className={'w-5/6 text-base overflow-hidden'}
                 style={{
                   whiteSpace: 'nowrap',
                   textOverflow: 'ellipsis',
@@ -356,13 +356,13 @@ class GuideaMapsNode extends React.Component {
               <div className={'w-1/6'}>
                 <FontAwesomeIcon
                   icon={this.completenessIcon(node)}
-                  style={{fontSize: '18px'}}
+                  className={'text-base'}
                 />
               </div>
             </div>
             <div // content div
               className={
-                'font-sans text-base pl-2 pr-2 pt-1 pb-1 overflow-hidden invertColors'
+                'text-base pl-2 pr-2 pt-1 pb-1 overflow-hidden invertColors'
               }
               style={{
                 color: node.backgroundColor, // this is inverted by the invertColors-class
