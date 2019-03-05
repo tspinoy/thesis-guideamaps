@@ -12,13 +12,17 @@ import {
   initializeGMLink,
   initializeGMNode,
 } from './Constants';
+import ZoomableTree from './ZoomableTree';
+
 import GuideaMapsNode from './GMNode';
 import GMLink from './GMLink';
 import {GMData2} from './GMData';
-import ZoomableTree from './ZoomableTree';
+import GMEditModal from './GMEditModal';
 
 import PDDNode from './PDDNode';
 import {PDDData, PDDData2} from './PDDData';
+import PDDEditModal from './PDDEditModal';
+import PDDLink from './PDDLink';
 
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -38,10 +42,6 @@ import {
   faCircle as faCircleRegular,
   faSave,
 } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PDDEditModal from "./PDDEditModal";
-import GMEditModal from "./GMEditModal";
-import PDDLink from "./PDDLink";
 library.add(
   faAdjust,
   faCircleRegular,
@@ -61,7 +61,7 @@ const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 
 const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
-const current_visualization = PLATEFORMEDD;
+const current_visualization = GUIDEAMAPS;
 
 if (current_visualization === PLATEFORMEDD) {
   const root = d3
@@ -84,11 +84,13 @@ if (current_visualization === PLATEFORMEDD) {
 
   var clusterNodes = clusterRoot
     .descendants()
-    .map((node, index) => initializeGMNode(node, index, width, height));
+    .map(node => initializeGMNode(node, width, height));
 
   console.log(clusterNodes);
 
   var clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
+
+  console.log(clusterLinks);
 } else {
   const root = d3
     .stratify()
@@ -110,7 +112,7 @@ if (current_visualization === PLATEFORMEDD) {
 
   var clusterNodes = clusterRoot
     .descendants()
-    .map((node, index) => initializeGMNode(node, index, width, height));
+    .map(node => initializeGMNode(node, width, height));
 
   var clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
 }
@@ -127,7 +129,7 @@ const root = d3.hierarchy(data, function(d) {
  * */
 const nodeOptions = clusterNodes.map(function(node) {
   return {
-    id: node.id,
+    id: node.data.id,
     show: node.visible,
     showChildren: node.visibleChildren,
     title: node.title,
@@ -333,9 +335,7 @@ class App extends Component {
             width={width}
             height={height}
             NodeComp={
-              current_visualization === GUIDEAMAPS
-                ? GuideaMapsNode
-                : PDDNode
+              current_visualization === GUIDEAMAPS ? GuideaMapsNode : PDDNode
             }
             nodes={clusterNodes}
             onAddNode={

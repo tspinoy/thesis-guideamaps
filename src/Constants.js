@@ -27,7 +27,7 @@ export const project = (x, y) => {
   return [radius * Math.cos(angle), radius * Math.sin(angle)];
 };
 
-export const initializeGMNode = (node, id, width, height) => {
+export const initializeGMNode = (node, width, height) => {
   node.visible = true;
   if (!(node.parent === null)) {
     node.visibleChildren = node.parent.visibleChildren;
