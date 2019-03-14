@@ -6,11 +6,13 @@ import logo from './logo.svg';
 
 import {
   GMNodeHeight,
+  GMNodeTypes,
   GMNodeWidth,
-  PDDNodeWidth,
-  PDDNodeHeight,
   initializeGMLink,
   initializeGMNode,
+  Modes,
+  PDDNodeHeight,
+  PDDNodeWidth
 } from './Constants';
 import ZoomableTree from './ZoomableTree';
 
@@ -36,6 +38,7 @@ import {
   faExpand,
   faPlus,
   faPlusCircle,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 // Import regular icons
 import {
@@ -53,6 +56,7 @@ library.add(
   faPlus,
   faPlusCircle,
   faSave,
+  faSearch,
 );
 
 const windowWidth = window.innerWidth;
@@ -63,8 +67,15 @@ const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
 const current_visualization = GUIDEAMAPS;
 
+let root = null;
+let cluster = null;
+let clusterNodes = null;
+let clusterLinks = null;
+
+let currentData = (current_visualization === GUIDEAMAPS ? GMData2 : PDDData2);
+
 if (current_visualization === PLATEFORMEDD) {
-  const root = d3
+  root = d3
     .stratify()
     .id(function(d) {
       return d.id;
@@ -74,7 +85,7 @@ if (current_visualization === PLATEFORMEDD) {
     })(PDDData2);
 
   // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
-  const cluster = d3
+  cluster = d3
     .cluster()
     .size([360, (root.height + 2) * 130])
     .separation(function(a, b) {
@@ -82,17 +93,17 @@ if (current_visualization === PLATEFORMEDD) {
     });
   const clusterRoot = cluster(root);
 
-  var clusterNodes = clusterRoot
+  clusterNodes = clusterRoot
     .descendants()
     .map(node => initializeGMNode(node, width, height));
 
   console.log(clusterNodes);
 
-  var clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
+  clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
 
   console.log(clusterLinks);
 } else {
-  const root = d3
+  root = d3
     .stratify()
     .id(function(d) {
       return d.id;
@@ -101,8 +112,12 @@ if (current_visualization === PLATEFORMEDD) {
       return d.parent;
     })(GMData2);
 
+  console.log(GMData2);
+
+  console.log(root);
+
   // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
-  const cluster = d3
+  cluster = d3
     .cluster()
     .size([360, (root.height + 2) * 130])
     .separation(function(a, b) {
@@ -110,11 +125,13 @@ if (current_visualization === PLATEFORMEDD) {
     });
   const clusterRoot = cluster(root);
 
-  var clusterNodes = clusterRoot
+  clusterNodes = clusterRoot
     .descendants()
     .map(node => initializeGMNode(node, width, height));
 
-  var clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
+  console.log(clusterNodes);
+
+  clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
 }
 /*
 const root = d3.hierarchy(data, function(d) {
@@ -139,42 +156,47 @@ const nodeOptions = clusterNodes.map(function(node) {
 });
 
 class App extends Component {
-  state = {nodes: clusterNodes, editing: false};
+  state = {
+    nodes: clusterNodes,
+    links: clusterLinks,
+    editing: false,
+    mode: Modes.END_USER,
+  };
 
   render() {
+    const update = newNode => {
+      // Assigns the x and y position for the nodes
+    };
+
     // based on https://stackoverflow.com/questions/43140325/add-node-to-d3-tree-v4
     const addGMChildNode = parent => {
-      let newNode = {
-        name: Date.now(),
-        children: [],
-      };
-      newNode = d3.hierarchy(newNode, function(d) {
-        return d.children;
+      currentData.push({
+        id: this.state.nodes.length,
+        name: 'huge test node hoho',
+        type: GMNodeTypes.DEFAULT,
+        parent: parent.id,
       });
+      root = d3
+        .stratify()
+        .id(function(d) {
+          return d.id;
+        })
+        .parentId(function(d) {
+          return d.parent;
+        })(currentData);
+      const clusterRoot = cluster(root);
 
-      newNode = initializeGMNode(newNode, this.state.nodes.length);
+      // Compute the new tree layout.
+      let nodes = clusterRoot
+        .descendants()
+        .map(node => initializeGMNode(node, width, height));
+      let links = clusterRoot.links().map(link => initializeGMLink(link));
 
-      newNode.depth = parent.depth + 1;
-      newNode.height = parent.height - 1;
-      newNode.parent = parent;
+      console.log(links);
 
-      //Selected is a node, to which we are adding the new node as a child
-      //If no child array, create an empty array
-      if (!parent.children) {
-        parent.children = [];
-        parent.data.children = [];
-      }
+      this.setState({nodes: nodes, links: links});
 
-      //Push it to parent.children array
-      parent.children.push(newNode);
-      parent.data.children.push(newNode.data);
-
-      const newNodesState = this.state.nodes;
-      newNodesState[parent.id] = parent;
-      newNodesState.push(newNode);
-      this.setState({nodes: newNodesState});
-
-      console.log(this.state);
+      //update(newNode);
     };
 
     /**
@@ -193,7 +215,7 @@ class App extends Component {
       children,
     ) => {
       const newNodes = this.state.nodes.map(node => {
-        if (node.data.id === nodeId) {
+        if (node.id === nodeId) {
           // update the node with this nodeId
           node.title = nodeTitle;
           node.content = nodeContent;
@@ -273,71 +295,97 @@ class App extends Component {
 
     return (
       <div>
-        <div
-          className={'w-full text-center flex h-1 pin-t bg-grey mb-2'}
-          style={{height: '50px'}}>
+        {current_visualization === GUIDEAMAPS && (
           <div
-            className={'w-1/3 flex'}
-            style={{alignItems: 'center', justifyContent: 'center'}}>
-            <label
-              className={
-                'rounded border border-black hover:bg-black hover:text-grey'
-              }
+            className={'w-full text-center flex h-1 pin-t bg-grey mb-2'}
+            style={{height: '50px'}}>
+            {/*
+            <div
+              className={'w-1/3 flex'}
+              style={{alignItems: 'center', justifyContent: 'center'}}>
+              <label
+                className={
+                  'rounded border border-black hover:bg-black hover:text-grey'
+                }
+                style={{
+                  width: '130px',
+                  height: '35px',
+                  cursor: 'pointer',
+                  // three rules to center the label
+                  display: 'block',
+                  textAlign: 'center',
+                  lineHeight: '35px', // must be equal to height
+                }}>
+                Enter your file
+                <input
+                  type="file"
+                  id="file"
+                  size="60"
+                  style={{display: 'none'}}
+                />
+              </label>
+            </div>
+            */}
+            <div className={'w-1/3 inline-flex justify-center items-center'}>
+              <button
+                className={
+                  'border border-black hover:bg-black hover:text-grey rounded-l ' +
+                  (this.state.mode === Modes.END_USER
+                    ? 'underline bg-black text-grey '
+                    : '')
+                }
+                style={{width: '150px', height: '35px'}}
+                onClick={() => this.setState({mode: Modes.END_USER})}>
+                END USER
+              </button>
+              <button
+                className={
+                  'border border-black hover:bg-black hover:text-grey rounded-r ' +
+                  (this.state.mode === Modes.MAP_CREATOR
+                    ? 'underline bg-black text-grey '
+                    : '')
+                }
+                style={{width: '150px', height: '35px'}}
+                onClick={() => this.setState({mode: Modes.MAP_CREATOR})}>
+                MAP CREATOR
+              </button>
+            </div>
+            <div
+              className={'items-center w-1/3'}
               style={{
-                width: '130px',
-                height: '35px',
-                cursor: 'pointer',
-                // three rules to center the label
-                display: 'block',
-                textAlign: 'center',
-                lineHeight: '35px', // must be equal to height
+                verticalAlign: 'baseline',
+                display: 'inline-flex',
+                justifyContent: 'center',
               }}>
-              Enter your file
-              <input
-                type="file"
-                id="file"
-                size="60"
-                style={{display: 'none'}}
+              <img
+                src={logo}
+                alt={'logo'}
+                style={{width: '50px', height: '50px'}}
               />
-            </label>
+              GuideaMaps
+            </div>
+            <div className={'w-1/3 flex justify-center items-center'}>
+              <button
+                id={'zoom-to-fit-btn'}
+                className={
+                  'rounded border border-black hover:bg-black hover:text-grey'
+                }
+                style={{width: '110px', height: '35px'}}>
+                Zoom to fit
+              </button>
+            </div>
           </div>
-          <div
-            className={'items-center w-1/3'}
-            style={{
-              verticalAlign: 'baseline',
-              display: 'inline-flex',
-              justifyContent: 'center',
-            }}>
-            <img
-              src={logo}
-              alt={'logo'}
-              style={{width: '50px', height: '50px'}}
-            />
-            {current_visualization === GUIDEAMAPS
-              ? 'GuideaMaps'
-              : 'Plateforme DD'}
-          </div>
-          <div
-            className={'w-1/3 flex'}
-            style={{alignItems: 'center', justifyContent: 'center'}}>
-            <button
-              id={'zoom-to-fit-btn'}
-              className={
-                'rounded border border-black hover:bg-black hover:text-grey'
-              }
-              style={{width: '110px', height: '35px'}}>
-              Zoom to fit
-            </button>
-          </div>
-        </div>
-        <div className={'w-screen flex justify-center items-center'}>
+        )}
+        <div className={'w-screen flex justify-center items-center mt-5'}>
           <ZoomableTree
             width={width}
             height={height}
+            mode={this.state.mode}
             NodeComp={
               current_visualization === GUIDEAMAPS ? GuideaMapsNode : PDDNode
             }
-            nodes={clusterNodes}
+            links={this.state.links}
+            nodes={this.state.nodes}
             onAddNode={
               current_visualization === GUIDEAMAPS
                 ? parent => addGMChildNode(parent)
@@ -370,7 +418,6 @@ class App extends Component {
             }
             nodeOptions={nodeOptions}
             LinkComp={current_visualization === GUIDEAMAPS ? GMLink : PDDLink}
-            links={clusterLinks}
           />
         </div>
 

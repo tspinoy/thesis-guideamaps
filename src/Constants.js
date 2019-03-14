@@ -51,6 +51,14 @@ export const initializeGMNode = (node, width, height) => {
   return node;
 };
 
+export const projectToRadialPositions = (node, width, height) => {
+  const projectedPositions = project(node.x, node.y);
+  // Center the content
+  node.x = projectedPositions[0] + width / 2 - GMNodeWidth / 2;
+  node.y = projectedPositions[1] + height / 2 - GMNodeHeight / 2;
+  return node;
+};
+
 export const initializeGMLink = link => {
   // Mark all edges to non-default nodes as optional
   link.optional = link.target.data.type !== GMNodeTypes.DEFAULT;
