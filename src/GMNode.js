@@ -163,6 +163,14 @@ class GMNode extends React.Component {
     return node.title !== '' && node.content !== '';
   }
 
+  static emptyNode(node) {
+    return node.title === '' && node.content === '';
+  }
+
+  static atLeastPartiallyCompleteNode(node) {
+    return node.title !== '' || node.content !== '';
+  }
+
   /**
    * A helper function for {@see completenessIcon}
    * to get all the children of a {@param node}.
@@ -207,6 +215,24 @@ class GMNode extends React.Component {
     }
   }
 
+  emptyChildren(node) {
+    if (node.children === undefined) {
+      return true;
+    } else {
+      // run over all children
+      let children = this.getAllChildren(node);
+      for (let i = 0; i < children.length; i++) {
+        let child = children[i];
+        // When an (partially) complete node is detected, false is immediately returned
+        if (GMNode.atLeastPartiallyCompleteNode(child)) {
+          return false;
+        }
+      }
+      // All nodes are empty => return true
+      return true;
+    }
+  }
+
   /**
    * Check what the completeness-icon should look like. If the node itself and all
    * children are completed, a solid filled circle should be visible.
@@ -221,7 +247,13 @@ class GMNode extends React.Component {
         return ['fas', 'circle'];
       default:
         // default node
-        if (GMNode.completeNode(node)) {
+        if (GMNode.emptyNode(node)) {
+          if (this.emptyChildren(node)) {
+            return ['far', 'circle'];
+          } else {
+            return ['fas', 'adjust'];
+          }
+        } else if (GMNode.completeNode(node)) {
           // The node itself is complete, now check the children
           if (this.completeChildren(node)) {
             // Complete children
@@ -254,9 +286,12 @@ class GMNode extends React.Component {
    * */
   render() {
     const {
+      centered,
+      EditNodeComp,
+      mode,
       node,
       onAddNode,
-      EditNodeComp,
+      onClick,
       onEditNode,
       onNodeDataChange,
       onNodePositionChange,
@@ -264,8 +299,6 @@ class GMNode extends React.Component {
       connectDragSource,
       connectDropTarget,
       isDragging, // injected by react dnd
-      onClick,
-      centered,
     } = this.props;
     //console.log(this.getAllChildren(node, []));
 
@@ -375,33 +408,34 @@ class GMNode extends React.Component {
                   overflow: 'hidden',
                   WebkitBoxOrient: 'vertical',
                 }}>
-                {node.content === '' ? 'No content' : node.content}
+                {node.content === '' ? 'Description' : node.content}
               </p>
             </div>
             <div // controls div
               className={'absolute pin-b flex rounded-b w-full'}>
               <AddChildButton
-                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+                bgcolor={node.backgroundColor}
                 node={node}
                 onAddNode={onAddNode}
-                bgcolor={node.backgroundColor}
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
               />
               <EditButton
-                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
-                node={node}
-                leaf={node.height === 0}
-                onNodeDataChange={onNodeDataChange}
                 bgcolor={node.backgroundColor}
                 EditNodeComp={EditNodeComp}
+                leaf={node.height === 0}
+                mode={mode}
+                node={node}
                 onEditNode={onEditNode}
+                onNodeDataChange={onNodeDataChange}
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
               />
               {node.height !== 0 && (
                 // At non-child nodes the expand-collapse button should be added
                 <ExpandCollapseButton
-                  width={'w-1/3'}
+                  bgcolor={node.backgroundColor}
                   node={node}
                   onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
-                  bgcolor={node.backgroundColor}
+                  width={'w-1/3'}
                 />
               )}
             </div>

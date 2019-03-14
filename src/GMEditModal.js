@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {SketchPicker} from 'react-color';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Modes} from './Constants';
 
 class GMEditModal extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class GMEditModal extends React.Component {
       nodeContent: this.props.nodeContent,
       nodeBackground: this.props.nodeBackground,
       includeChildren: true,
-      selectedTab: 'content',
+      selectedTab: 'edit',
     };
 
     /* This binding is necessary to make `this` work in the callback.
@@ -40,6 +41,9 @@ class GMEditModal extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    event.persist();
+    //const newTitle = event.target[2].value;
+    //const newContent = event.target[3].value;
     const newTitle = this.state.nodeTitle;
     const newContent = this.state.nodeContent;
     const newBackground = this.state.nodeBackground;
@@ -86,7 +90,7 @@ class GMEditModal extends React.Component {
               maxWidth: '750px',
             }}>
             <div className={'flex text-center'}>
-              <div className={'w-1/3'}>
+              {/*<div className={'w-1/3'}>
                 <button
                   className={
                     'w-1/2 py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
@@ -98,7 +102,8 @@ class GMEditModal extends React.Component {
                   Content
                 </button>
               </div>
-              <div className={'w-1/3'}>
+              */}
+              <div className={'w-1/2'}>
                 <button
                   className={
                     'w-1/2 py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
@@ -110,10 +115,10 @@ class GMEditModal extends React.Component {
                   Edit
                 </button>
               </div>
-              <div className={'w-1/3'}>
+              <div className={'w-1/2'}>
                 <button
                   className={
-                    'w-1/2 hover:bg-red hover:text-white border border-red border-solid rounded py-2 px-4 mr-2 mb-2'
+                    'w-1/2 bg-grey hover:bg-grey-dark rounded py-2 px-4 mr-2 mb-2'
                   }
                   onClick={() => this.props.onClose()}>
                   Close
@@ -129,14 +134,16 @@ class GMEditModal extends React.Component {
                 }}
                 onClick={() => this.setState({selectedTab: 'content'})}>
                 <table>
-                  <tr>
-                    <td className={'w-auto p-2'}>Node title</td>
-                    <td>{this.state.nodeTitle}</td>
-                  </tr>
-                  <tr>
-                    <td className={'w-auto p-2'}>Node content</td>
-                    <td>{this.state.nodeContent}</td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td className={'w-auto p-2'}>Node title</td>
+                      <td>{this.props.node.title}</td>
+                    </tr>
+                    <tr>
+                      <td className={'w-auto p-2'}>Node content</td>
+                      <td>{this.props.node.content}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
               <div
@@ -148,16 +155,8 @@ class GMEditModal extends React.Component {
                   onSubmit={this.handleSubmit}
                   className={'bg-white shadow-md rounded px-8'}>
                   <div className={'flex content-start overflow-scroll'}>
-                    <div className={'m-4'}>
-                      <div className={'mb-4 all:flex sm:block items-center'}>
-                        <button
-                          className={
-                            'hover:bg-red hover:text-white border border-red border-solid rounded py-2 px-4 mr-2 mb-2'
-                          }
-                          style={{width: '200px'}}
-                          onClick={() => this.props.onClose}>
-                          Cancel
-                        </button>
+                    <div className={'m-4 w-2/3'}>
+                      <div className={'mb-4 text-center'}>
                         <button
                           className={
                             'bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'
@@ -166,30 +165,49 @@ class GMEditModal extends React.Component {
                           <FontAwesomeIcon icon={['far', 'save']} />
                           &nbsp;Save and close
                         </button>
-                      </div>
-                      <div className={'mb-4'}>
-                        <label
-                          className={
-                            'block text-grey-darker text-sm font-bold mb-2'
-                          }>
-                          Node title
-                        </label>
-                        <input
-                          className={
-                            'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                            'leading-tight focus:outline-none focus:shadow-outline'
-                          }
-                          name={'title'}
-                          type={'text'}
-                          placeholder={'Node title'}
-                          defaultValue={this.state.nodeTitle}
-                          onChange={this.handleTitleChange}
+                        <hr
+                          style={{
+                            backgroundColor: 'black',
+                            opacity: 0.5,
+                            height: 1,
+                          }}
                         />
                       </div>
+                      {this.props.mode === Modes.END_USER ? (
+                        /* end user stuff */
+                        <div className={'mb-4'}>
+                          <h1>{this.props.node.title}</h1>
+                        </div>
+                      ) : (
+                        /* map creator stuff */
+                        <div className={'mb-4'}>
+                          <label
+                            className={
+                              'block text-grey-darker text-lg font-bold mb-2'
+                            }>
+                            Node title
+                          </label>
+                          <input
+                            className={
+                              'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                              'leading-tight focus:outline-none focus:shadow-outline'
+                            }
+                            name={'title'}
+                            type={'text'}
+                            placeholder={'Node title'}
+                            defaultValue={this.props.node.title}
+                            onChange={this.handleTitleChange}
+                          />
+                        </div>
+                      )}
+                      {/* Node description */}
+                      <div className={'mb-4'}>
+                        <p>Description here</p>
+                      </div>
                       <div className={'mb-4'}>
                         <label
                           className={
-                            'block text-grey-darker text-sm font-bold mb-2'
+                            'block text-grey-darker text-lg font-bold mb-2'
                           }>
                           Content
                         </label>
@@ -200,22 +218,23 @@ class GMEditModal extends React.Component {
                           }
                           name={'content'}
                           placeholder={'Node content'}
-                          defaultValue={this.state.nodeContent}
+                          defaultValue={this.props.node.content}
                           onChange={this.handleContentChange}
                         />
                       </div>
                     </div>
-                    <div className={'m-4'}>
+                    {/* Color picker */}
+                    <div className={'m-4 w-1/3'}>
                       <label
                         className={
-                          'block text-grey-darker text-sm font-bold mb-2'
+                          'block text-grey-darker text-lg font-bold mb-2'
                         }>
                         Background color
                       </label>
                       <SketchPicker
                         name={'colorPicker'}
-                        width={180}
                         disableAlpha={true}
+                        width={180}
                         color={this.state.nodeBackground}
                         onChange={this.handleColorChange}
                       />

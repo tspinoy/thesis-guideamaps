@@ -7,10 +7,15 @@ export const GMNodeTypes = {
   CHOICE: 'choice',
 };
 
+export const Modes = {
+  END_USER: 'END_USER',
+  MAP_CREATOR: 'MAP_CREATOR',
+};
+
 export const GMNodeWidth = 130;
 export const GMNodeHeight = 100;
 export const PDDNodeWidth = 140;
-export const PDDNodeHeight = 100;
+export const PDDNodeHeight = 140;
 
 export const maxZoomScale = 3;
 export const minZoomScale = 0.38;

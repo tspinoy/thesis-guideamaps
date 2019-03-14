@@ -39,7 +39,7 @@ class EditButton extends React.Component {
   }
 
   render() {
-    const {node, EditNodeComp, onClick} = this.props;
+    const {node, EditNodeComp, bgcolor, onClick} = this.props;
     return (
       <div className={'tooltip ' + this.props.width}>
         <button
@@ -52,20 +52,21 @@ class EditButton extends React.Component {
           style={{
             width: '100%',
             borderTop: '1px solid',
-            borderColor: node.backgroundColor, // inverted by invertColors
-            color: node.backgroundColor, // inverted by invertColors
+            borderColor: bgcolor, // inverted by invertColors
+            color: bgcolor, // inverted by invertColors
           }}
           onClick={() => this.toggleModal()}>
-          <FontAwesomeIcon icon={'edit'} />
+          <FontAwesomeIcon icon={'search'} size={this.props.iconSize} />
         </button>
         <span className={'tooltiptext'}>Open & edit</span>
         {this.state.isOpen &&
           ReactDOM.createPortal(
             <EditNodeComp
               node={node}
+              mode={this.props.mode}
               nodeTitle={node.title}
               nodeContent={node.content}
-              nodeBackground={node.backgroundColor}
+              nodeBackground={bgcolor}
               show={this.state.isOpen}
               updateNode={this.updateNode}
               onClose={this.toggleModal}
