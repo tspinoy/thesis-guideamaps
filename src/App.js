@@ -12,7 +12,7 @@ import {
   initializeGMNode,
   Modes,
   PDDNodeHeight,
-  PDDNodeWidth
+  PDDNodeWidth,
 } from './Constants';
 import ZoomableTree from './ZoomableTree';
 
@@ -67,77 +67,68 @@ const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
 const current_visualization = GUIDEAMAPS;
 
+let currentData = current_visualization === GUIDEAMAPS ? GMData2 : PDDData2;
+
+// Root definitions
 let root = null;
+const setRoot = (data = currentData) => {
+  root = d3
+    .stratify()
+    .id(function(d) {
+      return d.id;
+    })
+    .parentId(function(d) {
+      return d.parent;
+    })(data);
+};
+setRoot();
+
+// Cluster definitions
 let cluster = null;
+const setCluster = sep => {
+  cluster = d3
+    .cluster()
+    .size([360, (root.height + 2) * 130]) // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
+    .separation(function(a, b) {
+      return a.parent === b.parent ? sep : sep;
+    });
+};
+setCluster(current_visualization === GUIDEAMAPS ? 50 : PDDNodeWidth);
+
+// ClusterRoot definitions
+let clusterRoot = null;
+const setClusterRoot = () => {
+  clusterRoot = cluster(root);
+};
+setClusterRoot();
+
+// ClusterNodes definitions
 let clusterNodes = null;
+const setClusterNodes = (state = null) => {
+  clusterNodes = clusterRoot
+    .descendants()
+    .sort(function(a, b) {
+      return a.id - b.id; // sort by ascending id
+    })
+    .map((node, index) =>
+      initializeGMNode(
+        node,
+        state === null ? node : state.nodes[index],
+        width,
+        height,
+        true, // First time
+      ),
+    );
+};
+setClusterNodes();
+console.log(clusterNodes);
+
+// ClusterLinks definitions
 let clusterLinks = null;
-
-let currentData = (current_visualization === GUIDEAMAPS ? GMData2 : PDDData2);
-
-if (current_visualization === PLATEFORMEDD) {
-  root = d3
-    .stratify()
-    .id(function(d) {
-      return d.id;
-    })
-    .parentId(function(d) {
-      return d.parent;
-    })(PDDData2);
-
-  // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
-  cluster = d3
-    .cluster()
-    .size([360, (root.height + 2) * 130])
-    .separation(function(a, b) {
-      return a.parent === b.parent ? PDDNodeWidth : PDDNodeWidth;
-    });
-  const clusterRoot = cluster(root);
-
-  clusterNodes = clusterRoot
-    .descendants()
-    .map(node => initializeGMNode(node, width, height));
-
-  console.log(clusterNodes);
-
+const setClusterLinks = () => {
   clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
-
-  console.log(clusterLinks);
-} else {
-  root = d3
-    .stratify()
-    .id(function(d) {
-      return d.id;
-    })
-    .parentId(function(d) {
-      return d.parent;
-    })(GMData2);
-
-  console.log(GMData2);
-
-  console.log(root);
-
-  // A size of [360, radius] corresponds to a breadth of 360° and a depth of radius.
-  cluster = d3
-    .cluster()
-    .size([360, (root.height + 2) * 130])
-    .separation(function(a, b) {
-      return a.parent === b.parent ? 50 : 50;
-    });
-  const clusterRoot = cluster(root);
-
-  clusterNodes = clusterRoot
-    .descendants()
-    .map(node => initializeGMNode(node, width, height));
-
-  console.log(clusterNodes);
-
-  clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
-}
-/*
-const root = d3.hierarchy(data, function(d) {
-  return d.children;
-});
-*/
+};
+setClusterLinks();
 
 /* ClusterNodes contains a lot of information about each node.
  * Some parts of this information will be changed while using the app,
@@ -164,39 +155,36 @@ class App extends Component {
   };
 
   render() {
-    const update = newNode => {
-      // Assigns the x and y position for the nodes
-    };
-
-    // based on https://stackoverflow.com/questions/43140325/add-node-to-d3-tree-v4
     const addGMChildNode = parent => {
       currentData.push({
         id: this.state.nodes.length,
-        name: 'huge test node hoho',
+        name: 'added node',
         type: GMNodeTypes.DEFAULT,
-        parent: parent.id,
+        parent: parseInt(parent.id),
       });
-      root = d3
-        .stratify()
-        .id(function(d) {
-          return d.id;
-        })
-        .parentId(function(d) {
-          return d.parent;
-        })(currentData);
-      const clusterRoot = cluster(root);
 
-      // Compute the new tree layout.
-      let nodes = clusterRoot
+      setRoot(currentData);
+      setCluster(50);
+      setClusterRoot();
+
+      // Compute the new cluster layout.
+      clusterNodes = clusterRoot
         .descendants()
-        .map(node => initializeGMNode(node, width, height));
-      let links = clusterRoot.links().map(link => initializeGMLink(link));
+        .sort(function(a, b) {
+          return a.id - b.id; // sort by ascending id
+        })
+        .map((node, index) =>
+          initializeGMNode(
+            node,
+            this.state.nodes.length !== index ? this.state.nodes[index] : null,
+            width,
+            height,
+            this.state.nodes.length === index, // additional node
+          ),
+        );
+      setClusterLinks();
 
-      console.log(links);
-
-      this.setState({nodes: nodes, links: links});
-
-      //update(newNode);
+      this.setState({nodes: clusterNodes, links: clusterLinks});
     };
 
     /**

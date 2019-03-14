@@ -32,18 +32,51 @@ export const project = (x, y) => {
   return [radius * Math.cos(angle), radius * Math.sin(angle)];
 };
 
-export const initializeGMNode = (node, width, height) => {
-  node.visible = true;
-  if (!(node.parent === null)) {
+export const initializeGMNode = (
+  node,
+  oldNode,
+  width,
+  height,
+  firstTimeOrAdditionalNode,
+) => {
+  // fill visible property
+  node.visible =
+    oldNode !== null && oldNode.visible !== undefined ? oldNode.visible : true;
+
+  if (node.parent !== null) {
     node.visibleChildren = node.parent.visibleChildren;
   } else {
     node.visibleChildren = true;
   }
-  node.title = node.data.name;
-  node.content = 'The content is not completely shown, great!';
-  node.backgroundColor = '#ffffff';
 
-  const projectedPositions = project(node.x, node.y);
+  // fill node title
+  node.title =
+    oldNode !== null && oldNode.title !== undefined
+      ? oldNode.title
+      : node.data.name;
+
+  // fill node content
+  node.content =
+    oldNode !== null && oldNode.content !== undefined
+      ? oldNode.content
+      : 'The content is not completely shown, great!';
+
+  // fill node background
+  if (oldNode !== null && oldNode.backgroundColor !== undefined) {
+    node.backgroundColor = oldNode.backgroundColor;
+  } else if (node.parent !== null) {
+    node.backgroundColor = node.parent.backgroundColor;
+  } else {
+    node.backgroundColor = '#726D73';
+  }
+
+  // fill node positions
+  const projectedPositions =
+    oldNode !== null && oldNode.x !== undefined
+      ? firstTimeOrAdditionalNode
+        ? project(oldNode.x, oldNode.y)
+        : project(node.x, node.y)
+      : project(node.x, node.y);
   // Center the content
   node.x = projectedPositions[0] + width / 2 - GMNodeWidth / 2;
   node.y = projectedPositions[1] + height / 2 - GMNodeHeight / 2;
