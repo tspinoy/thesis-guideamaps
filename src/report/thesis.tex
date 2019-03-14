@@ -17,6 +17,11 @@
 \usepackage{float}
 \usepackage{parcolumns}
 
+\usepackage{setspace}
+\usepackage{etoolbox}
+\AtBeginEnvironment{quote}{\singlespace\vspace{-\topsep}\small}
+\AtEndEnvironment{quote}{\vspace{-\topsep}\endsinglespace}
+
 \usepackage{listings}
 \usepackage[dvipsnames]{xcolor}
 
@@ -154,8 +159,8 @@
 
 \fancypagestyle{plain}{
   \fancyhf{}
-  \fancyfoot[C]{GuideaMaps 2.0}
-  \fancyfoot[LO,RE]{\MakeUppercase\leftmark}
+  \fancyfoot[C]{\MakeUppercase\leftmark}
+  \fancyfoot[LO,RE]{GuideaMaps 2.0}
   \fancyfoot[LE,RO]{\thepage}
   \renewcommand{\headrulewidth}{0pt}% Line at the header invisible
 }
@@ -178,7 +183,8 @@
 \date{June 2019}
 
 \promotors{Prof.\ Dr.\ Olga De Troyer\\ \vspace{0.5mm} \\Advisor: \\Jan Maushagen \vspace{0.5mm} }
-          
+
+\usepackage{natbib}
 \begin{document}
 \sloppy % avoid words coming into right margin
 %\setlength{\parskip}{0pt}
@@ -191,8 +197,8 @@
 %\fancyhead[LO,RE]{\thepage}
 %\fancyfoot[RO]{\bfseries\leftmark}
 %\fancyfoot[LE]{\bfseries\rightmark}
-\fancyfoot[C]{GuideaMaps 2.0}
-\fancyfoot[LO,RE]{\MakeUppercase\leftmark}
+\fancyfoot[C]{\MakeUppercase\leftmark}
+\fancyfoot[LO,RE]{GuideaMaps 2.0}
 \fancyfoot[LE,RO]{\thepage}
 \renewcommand{\headrulewidth}{0pt} % 0pt -> line invisible
 \renewcommand{\footrulewidth}{0.1pt} % 0pt -> line invisible
@@ -258,13 +264,16 @@
 \input{sections/ch-introduction}
 \clearemptydoublepage
 
-\input{sections/ch-requirements}
-\clearemptydoublepage
-
 \input{sections/ch-related-work}
 \clearemptydoublepage
 
+\input{sections/ch-requirements}
+\clearemptydoublepage
+
 \input{sections/ch-implementation}
+\clearemptydoublepage
+
+\input{sections/ch-evaluation}
 \clearemptydoublepage
 
 \input{sections/ch-conclusion}
@@ -275,6 +284,7 @@
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname}\ \thechapter.\ #1}{}}
 %\input{sections/appendix}
 
+\renewcommand{\bibname}{References\hfill}
 \cleardoublepage
 \bibliographystyle{apacite}
 \bibliography{thesisbib} % change to your bib!
