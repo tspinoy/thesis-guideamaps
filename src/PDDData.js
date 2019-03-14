@@ -148,7 +148,7 @@ export const PDDData2 = [
     auteur:
       'les élèves de la classe de 2ème secondaire du Collège Saint-Hubert',
     source: '',
-    image: 'https://www.youtube.com/embed/UJAU_4F5smI?controls=1',
+    image: '',
     crossRefs: [],
   },
   {
@@ -202,7 +202,7 @@ export const PDDData2 = [
     auteur:
       'les élèves de 2ème secondaire A du Collège Saint-Hubert de Watermael-Boisfort',
     source: '',
-    image: 'https://www.youtube.com/embed/UJAU_4F5smI',
+    image: '',
     crossRefs: [],
   },
   {
@@ -276,8 +276,7 @@ export const PDDData2 = [
     auteur:
       'les élèves de la classe de 2 ème secondaire du collège Saint Michel (Image); INFORSCIENCES (Texte)',
     source: "la classe de 2 ème secondaire du Collège Saint Michel d'Etterbeek",
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/temps-de-dégradation-des-déchets-de-lecole.jpg',
+    image: '',
     crossRefs: [],
   },
   {
