@@ -4,10 +4,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 class ExpandCollapseButton extends React.Component {
   constructor(props) {
     super(props);
-    const {node} = this.props;
-    this.state = {
-      visibleChildren: node.visibleChildren,
-    };
 
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
@@ -15,15 +11,13 @@ class ExpandCollapseButton extends React.Component {
 
   // This syntax ensures `this` is bound within handleClick.
   handleClick() {
-    // Update the local state
-    this.setState({visibleChildren: !this.state.visibleChildren});
-
     // Update the global state. The local state is only to know which icon to represent.
     // The global state makes sure to collapse all child nodes of this node on all deeper levels.
     this.props.onNodeVisibleChildrenChange(this.props.node.data.id);
   }
 
   render() {
+    const {node} = this.props;
     return (
       <div className={'tooltip ' + this.props.width}>
         <button
@@ -35,15 +29,17 @@ class ExpandCollapseButton extends React.Component {
           }
           style={{
             borderTop: '1px solid',
-            borderColor: this.props.node.backgroundColor, // inverted by invertColors
-            color: this.props.node.backgroundColor, // inverted by invertColors
+            borderColor: node.backgroundColor, // inverted by invertColors
+            color: node.backgroundColor, // inverted by invertColors
           }}
           onClick={this.handleClick}>
           <FontAwesomeIcon
-            icon={this.state.visibleChildren ? 'compress' : 'expand'}
+            icon={this.props.node.visibleChildren ? 'compress' : 'expand'}
           />
         </button>
-        <span className="tooltiptext">{this.state.visibleChildren ? 'Collapse' : 'Expand'}</span>
+        <span className="tooltiptext">
+          {node.visibleChildren ? 'Collapse' : 'Expand'}
+        </span>
       </div>
     );
   }
