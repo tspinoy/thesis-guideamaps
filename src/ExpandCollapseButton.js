@@ -21,11 +21,10 @@ class ExpandCollapseButton extends React.Component {
     return (
       <div className={'tooltip ' + this.props.width}>
         <button
+          id={'ec-btn-node' + this.props.node.data.id}
           className={
-            'text-grey-darkest font-bold ' +
-            'py-1 px-1 ' +
-            'rounded-br items-center ' +
-            'block invertColors w-full'
+            'block expand-collapse-btn font-bold invertColors items-center ' +
+            'px-1 py-1 rounded-br text-grey-darkest w-full'
           }
           style={{
             borderTop: '1px solid',
