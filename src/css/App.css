@@ -1,5 +1,5 @@
 .invertColors {
-    filter: invert(100%) saturate(0%) brightness(100%) contrast(1000%);
+    filter: invert(100%) saturate(0%) brightness(100%) contrast(10000%);
     -moz-osx-font-smoothing: grayscale; /* used to avoid "boldlike" font */
     -webkit-font-smoothing: antialiased; /* used to avoid "boldlike" font */
 }
@@ -97,11 +97,11 @@
     }
 }
 
-#editField.finished {
+#modalSpace.finished {
     animation: moveOut 500ms ease-in-out forwards;
 }
 
-#editField.editing {
+#modalSpace.editing {
     animation: moveIn 500ms ease-in-out 500ms forwards;
 }
 
@@ -142,7 +142,7 @@
 .crossReference:hover {
     transform: scale(1.1);
     z-index: 50000;
-    background-color: black;
+    background-color: #5cb85c;
     color: white;
 }
 
