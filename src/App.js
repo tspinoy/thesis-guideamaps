@@ -36,9 +36,12 @@ import {
   faEdit,
   faEllipsisH,
   faExpand,
+  faLock,
+  faLockOpen,
   faPlus,
   faPlusCircle,
   faSearch,
+  faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 // Import regular icons
 import {
@@ -53,10 +56,13 @@ library.add(
   faEdit,
   faEllipsisH,
   faExpand,
+  faLock,
+  faLockOpen,
   faPlus,
   faPlusCircle,
   faSave,
   faSearch,
+  faTrashAlt,
 );
 
 const windowWidth = window.innerWidth;
@@ -155,11 +161,25 @@ class App extends Component {
   };
 
   render() {
-    const addGMChildNode = parent => {
+    const findNodeWithId = nodeId => {
+      for (let i = 0; i < this.state.nodes.length; i++) {
+        if (this.state.nodes[i].data.id === nodeId) {
+          return this.state.nodes[i];
+        }
+      }
+      return null;
+    };
+
+    /**
+     * Add a child node to the current node, which will become the {@param parent} of the new node.
+     * @param parent
+     * @param type
+     */
+    const addGMChildNode = (parent, type = null) => {
       currentData.push({
-        id: this.state.nodes.length,
+        id: this.state.nodes[this.state.nodes.length - 1].data.id + 1,
         name: 'added node',
-        type: GMNodeTypes.DEFAULT,
+        type: type === null ? GMNodeTypes.DEFAULT : GMNodeTypes[type],
         parent: parseInt(parent.id),
       });
 
@@ -176,7 +196,34 @@ class App extends Component {
         .map((node, index) =>
           initializeGMNode(
             node,
-            this.state.nodes.length !== index ? this.state.nodes[index] : null,
+            this.state.nodes.length !== index ? findNodeWithId(index) : null,
+            width,
+            height,
+            this.state.nodes.length === index, // additional node
+          ),
+        );
+      setClusterLinks();
+
+      this.setState({nodes: clusterNodes, links: clusterLinks});
+    };
+
+    const deleteGMNode = nodeId => {
+      const index = currentData.findIndex(node => node.id === nodeId);
+      currentData.splice(index, 1); // remove the node from currentData.
+      setRoot(currentData);
+      setCluster(50);
+      setClusterRoot();
+
+      // Compute the new cluster layout.
+      clusterNodes = clusterRoot
+        .descendants()
+        .sort(function(a, b) {
+          return a.id - b.id; // sort by ascending id
+        })
+        .map((node, index) =>
+          initializeGMNode(
+            node,
+            this.state.nodes.length !== index ? findNodeWithId(index) : null,
             width,
             height,
             this.state.nodes.length === index, // additional node
@@ -227,6 +274,20 @@ class App extends Component {
       this.setState({nodes: newNodes});
     };
 
+    const updateNodeLock = nodeId => {
+      const newNodes = this.state.nodes.map(node => {
+        if (node.id === nodeId) {
+          // update the node with this nodeId
+          node.locked = !this.state.nodes[nodeId].locked;
+          return node;
+        } else {
+          // other nodes remain the same
+          return node;
+        }
+      });
+      this.setState({nodes: newNodes});
+    };
+
     /**
      * Update the position of the node after a drag and drop event.
      * @param nodeId: The id of the node of which the coordinates have to change.
@@ -253,10 +314,23 @@ class App extends Component {
     const updateGMNodeVisibleChildren = nodeId => {
       const newNodes = this.state.nodes.map(node => {
         if (node.data.id === nodeId) {
-          // update the node ith this nodeId
+          // update the node with this nodeId
           node.visibleChildren = !node.visibleChildren;
           if (node.visibleChildren) {
-            node.children.map(child => (child.visible = true));
+            node.children.map(child => {
+              child.visible = true; // make the child visible
+              if (
+                child.data.type === GMNodeTypes.CHOICE &&
+                child.children !== undefined
+              ) {
+                for (let x = 0; x < child.children.length; x++) {
+                  // make the children under of a choice node visible by default
+                  const c = child.children[x];
+                  c.visible = true;
+                  child.visibleChildren = true;
+                }
+              }
+            });
           } else {
             const childNodes = node.descendants();
             // Invert the show property of all descending nodes, start from x=1 to not hide the node itself!
@@ -277,7 +351,6 @@ class App extends Component {
     };
 
     const editNode = () => {
-      console.log('editnode');
       this.setState({editing: !this.state.editing});
     };
 
@@ -376,7 +449,12 @@ class App extends Component {
             nodes={this.state.nodes}
             onAddNode={
               current_visualization === GUIDEAMAPS
-                ? parent => addGMChildNode(parent)
+                ? (parent, type) => addGMChildNode(parent, type)
+                : () => null
+            }
+            deleteNode={
+              current_visualization === GUIDEAMAPS
+                ? nodeId => deleteGMNode(nodeId)
                 : () => null
             }
             EditNodeComp={
@@ -395,6 +473,7 @@ class App extends Component {
                   )
                 : () => null
             }
+            onNodeLockUnlock={nodeId => updateNodeLock(nodeId)}
             onNodePositionChange={
               current_visualization === GUIDEAMAPS
                 ? (nodeId, newX, newY) =>
@@ -410,7 +489,7 @@ class App extends Component {
         </div>
 
         <div
-          id={'editField'}
+          id={'modalSpace'}
           className={
             'absolute pin-t z-50 ' +
             (this.state.editing ? 'editing' : 'finished')

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ItemTypes, GMNodeTypes} from './Constants';
+import { ItemTypes, GMNodeTypes, Modes } from "./Constants";
 import {DragSource, DropTarget} from 'react-dnd';
 import flow from 'lodash/flow';
 
@@ -10,6 +10,7 @@ import AddChildButton from './AddChildButton';
 import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import * as ReactDOM from "react-dom";
 
 const nodeSource = {
   beginDrag(props, monitor, component) {
@@ -51,10 +52,17 @@ function dropCollect(connect, monitor) {
 class GMNode extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isOpen: false,
+    };
     this.getAllChildren = this.getAllChildren.bind(this);
     //this.handleMouseDown = this.handleMouseDown.bind(this);
     //this.handleMouseMove = this.handleMouseMove.bind(this);
     //this.handleMouseUp = this.handleMouseUp.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    //this.updateOpenState = this.updateOpenState.bind(this);
+    this.completeNode = this.completeNode.bind(this);
+    this.emptyChildren = this.emptyChildren.bind(this);
   }
 
   componentDidMount() {
@@ -159,14 +167,34 @@ class GMNode extends React.Component {
    * @param node
    * @return {boolean}
    */
-  static completeNode(node) {
-    return node.title !== '' && node.content !== '';
+  completeNode(node) {
+    if (this.props.mode === Modes.END_USER) {
+      return node.content !== '';
+    } else if (this.props.mode === Modes.MAP_CREATOR) {
+      return node.title !== '' && node.content !== '';
+    }
   }
 
-  static emptyNode(node) {
-    return node.title === '' && node.content === '';
+  /**
+   * A {@param node} is defined as empty if both "title"- and "content"-fields
+   * are empty.
+   * @param node
+   * @return {boolean}
+   */
+  emptyNode(node) {
+    if (this.props.mode === Modes.END_USER) {
+      return node.content === '';
+    } else if (this.props.mode === Modes.MAP_CREATOR) {
+      return node.title === '' && node.content === '';
+    }
   }
 
+  /**
+   * A {@param node} is defined as partially complete if at least one
+   * of the "title"- and "content"-fields are filled in.
+   * @param node
+   * @return {boolean}
+   */
   static atLeastPartiallyCompleteNode(node) {
     return node.title !== '' || node.content !== '';
   }
@@ -206,7 +234,7 @@ class GMNode extends React.Component {
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
         // When an incomplete node is detected, false is immediately returned
-        if (!GMNode.completeNode(child)) {
+        if (!this.completeNode(child)) {
           return false;
         }
       }
@@ -215,6 +243,12 @@ class GMNode extends React.Component {
     }
   }
 
+  /**
+   * A helper function for {@see completenessIcon} to check the emptyness
+   * of the children of a {@param node}.
+   * @param node: the node of which we will check the children for emptyness
+   * @return {boolean}: the children are empty (true) or not (false)
+   */
   emptyChildren(node) {
     if (node.children === undefined) {
       return true;
@@ -223,8 +257,12 @@ class GMNode extends React.Component {
       let children = this.getAllChildren(node);
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
+        // you don't have to check choice nodes for completeness
+        if (child.data.type === GMNodeTypes.CHOICE) {
+          continue;
+        }
         // When an (partially) complete node is detected, false is immediately returned
-        if (GMNode.atLeastPartiallyCompleteNode(child)) {
+        if (this.completeNode(child)) {
           return false;
         }
       }
@@ -244,16 +282,24 @@ class GMNode extends React.Component {
   completenessIcon(node) {
     switch (node.data.type) {
       case GMNodeTypes.CHOICE:
-        return ['fas', 'circle'];
+        if (node.children !== undefined) {
+          if (this.emptyChildren(node)) {
+            return ['far', 'circle'];
+          } else if (this.completeChildren(node)) {
+            return ['fas', 'circle'];
+          } else {
+            return ['fas', 'adjust'];
+          }
+        }
+        break;
       default:
-        // default node
-        if (GMNode.emptyNode(node)) {
+        if (this.emptyNode(node)) {
           if (this.emptyChildren(node)) {
             return ['far', 'circle'];
           } else {
             return ['fas', 'adjust'];
           }
-        } else if (GMNode.completeNode(node)) {
+        } else if (this.completeNode(node)) {
           // The node itself is complete, now check the children
           if (this.completeChildren(node)) {
             // Complete children
@@ -276,6 +322,22 @@ class GMNode extends React.Component {
     return [current.x, current.y];
   }
 
+  updateOpenState() {
+    console.log('before: ' + this.state.isOpen);
+    this.setState({isOpen: !this.state.isOpen});
+    console.log('after: ' + this.state.isOpen);
+  }
+
+  toggleModal(linenr) {
+    console.log('togglemodal called from ' + linenr);
+    this.props.onEditNode();
+    this.props.onClick();
+    // Depending on the animation, you have to wait before the state is changed.
+    // The content of #modalSpace is deleted when the this.state.isOpen = false.
+    // Hence, we have to wait to delete it until the animation is finished.
+    setTimeout(() => this.updateOpenState(), this.state.isOpen ? 1000 : 600);
+  }
+
   /**
    * To render a node, a div element is created.
    * Inside this div we have another div to display the title of the node + a second div showing the content of it.
@@ -287,6 +349,7 @@ class GMNode extends React.Component {
   render() {
     const {
       centered,
+      deleteNode,
       EditNodeComp,
       mode,
       node,
@@ -294,6 +357,7 @@ class GMNode extends React.Component {
       onClick,
       onEditNode,
       onNodeDataChange,
+      onNodeLockUnlock,
       onNodePositionChange,
       onNodeVisibleChildrenChange,
       connectDragSource,
@@ -306,39 +370,149 @@ class GMNode extends React.Component {
       case GMNodeTypes.CHOICE:
         return (
           //connectDragSource(connectDropTarget(
-          <div
-            key={node.data.id}
-            id={'node' + node.data.id}
-            className={
-              'node absolute ' +
-              'border border-solid border-black rounded ' +
-              'hover:border-red ' +
-              'p-2 ' +
-              (node.visible ? 'z-40 ' : 'z-0 ') +
-              (node.visible ? 'visibleNode ' : 'hiddenNode ')
-            }
-            style={{
-              width: GMNodeWidth,
-              height: GMNodeHeight / 2,
-              //transform: `translate(${node.x}px,${node.y + GMNodeHeight / 4}px)`,
-              backgroundColor: node.backgroundColor,
-              opacity: isDragging ? 0.5 : '',
-              transition: centered && 'all 500ms ease 0s',
-              '--nodex': node.x + 'px',
-              '--nodey': node.y + GMNodeHeight / 4 + 'px',
-              '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
-              '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
-            }}
-            onClick={onClick}>
-            <div // content div
-              className={'invertColors text-base'}
-              style={{color: node.backgroundColor}}>
-              <FontAwesomeIcon
-                className={'absolute pin-r text-base'}
-                icon={this.completenessIcon(node)}
-              />
-              {'NodeType 2'}
+          <div>
+            <div
+              key={node.data.id}
+              id={'node' + node.data.id}
+              className={
+                'node absolute flex ' +
+                'border border-solid border-black rounded ' +
+                'p-2 cursor-pointer ' +
+                (node.visible ? 'z-40 ' : 'z-0 ') +
+                (node.visible ? 'visibleNode ' : 'hiddenNode ')
+              }
+              style={{
+                width: GMNodeWidth,
+                height: GMNodeHeight / 2,
+                //transform: `translate(${node.x}px,${node.y + GMNodeHeight / 4}px)`,
+                backgroundColor: '#60b660',
+                opacity: isDragging ? 0.5 : '',
+                transition: centered && 'all 500ms ease 0s',
+                '--nodex': node.x + 'px',
+                '--nodey': node.y + GMNodeHeight / 4 + 'px',
+                '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
+                '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
+              }}
+              onClick={() => this.toggleModal(371)}>
+              <div
+                className={
+                  'm-auto overflow-hidden text-base w-5/6 whitespace-no-wrap'
+                }
+                style={{
+                  textOverflow: 'ellipsis',
+                  //textAlign: 'center',
+                }}>
+                {'Choice node'}
+              </div>
+              <div className={'m-auto w-1/6'}>
+                <FontAwesomeIcon
+                  icon={this.completenessIcon(node)}
+                  className={'text-base'}
+                />
+              </div>
             </div>
+            {this.state.isOpen &&
+              ReactDOM.createPortal(
+                <div
+                  className={'modal overflow-y-scroll rounded'}
+                  style={{
+                    backgroundColor: '#fff',
+                    border: '2px solid black',
+                    height: '300px',
+                    //maxHeight: 500,
+                    margin: '0 auto',
+                    marginTop: '2%',
+                    padding: 15,
+                    width: '100%',
+                    maxWidth: '750px',
+                  }}>
+                  <div className={'flex'}>
+                    <h1 style={{width: '90%'}}>
+                      Select the type of node to insert
+                    </h1>
+                    <button
+                      className={
+                        'bg-grey hover:bg-grey-dark mb-2 mr-2 px-4 py-2 rounded'
+                      }
+                      style={{width: '10%'}}
+                      onClick={() => this.toggleModal(416)}>
+                      X
+                    </button>
+                    {this.props.node.children === undefined && (
+                      <button
+                        className={
+                          'bg-grey hover:bg-grey-dark mb-2 mr-2 px-4 py-2 rounded'
+                        }
+                        style={{width: '10%'}}
+                        onClick={() => {
+                          this.toggleModal();
+                          this.props.deleteNode(this.props.node.data.id);
+                        }}>
+                        <FontAwesomeIcon
+                          icon={'trash-alt'}
+                          className={'text-base'}
+                        />
+                      </button>
+                    )}
+                  </div>
+                  <table
+                    className={'border-separate w-full'}
+                    style={{borderSpacing: '0 5px'}}>
+                    <tbody>
+                      {Object.keys(GMNodeTypes).map(function(type) {
+                        return (
+                          <tr
+                            key={type}
+                            className={'cursor-pointer text-center w-full'}
+                            style={{height: '50px'}}
+                            onClick={() => onAddNode(node, type)}>
+                            <td style={{border: '1px solid black'}}>
+                              {type}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      <tr
+                        key={'type3'}
+                        className={'text-center w-full'}
+                        style={{height: '50px'}}>
+                        {/*onClick={() => onAddNode(node, type)}>*/}
+                        <td style={{border: '1px solid black'}}>
+                          Other type (not yet available)
+                        </td>
+                      </tr>
+                      <tr
+                        key={'type4'}
+                        className={'text-center w-full'}
+                        style={{height: '50px'}}>
+                        {/*onClick={() => onAddNode(node, type)}>*/}
+                        <td style={{border: '1px solid black'}}>
+                          Other type (not yet available)
+                        </td>
+                      </tr>
+                      <tr
+                        key={'type5'}
+                        className={'text-center w-full'}
+                        style={{height: '50px'}}>
+                        {/*onClick={() => onAddNode(node, type)}>*/}
+                        <td style={{border: '1px solid black'}}>
+                          Other type (not yet available)
+                        </td>
+                      </tr>
+                      <tr
+                        key={'type6'}
+                        className={'text-center w-full'}
+                        style={{height: '50px'}}>
+                        {/*onClick={() => onAddNode(node, type)}>*/}
+                        <td style={{border: '1px solid black'}}>
+                          Other type (not yet available)
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>,
+                document.getElementById('modalSpace'),
+              )}
           </div>
         );
       default:
@@ -349,9 +523,8 @@ class GMNode extends React.Component {
             key={node.data.id}
             id={'node' + node.data.id}
             className={
-              'node absolute ' +
+              'node absolute cursor-pointer ' +
               'border border-solid border-black rounded ' +
-              'hover:border-red ' +
               (node.visible ? 'z-40 ' : 'z-0 ') +
               (node.visible ? 'visibleNode ' : 'hiddenNode ')
             }
@@ -370,17 +543,15 @@ class GMNode extends React.Component {
             }}
             onClick={onClick}>
             <div // title div
-              className={'flex pb-1 pt-1 pl-2 pr-2 rounded-t'}
+              className={'bg-white flex pb-1 pl-2 pr-2 pt-1 rounded-t'}
               style={{
                 borderBottom: '1px solid',
                 borderColor: 'black',
                 color: 'black',
-                backgroundColor: 'white',
               }}>
               <div
-                className={'w-5/6 text-base overflow-hidden'}
+                className={'overflow-hidden text-base w-5/6 whitespace-no-wrap'}
                 style={{
-                  whiteSpace: 'nowrap',
                   textOverflow: 'ellipsis',
                   //textAlign: 'center',
                 }}>
@@ -395,17 +566,17 @@ class GMNode extends React.Component {
             </div>
             <div // content div
               className={
-                'text-base pl-2 pr-2 pt-1 pb-1 overflow-hidden invertColors'
+                'invertColors pb-1 pl-2 pr-2 pt-1 overflow-hidden text-base'
               }
               style={{
                 color: node.backgroundColor, // this is inverted by the invertColors-class
                 height: '2.6em', // 1.2 times WebkitLineClamp of the paragraph
               }}>
               <p
+                className={'overflow-hidden'}
                 style={{
                   WebkitLineClamp: 2,
                   display: '-webkit-box',
-                  overflow: 'hidden',
                   WebkitBoxOrient: 'vertical',
                 }}>
                 {node.content === '' ? 'Description' : node.content}
@@ -421,12 +592,15 @@ class GMNode extends React.Component {
               />
               <EditButton
                 bgcolor={node.backgroundColor}
+                border={true}
+                deleteNode={deleteNode}
                 EditNodeComp={EditNodeComp}
                 leaf={node.height === 0}
                 mode={mode}
                 node={node}
                 onEditNode={onEditNode}
                 onNodeDataChange={onNodeDataChange}
+                onNodeLockUnlock={onNodeLockUnlock}
                 width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
               />
               {node.height !== 0 && (

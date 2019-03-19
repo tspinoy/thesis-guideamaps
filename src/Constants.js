@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const ItemTypes = {
   NODE: 'node',
 };
@@ -43,11 +45,16 @@ export const initializeGMNode = (
   node.visible =
     oldNode !== null && oldNode.visible !== undefined ? oldNode.visible : true;
 
-  if (node.parent !== null) {
-    node.visibleChildren = node.parent.visibleChildren;
-  } else {
-    node.visibleChildren = true;
-  }
+  node.visibleChildren =
+    oldNode !== null &&
+    oldNode.parent !== null &&
+    oldNode.parent.visibleChildren !== undefined
+      ? oldNode.parent.visibleChildren
+      : true;
+
+  // fill locked property
+  node.locked =
+    oldNode !== null && oldNode.locked !== undefined ? oldNode.locked : false;
 
   // fill node title
   node.title =
@@ -84,16 +91,24 @@ export const initializeGMNode = (
   return node;
 };
 
-export const projectToRadialPositions = (node, width, height) => {
-  const projectedPositions = project(node.x, node.y);
-  // Center the content
-  node.x = projectedPositions[0] + width / 2 - GMNodeWidth / 2;
-  node.y = projectedPositions[1] + height / 2 - GMNodeHeight / 2;
-  return node;
-};
-
 export const initializeGMLink = link => {
   // Mark all edges to non-default nodes as optional
   link.optional = link.target.data.type !== GMNodeTypes.DEFAULT;
   return link;
+};
+
+export const arraysEqual = (a, b) => {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (a.length !== b.length) return false;
+
+  // If you don't care about the order of the elements inside
+  // the array, you should sort both arrays here.
+  // Please note that calling sort on an array will modify that array.
+  // you might want to clone your array first.
+
+  for (let i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
 };

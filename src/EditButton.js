@@ -39,10 +39,18 @@ class EditButton extends React.Component {
   }
 
   render() {
-    const {node, EditNodeComp, bgcolor, onClick} = this.props;
+    const {
+      node,
+      deleteNode,
+      EditNodeComp,
+      bgcolor,
+      onClick,
+      onNodeLockUnlock,
+    } = this.props;
     return (
       <div className={'tooltip ' + this.props.width}>
         <button
+          id={'editbtn' + this.props.node.data.id}
           className={
             'block text-grey-darkest font-bold ' +
             (this.props.leaf ? '' : 'border-r ') +
@@ -51,7 +59,7 @@ class EditButton extends React.Component {
           }
           style={{
             width: '100%',
-            borderTop: '1px solid',
+            borderTop: this.props.border ? '1px solid' : '',
             borderColor: bgcolor, // inverted by invertColors
             color: bgcolor, // inverted by invertColors
           }}
@@ -62,6 +70,7 @@ class EditButton extends React.Component {
         {this.state.isOpen &&
           ReactDOM.createPortal(
             <EditNodeComp
+              deleteNode={deleteNode}
               node={node}
               mode={this.props.mode}
               nodeTitle={node.title}
@@ -70,8 +79,9 @@ class EditButton extends React.Component {
               show={this.state.isOpen}
               updateNode={this.updateNode}
               onClose={this.toggleModal}
+              onNodeLockUnlock={onNodeLockUnlock}
             />,
-            document.getElementById('editField'),
+            document.getElementById('modalSpace'),
           )}
       </div>
     );

@@ -58,6 +58,7 @@ class GMEditModal extends React.Component {
 
   render() {
     // Render nothing if the "show" prop is false
+    console.log(this.props.node.children);
     if (!this.props.show) {
       return null;
     } else
@@ -89,172 +90,197 @@ class GMEditModal extends React.Component {
               width: '100%',
               maxWidth: '750px',
             }}>
+            {/* top bar with buttons */}
             <div className={'flex text-center'}>
-              {/*<div className={'w-1/3'}>
+              <div className={'w-1/3'}>
                 <button
                   className={
-                    'w-1/2 py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
-                    (this.state.selectedTab === 'content'
-                      ? 'bg-blue hover:bg-blue-dark text-white'
-                      : 'bg-white text-blue hover:bg-blue-dark hover:text-white')
+                    'bg-grey hover:bg-grey-dark rounded py-2 px-4 mr-2 mb-2'
                   }
-                  onClick={() => this.setState({selectedTab: 'content'})}>
-                  Content
+                  style={{minWidth: '50%'}}
+                  onClick={() =>
+                    this.props.onNodeLockUnlock(this.props.node.id)
+                  }>
+                  {this.props.node.locked
+                    ? 'Unlock this node'
+                    : 'Lock this node'}
                 </button>
               </div>
-              */}
-              <div className={'w-1/2'}>
+              <div className={'w-1/3'}>
                 <button
                   className={
-                    'w-1/2 py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
+                    'py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
                     (this.state.selectedTab === 'edit'
                       ? 'bg-blue hover:bg-blue-dark text-white '
                       : 'bg-white text-blue hover:bg-blue-dark hover:text-white')
                   }
+                  style={{minWidth: '50%'}}
                   onClick={() => this.setState({selectedTab: 'edit'})}>
                   Edit
                 </button>
               </div>
-              <div className={'w-1/2'}>
+              <div className={'inline-flex justify-center w-1/3'}>
+                {this.props.node.children === undefined && (
+                  <button
+                    className={
+                      'bg-grey hover:bg-grey-dark rounded-l py-2 px-4 mb-2'
+                    }
+                    onClick={() => {
+                      this.props.deleteNode(this.props.node.data.id);
+                    }}>
+                    <FontAwesomeIcon icon={'trash-alt'} />
+                  </button>
+                )}
                 <button
                   className={
-                    'w-1/2 bg-grey hover:bg-grey-dark rounded py-2 px-4 mr-2 mb-2'
+                    'bg-grey hover:bg-grey-dark py-2 px-4 mb-2 ' +
+                    (this.props.node.children === undefined
+                      ? 'rounded-r border-l border-solid '
+                      : 'rounded ')
                   }
                   onClick={() => this.props.onClose()}>
-                  Close
+                  X
                 </button>
               </div>
             </div>
             <hr style={{backgroundColor: 'black', opacity: 0.5, height: 1}} />
-            <div className="p-2">
-              <div
-                style={{
-                  display:
-                    this.state.selectedTab === 'content' ? 'block' : 'none',
-                }}
-                onClick={() => this.setState({selectedTab: 'content'})}>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td className={'w-auto p-2'}>Node title</td>
-                      <td>{this.props.node.title}</td>
-                    </tr>
-                    <tr>
-                      <td className={'w-auto p-2'}>Node content</td>
-                      <td>{this.props.node.content}</td>
-                    </tr>
-                  </tbody>
-                </table>
+            {/* content */}
+            {this.props.node.locked ? (
+              <div className={'text-center mt-12'}>
+                <FontAwesomeIcon icon={'lock'} size={'6x'} />
               </div>
-              <div
-                style={{
-                  display: this.state.selectedTab === 'edit' ? 'block' : 'none',
-                }}
-                onClick={() => this.setState({selectedTab: 'edit'})}>
-                <form
-                  onSubmit={this.handleSubmit}
-                  className={'bg-white shadow-md rounded px-8'}>
-                  <div className={'flex content-start overflow-scroll'}>
-                    <div className={'m-4 w-2/3'}>
-                      <div className={'mb-4 text-center'}>
-                        <button
-                          className={
-                            'bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                          }
-                          style={{width: '200px'}}>
-                          <FontAwesomeIcon icon={['far', 'save']} />
-                          &nbsp;Save and close
-                        </button>
-                        <hr
-                          style={{
-                            backgroundColor: 'black',
-                            opacity: 0.5,
-                            height: 1,
-                          }}
-                        />
-                      </div>
-                      {this.props.mode === Modes.END_USER ? (
-                        /* end user stuff */
-                        <div className={'mb-4'}>
-                          <h1>{this.props.node.title}</h1>
+            ) : (
+              <div className={'p-2'}>
+                <div
+                  style={{
+                    display:
+                      this.state.selectedTab === 'content' ? 'block' : 'none',
+                  }}
+                  onClick={() => this.setState({selectedTab: 'content'})}>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td className={'w-auto p-2'}>Node title</td>
+                        <td>{this.props.node.title}</td>
+                      </tr>
+                      <tr>
+                        <td className={'w-auto p-2'}>Node content</td>
+                        <td>{this.props.node.content}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div
+                  style={{
+                    display:
+                      this.state.selectedTab === 'edit' ? 'block' : 'none',
+                  }}
+                  onClick={() => this.setState({selectedTab: 'edit'})}>
+                  <form
+                    onSubmit={this.handleSubmit}
+                    className={'bg-white shadow-md rounded px-8'}>
+                    <div className={'flex content-start overflow-scroll'}>
+                      <div className={'m-4 w-2/3'}>
+                        <div className={'mb-4 text-center'}>
+                          <button
+                            className={
+                              'bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                            }
+                            style={{minWidth: '50%'}}>
+                            <FontAwesomeIcon icon={['far', 'save']} />
+                            &nbsp;Save and close
+                          </button>
+                          <hr
+                            style={{
+                              backgroundColor: 'black',
+                              opacity: 0.5,
+                              height: 1,
+                            }}
+                          />
                         </div>
-                      ) : (
-                        /* map creator stuff */
+                        {this.props.mode === Modes.END_USER ? (
+                          /* end user stuff */
+                          <div className={'mb-4'}>
+                            <h1>{this.props.node.title}</h1>
+                          </div>
+                        ) : (
+                          /* map creator stuff */
+                          <div className={'mb-4'}>
+                            <label
+                              className={
+                                'block text-grey-darker text-lg font-bold mb-2'
+                              }>
+                              Node title
+                            </label>
+                            <input
+                              className={
+                                'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                                'leading-tight focus:outline-none focus:shadow-outline'
+                              }
+                              name={'title'}
+                              type={'text'}
+                              placeholder={'Node title'}
+                              defaultValue={this.props.node.title}
+                              onChange={this.handleTitleChange}
+                            />
+                          </div>
+                        )}
+                        {/* Node description */}
+                        <div className={'mb-4'}>
+                          <p>Description here</p>
+                        </div>
                         <div className={'mb-4'}>
                           <label
                             className={
                               'block text-grey-darker text-lg font-bold mb-2'
                             }>
-                            Node title
+                            Content
                           </label>
-                          <input
+                          <textarea
                             className={
                               'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
                               'leading-tight focus:outline-none focus:shadow-outline'
                             }
-                            name={'title'}
-                            type={'text'}
-                            placeholder={'Node title'}
-                            defaultValue={this.props.node.title}
-                            onChange={this.handleTitleChange}
+                            name={'content'}
+                            placeholder={'Node content'}
+                            defaultValue={this.props.node.content}
+                            onChange={this.handleContentChange}
                           />
                         </div>
-                      )}
-                      {/* Node description */}
-                      <div className={'mb-4'}>
-                        <p>Description here</p>
                       </div>
-                      <div className={'mb-4'}>
+                      {/* Color picker */}
+                      <div className={'m-4 w-1/3'}>
                         <label
                           className={
                             'block text-grey-darker text-lg font-bold mb-2'
                           }>
-                          Content
+                          Background color
                         </label>
-                        <textarea
-                          className={
-                            'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                            'leading-tight focus:outline-none focus:shadow-outline'
-                          }
-                          name={'content'}
-                          placeholder={'Node content'}
-                          defaultValue={this.props.node.content}
-                          onChange={this.handleContentChange}
+                        <SketchPicker
+                          name={'colorPicker'}
+                          disableAlpha={true}
+                          width={180}
+                          color={this.state.nodeBackground}
+                          onChange={this.handleColorChange}
                         />
+                        <br />
+                        <input
+                          type={'checkbox'}
+                          id={'includeChildren'}
+                          name={'includeChildren'}
+                          defaultChecked={this.state.includeChildren}
+                          onChange={this.handleIncludeChildrenChange}
+                        />
+                        <label htmlFor={'includeChildren'}>
+                          {' '}
+                          Include children
+                        </label>
                       </div>
                     </div>
-                    {/* Color picker */}
-                    <div className={'m-4 w-1/3'}>
-                      <label
-                        className={
-                          'block text-grey-darker text-lg font-bold mb-2'
-                        }>
-                        Background color
-                      </label>
-                      <SketchPicker
-                        name={'colorPicker'}
-                        disableAlpha={true}
-                        width={180}
-                        color={this.state.nodeBackground}
-                        onChange={this.handleColorChange}
-                      />
-                      <br />
-                      <input
-                        type={'checkbox'}
-                        id={'includeChildren'}
-                        name={'includeChildren'}
-                        defaultChecked={this.state.includeChildren}
-                        onChange={this.handleIncludeChildrenChange}
-                      />
-                      <label htmlFor={'includeChildren'}>
-                        {' '}
-                        Include children
-                      </label>
-                    </div>
-                  </div>
-                </form>
+                  </form>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       );

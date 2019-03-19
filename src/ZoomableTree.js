@@ -17,6 +17,7 @@ class ZoomableTree extends React.Component {
     // The nodes can be represented by different kinds of components.
     // In the case of GuideaMaps, NodeComp = GuideaMapsNode.
     const {
+      deleteNode,
       EditNodeComp,
       height,
       LinkComp,
@@ -27,6 +28,7 @@ class ZoomableTree extends React.Component {
       onAddNode,
       onEditNode,
       onNodeDataChange,
+      onNodeLockUnlock,
       onNodePositionChange,
       onNodeVisibleChildrenChange,
       width,
@@ -83,16 +85,19 @@ class ZoomableTree extends React.Component {
                 <NodeComp
                   key={n.id}
                   mode={mode}
+                  deleteNode={deleteNode}
                   node={n}
                   onClick={() => {
                     this.setState({selectedId: n.id});
                   }}
                   onAddNode={onAddNode}
                   onEditNode={onEditNode}
+                  onNodeLockUnlock={onNodeLockUnlock}
                   onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
                   onNodePositionChange={onNodePositionChange}
                   onNodeDataChange={onNodeDataChange}
                   centered={centered}
+                  selectedId={selectedId}
                   EditNodeComp={EditNodeComp}
                   width={width}
                   height={height}

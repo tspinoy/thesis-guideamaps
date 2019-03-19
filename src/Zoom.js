@@ -170,13 +170,15 @@ class ZoomContainer extends Component {
 
     if (selectedId !== null && prevSelectedId !== selectedId) {
       const selected = data.find(d => d.id === selectedId);
-      const {x, y} = selected;
-      const newZoomHandler = d3.zoomIdentity.translate(
-        width / 2 - x - GMNodeWidth / 2,
-        height / 2 - y - GMNodeHeight / 2,
-      );
-      d3.select(this.contDOM).call(this.zoomBehavior.transform, newZoomHandler);
-      this.setState({centered: true});
+      if (selected !== undefined) {
+        const {x, y} = selected;
+        const newZoomHandler = d3.zoomIdentity.translate(
+          width / 2 - x - GMNodeWidth / 2,
+          height / 2 - y - GMNodeHeight / 2,
+        );
+        d3.select(this.contDOM).call(this.zoomBehavior.transform, newZoomHandler);
+        this.setState({centered: true});
+      }
     }
   }
 
