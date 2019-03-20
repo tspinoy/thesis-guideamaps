@@ -75,13 +75,14 @@ class PDDEditModal extends React.Component {
   }
 
   render() {
+    console.log(this.props.onClose);
     // Render nothing if the "show" prop is false
     if (!this.props.show) {
       return null;
     }
 
     const trStyle = {
-      border: '1px solid black',
+      border: '1px solid #5cb85c',
       width: '100%',
       height: '50px',
       textAlign: 'center',
@@ -103,31 +104,42 @@ class PDDEditModal extends React.Component {
           zIndex: 5000,
         }}>
         <div
-          className={'modal'}
+          className={'absolute bg-white modal w-full'}
           style={{
-            backgroundColor: '#fff',
             borderRadius: 5,
             height: '75%',
             margin: '0 auto',
             padding: 15,
-            width: '100%',
             maxWidth: '750px',
-            border: '2px solid black',
+            border: '2px solid',
+            borderColor: '#5cb85c',
             top: '50%',
             left: '50%',
-            position: 'absolute',
             transform: 'translate(-50%,-50%)',
           }}>
-          <div className={'flex'} style={{height: '90%', border: '1px solid'}}>
+          <button
+            className={
+              'absolute bg-white hover:bg-green-dark border border-green-dark ' +
+              'hover:text-white text-green'
+            }
+            style={{
+              right: 0,
+              transform: 'translate(17px, -32px)',
+              borderRadius: '50%',
+              padding: '7px 10px 7px 10px',
+            }}
+            onClick={() => this.props.onClose()}>
+            X
+          </button>
+          <div className={'flex h-full'}>
             <div
               className={
                 this.props.node.data.crossRefs.length === 0 ? 'w-full' : 'w-2/3'
               }>
               <div
-                className={'p-3 overflow-scroll'}
+                className={'h-full p-3 overflow-scroll'}
                 style={{
                   backgroundColor: '#ecf5d5',
-                  height: '100%',
                   borderRight:
                     this.props.node.data.crossRefs.length !== 0 && 'solid 1px',
                 }}>
@@ -138,14 +150,9 @@ class PDDEditModal extends React.Component {
                   <img
                     src={this.props.node.data.image}
                     alt={'Image'}
+                    className={'mb-4 w-full'}
                     style={{
-                      float: 'left',
-                      marginRight: '10px',
-                      border: '3px solid #5cb85c',
-                      width:
-                        this.props.node.data.crossRefs.length === 0
-                          ? '33%'
-                          : '50%',
+                      border: '2px solid #5cb85c',
                     }}
                   />
                 )}
@@ -161,14 +168,14 @@ class PDDEditModal extends React.Component {
                     : 'block',
               }}>
               <div
-                className={'p-3 overflow-scroll'}
-                style={{backgroundColor: '#ecf5d5', height: '100%'}}>
+                className={'h-full overflow-scroll p-3'}
+                style={{backgroundColor: '#ecf5d5'}}>
                 <h1 className={'pb-2'} style={{color: '#5cb85c'}}>
                   Cross refs
                 </h1>
                 <table
-                  className={'w-full'}
-                  style={{borderCollapse: 'separate', borderSpacing: '0 5px'}}>
+                  className={'border-separate w-full'}
+                  style={{borderSpacing: '0 5px'}}>
                   <tbody>
                     {this.props.node.data.crossRefs.map(ref => (
                       <tr
@@ -176,7 +183,8 @@ class PDDEditModal extends React.Component {
                         style={trStyle}
                         className={'crossReference cursor-pointer'}>
                         <td
-                          style={{border: '1px solid black', padding: '5px'}}
+                          className={'p-3'}
+                          style={{border: '1px solid #5cb85c'}}
                           onClick={() => {
                             this.clickNode(ref);
                             this.props.onClose();
@@ -188,36 +196,6 @@ class PDDEditModal extends React.Component {
                   </tbody>
                 </table>
               </div>
-            </div>
-          </div>
-          <hr style={{backgroundColor: 'black', opacity: 0.5, height: 1}} />
-          <div
-            className={'flex text-center'}
-            style={{
-              height: '10%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <div className={'w-1/2'}>
-              <button
-                className={
-                  'w-1/2 py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
-                  (this.state.selectedTab === 'content'
-                    ? 'bg-blue hover:bg-blue-dark text-white'
-                    : 'bg-white text-blue hover:bg-blue-dark hover:text-white')
-                }
-                onClick={() => this.setState({selectedTab: 'content'})}>
-                Content
-              </button>
-            </div>
-            <div className={'w-1/2'}>
-              <button
-                className={
-                  'w-1/2 hover:bg-red hover:text-white border border-red border-solid rounded py-2 px-4 mr-2 mb-2'
-                }
-                onClick={() => this.props.onClose()}>
-                Close
-              </button>
             </div>
           </div>
         </div>

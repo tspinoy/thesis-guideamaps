@@ -1,9 +1,15 @@
 import React from 'react';
 import './css/App.css';
 import EditButton from './EditButton';
-import {PDDNodeHeight, PDDNodeWidth} from './Constants';
+import {arraysEqual, PDDNodeHeight, PDDNodeWidth} from './Constants';
 
 class PDDNode extends React.Component {
+  state = {selected: false};
+  constructor(props) {
+    super(props);
+    this.onClickHandler = this.onClickHandler.bind(this);
+  }
+
   componentDidMount() {
     let node = document.getElementById('node' + this.props.node.data.id);
     setTimeout(() => {
@@ -29,6 +35,17 @@ class PDDNode extends React.Component {
         node.classList.add('node');
       }
     }, 600);
+
+    setTimeout(() => {
+      if (
+        !arraysEqual(this.getRootXY(this.props.node), [
+          this.props.node.x,
+          this.props.node.y,
+        ])
+      ) {
+        this.setState({selected: false});
+      }
+    }, 0);
   }
 
   getRootXY(node) {
@@ -37,6 +54,17 @@ class PDDNode extends React.Component {
       current = current.parent;
     }
     return [current.x, current.y];
+  }
+
+  onClickHandler() {
+    if (this.state.selected) {
+      console.log('clicked by onclickhandler');
+      document.getElementById('editbtn' + this.props.node.data.id).click();
+      //ReactTestUtils.Simulate.click(this.editButton);
+    } else {
+      this.props.onClick();
+      this.setState({selected: true});
+    }
   }
 
   render() {
@@ -51,6 +79,7 @@ class PDDNode extends React.Component {
       onClick,
       centered,
     } = this.props;
+
     return (
       <div
         key={node.data.id}
@@ -83,26 +112,28 @@ class PDDNode extends React.Component {
           '--nodey': node.y + 'px',
           '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
           '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
-        }}
-        onClick={onClick}>
+        }}>
         <div // title div
-          className={'relative flex pb-1 pt-1 pl-2 pr-2 w-full invertColors'}
-          style={{
-            color: node.data.image !== '' ? '#000000' : '#ffffff',
-            justifyContent: 'center',
-            alignItems: 'center',
-            textAlign: 'center',
-            height: '75%',
-          }}>
+          className={
+            (node.data.image !== '' ? 'text-black ' : 'text-white ') +
+            'flex h-full invertColors items-center justify-center ' +
+            'pb-1 pt-1 pl-2 pr-2 relative text-center ' +
+            'w-full '
+          }
+          onClick={this.onClickHandler}>
           <p className={'text-base overflow-hidden'}>
             {node.data.titre === '' ? 'No title' : node.data.titre}
           </p>
         </div>
         <div // controls div
-          className={'absolute pin-b rounded-b w-full invertColors'}
-          style={{height: '25%'}}>
+          className={
+            'absolute ' +
+            (this.state.selected ? 'block ' : 'hidden ') +
+            'invertColors pin-b rounded-b w-full'
+          }>
           {node.data.id > 0 && (
             <EditButton
+              border={false}
               width={'w-full'}
               iconSize={'lg'}
               node={node}
