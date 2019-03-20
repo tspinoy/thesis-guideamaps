@@ -163,7 +163,7 @@ class App extends Component {
   render() {
     const findNodeWithId = nodeId => {
       for (let i = 0; i < this.state.nodes.length; i++) {
-        if (this.state.nodes[i].data.id === nodeId) {
+        if (this.state.nodes[i].id === nodeId) {
           return this.state.nodes[i];
         }
       }
@@ -177,8 +177,8 @@ class App extends Component {
      */
     const addGMChildNode = (parent, type = null) => {
       currentData.push({
-        id: this.state.nodes[this.state.nodes.length - 1].data.id + 1,
-        name: 'added node',
+        id: this.state.nodes[this.state.nodes.length - 1].id + 1,
+        name: '',
         type: type === null ? GMNodeTypes.DEFAULT : GMNodeTypes[type],
         parent: parseInt(parent.id),
       });
@@ -196,7 +196,7 @@ class App extends Component {
         .map((node, index) =>
           initializeGMNode(
             node,
-            this.state.nodes.length !== index ? findNodeWithId(index) : null,
+            this.state.nodes.length !== index ? findNodeWithId(node.id) : null,
             width,
             height,
             this.state.nodes.length === index, // additional node
@@ -223,7 +223,7 @@ class App extends Component {
         .map((node, index) =>
           initializeGMNode(
             node,
-            this.state.nodes.length !== index ? findNodeWithId(index) : null,
+            this.state.nodes.length !== index ? findNodeWithId(node.id) : null,
             width,
             height,
             this.state.nodes.length === index, // additional node
@@ -244,6 +244,7 @@ class App extends Component {
      * */
     const updateGMNodeData = (
       nodeId,
+      nodeDescription,
       nodeTitle,
       nodeContent,
       hexColor,
@@ -463,9 +464,10 @@ class App extends Component {
             onEditNode={() => editNode()}
             onNodeDataChange={
               current_visualization === GUIDEAMAPS
-                ? (nodeId, nodeTitle, nodeContent, hexColor, children) =>
+                ? (nodeId, nodeDescription, nodeTitle, nodeContent, hexColor, children) =>
                   updateGMNodeData(
                     nodeId,
+                    nodeDescription,
                     nodeTitle,
                     nodeContent,
                     hexColor,

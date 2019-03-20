@@ -385,7 +385,7 @@ class GMNode extends React.Component {
                 width: GMNodeWidth,
                 height: GMNodeHeight / 2,
                 //transform: `translate(${node.x}px,${node.y + GMNodeHeight / 4}px)`,
-                backgroundColor: '#60b660',
+                backgroundColor: '#fff690',
                 opacity: isDragging ? 0.5 : '',
                 transition: centered && 'all 500ms ease 0s',
                 '--nodex': node.x + 'px',
@@ -405,10 +405,12 @@ class GMNode extends React.Component {
                 {'Choice node'}
               </div>
               <div className={'m-auto w-1/6'}>
-                <FontAwesomeIcon
-                  icon={this.completenessIcon(node)}
-                  className={'text-base'}
-                />
+                {this.completenessIcon(node) !== null && (
+                  <FontAwesomeIcon
+                    icon={this.completenessIcon(node)}
+                    className={'text-base'}
+                  />
+                )}
               </div>
             </div>
             {this.state.isOpen &&
@@ -550,12 +552,16 @@ class GMNode extends React.Component {
                 color: 'black',
               }}>
               <div
-                className={'overflow-hidden text-base w-5/6 whitespace-no-wrap'}
+                className={
+                  'overflow-hidden ' +
+                  (node.title === '' ? 'italic text-sm ' : 'text-base ') +
+                  'w-5/6 whitespace-no-wrap'
+                }
                 style={{
                   textOverflow: 'ellipsis',
                   //textAlign: 'center',
                 }}>
-                {node.title === '' ? 'No title' : node.title}
+                {node.title === '' ? 'Insert title' : node.title}
               </div>
               <div className={'w-1/6'}>
                 <FontAwesomeIcon
@@ -573,13 +579,16 @@ class GMNode extends React.Component {
                 height: '2.6em', // 1.2 times WebkitLineClamp of the paragraph
               }}>
               <p
-                className={'overflow-hidden'}
+                className={
+                  'overflow-hidden ' +
+                  (node.content === '' ? 'italic text-sm' : '')
+                }
                 style={{
                   WebkitLineClamp: 2,
                   display: '-webkit-box',
                   WebkitBoxOrient: 'vertical',
                 }}>
-                {node.content === '' ? 'Description' : node.content}
+                {node.content === '' ? node.description : node.content}
               </p>
             </div>
             <div // controls div

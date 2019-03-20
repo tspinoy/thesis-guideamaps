@@ -16,9 +16,17 @@ class EditButton extends React.Component {
     this.toggleModal = this.toggleModal.bind(this);
   }
 
-  updateNode(newTitle, newContent, newBackground, includeChildren) {
+  updateNode(
+    nodeId,
+    newDescription,
+    newTitle,
+    newContent,
+    newBackground,
+    includeChildren,
+  ) {
     this.props.onNodeDataChange(
-      this.props.node.id,
+      nodeId,
+      newDescription,
       newTitle,
       newContent,
       newBackground,

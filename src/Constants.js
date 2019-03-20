@@ -66,7 +66,12 @@ export const initializeGMNode = (
   node.content =
     oldNode !== null && oldNode.content !== undefined
       ? oldNode.content
-      : 'The content is not completely shown, great!';
+      : node.content === undefined ? '' : node.content;
+
+  node.description =
+    oldNode !== null && oldNode.description !== undefined
+      ? oldNode.description
+      : 'This node should contain data about ...';
 
   // fill node background
   if (oldNode !== null && oldNode.backgroundColor !== undefined) {
@@ -74,7 +79,7 @@ export const initializeGMNode = (
   } else if (node.parent !== null) {
     node.backgroundColor = node.parent.backgroundColor;
   } else {
-    node.backgroundColor = '#726D73';
+    node.backgroundColor = '#ffb018';
   }
 
   // fill node positions

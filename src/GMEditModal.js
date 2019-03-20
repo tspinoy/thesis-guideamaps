@@ -8,6 +8,7 @@ class GMEditModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      nodeDescription: this.props.node.description,
       nodeTitle: this.props.nodeTitle,
       nodeContent: this.props.nodeContent,
       nodeBackground: this.props.nodeBackground,
@@ -20,6 +21,7 @@ class GMEditModal extends React.Component {
      */
     this.handleColorChange = this.handleColorChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleIncludeChildrenChange = this.handleIncludeChildrenChange.bind(
       this,
     );
@@ -44,12 +46,24 @@ class GMEditModal extends React.Component {
     event.persist();
     //const newTitle = event.target[2].value;
     //const newContent = event.target[3].value;
+    const newDescription = this.state.nodeDescription;
     const newTitle = this.state.nodeTitle;
     const newContent = this.state.nodeContent;
     const newBackground = this.state.nodeBackground;
     const includeChildren = this.state.includeChildren;
-    this.props.updateNode(newTitle, newContent, newBackground, includeChildren);
+    this.props.updateNode(
+      this.props.node.id,
+      newDescription,
+      newTitle,
+      newContent,
+      newBackground,
+      includeChildren,
+    );
     this.props.onClose();
+  }
+
+  handleDescriptionChange(event) {
+    this.setState({nodeDescription: event.target.value});
   }
 
   handleTitleChange(event) {
@@ -58,7 +72,6 @@ class GMEditModal extends React.Component {
 
   render() {
     // Render nothing if the "show" prop is false
-    console.log(this.props.node.children);
     if (!this.props.show) {
       return null;
     } else
@@ -92,6 +105,7 @@ class GMEditModal extends React.Component {
             }}>
             {/* top bar with buttons */}
             <div className={'flex text-center'}>
+              {/*
               <div className={'w-1/3'}>
                 <button
                   className={
@@ -106,7 +120,8 @@ class GMEditModal extends React.Component {
                     : 'Lock this node'}
                 </button>
               </div>
-              <div className={'w-1/3'}>
+              */}
+              <div className={'w-1/2'}>
                 <button
                   className={
                     'py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
@@ -119,7 +134,7 @@ class GMEditModal extends React.Component {
                   Edit
                 </button>
               </div>
-              <div className={'inline-flex justify-center w-1/3'}>
+              <div className={'inline-flex justify-center w-1/2'}>
                 {this.props.node.children === undefined && (
                   <button
                     className={
@@ -127,6 +142,7 @@ class GMEditModal extends React.Component {
                     }
                     onClick={() => {
                       this.props.deleteNode(this.props.node.data.id);
+                      this.props.onClose();
                     }}>
                     <FontAwesomeIcon icon={'trash-alt'} />
                   </button>
@@ -198,11 +214,34 @@ class GMEditModal extends React.Component {
                             }}
                           />
                         </div>
+                        {/* Node title */}
                         {this.props.mode === Modes.END_USER ? (
                           /* end user stuff */
-                          <div className={'mb-4'}>
-                            <h1>{this.props.node.title}</h1>
-                          </div>
+                          this.props.node.title === '' ? (
+                            <div className={'mb-4'}>
+                              <label
+                                className={
+                                  'block text-grey-darker text-lg font-bold mb-2'
+                                }>
+                                Node title
+                              </label>
+                              <input
+                                className={
+                                  'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                                  'leading-tight focus:outline-none focus:shadow-outline'
+                                }
+                                name={'title'}
+                                type={'text'}
+                                placeholder={'Node title'}
+                                defaultValue={this.props.node.title}
+                                onChange={this.handleTitleChange}
+                              />
+                            </div>
+                          ) : (
+                            <div className={'mb-4'}>
+                              <h1>{this.props.node.title}</h1>
+                            </div>
+                          )
                         ) : (
                           /* map creator stuff */
                           <div className={'mb-4'}>
@@ -226,9 +265,34 @@ class GMEditModal extends React.Component {
                           </div>
                         )}
                         {/* Node description */}
-                        <div className={'mb-4'}>
-                          <p>Description here</p>
-                        </div>
+                        {this.props.mode === Modes.END_USER ? (
+                          /* end user stuff */
+                          <div className={'mb-4'}>
+                            <p>{this.props.node.description}</p>
+                          </div>
+                        ) : (
+                          /* map creator stuff */
+                          <div className={'mb-4'}>
+                            <label
+                              className={
+                                'block text-grey-darker text-lg font-bold mb-2'
+                              }>
+                              Description
+                            </label>
+                            <input
+                              className={
+                                'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                                'leading-tight focus:outline-none focus:shadow-outline'
+                              }
+                              name={'description'}
+                              type={'text'}
+                              placeholder={'Node description'}
+                              defaultValue={this.props.node.description}
+                              onChange={this.handleDescriptionChange}
+                            />
+                          </div>
+                        )}
+                        {/* Node content */}
                         <div className={'mb-4'}>
                           <label
                             className={
