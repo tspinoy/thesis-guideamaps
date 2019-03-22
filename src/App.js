@@ -38,6 +38,7 @@ import {
   faExpand,
   faLock,
   faLockOpen,
+  faMinus,
   faPlus,
   faPlusCircle,
   faSearch,
@@ -58,6 +59,7 @@ library.add(
   faExpand,
   faLock,
   faLockOpen,
+  faMinus,
   faPlus,
   faPlusCircle,
   faSave,
@@ -71,7 +73,7 @@ const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 
 const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
-const current_visualization = GUIDEAMAPS;
+const current_visualization = PLATEFORMEDD;
 
 let currentData = current_visualization === GUIDEAMAPS ? GMData2 : PDDData2;
 

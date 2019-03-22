@@ -105,6 +105,7 @@ class ZoomContainer extends Component {
 
   state = {
     zoomHandler: d3.zoomIdentity,
+    lastSelectedId: null,
     //
     // .translate(
     //   this.props.width,
@@ -169,6 +170,7 @@ class ZoomContainer extends Component {
     const {zoomHandler: oldZoomHandler} = prevState;
 
     if (selectedId !== null && prevSelectedId !== selectedId) {
+      this.setState({lastSelectedId: selectedId});
       const selected = data.find(d => d.id === selectedId);
       if (selected !== undefined) {
         const {x, y} = selected;
@@ -176,7 +178,10 @@ class ZoomContainer extends Component {
           width / 2 - x - GMNodeWidth / 2,
           height / 2 - y - GMNodeHeight / 2,
         );
-        d3.select(this.contDOM).call(this.zoomBehavior.transform, newZoomHandler);
+        d3.select(this.contDOM).call(
+          this.zoomBehavior.transform,
+          newZoomHandler,
+        );
         this.setState({centered: true});
       }
     }
@@ -194,7 +199,7 @@ class ZoomContainer extends Component {
       selectedId,
     } = this.props;
 
-    const {zoomHandler, centered} = this.state;
+    const {zoomHandler, centered, lastSelectedId} = this.state;
 
     const zoomedNodes = data.map(d => {
       const [x, y] = zoomHandler.apply([d.x, d.y]);
@@ -214,7 +219,7 @@ class ZoomContainer extends Component {
           pointerEvents: 'all',
         }}
         ref={node => (this.contDOM = node)}>
-        {children(zoomedNodes, zoomHandler, centered)}
+        {children(zoomedNodes, zoomHandler, centered, lastSelectedId)}
       </div>
     );
   }

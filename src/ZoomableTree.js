@@ -42,11 +42,12 @@ class ZoomableTree extends React.Component {
           width={width}
           height={height}
           selectedId={selectedId}
+          lastSelectedId={selectedId}
           maxZoomScale={maxZoomScale}
           onZoom={() => {
             this.setState({selectedId: null});
           }}>
-          {(zoomedNodes, zHandler, centered) => (
+          {(zoomedNodes, zHandler, centered, lastSelectedId) => (
             <div
               id={'cluster'}
               className={'absolute pin-t pin-l border overflow-hidden'}
@@ -77,6 +78,7 @@ class ZoomableTree extends React.Component {
                     link={link}
                     zHandler={zHandler}
                     selectedId={selectedId}
+                    lastSelectedId={lastSelectedId}
                     centered={centered}
                   />
                 ))}
@@ -98,6 +100,7 @@ class ZoomableTree extends React.Component {
                   onNodeDataChange={onNodeDataChange}
                   centered={centered}
                   selectedId={selectedId}
+                  lastSelectedId={lastSelectedId}
                   EditNodeComp={EditNodeComp}
                   width={width}
                   height={height}

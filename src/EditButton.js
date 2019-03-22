@@ -61,7 +61,7 @@ class EditButton extends React.Component {
           id={'editbtn' + this.props.node.data.id}
           className={
             'block text-grey-darkest font-bold ' +
-            (this.props.leaf ? '' : 'border-r ') +
+            (this.props.leaf ? '' : this.props.border ? 'border-r ' : '') +
             'py-1 px-1 ' +
             'items-center invertColors'
           }
@@ -74,7 +74,9 @@ class EditButton extends React.Component {
           onClick={() => this.toggleModal()}>
           <FontAwesomeIcon icon={'search'} size={this.props.iconSize} />
         </button>
-        <span className={'tooltiptext'}>Open & edit</span>
+        {this.props.tooltiptext !== false && (
+          <span className={'tooltiptext'}>Open & edit</span>
+        )}
         {this.state.isOpen &&
           ReactDOM.createPortal(
             <EditNodeComp

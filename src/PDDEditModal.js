@@ -52,11 +52,21 @@ class PDDEditModal extends React.Component {
     this.setState({nodeTitle: event.target.value});
   }
 
-  clickEvent = new MouseEvent('click', {
+  mouseDownEvent = new MouseEvent('mousedown', {
     view: window,
     bubbles: true,
     cancelable: false,
   });
+  mouseUpEvent = new MouseEvent('mouseup', {
+    view: window,
+    bubbles: true,
+    cancelable: false,
+  });
+
+  mEvent = document.createEvent("MouseEvent").initMouseEvent("click", true, true, window, 0,
+  0, 0, 0, 0,
+  false, false, false, false,
+  0, null);
 
   static getDataById(id) {
     for (let i = 0; i < PDDData2.length; i++) {
@@ -67,15 +77,12 @@ class PDDEditModal extends React.Component {
   }
 
   clickNode(ref) {
-    setTimeout(
-      () =>
-        document.getElementById('node' + ref).dispatchEvent(this.clickEvent),
-      500,
-    );
+    console.log('clicknode' + ref);
+    console.log(document.getElementById('title' + ref));
+    document.getElementById('title' + ref).click();
   }
 
   render() {
-    console.log(this.props.onClose);
     // Render nothing if the "show" prop is false
     if (!this.props.show) {
       return null;

@@ -66,7 +66,9 @@ export const initializeGMNode = (
   node.content =
     oldNode !== null && oldNode.content !== undefined
       ? oldNode.content
-      : node.content === undefined ? '' : node.content;
+      : node.content === undefined
+      ? ''
+      : node.content;
 
   node.description =
     oldNode !== null && oldNode.description !== undefined

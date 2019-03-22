@@ -2,9 +2,10 @@ import React from 'react';
 import './css/App.css';
 import EditButton from './EditButton';
 import {arraysEqual, PDDNodeHeight, PDDNodeWidth} from './Constants';
+import ExpandCollapseButton from './ExpandCollapseButton';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class PDDNode extends React.Component {
-  state = {selected: false};
   constructor(props) {
     super(props);
     this.onClickHandler = this.onClickHandler.bind(this);
@@ -35,17 +36,6 @@ class PDDNode extends React.Component {
         node.classList.add('node');
       }
     }, 600);
-
-    setTimeout(() => {
-      if (
-        !arraysEqual(this.getRootXY(this.props.node), [
-          this.props.node.x,
-          this.props.node.y,
-        ])
-      ) {
-        this.setState({selected: false});
-      }
-    }, 0);
   }
 
   getRootXY(node) {
@@ -57,13 +47,12 @@ class PDDNode extends React.Component {
   }
 
   onClickHandler() {
-    if (this.state.selected) {
-      console.log('clicked by onclickhandler');
+    this.props.onClick();
+    if (
+      this.props.centered &&
+      parseInt(this.props.lastSelectedId) === this.props.node.data.id
+    ) {
       document.getElementById('editbtn' + this.props.node.data.id).click();
-      //ReactTestUtils.Simulate.click(this.editButton);
-    } else {
-      this.props.onClick();
-      this.setState({selected: true});
     }
   }
 
@@ -86,7 +75,7 @@ class PDDNode extends React.Component {
         id={'node' + node.data.id}
         className={
           'node absolute flex cursor-pointer ' +
-          'hover:border-red m-2 overflow-hidden ' +
+          'hover:border-red m-2 ' +
           (node.visible ? 'z-40 ' : 'z-0 ') +
           (node.visible ? 'visibleNode ' : 'hiddenNode ')
         }
@@ -114,6 +103,7 @@ class PDDNode extends React.Component {
           '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
         }}>
         <div // title div
+          id={'title' + node.data.id}
           className={
             (node.data.image !== '' ? 'text-black ' : 'text-white ') +
             'flex h-full invertColors items-center justify-center ' +
@@ -126,11 +116,7 @@ class PDDNode extends React.Component {
           </p>
         </div>
         <div // controls div
-          className={
-            'absolute ' +
-            (this.state.selected ? 'block ' : 'hidden ') +
-            'invertColors pin-b rounded-b w-full'
-          }>
+          className={'absolute invertColors pin-b rounded-b w-full'}>
           {node.data.id > 0 && (
             <EditButton
               border={false}
@@ -142,9 +128,46 @@ class PDDNode extends React.Component {
               bgcolor={node.data.image !== '' ? '#ffffff' : '#000000'}
               onEditNode={onEditNode}
               EditNodeComp={EditNodeComp}
+              tooltiptext={false}
             />
           )}
         </div>
+        {node.height !== 0 && (
+          // At non-child nodes the expand-collapse button should be added
+          <div
+            className={'tooltip absolute'}
+            style={{
+              transform:
+                node.data.id === 0 ? 'translate(10px, 0)' : 'translate(0, 0)',
+            }}>
+            <button
+              id={'ec-btn-node' + this.props.node.data.id}
+              className={
+                'block expand-collapse-btn font-bold items-center ' +
+                'px-1 py-1 rounded-br text-grey-darkest w-full ' +
+                'bg-white '
+              }
+              style={{
+                border: '3px solid #60b660',
+                borderRadius: '50%',
+                //borderColor: node.backgroundColor,
+                color: '#60b660',
+                boxShadow: '0 0 0 2px #ffffff',
+              }}
+              onClick={() => {
+                this.props.onClick();
+                this.props.onNodeVisibleChildrenChange(this.props.node.data.id);
+              }}>
+              <FontAwesomeIcon
+                icon={node.visibleChildren ? 'minus' : 'plus'}
+                size={'lg'}
+              />
+            </button>
+            <span className="tooltiptext">
+              {node.visibleChildren ? 'Collapse' : 'Expand'}
+            </span>
+          </div>
+        )}
       </div>
     );
   }

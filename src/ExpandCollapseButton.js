@@ -36,7 +36,7 @@ class ExpandCollapseButton extends React.Component {
             icon={this.props.node.visibleChildren ? 'compress' : 'expand'}
           />
         </button>
-        <span className="tooltiptext">
+        <span className={'tooltiptext'}>
           {node.visibleChildren ? 'Collapse' : 'Expand'}
         </span>
       </div>
