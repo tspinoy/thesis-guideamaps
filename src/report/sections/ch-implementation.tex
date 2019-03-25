@@ -108,7 +108,7 @@ The strength of the library can be seen when a particular user would like to hav
 % ------------------------------
 % ----- GUIDEAMAPS DETAILS -----
 % ------------------------------
-\section{GuideaMaps}
+\section{GuideaMapsNode}
 Now the overview of the structure of the application is discussed, we will consider the implementation details of the GuideaMaps visualisation in this section.
 \begin{figure}[H]
 	\centering
@@ -117,16 +117,46 @@ Now the overview of the structure of the application is discussed, we will consi
 	\label{fig:gmnodestructure}
 \end{figure}
 
-As you can see in figure \ref{fig:gmnodestructure}, the structure of a GuideaMapsNode node quite easy.
+As you can see in figure \ref{fig:gmnodestructure}, the structure of a GuideaMapsNode node quite easy. Each node consists of three html \textit{div}-elements: a title-div, a content-div and a controls-div.
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % hide the following subsections from the table of contents
+\subsection{Title}
+The title-div is positioned at the top of the node. It consists of the title text if this is set by the map creator. Otherwise, it shows \textit{Insert title} in italic to remind the user that he still had to set a title for this node. An end user can set the title if no title exists yet, but he can never change it.\\
+
+Next to the title-text, the title-div contains an icon placed near the right border. This icon indicates whether all information, a title and some content is provided or not. The icon that is shown also depends on whether the information in its child-nodes is filled in or not. We distinguish three possible situation:
+\begin{enumerate}
+	\item The data of the node itself and of all of its children are correctly filled in. In this case the icon will be a completely filled circle.
+	\item The data of the node itself and of all of its children are all empty. In this case the icon will be an empty circle.
+	\item In all other cases, the data of the node itself or of at least one of its nodes is (partially) filled in. Then the icon will be a semi-filled circle.
+\end{enumerate}
+This icon can assist the user in determining whether all information is filled in. For example, if he checks the root node and sees that the circle is completely filled, he does not have to check every child-node to know that all information is filled in. On the other hand, suppose only one node is not yet provided of some content. If the user then starts from the root node and always follows the child-node with a semi-filled circle, he will find the incomplete node much faster than in the case he has to check all the nodes.
+
+
+
+\subsection{Content}
+The content of each node is just some text describing the information corresponding to the title. As long as no content is provided by the user, a description is shown in italics to assist the user in which content is expected.
+
+
+
+\subsection{Controls}
+The last part of a node is the controls-div. With \textit{controls} we mean the different actions that a user can take concerting the particular node. The controls consist of three buttons: one to add a child node, one to ``open'' the node to view and edit the data and one to expand or collapse the node to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.
+
+
+
+\subsection{EditModal}
+A click on the button
+
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}} % add the following subsections again to the table of contents
+ 
 
 
 
 
-% ------------------------------
-% ----- GUIDEAMAPS DETAILS -----
-% ------------------------------
+% --------------------------------
+% ----- OTHER VISUALIZATIONS -----
+% --------------------------------
 \section{Other visualizations}
-
+Describe Plateforme DD here.
 
 
 

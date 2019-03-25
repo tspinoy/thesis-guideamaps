@@ -1,19 +1,29 @@
 \chapter{Requirements}\label{ch:requirements}
 
+The application should meet a lot of requirements in order to deliver some quality to the users. End users of a system often qualify a system as \textit{good} if it provides the right kind of functionality, if it is easy to learn and easy to use. Hence, there are some functional and usability requirements the system should meet in order to be evaluated as \textit{good} by the end users.
+
 % ----------------------------------
 % ----- FUNCTIONAL REQUIREMENTS ----
 % ----------------------------------
 \section{Functional requirements}\label{sec:functional-requirements}
-The application should provide a lot of functionalities in order to be useful in many cases. The most important one is that the system should correctly show the current state of the data which is created by the user or loaded via a file. This data should be nicely visualized, easy to interpret and straightforward to edit. A difference with the first version of the GuideaMaps is that the tool should run in the browser. While version 1.0 was only designed for an iPad, a browser based version like GuideaMaps 2.0 immediately is a tool that can be used on multiple devices (e.g. tablets, laptops and desktops) and different operating systems (Android, iOS, MacOS and Windows).
 
 % List of functional requirements
 \begin{description}
 
-  \item[Device- and OS-independent] \hfill \\
-  The application should run on different kinds of devices and operating systems. While version 1.0 was only designed for an iPad, our version should provide a solution for this restriction. One of the possibilities to solve the problem is to create the application in the browser. Hence, the user must not be limited to a particular device anymore, the tool can be used on any machine. The only restriction on the used device is that it needs to have a screen that is large enough because it is not very convenient to work with the visualization on small screen areas, e.g. on smartphones. The application could run on smartphones but it is not recommended nor required to use it on devices with relatively small screens.
+	\item[Device- and OS-independent] \hfill \\
+	The application should run on different kinds of devices (e.g. tablets, laptops and desktops) and operating systems (Android, iOS, MacOS and Windows). While version 1.0 was only designed for an iPad, our version should provide a solution for this restriction. One of the possibilities to solve the problem is to create the application in the browser. Hence, the user must not be limited to a particular device anymore, the tool can be used on any machine. The only restriction on the used device is that it needs to have a screen that is large enough because it is not very convenient to work with the visualization on small screen areas, e.g. on smartphones. The application could run on smartphones but it is not recommended nor required to use it on devices with relatively small screens.
   
-  \item[Genericity] \hfill \\
+	\item[Genericity] \hfill \\
   The tool should be generic in such a way that it is possible to create a different design for the nodes and the links. The end user should not be restricted to the predefined design of GuideaMaps. Instead, a developer can create its own implementation for the nodes and the links, which then can be \textit{plugged in} into the system. The core of the application should be completely separated from the parts that are customizable for the end-users.
+  
+	\item[Rights] \hfill \\
+	There should be two possible modes in the system: an end user mode and a map creator mode. A map creator has the rights to change everything about the nodes, while the end user is restricted in which data he can edit. This requirements can be seen as a security mechanism to not let a particular end user mess with the data.
+  
+	\item[Zoom the visualization] \hfill \\
+	As a user, you sometimes want to zoom in or out such that you get less or more information at the same time on the screen. For example, a feature to zoom is very useful in situations where you want to compare different parts of the visualization. The scrolling gesture is probably the best gesture for this action, because this is a well-known way to zoom in applications (e.g. Google Maps). Users don't like it when every application has a different gesture for the same action. Hence, it won't help them if we chose for another gesture than scrolling in GuideaMaps. Also, using the same gesture as in other applications improves the memorability and learnability of our tool.
+	
+	\item[Zoom to fit] \hfill \\
+	A variation on the zooming feature is zoom to fit (a.k.a. zoom to bounding box). With custom zooming, the user can set the zooming level to meet its needs. On the other hand, zoom to fit adapts the zooming level and moves the content of the application until everything fits on the screen. 
   
 \end{description}
 
@@ -38,8 +48,10 @@ Next to the functional requirements, the application must meet a lot of other re
 In order to conform these definitions, we can formulate several usability requirements the application should really meet. Later in this paper, when we explain the implementation details, we will come back to these requirements and discuss how we managed to meet them.
 
 \begin{description}
-	\item[Well chosen icons] \hfill \\
-	It is important to keep in mind that the tool will not only be used by people with experience in Computer Science. It doesn't matter whether or not the user has a background in Computer Science, he should be able to easily learn to use the system in short time. Therefore, it is important to choose for clear, not misunderstandable icons on buttons where a click on this button invokes a certain action. Some examples of these actions are (1) adding a child node, (2) explore and edit a node and (3) expand/collapse a node. Good icons\footnote{\url{https://fontawesome.com/}} for each of the mentioned actions are shown in figure \ref{fig:icons}. The icons are not ambiguous, they can only be linked to one particular action and thus the user knows exactly what to expect when clicking on the button. Well chosen icons are one of the factors in the design that help users to remember how to use the system. If they recall the meaning of the icon immediately when they see it, the users will experience the system as easy to learn and easy to remember.
+	\item[Intuitiveness] \hfill \\
+	It is important to keep in mind that the tool will not only be used by people with experience in Computer Science. It doesn't matter whether or not the user has a background in Computer Science, he should be able to easily learn to use the system in short time. Therefore, it is important to choose for clear, not misunderstandable icons on buttons where a click on this button invokes a certain action. Some examples of these actions are (1) adding a child node, (2) explore and edit a node and (3) expand/collapse a node. Good icons\footnote{\url{https://fontawesome.com/}} for each of the mentioned actions are shown in figure \ref{fig:icons}. The icons are not ambiguous, they can only be linked to one particular action and thus the user knows exactly what to expect when clicking on the button. Well chosen icons are one of the factors in the design that help users to remember how to use the system. If they recall the meaning of the icon immediately when they see it, the users will experience the system as easy to learn and easy to remember.\\
+	
+	If the user knows it is not possible to add child nodes, we would state that a plus- and minus-icon are also possible to indicate the possibility to expand or collapse a node. If the visualization allows to add child nodes, the plus-icon should be used for this action and not for the expand- or collapse-action.
 
 \begin{figure}[H]
 	\centering
@@ -70,14 +82,9 @@ In order to conform these definitions, we can formulate several usability requir
 	\caption{Good icons for the following actions: (a) add child node, (b) explore and edit node, (c) expand node and (d) collapse node.}
 	\label{fig:icons}
 \end{figure}
-	
-	\item[Zoom the visualization] \hfill \\
-	As a user, you sometimes want to zoom in or out such that you get less or more information at the same time on the screen. For example, a feature to zoom is very useful in situations where you want to compare different parts of the visualization. The scrolling gesture is probably the best gesture for this action, because this is a well-known way to zoom in applications (e.g. Google Maps). Users don't like it when every application has a different gesture for the same action. Hence, it won't help them if we chose for another gesture than scrolling in GuideaMaps. Also, using the same gesture as in other applications improves the memorability and learnability of our tool.
-	
-	\item[Zoom to fit] \hfill \\
-	A variation on the zooming feature is zoom to fit (a.k.a. zoom to bounding box). With custom zooming, the user can set the zooming level to meet its needs. On the other hand, zoom to fit adapts the zooming level and moves the content of the application until everything fits on the screen. 
-	
-	\item[Next usability req] \hfill \\
+
+	\item[Customization] \hfill \\
+	End users should be able to customize the visualization a bit to their needs. It should be possible to change the background color of nodes, to add child nodes and to remove nodes they don't need anymore.
 	
 \end{description}
 
