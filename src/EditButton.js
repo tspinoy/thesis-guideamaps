@@ -70,6 +70,7 @@ class EditButton extends React.Component {
             borderTop: this.props.border ? '1px solid' : '',
             borderColor: bgcolor, // inverted by invertColors
             color: bgcolor, // inverted by invertColors
+            outline: 'none',
           }}
           onClick={() => this.toggleModal()}>
           <FontAwesomeIcon icon={'search'} size={this.props.iconSize} />

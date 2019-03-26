@@ -28,6 +28,7 @@ class AddChildButton extends React.Component {
             borderRight: '1px solid',
             borderColor: this.props.node.backgroundColor,
             color: this.props.node.backgroundColor,
+            outline: 'none',
           }}
           onClick={this.handleClick}>
           <FontAwesomeIcon icon={'plus'} />

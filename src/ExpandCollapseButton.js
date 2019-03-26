@@ -30,6 +30,7 @@ class ExpandCollapseButton extends React.Component {
             borderTop: '1px solid',
             borderColor: node.backgroundColor, // inverted by invertColors
             color: node.backgroundColor, // inverted by invertColors
+            outline: 'none',
           }}
           onClick={this.handleClick}>
           <FontAwesomeIcon
