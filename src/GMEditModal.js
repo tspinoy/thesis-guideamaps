@@ -61,10 +61,12 @@ class GMEditModal extends React.Component {
   }
 
   handleDescriptionChange(event) {
+    console.log(event.target.value);
     this.setState({nodeDescription: event.target.value});
   }
 
   handleTitleChange(event) {
+    console.log(event.target);
     this.setState({nodeTitle: event.target.value});
   }
 
@@ -89,77 +91,49 @@ class GMEditModal extends React.Component {
             zIndex: 5000,
           }}>
           <div
-            className={'modal'}
+            className={'absolute modal rounded w-full'}
             style={{
               backgroundColor: '#fff',
-              borderBottomLeftRadius: 5,
-              borderBottomRightRadius: 5,
               minHeight: 300,
               //maxHeight: 500,
               margin: '0 auto',
               padding: 15,
-              width: '100%',
+              width: '90%',
               maxWidth: '750px',
+              top: '10%',
+              left: '50%',
+              transform: 'translate(-50%, 0)',
             }}>
+            <button
+              className={
+                'absolute bg-grey hover:bg-grey-dark py-2 px-4 mb-2 rounded'
+              }
+              style={{
+                outline: 'none',
+                right: 0,
+                transform: 'translate(17px, -32px)',
+              }}
+              onClick={() => this.props.onClose()}>
+              X
+            </button>
             {/* top bar with buttons */}
-            <div className={'flex text-center'}>
-              {/*
-              <div className={'w-1/3'}>
-                <button
-                  className={
-                    'bg-grey hover:bg-grey-dark rounded py-2 px-4 mr-2 mb-2'
-                  }
-                  style={{minWidth: '50%'}}
-                  onClick={() =>
-                    this.props.onNodeLockUnlock(this.props.node.id)
-                  }>
-                  {this.props.node.locked
-                    ? 'Unlock this node'
-                    : 'Lock this node'}
-                </button>
-              </div>
-              */}
-              <div className={'w-1/2'}>
-                <button
-                  className={
-                    'py-2 px-4 mr-2 mb-2 rounded border border-solid border-blue ' +
-                    (this.state.selectedTab === 'edit'
-                      ? 'bg-blue hover:bg-blue-dark text-white '
-                      : 'bg-white text-blue hover:bg-blue-dark hover:text-white')
-                  }
-                  style={{minWidth: '50%', outline: 'none'}}
-                  onClick={() => this.setState({selectedTab: 'edit'})}>
-                  Edit
-                </button>
-              </div>
-              <div className={'inline-flex justify-center w-1/2'}>
-                {this.props.node.children === undefined && (
-                  <button
-                    className={
-                      'bg-grey hover:bg-grey-dark rounded-l py-2 px-4 mb-2'
-                    }
-                    style={{outline: 'none'}}
-                    onClick={() => {
-                      this.props.deleteNode(this.props.node.data.id);
-                      this.props.onClose();
-                    }}>
-                    <FontAwesomeIcon icon={'trash-alt'} />
-                  </button>
-                )}
-                <button
-                  className={
-                    'bg-grey hover:bg-grey-dark py-2 px-4 mb-2 ' +
-                    (this.props.node.children === undefined
-                      ? 'rounded-r border-l border-solid '
-                      : 'rounded ')
-                  }
-                  style={{outline: 'none'}}
-                  onClick={() => this.props.onClose()}>
-                  X
-                </button>
-              </div>
-            </div>
-            <hr style={{backgroundColor: 'black', opacity: 0.5, height: 1}} />
+            {this.props.node.children === undefined && (
+              <button
+                className={
+                  'absolute bg-grey hover:bg-grey-dark rounded py-2 px-4 mb-2'
+                }
+                style={{
+                  outline: 'none',
+                  left: 0,
+                  transform: 'translate(-17px, -32px)',
+                }}
+                onClick={() => {
+                  this.props.deleteNode(this.props.node.data.id);
+                  this.props.onClose();
+                }}>
+                <FontAwesomeIcon icon={'trash-alt'} />
+              </button>
+            )}
             {/* content */}
             {this.props.node.locked ? (
               <div className={'text-center mt-12'}>
@@ -267,9 +241,31 @@ class GMEditModal extends React.Component {
                         {/* Node description */}
                         {this.props.mode === Modes.END_USER ? (
                           /* end user stuff */
-                          <div className={'mb-4'}>
-                            <p>{this.props.node.description}</p>
-                          </div>
+                          this.props.node.description === '' ? (
+                            <div className={'mb-4'}>
+                              <label
+                                className={
+                                  'block text-grey-darker text-lg font-bold mb-2'
+                                }>
+                                Node description
+                              </label>
+                              <input
+                                className={
+                                  'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                                  'leading-tight'
+                                }
+                                name={'title'}
+                                type={'text'}
+                                placeholder={'Node description'}
+                                defaultValue={this.props.node.description}
+                                onChange={this.handleDescriptionChange}
+                              />
+                            </div>
+                          ) : (
+                            <div className={'mb-4'}>
+                              <p>{this.props.node.description}</p>
+                            </div>
+                          )
                         ) : (
                           /* map creator stuff */
                           <div className={'mb-4'}>

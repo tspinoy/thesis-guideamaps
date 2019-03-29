@@ -416,102 +416,117 @@ class GMNode extends React.Component {
             {this.state.isOpen &&
               ReactDOM.createPortal(
                 <div
-                  className={'modal overflow-y-scroll rounded'}
+                  className={'backdrop overflow-y-scroll'}
                   style={{
-                    backgroundColor: '#fff',
-                    border: '2px solid black',
-                    height: '300px',
-                    //maxHeight: 500,
-                    margin: '0 auto',
-                    marginTop: '2%',
-                    padding: 15,
-                    width: '100%',
-                    maxWidth: '750px',
+                    height: window.innerHeight,
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    backgroundColor: 'rgba(0,0,0,0.3)', // gray background
+                    paddingTop: 50,
+                    paddingLeft: 50,
+                    paddingRight: 50,
+                    zIndex: 5000,
                   }}>
-                  <div className={'flex'}>
-                    <h1 style={{width: '90%'}}>
-                      Select the type of node to insert
-                    </h1>
-                    <button
-                      className={
-                        'bg-grey hover:bg-grey-dark mb-2 mr-2 px-4 py-2 rounded'
-                      }
-                      style={{width: '10%'}}
-                      onClick={() => this.toggleModal(416)}>
-                      X
-                    </button>
-                    {this.props.node.children === undefined && (
+                  <div
+                    className={'modal overflow-y-scroll rounded'}
+                    style={{
+                      backgroundColor: '#fff',
+                      border: '2px solid black',
+                      height: '300px',
+                      //maxHeight: 500,
+                      margin: '0 auto',
+                      marginTop: '2%',
+                      padding: 15,
+                      width: '100%',
+                      maxWidth: '750px',
+                    }}>
+                    <div className={'flex'}>
+                      <h1 style={{width: '90%'}}>
+                        Select the type of node to insert
+                      </h1>
                       <button
                         className={
                           'bg-grey hover:bg-grey-dark mb-2 mr-2 px-4 py-2 rounded'
                         }
                         style={{width: '10%'}}
-                        onClick={() => {
-                          this.toggleModal();
-                          this.props.deleteNode(this.props.node.data.id);
-                        }}>
-                        <FontAwesomeIcon
-                          icon={'trash-alt'}
-                          className={'text-base'}
-                        />
+                        onClick={() => this.toggleModal(416)}>
+                        X
                       </button>
-                    )}
+                      {this.props.node.children === undefined && (
+                        <button
+                          className={
+                            'bg-grey hover:bg-grey-dark mb-2 mr-2 px-4 py-2 rounded'
+                          }
+                          style={{width: '10%'}}
+                          onClick={() => {
+                            this.toggleModal();
+                            this.props.deleteNode(this.props.node.data.id);
+                          }}>
+                          <FontAwesomeIcon
+                            icon={'trash-alt'}
+                            className={'text-base'}
+                          />
+                        </button>
+                      )}
+                    </div>
+                    <table
+                      className={'border-separate w-full'}
+                      style={{borderSpacing: '0 5px'}}>
+                      <tbody>
+                        {Object.keys(GMNodeTypes).map(function(type) {
+                          return (
+                            <tr
+                              key={type}
+                              className={'cursor-pointer text-center w-full'}
+                              style={{height: '50px'}}
+                              onClick={() => onAddNode(node, type)}>
+                              <td style={{border: '1px solid black'}}>
+                                {type}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                        <tr
+                          key={'type3'}
+                          className={'text-center w-full'}
+                          style={{height: '50px'}}>
+                          {/*onClick={() => onAddNode(node, type)}>*/}
+                          <td style={{border: '1px solid black'}}>
+                            Other type (not yet available)
+                          </td>
+                        </tr>
+                        <tr
+                          key={'type4'}
+                          className={'text-center w-full'}
+                          style={{height: '50px'}}>
+                          {/*onClick={() => onAddNode(node, type)}>*/}
+                          <td style={{border: '1px solid black'}}>
+                            Other type (not yet available)
+                          </td>
+                        </tr>
+                        <tr
+                          key={'type5'}
+                          className={'text-center w-full'}
+                          style={{height: '50px'}}>
+                          {/*onClick={() => onAddNode(node, type)}>*/}
+                          <td style={{border: '1px solid black'}}>
+                            Other type (not yet available)
+                          </td>
+                        </tr>
+                        <tr
+                          key={'type6'}
+                          className={'text-center w-full'}
+                          style={{height: '50px'}}>
+                          {/*onClick={() => onAddNode(node, type)}>*/}
+                          <td style={{border: '1px solid black'}}>
+                            Other type (not yet available)
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                  <table
-                    className={'border-separate w-full'}
-                    style={{borderSpacing: '0 5px'}}>
-                    <tbody>
-                      {Object.keys(GMNodeTypes).map(function(type) {
-                        return (
-                          <tr
-                            key={type}
-                            className={'cursor-pointer text-center w-full'}
-                            style={{height: '50px'}}
-                            onClick={() => onAddNode(node, type)}>
-                            <td style={{border: '1px solid black'}}>
-                              {type}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                      <tr
-                        key={'type3'}
-                        className={'text-center w-full'}
-                        style={{height: '50px'}}>
-                        {/*onClick={() => onAddNode(node, type)}>*/}
-                        <td style={{border: '1px solid black'}}>
-                          Other type (not yet available)
-                        </td>
-                      </tr>
-                      <tr
-                        key={'type4'}
-                        className={'text-center w-full'}
-                        style={{height: '50px'}}>
-                        {/*onClick={() => onAddNode(node, type)}>*/}
-                        <td style={{border: '1px solid black'}}>
-                          Other type (not yet available)
-                        </td>
-                      </tr>
-                      <tr
-                        key={'type5'}
-                        className={'text-center w-full'}
-                        style={{height: '50px'}}>
-                        {/*onClick={() => onAddNode(node, type)}>*/}
-                        <td style={{border: '1px solid black'}}>
-                          Other type (not yet available)
-                        </td>
-                      </tr>
-                      <tr
-                        key={'type6'}
-                        className={'text-center w-full'}
-                        style={{height: '50px'}}>
-                        {/*onClick={() => onAddNode(node, type)}>*/}
-                        <td style={{border: '1px solid black'}}>
-                          Other type (not yet available)
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
                 </div>,
                 document.getElementById('modalSpace'),
               )}
