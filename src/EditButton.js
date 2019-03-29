@@ -43,7 +43,7 @@ class EditButton extends React.Component {
     // Depending on the animation, you have to wait before the state is changed.
     // The content of #editField is deleted when the this.state.isOpen = false.
     // Hence, we have to wait to delete it until the animation is finished.
-    setTimeout(() => this.updateOpenState(), this.state.isOpen ? 1000 : 600);
+    setTimeout(() => this.updateOpenState(), this.state.isOpen ? 550 : 0);
   }
 
   render() {
