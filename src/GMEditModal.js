@@ -116,23 +116,23 @@ class GMEditModal extends React.Component {
               onClick={() => this.props.onClose()}>
               X
             </button>
-            {/* top bar with buttons */}
-            {this.props.node.children === undefined && (
-              <button
-                className={
-                  'absolute bg-grey hover:bg-grey-dark rounded py-2 px-4 mb-2'
-                }
-                style={{
-                  outline: 'none',
-                  left: 0,
-                  transform: 'translate(-17px, -32px)',
-                }}
-                onClick={() => {
-                  this.props.deleteNode(this.props.node.data.id);
-                  this.props.onClose();
-                }}>
-                <FontAwesomeIcon icon={'trash-alt'} />
-              </button>
+            {this.state.mode === Modes.MAP_CREATOR &&
+              this.props.node.children === undefined && (
+                <button
+                  className={
+                    'absolute bg-grey hover:bg-grey-dark rounded py-2 px-4 mb-2'
+                  }
+                  style={{
+                    outline: 'none',
+                    left: 0,
+                    transform: 'translate(-17px, -32px)',
+                  }}
+                  onClick={() => {
+                    this.props.deleteNode(this.props.node.data.id);
+                    this.props.onClose();
+                  }}>
+                  <FontAwesomeIcon icon={'trash-alt'} />
+                </button>
             )}
             {/* content */}
             {this.props.node.locked ? (
@@ -289,24 +289,30 @@ class GMEditModal extends React.Component {
                           </div>
                         )}
                         {/* Node content */}
-                        <div className={'mb-4'}>
-                          <label
-                            className={
-                              'block text-grey-darker text-lg font-bold mb-2'
-                            }>
-                            Content
-                          </label>
-                          <textarea
-                            className={
-                              'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                              'leading-tight focus:outline-none focus:shadow-outline'
-                            }
-                            name={'content'}
-                            placeholder={'Node content'}
-                            defaultValue={this.props.node.content}
-                            onChange={this.handleContentChange}
-                          />
-                        </div>
+                        {this.props.mode === Modes.END_USER ? (
+                          <div className={'mb-4'}>
+                            <label
+                              className={
+                                'block text-grey-darker text-lg font-bold mb-2'
+                              }>
+                              Content
+                            </label>
+                            <textarea
+                              className={
+                                'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                                'leading-tight focus:outline-none focus:shadow-outline'
+                              }
+                              name={'content'}
+                              placeholder={'Node content'}
+                              defaultValue={this.props.node.content}
+                              onChange={this.handleContentChange}
+                            />
+                          </div>
+                        ) : (
+                          <div className={'mb-4'}>
+                            <p>{this.props.node.content}</p>
+                          </div>
+                        )}
                       </div>
                       {/* Color picker */}
                       <div className={'m-4 w-1/3'}>
