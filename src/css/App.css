@@ -125,6 +125,21 @@
     margin-left: -60px;
 }
 
+.tooltipright .tooltiptextright {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 40%;
+    left: 152%;
+    margin-left: -60px;
+}
+
 .tooltip .tooltiptext::after {
     content: "";
     position: absolute;
@@ -135,6 +150,22 @@
     border-style: solid;
     border-color: transparent transparent black transparent;
 }
+
+.tooltipright .tooltiptextright::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+
+.tooltipright:hover .tooltiptextright {
+    visibility: visible;
+}
+
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }

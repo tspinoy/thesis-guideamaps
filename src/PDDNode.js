@@ -102,34 +102,43 @@ class PDDNode extends React.Component {
           '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
           '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
         }}>
-        <div // title div
-          id={'title' + node.data.id}
-          className={
-            (node.data.image !== '' ? 'text-black ' : 'text-white ') +
-            'flex h-full invertColors items-center justify-center ' +
-            'pb-1 pt-1 pl-2 pr-2 relative text-center ' +
-            'w-full '
-          }
-          onClick={this.onClickHandler}>
-          <p className={'text-base overflow-hidden'}>
-            {node.data.titre === '' ? 'No title' : node.data.titre}
-          </p>
-        </div>
-        <div // controls div
-          className={'absolute invertColors pin-b rounded-b w-full'}>
+        <div className={'tooltipright w-full'}>
+          <div // title div
+            id={'title' + node.data.id}
+            className={
+              (node.data.image !== '' ? 'text-black ' : 'text-white ') +
+              'flex h-full invertColors items-center justify-center ' +
+              'pb-1 pt-1 pl-2 pr-2 relative text-center ' +
+              'w-full '
+            }
+            onClick={this.onClickHandler}>
+            <p className={'text-base overflow-hidden'}>
+              {node.data.titre === '' ? 'No title' : node.data.titre}
+            </p>
+          </div>
+          <div // controls div
+            className={'absolute invertColors pin-b rounded-b w-full'}>
+            {node.data.id > 0 && (
+              <EditButton
+                border={false}
+                width={'w-full'}
+                iconSize={'lg'}
+                node={node}
+                leaf={node.height === 0}
+                onNodeDataChange={onNodeDataChange}
+                bgcolor={node.data.image !== '' ? '#ffffff' : '#000000'}
+                onEditNode={onEditNode}
+                EditNodeComp={EditNodeComp}
+                tooltiptext={false}
+              />
+            )}
+          </div>
           {node.data.id > 0 && (
-            <EditButton
-              border={false}
-              width={'w-full'}
-              iconSize={'lg'}
-              node={node}
-              leaf={node.height === 0}
-              onNodeDataChange={onNodeDataChange}
-              bgcolor={node.data.image !== '' ? '#ffffff' : '#000000'}
-              onEditNode={onEditNode}
-              EditNodeComp={EditNodeComp}
-              tooltiptext={false}
-            />
+            <span className={'tooltiptextright'}>
+              {centered && this.props.lastSelectedId === node.id
+                ? 'Open'
+                : 'Center'}
+            </span>
           )}
         </div>
         {node.height !== 0 && (
@@ -164,7 +173,7 @@ class PDDNode extends React.Component {
                 size={'lg'}
               />
             </button>
-            <span className="tooltiptext">
+            <span className={'tooltiptext'}>
               {node.visibleChildren ? 'Collapse' : 'Expand'}
             </span>
           </div>
