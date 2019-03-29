@@ -7,6 +7,7 @@ export const ItemTypes = {
 export const GMNodeTypes = {
   DEFAULT: 'default',
   CHOICE: 'choice',
+  OPTIONAL: 'optional',
 };
 
 export const Modes = {

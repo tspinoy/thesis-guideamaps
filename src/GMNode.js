@@ -168,11 +168,14 @@ class GMNode extends React.Component {
    * @return {boolean}
    */
   completeNode(node) {
+    return node.title !== '' && node.content !== '';
+    /*
     if (this.props.mode === Modes.END_USER) {
       return node.content !== '';
     } else if (this.props.mode === Modes.MAP_CREATOR) {
       return node.title !== '' && node.content !== '';
     }
+     */
   }
 
   /**
@@ -182,11 +185,14 @@ class GMNode extends React.Component {
    * @return {boolean}
    */
   emptyNode(node) {
+    return node.title === '' && node.content === '';
+    /*
     if (this.props.mode === Modes.END_USER) {
       return node.content === '';
     } else if (this.props.mode === Modes.MAP_CREATOR) {
       return node.title === '' && node.content === '';
     }
+     */
   }
 
   /**
@@ -530,6 +536,118 @@ class GMNode extends React.Component {
                 </div>,
                 document.getElementById('modalSpace'),
               )}
+          </div>
+        );
+      case GMNodeTypes.OPTIONAL:
+        return (
+          <div
+            key={node.data.id}
+            id={'node' + node.data.id}
+            className={
+              'node absolute cursor-pointer ' +
+              'border border-solid border-black rounded ' +
+              (node.visible ? 'z-40 ' : 'z-0 ') +
+              (node.visible ? 'visibleNode ' : 'hiddenNode ')
+            }
+            style={{
+              width: GMNodeWidth,
+              height: GMNodeHeight,
+              //transform: `translate(${node.x}px, ${node.y}px)`,
+              color: node.backgroundColor,
+              backgroundColor: node.backgroundColor,
+              //opacity: isDragging ? 0.5 : '',
+              transition: centered && 'all 500ms ease 0s',
+              '--nodex': node.x + 'px',
+              '--nodey': node.y + 'px',
+              '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
+              '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
+            }}
+            onClick={onClick}>
+            <div
+              className={'absolute'}
+              style={{
+                transform: 'translate(' + GMNodeWidth + 'px, ' + GMNodeHeight / 3 + 'px)',
+              }}>
+              <FontAwesomeIcon icon={'lock'} size={'2x'} />
+            </div>
+            <div // title div
+              className={'bg-white flex pb-1 pl-2 pr-2 pt-1 rounded-t'}
+              style={{
+                borderBottom: '1px solid',
+                borderColor: 'black',
+                color: 'black',
+              }}>
+              <div
+                className={
+                  'overflow-hidden ' +
+                  (node.title === '' ? 'italic text-sm ' : 'text-base ') +
+                  'w-5/6 whitespace-no-wrap'
+                }
+                style={{
+                  textOverflow: 'ellipsis',
+                  //textAlign: 'center',
+                }}>
+                {node.title === '' ? 'Insert title' : node.title}
+              </div>
+              <div className={'w-1/6'}>
+                <FontAwesomeIcon
+                  icon={this.completenessIcon(node)}
+                  className={'text-base'}
+                />
+              </div>
+            </div>
+            <div // content div
+              className={
+                'invertColors pb-1 pl-2 pr-2 pt-1 overflow-hidden text-base'
+              }
+              style={{
+                color: node.backgroundColor, // this is inverted by the invertColors-class
+                height: '2.6em', // 1.2 times WebkitLineClamp of the paragraph
+              }}>
+              <p
+                className={
+                  'overflow-hidden ' +
+                  (node.content === '' ? 'italic text-sm' : '')
+                }
+                style={{
+                  WebkitLineClamp: 2,
+                  display: '-webkit-box',
+                  WebkitBoxOrient: 'vertical',
+                }}>
+                {node.content === '' ? node.description : node.content}
+              </p>
+            </div>
+            <div // controls div
+              className={'absolute pin-b flex rounded-b w-full'}>
+              <AddChildButton
+                bgcolor={node.backgroundColor}
+                node={node}
+                onAddNode={onAddNode}
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+              />
+              <EditButton
+                bgcolor={node.backgroundColor}
+                border={true}
+                deleteNode={deleteNode}
+                EditNodeComp={EditNodeComp}
+                leaf={node.height === 0}
+                mode={mode}
+                node={node}
+                onEditNode={onEditNode}
+                onNodeDataChange={onNodeDataChange}
+                onNodeLockUnlock={onNodeLockUnlock}
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+              />
+              {node.height !== 0 && (
+                // At non-child nodes the expand-collapse button should be added
+                <ExpandCollapseButton
+                  bgcolor={node.backgroundColor}
+                  node={node}
+                  onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
+                  width={'w-1/3'}
+                />
+              )}
+            </div>
           </div>
         );
       default:
