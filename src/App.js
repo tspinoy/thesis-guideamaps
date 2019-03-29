@@ -239,6 +239,7 @@ class App extends Component {
     /**
      * Update the data of a node after it was edited and the form was submitted.
      * @param nodeId: The id of the node of which the data have to change.
+     * @param nodeDescription: A string describing the (expected) content of the node.
      * @param nodeTitle: The new title of the node.
      * @param nodeContent: The new content of the node.
      * @param hexColor: The new color of the node in hexadecimal.
@@ -255,6 +256,7 @@ class App extends Component {
       const newNodes = this.state.nodes.map(node => {
         if (node.id === nodeId) {
           // update the node with this nodeId
+          node.description = nodeDescription;
           node.title = nodeTitle;
           node.content = nodeContent;
 
