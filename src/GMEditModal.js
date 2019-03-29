@@ -44,8 +44,6 @@ class GMEditModal extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     event.persist();
-    //const newTitle = event.target[2].value;
-    //const newContent = event.target[3].value;
     const newDescription = this.state.nodeDescription;
     const newTitle = this.state.nodeTitle;
     const newContent = this.state.nodeContent;
@@ -129,7 +127,7 @@ class GMEditModal extends React.Component {
                       ? 'bg-blue hover:bg-blue-dark text-white '
                       : 'bg-white text-blue hover:bg-blue-dark hover:text-white')
                   }
-                  style={{minWidth: '50%'}}
+                  style={{minWidth: '50%', outline: 'none'}}
                   onClick={() => this.setState({selectedTab: 'edit'})}>
                   Edit
                 </button>
@@ -140,6 +138,7 @@ class GMEditModal extends React.Component {
                     className={
                       'bg-grey hover:bg-grey-dark rounded-l py-2 px-4 mb-2'
                     }
+                    style={{outline: 'none'}}
                     onClick={() => {
                       this.props.deleteNode(this.props.node.data.id);
                       this.props.onClose();
@@ -154,6 +153,7 @@ class GMEditModal extends React.Component {
                       ? 'rounded-r border-l border-solid '
                       : 'rounded ')
                   }
+                  style={{outline: 'none'}}
                   onClick={() => this.props.onClose()}>
                   X
                 </button>
@@ -200,9 +200,9 @@ class GMEditModal extends React.Component {
                         <div className={'mb-4 text-center'}>
                           <button
                             className={
-                              'bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                              'bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded'
                             }
-                            style={{minWidth: '50%'}}>
+                            style={{minWidth: '50%', outline: 'none'}}>
                             <FontAwesomeIcon icon={['far', 'save']} />
                             &nbsp;Save and close
                           </button>
@@ -228,7 +228,7 @@ class GMEditModal extends React.Component {
                               <input
                                 className={
                                   'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                                  'leading-tight focus:outline-none focus:shadow-outline'
+                                  'leading-tight'
                                 }
                                 name={'title'}
                                 type={'text'}
