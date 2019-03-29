@@ -153,6 +153,7 @@ class PDDNode extends React.Component {
                 //borderColor: node.backgroundColor,
                 color: '#60b660',
                 boxShadow: '0 0 0 2px #ffffff',
+                outline: 'none',
               }}
               onClick={() => {
                 this.props.onClick();

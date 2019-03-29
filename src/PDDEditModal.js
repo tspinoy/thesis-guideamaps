@@ -52,22 +52,6 @@ class PDDEditModal extends React.Component {
     this.setState({nodeTitle: event.target.value});
   }
 
-  mouseDownEvent = new MouseEvent('mousedown', {
-    view: window,
-    bubbles: true,
-    cancelable: false,
-  });
-  mouseUpEvent = new MouseEvent('mouseup', {
-    view: window,
-    bubbles: true,
-    cancelable: false,
-  });
-
-  mEvent = document.createEvent("MouseEvent").initMouseEvent("click", true, true, window, 0,
-  0, 0, 0, 0,
-  false, false, false, false,
-  0, null);
-
   static getDataById(id) {
     for (let i = 0; i < PDDData2.length; i++) {
       if (PDDData2[i].id === id) {
@@ -77,8 +61,6 @@ class PDDEditModal extends React.Component {
   }
 
   clickNode(ref) {
-    console.log('clicknode' + ref);
-    console.log(document.getElementById('title' + ref));
     document.getElementById('title' + ref).click();
   }
 
@@ -157,9 +139,14 @@ class PDDEditModal extends React.Component {
                   <img
                     src={this.props.node.data.image}
                     alt={'Image'}
-                    className={'mb-4 w-full'}
+                    className={'float-left mb-4 w-full'}
                     style={{
                       border: '2px solid #5cb85c',
+                      backgroundColor: '#fff',
+                      maxHeight: '300px',
+                      width: 'auto',
+                      marginBottom: '10px',
+                      marginRight: '10px',
                     }}
                   />
                 )}

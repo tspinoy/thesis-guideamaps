@@ -35,9 +35,10 @@ class PDDLink extends React.Component {
           zHandler.apply([link.target.x, link.target.y]), // end point
         ])}
         fill={'none'}
-        stroke={'black'}
+        stroke={'#373244'}
         //strokeDasharray={1000} //{link.optional ? 3 : 0} // default lines are solid, others are dashed
         //markerMid={link.target.visible ? 'url(#arrow)' : ''}
+        strokeWidth={2}
         style={{
           transform: `translate(${PDDNodeWidth / 2}px, ${PDDNodeHeight / 2}px)`,
           //display: links.target.visible ? 'block' : 'none',
