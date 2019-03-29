@@ -73,7 +73,9 @@ export const initializeGMNode = (
   node.description =
     oldNode !== null && oldNode.description !== undefined
       ? oldNode.description
-      : 'This node should contain data about ...';
+      : node.description === undefined
+      ? ''
+      : node.description;
 
   // fill node background
   if (oldNode !== null && oldNode.backgroundColor !== undefined) {
