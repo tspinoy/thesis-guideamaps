@@ -1,7 +1,6 @@
 import React from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 
 import Picky from 'react-picky';
 import 'react-picky/dist/picky.css';
@@ -20,7 +19,15 @@ class ZoomableTree extends React.Component {
   state = {allowedNodeTypes: [], selectedId: null, nodes: null};
 
   componentDidMount() {
-    this.setState({nodes: this.props.nodes});
+    // Make sure that the checkbox of already allowed types are selected
+    const allowedTypes = [];
+    Object.keys(ChoiceNodeAllowedTypes).map(function(type) {
+      if (ChoiceNodeAllowedTypes[type]) {
+        allowedTypes.push({label: type, value: GMNodeTypes[type]});
+      }
+    });
+
+    this.setState({allowedNodeTypes: allowedTypes, nodes: this.props.nodes});
   }
 
   render() {
@@ -43,16 +50,14 @@ class ZoomableTree extends React.Component {
       onNodeVisibleChildrenChange,
       width,
     } = this.props;
-    const {
-      allowedNodeTypes: [],
-      selectedId,
-    } = this.state;
+    const {selectedId} = this.state;
 
     const options = Object.keys(ChoiceNodeAllowedTypes).map(function(type) {
       return {label: type, value: GMNodeTypes[type]};
     });
 
     const handleChange = value => {
+      console.log(value);
       this.setState({allowedNodeTypes: value});
       updateAllowedChoiceNodeType(value);
     };
