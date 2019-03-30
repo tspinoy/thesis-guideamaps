@@ -17,14 +17,15 @@ class ExpandCollapseButton extends React.Component {
   }
 
   render() {
-    const {node} = this.props;
+    const {locked, node} = this.props;
     return (
       <div className={'tooltip ' + this.props.width}>
         <button
           id={'ec-btn-node' + this.props.node.data.id}
           className={
             'block expand-collapse-btn font-bold invertColors items-center ' +
-            'px-1 py-1 rounded-br text-grey-darkest w-full'
+            'px-1 py-1 rounded-br text-grey-darkest w-full ' +
+            (!locked ? 'cursor-pointer' : 'cursor-default')
           }
           style={{
             borderTop: '1px solid',
@@ -37,8 +38,8 @@ class ExpandCollapseButton extends React.Component {
             icon={this.props.node.visibleChildren ? 'compress' : 'expand'}
           />
         </button>
-        <span className={'tooltiptext'}>
-          {node.visibleChildren ? 'Collapse' : 'Expand'}
+        <span className={!locked && 'tooltiptext'}>
+          {!locked && node.visibleChildren ? 'Collapse' : 'Expand'}
         </span>
       </div>
     );

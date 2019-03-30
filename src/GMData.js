@@ -145,6 +145,12 @@ export const GMData2 = [
     type: GMNodeTypes.CHOICE,
     parent: 21,
   },
+  {
+    id: 24,
+    name: 'optional',
+    type: GMNodeTypes.OPTIONAL,
+    parent: 6,
+  },
 ];
 
 export const GMData = {

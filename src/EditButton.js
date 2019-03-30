@@ -52,6 +52,7 @@ class EditButton extends React.Component {
       deleteNode,
       EditNodeComp,
       bgcolor,
+      locked,
       onClick,
       onNodeLockUnlock,
     } = this.props;
@@ -63,7 +64,8 @@ class EditButton extends React.Component {
             'block text-grey-darkest font-bold ' +
             (this.props.leaf ? '' : this.props.border ? 'border-r ' : '') +
             'py-1 px-1 ' +
-            'items-center invertColors'
+            'items-center invertColors ' +
+            (!locked ? 'cursor-pointer' : 'cursor-default')
           }
           style={{
             width: '100%',
@@ -76,7 +78,9 @@ class EditButton extends React.Component {
           <FontAwesomeIcon icon={'search'} size={this.props.iconSize} />
         </button>
         {this.props.tooltiptext !== false && (
-          <span className={'tooltiptext'}>Open & edit</span>
+          <span className={!locked && 'tooltiptext'}>
+            {!locked && 'Open & edit'}
+          </span>
         )}
         {this.state.isOpen &&
           ReactDOM.createPortal(
