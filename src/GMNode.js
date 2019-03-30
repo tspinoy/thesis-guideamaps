@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ItemTypes, GMNodeTypes, Modes } from "./Constants";
+import { ItemTypes, GMNodeTypes, Modes, ChoiceNodeAllowedTypes } from "./Constants";
 import {DragSource, DropTarget} from 'react-dnd';
 import flow from 'lodash/flow';
 
@@ -490,55 +490,21 @@ class GMNode extends React.Component {
                       className={'border-separate w-full'}
                       style={{borderSpacing: '0 5px'}}>
                       <tbody>
-                        {Object.keys(GMNodeTypes).map(function(type) {
+                        {Object.keys(ChoiceNodeAllowedTypes).map(function(type) {
                           return (
-                            <tr
-                              key={type}
-                              className={'cursor-pointer text-center w-full'}
-                              style={{height: '50px'}}
-                              onClick={() => onAddNode(node, type)}>
-                              <td style={{border: '1px solid black'}}>
-                                {type}
-                              </td>
-                            </tr>
+                            ChoiceNodeAllowedTypes[type] && (
+                              <tr
+                                key={type}
+                                className={'cursor-pointer text-center w-full'}
+                                style={{height: '50px'}}
+                                onClick={() => onAddNode(node, type)}>
+                                <td style={{border: '1px solid black'}}>
+                                  {type}
+                                </td>
+                              </tr>
+                            )
                           );
                         })}
-                        <tr
-                          key={'type3'}
-                          className={'text-center w-full'}
-                          style={{height: '50px'}}>
-                          {/*onClick={() => onAddNode(node, type)}>*/}
-                          <td style={{border: '1px solid black'}}>
-                            Other type (not yet available)
-                          </td>
-                        </tr>
-                        <tr
-                          key={'type4'}
-                          className={'text-center w-full'}
-                          style={{height: '50px'}}>
-                          {/*onClick={() => onAddNode(node, type)}>*/}
-                          <td style={{border: '1px solid black'}}>
-                            Other type (not yet available)
-                          </td>
-                        </tr>
-                        <tr
-                          key={'type5'}
-                          className={'text-center w-full'}
-                          style={{height: '50px'}}>
-                          {/*onClick={() => onAddNode(node, type)}>*/}
-                          <td style={{border: '1px solid black'}}>
-                            Other type (not yet available)
-                          </td>
-                        </tr>
-                        <tr
-                          key={'type6'}
-                          className={'text-center w-full'}
-                          style={{height: '50px'}}>
-                          {/*onClick={() => onAddNode(node, type)}>*/}
-                          <td style={{border: '1px solid black'}}>
-                            Other type (not yet available)
-                          </td>
-                        </tr>
                       </tbody>
                     </table>
                   </div>

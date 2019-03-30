@@ -1,13 +1,23 @@
 import React from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 
-import {maxZoomScale} from './Constants';
+import Picky from 'react-picky';
+import 'react-picky/dist/picky.css';
+
+import {
+  ChoiceNodeAllowedTypes,
+  GMNodeTypes,
+  maxZoomScale,
+  Modes,
+  updateAllowedChoiceNodeType,
+} from './Constants';
 import './css/App.css';
 import Zoom from './Zoom.js';
 
 class ZoomableTree extends React.Component {
-  state = {selectedId: null, nodes: null};
+  state = {allowedNodeTypes: [], selectedId: null, nodes: null};
 
   componentDidMount() {
     this.setState({nodes: this.props.nodes});
@@ -33,10 +43,43 @@ class ZoomableTree extends React.Component {
       onNodeVisibleChildrenChange,
       width,
     } = this.props;
-    const {selectedId} = this.state;
+    const {
+      allowedNodeTypes: [],
+      selectedId,
+    } = this.state;
+
+    const options = Object.keys(ChoiceNodeAllowedTypes).map(function(type) {
+      return {label: type, value: GMNodeTypes[type]};
+    });
+
+    const handleChange = value => {
+      this.setState({allowedNodeTypes: value});
+      updateAllowedChoiceNodeType(value);
+    };
 
     return (
       <div className={'relative'} style={{width, height}}>
+        {mode === Modes.MAP_CREATOR && (
+          <div
+            className={'absolute pin-r'}
+            style={{
+              width: '200px',
+              zIndex: 1000000000,
+            }}>
+            <Picky
+              value={this.state.allowedNodeTypes}
+              options={options}
+              onChange={handleChange}
+              open={false}
+              valueKey={'value'}
+              labelKey={'label'}
+              multiple={true}
+              includeSelectAll={true}
+              includeFilter={true}
+              dropdownHeight={600}
+            />
+          </div>
+        )}
         <Zoom
           data={nodes}
           width={width}

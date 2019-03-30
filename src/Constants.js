@@ -10,6 +10,12 @@ export const GMNodeTypes = {
   OPTIONAL: 'optional',
 };
 
+export const ChoiceNodeAllowedTypes = {
+  DEFAULT: true,
+  CHOICE: true,
+  OPTIONAL: true,
+};
+
 export const Modes = {
   END_USER: 'END_USER',
   MAP_CREATOR: 'MAP_CREATOR',
@@ -121,4 +127,24 @@ export const arraysEqual = (a, b) => {
     if (a[i] !== b[i]) return false;
   }
   return true;
+};
+
+export const updateAllowedChoiceNodeType = allowedTypes => {
+  // Start by disallowing all node types
+  Object.keys(ChoiceNodeAllowedTypes).forEach(function(type) {
+    ChoiceNodeAllowedTypes[type] = false;
+  });
+
+  // loop over the allowed types indicated by the map creator
+  // these are of the form {label: Something, value: SomethingElse}
+  allowedTypes.forEach(function(allowedType) {
+    // loop over the GMNodeTypes as well
+    Object.keys(GMNodeTypes).forEach(function(type) {
+      // if the type indicated by the map creator corresponds to the type we encounter while looping ...
+      if (GMNodeTypes[type] === allowedType['value']) {
+        // ... then set this type as allowed
+        ChoiceNodeAllowedTypes[type] = true;
+      }
+    });
+  });
 };
