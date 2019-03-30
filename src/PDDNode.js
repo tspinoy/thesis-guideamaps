@@ -1,9 +1,8 @@
 import React from 'react';
 import './css/App.css';
 import EditButton from './EditButton';
-import {arraysEqual, PDDNodeHeight, PDDNodeWidth} from './Constants';
-import ExpandCollapseButton from './ExpandCollapseButton';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {PDDNodeHeight, PDDNodeWidth} from './Constants';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class PDDNode extends React.Component {
   constructor(props) {
@@ -59,13 +58,9 @@ class PDDNode extends React.Component {
   render() {
     const {
       node,
-      onAddNode,
       onEditNode,
       EditNodeComp,
       onNodeDataChange,
-      onNodePositionChange,
-      onNodeVisibleChildrenChange,
-      onClick,
       centered,
     } = this.props;
 
@@ -74,29 +69,28 @@ class PDDNode extends React.Component {
         key={node.data.id}
         id={'node' + node.data.id}
         className={
-          'node absolute flex cursor-pointer ' +
-          'hover:border-red m-2 ' +
+          'absolute cursor-pointer flex ' +
+          'hover:border-red m-2 node ' +
           (node.visible ? 'z-40 ' : 'z-0 ') +
           (node.visible ? 'visibleNode ' : 'hiddenNode ')
         }
         style={{
-          width: node.data.id === 0 ? PDDNodeWidth * 1.3 : PDDNodeWidth,
-          height: node.data.id === 0 ? PDDNodeHeight * 1.3 : PDDNodeHeight,
-          //transform: `translate(${node.x}px, ${node.y}px)`,
-          color: 'white',
-          fontWeight: 'bold',
           backgroundColor:
             node.data.id === 0
               ? '#373244'
               : node.data.image !== ''
               ? '#60b660'
               : 'white',
-          transition: centered && 'all 500ms ease 0s',
-          borderRadius: '50%',
           border: '3px solid #ffffff',
+          borderRadius: '50%',
           boxShadow:
             node.data.id === 0 ? '0 0 0 3px #373244' : '0 0 0 3px #5cb85c',
+          color: 'white',
           cursor: 'pointer',
+          fontWeight: 'bold',
+          height: node.data.id === 0 ? PDDNodeHeight * 1.3 : PDDNodeHeight,
+          transition: centered && 'all 500ms ease 0s',
+          width: node.data.id === 0 ? PDDNodeWidth * 1.3 : PDDNodeWidth,
           '--nodex': node.x + 'px',
           '--nodey': node.y + 'px',
           '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
@@ -106,9 +100,9 @@ class PDDNode extends React.Component {
           <div // title div
             id={'title' + node.data.id}
             className={
-              (node.data.image !== '' ? 'text-black ' : 'text-white ') +
               'flex h-full invertColors items-center justify-center ' +
               'pb-1 pt-1 pl-2 pr-2 relative text-center ' +
+              (node.data.image !== '' ? 'text-black ' : 'text-white ') +
               'w-full '
             }
             onClick={this.onClickHandler}>
@@ -120,16 +114,16 @@ class PDDNode extends React.Component {
             className={'absolute invertColors pin-b rounded-b w-full'}>
             {node.data.id > 0 && (
               <EditButton
-                border={false}
-                width={'w-full'}
-                iconSize={'lg'}
-                node={node}
-                leaf={node.height === 0}
-                onNodeDataChange={onNodeDataChange}
                 bgcolor={node.data.image !== '' ? '#ffffff' : '#000000'}
-                onEditNode={onEditNode}
+                border={false}
                 EditNodeComp={EditNodeComp}
+                iconSize={'lg'}
+                leaf={node.height === 0}
+                node={node}
+                onEditNode={onEditNode}
+                onNodeDataChange={onNodeDataChange}
                 tooltiptext={false}
+                width={'w-full'}
               />
             )}
           </div>
@@ -152,16 +146,15 @@ class PDDNode extends React.Component {
             <button
               id={'ec-btn-node' + this.props.node.data.id}
               className={
-                'block expand-collapse-btn font-bold items-center ' +
-                'px-1 py-1 rounded-br text-grey-darkest w-full ' +
-                'bg-white '
+                'bg-white block expand-collapse-btn font-bold items-center ' +
+                'px-1 py-1 rounded-br text-grey-darkest w-full '
               }
               style={{
                 border: '3px solid #60b660',
                 borderRadius: '50%',
+                boxShadow: '0 0 0 2px #ffffff',
                 //borderColor: node.backgroundColor,
                 color: '#60b660',
-                boxShadow: '0 0 0 2px #ffffff',
                 outline: 'none',
               }}
               onClick={() => {

@@ -35,8 +35,8 @@ class GMLink extends React.Component {
           zHandler.apply([link.target.x, link.target.y]), // end point
         ])}
         fill={'none'}
-        stroke={'black'}
         markerMid={link.target.visible ? 'url(#arrow)' : ''}
+        stroke={'black'}
         strokeDasharray={link.target.visible && link.optional ? 3 : 1000}
         style={{
           transform: `translate(${GMNodeWidth / 2}px, ${GMNodeHeight / 2}px)`,

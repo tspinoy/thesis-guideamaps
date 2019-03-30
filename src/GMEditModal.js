@@ -61,12 +61,10 @@ class GMEditModal extends React.Component {
   }
 
   handleDescriptionChange(event) {
-    console.log(event.target.value);
     this.setState({nodeDescription: event.target.value});
   }
 
   handleTitleChange(event) {
-    console.log(event.target);
     this.setState({nodeTitle: event.target.value});
   }
 
@@ -79,30 +77,30 @@ class GMEditModal extends React.Component {
         <div
           className={'backdrop overflow-y-scroll'}
           style={{
-            height: window.innerHeight,
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
             backgroundColor: 'rgba(0,0,0,0.3)', // gray background
-            paddingTop: 50,
+            bottom: 0,
+            height: window.innerHeight,
+            left: 0,
             paddingLeft: 50,
             paddingRight: 50,
+            paddingTop: 50,
+            right: 0,
+            top: 0,
             zIndex: 5000,
           }}>
           <div
             className={'absolute modal rounded w-full'}
             style={{
               backgroundColor: '#fff',
-              minHeight: 300,
-              //maxHeight: 500,
-              margin: '0 auto',
-              padding: 15,
-              width: '90%',
-              maxWidth: '750px',
-              top: '10%',
               left: '50%',
+              margin: '0 auto',
+              //maxHeight: 500,
+              maxWidth: '750px',
+              minHeight: 300,
+              padding: 15,
+              top: '10%',
               transform: 'translate(-50%, 0)',
+              width: '90%',
             }}>
             <button
               className={
@@ -123,8 +121,8 @@ class GMEditModal extends React.Component {
                     'absolute bg-grey hover:bg-grey-dark rounded py-2 px-4 mb-2'
                   }
                   style={{
-                    outline: 'none',
                     left: 0,
+                    outline: 'none',
                     transform: 'translate(-17px, -32px)',
                   }}
                   onClick={() => {
@@ -136,7 +134,7 @@ class GMEditModal extends React.Component {
             )}
             {/* content */}
             {this.props.node.locked ? (
-              <div className={'text-center mt-12'}>
+              <div className={'mt-12 text-center'}>
                 <FontAwesomeIcon icon={'lock'} size={'6x'} />
               </div>
             ) : (
@@ -150,11 +148,11 @@ class GMEditModal extends React.Component {
                   <table>
                     <tbody>
                       <tr>
-                        <td className={'w-auto p-2'}>Node title</td>
+                        <td className={'p-2 w-auto'}>Node title</td>
                         <td>{this.props.node.title}</td>
                       </tr>
                       <tr>
-                        <td className={'w-auto p-2'}>Node content</td>
+                        <td className={'p-2 w-auto'}>Node content</td>
                         <td>{this.props.node.content}</td>
                       </tr>
                     </tbody>
@@ -168,13 +166,13 @@ class GMEditModal extends React.Component {
                   onClick={() => this.setState({selectedTab: 'edit'})}>
                   <form
                     onSubmit={this.handleSubmit}
-                    className={'bg-white shadow-md rounded px-8'}>
-                    <div className={'flex content-start overflow-scroll'}>
+                    className={'bg-white px-8 rounded shadow-md'}>
+                    <div className={'content-start flex overflow-scroll'}>
                       <div className={'m-4 w-2/3'}>
                         <div className={'mb-4 text-center'}>
                           <button
                             className={
-                              'bg-blue hover:bg-blue-dark text-white py-2 px-4 rounded'
+                              'bg-blue hover:bg-blue-dark px-4 py-2 rounded text-white'
                             }
                             style={{minWidth: '50%', outline: 'none'}}>
                             <FontAwesomeIcon icon={['far', 'save']} />
@@ -183,8 +181,8 @@ class GMEditModal extends React.Component {
                           <hr
                             style={{
                               backgroundColor: 'black',
-                              opacity: 0.5,
                               height: 1,
+                              opacity: 0.5,
                             }}
                           />
                         </div>
@@ -195,20 +193,20 @@ class GMEditModal extends React.Component {
                             <div className={'mb-4'}>
                               <label
                                 className={
-                                  'block text-grey-darker text-lg font-bold mb-2'
+                                  'block font-bold mb-2 text-grey-darker text-lg'
                                 }>
                                 Node title
                               </label>
                               <input
                                 className={
-                                  'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                                  'leading-tight'
+                                  'appearance-none border leading-tight px-3 py-2 ' +
+                                  'rounded shadow text-grey-darker w-full'
                                 }
-                                name={'title'}
-                                type={'text'}
-                                placeholder={'Node title'}
                                 defaultValue={this.props.node.title}
+                                name={'title'}
                                 onChange={this.handleTitleChange}
+                                placeholder={'Node title'}
+                                type={'text'}
                               />
                             </div>
                           ) : (
@@ -230,11 +228,11 @@ class GMEditModal extends React.Component {
                                 'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
                                 'leading-tight focus:outline-none focus:shadow-outline'
                               }
-                              name={'title'}
-                              type={'text'}
-                              placeholder={'Node title'}
                               defaultValue={this.props.node.title}
+                              name={'title'}
                               onChange={this.handleTitleChange}
+                              placeholder={'Node title'}
+                              type={'text'}
                             />
                           </div>
                         )}
@@ -254,11 +252,11 @@ class GMEditModal extends React.Component {
                                   'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
                                   'leading-tight'
                                 }
-                                name={'title'}
-                                type={'text'}
-                                placeholder={'Node description'}
                                 defaultValue={this.props.node.description}
+                                name={'title'}
                                 onChange={this.handleDescriptionChange}
+                                placeholder={'Node description'}
+                                type={'text'}
                               />
                             </div>
                           ) : (
@@ -271,20 +269,20 @@ class GMEditModal extends React.Component {
                           <div className={'mb-4'}>
                             <label
                               className={
-                                'block text-grey-darker text-lg font-bold mb-2'
+                                'block font-bold mb-2 text-grey-darker text-lg'
                               }>
                               Description
                             </label>
                             <input
                               className={
-                                'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                                'leading-tight focus:outline-none focus:shadow-outline'
+                                'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
+                                'rounded shadow text-grey-darker w-full'
                               }
-                              name={'description'}
-                              type={'text'}
-                              placeholder={'Node description'}
                               defaultValue={this.props.node.description}
+                              name={'description'}
                               onChange={this.handleDescriptionChange}
+                              placeholder={'Node description'}
+                              type={'text'}
                             />
                           </div>
                         )}
@@ -293,19 +291,19 @@ class GMEditModal extends React.Component {
                           <div className={'mb-4'}>
                             <label
                               className={
-                                'block text-grey-darker text-lg font-bold mb-2'
+                                'block font-bold mb-2 text-grey-darker text-lg'
                               }>
                               Content
                             </label>
                             <textarea
                               className={
-                                'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                                'leading-tight focus:outline-none focus:shadow-outline'
+                                'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
+                                'rounded shadow text-grey-darker w-full'
                               }
-                              name={'content'}
-                              placeholder={'Node content'}
                               defaultValue={this.props.node.content}
+                              name={'content'}
                               onChange={this.handleContentChange}
+                              placeholder={'Node content'}
                             />
                           </div>
                         ) : (
@@ -318,24 +316,24 @@ class GMEditModal extends React.Component {
                       <div className={'m-4 w-1/3'}>
                         <label
                           className={
-                            'block text-grey-darker text-lg font-bold mb-2'
+                            'block font-bold mb-2 text-grey-darker text-lg'
                           }>
                           Background color
                         </label>
                         <SketchPicker
-                          name={'colorPicker'}
-                          disableAlpha={true}
-                          width={180}
                           color={this.state.nodeBackground}
+                          disableAlpha={true}
+                          name={'colorPicker'}
                           onChange={this.handleColorChange}
+                          width={180}
                         />
                         <br />
                         <input
-                          type={'checkbox'}
+                          defaultChecked={this.state.includeChildren}
                           id={'includeChildren'}
                           name={'includeChildren'}
-                          defaultChecked={this.state.includeChildren}
                           onChange={this.handleIncludeChildrenChange}
+                          type={'checkbox'}
                         />
                         <label htmlFor={'includeChildren'}>
                           {' '}

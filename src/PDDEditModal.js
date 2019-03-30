@@ -72,38 +72,38 @@ class PDDEditModal extends React.Component {
 
     const trStyle = {
       border: '1px solid #5cb85c',
-      width: '100%',
       height: '50px',
       textAlign: 'center',
+      width: '100%',
     };
 
     return (
       <div
         className={'backdrop overflow-y-scroll'}
         style={{
-          height: window.innerHeight,
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
           //backgroundColor: 'rgba(0,0,0,0.3)', // gray background
+          bottom: 0,
+          height: window.innerHeight,
+          left: 0,
           paddingTop: 50,
           paddingLeft: 50,
           paddingRight: 50,
+          right: 0,
+          top: 0,
           zIndex: 5000,
         }}>
         <div
           className={'absolute bg-white modal w-full'}
           style={{
-            borderRadius: 5,
-            height: '75%',
-            margin: '0 auto',
-            padding: 15,
-            maxWidth: '750px',
             border: '2px solid',
             borderColor: '#5cb85c',
-            top: '50%',
+            borderRadius: 5,
+            height: '75%',
             left: '50%',
+            margin: '0 auto',
+            maxWidth: '750px',
+            padding: 15,
+            top: '50%',
             transform: 'translate(-50%,-50%)',
           }}>
           <button
@@ -112,10 +112,10 @@ class PDDEditModal extends React.Component {
               'hover:text-white text-green'
             }
             style={{
-              right: 0,
-              transform: 'translate(17px, -32px)',
               borderRadius: '50%',
               padding: '7px 10px 7px 10px',
+              right: 0,
+              transform: 'translate(17px, -32px)',
             }}
             onClick={() => this.props.onClose()}>
             X
@@ -137,16 +137,16 @@ class PDDEditModal extends React.Component {
                 </h1>
                 {this.props.node.data.image !== '' && (
                   <img
-                    src={this.props.node.data.image}
                     alt={'Image'}
                     className={'float-left mb-4 w-full'}
+                    src={this.props.node.data.image}
                     style={{
-                      border: '2px solid #5cb85c',
                       backgroundColor: '#fff',
-                      maxHeight: '300px',
-                      width: 'auto',
+                      border: '2px solid #5cb85c',
                       marginBottom: '10px',
                       marginRight: '10px',
+                      maxHeight: '300px',
+                      width: 'auto',
                     }}
                   />
                 )}
@@ -173,16 +173,16 @@ class PDDEditModal extends React.Component {
                   <tbody>
                     {this.props.node.data.crossRefs.map(ref => (
                       <tr
+                        className={'crossReference cursor-pointer'}
                         key={ref}
-                        style={trStyle}
-                        className={'crossReference cursor-pointer'}>
+                        style={trStyle}>
                         <td
                           className={'p-3'}
-                          style={{border: '1px solid #5cb85c'}}
                           onClick={() => {
                             this.clickNode(ref);
                             this.props.onClose();
-                          }}>
+                          }}
+                          style={{border: '1px solid #5cb85c'}}>
                           {PDDEditModal.getDataById(ref)['titre']}
                         </td>
                       </tr>

@@ -5,11 +5,12 @@ class ExpandCollapseButton extends React.Component {
   constructor(props) {
     super(props);
 
-    // This binding is necessary to make `this` work in the callback
+    /* This binding is necessary to make `this` work in the callback.
+     * For instance to be able to use "this.props..." and "this.state...".
+     */
     this.handleClick = this.handleClick.bind(this);
   }
 
-  // This syntax ensures `this` is bound within handleClick.
   handleClick() {
     // Update the global state. The local state is only to know which icon to represent.
     // The global state makes sure to collapse all child nodes of this node on all deeper levels.
@@ -23,9 +24,10 @@ class ExpandCollapseButton extends React.Component {
         <button
           id={'ec-btn-node' + this.props.node.data.id}
           className={
-            'block expand-collapse-btn font-bold invertColors items-center ' +
-            'px-1 py-1 rounded-br text-grey-darkest w-full ' +
-            (!locked ? 'cursor-pointer' : 'cursor-default')
+            'block ' +
+            (!locked ? 'cursor-pointer' : 'cursor-default') +
+            'expand-collapse-btn font-bold invertColors items-center ' +
+            'px-1 py-1 rounded-br text-grey-darkest w-full '
           }
           style={{
             borderTop: '1px solid',

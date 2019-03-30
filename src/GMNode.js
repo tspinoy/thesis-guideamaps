@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   ItemTypes,
   GMNodeTypes,
-  Modes,
   ChoiceNodeAllowedTypes,
 } from './Constants';
 import {DragSource, DropTarget} from 'react-dnd';
@@ -61,14 +60,10 @@ class GMNode extends React.Component {
       isOpen: false,
       locked: false, // optional nodes can be locked
     };
-    this.getAllChildren = this.getAllChildren.bind(this);
-    //this.handleMouseDown = this.handleMouseDown.bind(this);
-    //this.handleMouseMove = this.handleMouseMove.bind(this);
-    //this.handleMouseUp = this.handleMouseUp.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
-    //this.updateOpenState = this.updateOpenState.bind(this);
     this.completeNode = this.completeNode.bind(this);
     this.emptyChildren = this.emptyChildren.bind(this);
+    this.getAllChildren = this.getAllChildren.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidMount() {
@@ -168,8 +163,7 @@ class GMNode extends React.Component {
   */
 
   /**
-   * A {@param node} is defined as complete if both "title"- and "content"-fields
-   * are filled in.
+   * A {@param node} is defined as complete if the "content"-field is filled in.
    * @param node
    * @return {boolean}
    */
@@ -185,8 +179,7 @@ class GMNode extends React.Component {
   }
 
   /**
-   * A {@param node} is defined as empty if both "title"- and "content"-fields
-   * are empty.
+   * A {@param node} is defined as empty if the "content"-field is empty.
    * @param node
    * @return {boolean}
    */
@@ -199,16 +192,6 @@ class GMNode extends React.Component {
       return node.title === '' && node.content === '';
     }
      */
-  }
-
-  /**
-   * A {@param node} is defined as partially complete if at least one
-   * of the "title"- and "content"-fields are filled in.
-   * @param node
-   * @return {boolean}
-   */
-  static atLeastPartiallyCompleteNode(node) {
-    return node.title !== '' || node.content !== '';
   }
 
   /**
@@ -337,6 +320,11 @@ class GMNode extends React.Component {
     }
   }
 
+  /**
+   * Find the x- and y- coordinates of the root.
+   * @param node
+   * @return {*[]}: an array with the x- and y- coordinates
+   */
   getRootXY(node) {
     let current = node;
     while (current.parent !== null) {
@@ -345,10 +333,16 @@ class GMNode extends React.Component {
     return [current.x, current.y];
   }
 
+  /**
+   * Invert the state defining the openness of the modal.
+   */
   updateOpenState() {
     this.setState({isOpen: !this.state.isOpen});
   }
 
+  /**
+   * Do some important stuff when the modal is toggled (opened or closed).
+   */
   toggleModal() {
     this.props.onEditNode();
     this.props.onClick();
@@ -377,14 +371,12 @@ class GMNode extends React.Component {
       onClick,
       onEditNode,
       onNodeDataChange,
-      onNodeLockUnlock,
       onNodePositionChange,
       onNodeVisibleChildrenChange,
       connectDragSource,
       connectDropTarget,
       isDragging, // injected by react dnd
     } = this.props;
-    //console.log(this.getAllChildren(node, []));
 
     switch (node.data.type) {
       case GMNodeTypes.CHOICE:
@@ -404,7 +396,6 @@ class GMNode extends React.Component {
               style={{
                 width: GMNodeWidth,
                 height: GMNodeHeight / 2,
-                //transform: `translate(${node.x}px,${node.y + GMNodeHeight / 4}px)`,
                 backgroundColor: '#fff690',
                 opacity: isDragging ? 0.5 : '',
                 transition: centered && 'all 500ms ease 0s',
@@ -418,10 +409,7 @@ class GMNode extends React.Component {
                 className={
                   'm-auto overflow-hidden text-base w-5/6 whitespace-no-wrap'
                 }
-                style={{
-                  textOverflow: 'ellipsis',
-                  //textAlign: 'center',
-                }}>
+                style={{textOverflow: 'ellipsis'}}>
                 {'Choice node'}
               </div>
               <div className={'m-auto w-1/6'}>
@@ -579,10 +567,7 @@ class GMNode extends React.Component {
                     (node.title === '' ? 'italic text-sm ' : 'text-base ') +
                     'w-5/6 whitespace-no-wrap'
                   }
-                  style={{
-                    textOverflow: 'ellipsis',
-                    //textAlign: 'center',
-                  }}>
+                  style={{textOverflow: 'ellipsis'}}>
                   {node.title === '' ? 'Insert title' : node.title}
                 </div>
                 <div className={'w-1/6'}>
@@ -633,7 +618,6 @@ class GMNode extends React.Component {
                   node={node}
                   onEditNode={onEditNode}
                   onNodeDataChange={onNodeDataChange}
-                  onNodeLockUnlock={onNodeLockUnlock}
                   width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                 />
                 {node.height !== 0 && (
@@ -666,7 +650,6 @@ class GMNode extends React.Component {
             style={{
               width: GMNodeWidth,
               height: GMNodeHeight,
-              //transform: `translate(${node.x}px, ${node.y}px)`,
               color: node.backgroundColor,
               backgroundColor: node.backgroundColor,
               //opacity: isDragging ? 0.5 : '',
@@ -690,10 +673,7 @@ class GMNode extends React.Component {
                   (node.title === '' ? 'italic text-sm ' : 'text-base ') +
                   'w-5/6 whitespace-no-wrap'
                 }
-                style={{
-                  textOverflow: 'ellipsis',
-                  //textAlign: 'center',
-                }}>
+                style={{textOverflow: 'ellipsis'}}>
                 {node.title === '' ? 'Insert title' : node.title}
               </div>
               <div className={'w-1/6'}>
@@ -742,7 +722,6 @@ class GMNode extends React.Component {
                 node={node}
                 onEditNode={onEditNode}
                 onNodeDataChange={onNodeDataChange}
-                onNodeLockUnlock={onNodeLockUnlock}
                 width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
               />
               {node.height !== 0 && (

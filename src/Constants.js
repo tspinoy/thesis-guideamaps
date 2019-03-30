@@ -41,6 +41,18 @@ export const project = (x, y) => {
   return [radius * Math.cos(angle), radius * Math.sin(angle)];
 };
 
+/**
+ * Initialize a (new) node taking the previous data of this node into account.
+ * If a node is added, all nodes need to be initialized again. Therefore,
+ * {@param oldNode} is passed in order to not lose information when a new node
+ * is created.
+ * @param node: the current node
+ * @param oldNode: the node with the data the current node had before or {Null} if no such node exists ({@param node} is a newly created node)
+ * @param width: the width of the visualization
+ * @param height: the height of the visualization
+ * @param firstTimeOrAdditionalNode: a boolean
+ * @return {*}: the node with all information
+ */
 export const initializeGMNode = (
   node,
   oldNode,
@@ -48,43 +60,7 @@ export const initializeGMNode = (
   height,
   firstTimeOrAdditionalNode,
 ) => {
-  // fill visible property
-  node.visible =
-    oldNode !== null && oldNode.visible !== undefined ? oldNode.visible : true;
-
-  node.visibleChildren =
-    oldNode !== null &&
-    oldNode.parent !== null &&
-    oldNode.parent.visibleChildren !== undefined
-      ? oldNode.parent.visibleChildren
-      : true;
-
-  // fill locked property
-  node.locked =
-    oldNode !== null && oldNode.locked !== undefined ? oldNode.locked : false;
-
-  // fill node title
-  node.title =
-    oldNode !== null && oldNode.title !== undefined
-      ? oldNode.title
-      : node.data.name;
-
-  // fill node content
-  node.content =
-    oldNode !== null && oldNode.content !== undefined
-      ? oldNode.content
-      : node.content === undefined
-      ? ''
-      : node.content;
-
-  node.description =
-    oldNode !== null && oldNode.description !== undefined
-      ? oldNode.description
-      : node.description === undefined
-      ? ''
-      : node.description;
-
-  // fill node background
+  // Background property
   if (oldNode !== null && oldNode.backgroundColor !== undefined) {
     node.backgroundColor = oldNode.backgroundColor;
   } else if (node.parent !== null) {
@@ -93,26 +69,75 @@ export const initializeGMNode = (
     node.backgroundColor = '#ffb018';
   }
 
-  // fill node positions
+  // Content property
+  node.content =
+    oldNode !== null && oldNode.content !== undefined
+      ? oldNode.content
+      : node.content === undefined
+      ? ''
+      : node.content;
+
+  // Description property
+  node.description =
+    oldNode !== null && oldNode.description !== undefined
+      ? oldNode.description
+      : node.description === undefined
+      ? ''
+      : node.description;
+
+  // Locked property
+  node.locked =
+    oldNode !== null && oldNode.locked !== undefined ? oldNode.locked : false;
+
+  // Positions property
   const projectedPositions =
     oldNode !== null && oldNode.x !== undefined
       ? firstTimeOrAdditionalNode
-        ? project(oldNode.x, oldNode.y)
-        : project(node.x, node.y)
+      ? project(oldNode.x, oldNode.y)
+      : project(node.x, node.y)
       : project(node.x, node.y);
   // Center the content
   node.x = projectedPositions[0] + width / 2 - GMNodeWidth / 2;
   node.y = projectedPositions[1] + height / 2 - GMNodeHeight / 2;
 
+  // Title property
+  node.title =
+    oldNode !== null && oldNode.title !== undefined
+      ? oldNode.title
+      : node.data.name;
+
+  // Visible property
+  node.visible =
+    oldNode !== null && oldNode.visible !== undefined ? oldNode.visible : true;
+
+  // Visible children property
+  node.visibleChildren =
+    oldNode !== null &&
+    oldNode.parent !== null &&
+    oldNode.parent.visibleChildren !== undefined
+      ? oldNode.parent.visibleChildren
+      : true;
+
   return node;
 };
 
+/**
+ * Initialize a link.
+ * @param link: a link from node A to node B
+ * @return {*}: the link with all information
+ */
 export const initializeGMLink = link => {
-  // Mark all edges to non-default nodes as optional
+  // Mark all edges to OPTIONAL nodes as optional.
   link.optional = link.target.data.type === GMNodeTypes.OPTIONAL;
   return link;
 };
 
+/**
+ * A helper function to check whether the contents of two arrays are equal.
+ * @param a: the first array
+ * @param b: the second array
+ * @return {boolean}: is {@param a} equal to {@param b} (true) or not (false)
+ */
 export const arraysEqual = (a, b) => {
   if (a === b) return true;
   if (a == null || b == null) return false;
@@ -129,20 +154,24 @@ export const arraysEqual = (a, b) => {
   return true;
 };
 
+/**
+ * The map creator can indicate which node types an end user can add from a choice node.
+ * @param allowedTypes: an array containing the node types that are allowed
+ */
 export const updateAllowedChoiceNodeType = allowedTypes => {
   // Start by disallowing all node types
   Object.keys(ChoiceNodeAllowedTypes).forEach(function(type) {
     ChoiceNodeAllowedTypes[type] = false;
   });
 
-  // loop over the allowed types indicated by the map creator
-  // these are of the form {label: Something, value: SomethingElse}
+  // Loop over the allowed types indicated by the map creator.
+  // These are of the form '{label: Something, value: SomethingElse}'.
   allowedTypes.forEach(function(allowedType) {
-    // loop over the GMNodeTypes as well
+    // Loop over the GMNodeTypes as well.
     Object.keys(GMNodeTypes).forEach(function(type) {
-      // if the type indicated by the map creator corresponds to the type we encounter while looping ...
+      // If the type indicated by the map creator corresponds to the type we encounter while looping ...
       if (GMNodeTypes[type] === allowedType['value']) {
-        // ... then set this type as allowed
+        // ... then set this type as allowed.
         ChoiceNodeAllowedTypes[type] = true;
       }
     });

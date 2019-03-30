@@ -35,7 +35,7 @@ class AddChildButton extends React.Component {
           onClick={!this.props.locked ? this.handleClick : undefined}>
           <FontAwesomeIcon icon={'plus'} />
         </button>
-        {/* the tooltip should only be shown when the node is not locked*/}
+        {/* the tooltip should only be shown when the node is not locked */}
         <span className={!this.props.locked ? 'tooltiptext' : ''}>
           {!this.props.locked && 'Add child node'}
         </span>

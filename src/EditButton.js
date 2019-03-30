@@ -47,25 +47,18 @@ class EditButton extends React.Component {
   }
 
   render() {
-    const {
-      node,
-      deleteNode,
-      EditNodeComp,
-      bgcolor,
-      locked,
-      onClick,
-      onNodeLockUnlock,
-    } = this.props;
+    const {node, deleteNode, EditNodeComp, bgcolor, locked} = this.props;
     return (
       <div className={'tooltip ' + this.props.width}>
         <button
           id={'editbtn' + this.props.node.data.id}
           className={
-            'block text-grey-darkest font-bold ' +
+            'block ' +
             (this.props.leaf ? '' : this.props.border ? 'border-r ' : '') +
-            'py-1 px-1 ' +
+            (!locked ? 'cursor-pointer ' : 'cursor-default ') +
             'items-center invertColors ' +
-            (!locked ? 'cursor-pointer' : 'cursor-default')
+            'text-grey-darkest font-bold ' +
+            'py-1 px-1'
           }
           style={{
             width: '100%',
@@ -94,7 +87,6 @@ class EditButton extends React.Component {
               show={this.state.isOpen}
               updateNode={this.updateNode}
               onClose={this.toggleModal}
-              onNodeLockUnlock={onNodeLockUnlock}
             />,
             document.getElementById('modalSpace'),
           )}
