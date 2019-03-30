@@ -103,7 +103,7 @@ export const initializeGMNode = (
 
 export const initializeGMLink = link => {
   // Mark all edges to non-default nodes as optional
-  link.optional = link.target.data.type !== GMNodeTypes.DEFAULT;
+  link.optional = link.target.data.type === GMNodeTypes.OPTIONAL;
   return link;
 };
 

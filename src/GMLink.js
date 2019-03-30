@@ -36,13 +36,11 @@ class GMLink extends React.Component {
         ])}
         fill={'none'}
         stroke={'black'}
-        //strokeDasharray={1000} //{link.optional ? 3 : 0} // default lines are solid, others are dashed
-        //markerMid={link.target.visible ? 'url(#arrow)' : ''}
+        markerMid={link.target.visible ? 'url(#arrow)' : ''}
+        strokeDasharray={link.target.visible && link.optional ? 3 : 1000}
         style={{
           transform: `translate(${GMNodeWidth / 2}px, ${GMNodeHeight / 2}px)`,
-          //display: links.target.visible ? 'block' : 'none',
           transition: centered && 'all 500ms ease 0s',
-          '--strokeDashArray': link.optional ? 3 : 0,
         }}
       />
     );

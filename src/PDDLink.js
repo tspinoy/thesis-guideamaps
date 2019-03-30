@@ -36,14 +36,13 @@ class PDDLink extends React.Component {
         ])}
         fill={'none'}
         stroke={'#373244'}
-        //strokeDasharray={1000} //{link.optional ? 3 : 0} // default lines are solid, others are dashed
-        //markerMid={link.target.visible ? 'url(#arrow)' : ''}
         strokeWidth={2}
+        markerMid={link.target.visible ? 'url(#arrow)' : ''}
+        strokeDasharray={link.target.visible && link.optional ? 3 : 1000}
         style={{
           transform: `translate(${PDDNodeWidth / 2}px, ${PDDNodeHeight / 2}px)`,
           //display: links.target.visible ? 'block' : 'none',
           transition: centered && 'all 500ms ease 0s',
-          '--strokeDashArray': link.optional ? 3 : 0,
         }}
       />
     );

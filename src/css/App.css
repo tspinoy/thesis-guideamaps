@@ -47,36 +47,30 @@
     animation: moveToParent 500ms linear forwards;
 }
 
-@keyframes linkIn {
+@keyframes linkOut {
     from {
-        stroke-dashoffset: 1000;
-        stroke-dasharray: 1000;
+        stroke-dashoffset: 0;
     }
     to {
-        marker-mid: url(#arrow);
-        stroke-dashoffset: var(--strokeDashArray);
-        stroke-dasharray: 0;
+        stroke-dashoffset: 1000;
     }
 }
 
-@keyframes linkOut {
+@keyframes linkIn {
     from {
-        stroke-dashoffset: var(--strokeDashArray);
-        stroke-dasharray: 0;
+        stroke-dashoffset: 1000;
     }
     to {
-        marker-mid: none;
-        stroke-dashoffset: 1000;
-        stroke-dasharray: 1000;
+        stroke-dashoffset: 0;
     }
 }
 
 .visibleLink {
-    animation: linkIn 500ms linear forwards;
+    animation: linkIn 1000ms linear forwards;
 }
 
 .hiddenLink {
-    animation: linkOut 500ms linear forwards;
+    animation: linkOut 400ms linear forwards;
 }
 
 @keyframes moveIn {
