@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ItemTypes, GMNodeTypes, Modes, ChoiceNodeAllowedTypes } from "./Constants";
+import {
+  ItemTypes,
+  GMNodeTypes,
+  Modes,
+  ChoiceNodeAllowedTypes,
+} from './Constants';
 import {DragSource, DropTarget} from 'react-dnd';
 import flow from 'lodash/flow';
 
@@ -10,7 +15,7 @@ import AddChildButton from './AddChildButton';
 import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from 'react-dom';
 
 const nodeSource = {
   beginDrag(props, monitor, component) {
@@ -554,7 +559,7 @@ class GMNode extends React.Component {
               }}
               onClick={() => this.setState({locked: !this.state.locked})}>
               <FontAwesomeIcon
-                icon={this.state.locked ? 'lock-open' : 'lock'}
+                icon={this.state.locked ? 'lock' : 'lock-open'}
                 style={{margin: '3px'}}
               />
             </div>

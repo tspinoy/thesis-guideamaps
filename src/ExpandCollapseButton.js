@@ -33,13 +33,13 @@ class ExpandCollapseButton extends React.Component {
             color: node.backgroundColor, // inverted by invertColors
             outline: 'none',
           }}
-          onClick={this.handleClick}>
+          onClick={!locked ? this.handleClick : undefined}>
           <FontAwesomeIcon
             icon={this.props.node.visibleChildren ? 'compress' : 'expand'}
           />
         </button>
-        <span className={!locked && 'tooltiptext'}>
-          {!locked && node.visibleChildren ? 'Collapse' : 'Expand'}
+        <span className={!locked ? 'tooltiptext' : ''}>
+          {!locked ? (node.visibleChildren ? 'Collapse' : 'Expand') : ''}
         </span>
       </div>
     );

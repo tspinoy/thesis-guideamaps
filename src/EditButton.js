@@ -74,11 +74,11 @@ class EditButton extends React.Component {
             color: bgcolor, // inverted by invertColors
             outline: 'none',
           }}
-          onClick={() => this.toggleModal()}>
+          onClick={!locked ? this.toggleModal : undefined}>
           <FontAwesomeIcon icon={'search'} size={this.props.iconSize} />
         </button>
         {this.props.tooltiptext !== false && (
-          <span className={!locked && 'tooltiptext'}>
+          <span className={!locked ? 'tooltiptext' : ''}>
             {!locked && 'Open & edit'}
           </span>
         )}
