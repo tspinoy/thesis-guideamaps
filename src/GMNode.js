@@ -240,10 +240,14 @@ class GMNode extends React.Component {
       let children = this.getAllChildren(node);
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
-        // When an incomplete node is detected, false is immediately returned
-        if (child.data.type === GMNodeTypes.CHOICE) {
+        // choice and optional child nodes don't contribute to the completeness of the node
+        if (
+          child.data.type === GMNodeTypes.CHOICE ||
+          child.data.type === GMNodeTypes.OPTIONAL
+        ) {
           continue;
         }
+        // When an incomplete node is detected, false is immediately returned
         if (!this.completeNode(child)) {
           return false;
         }
