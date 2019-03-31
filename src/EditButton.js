@@ -47,7 +47,7 @@ class EditButton extends React.Component {
   }
 
   render() {
-    const {node, deleteNode, EditNodeComp, bgcolor, locked} = this.props;
+    const {mode, node, deleteNode, EditNodeComp, bgcolor, locked} = this.props;
     return (
       <div className={'tooltip ' + this.props.width}>
         <button
@@ -79,8 +79,8 @@ class EditButton extends React.Component {
           ReactDOM.createPortal(
             <EditNodeComp
               deleteNode={deleteNode}
+              mode={mode}
               node={node}
-              mode={this.props.mode}
               nodeTitle={node.title}
               nodeContent={node.content}
               nodeBackground={bgcolor}

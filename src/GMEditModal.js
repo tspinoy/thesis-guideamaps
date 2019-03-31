@@ -114,23 +114,23 @@ class GMEditModal extends React.Component {
               onClick={() => this.props.onClose()}>
               X
             </button>
-            {this.state.mode === Modes.MAP_CREATOR &&
+            {this.props.mode === Modes.MAP_CREATOR &&
               this.props.node.children === undefined && (
-                <button
-                  className={
-                    'absolute bg-grey hover:bg-grey-dark rounded py-2 px-4 mb-2'
-                  }
-                  style={{
-                    left: 0,
-                    outline: 'none',
-                    transform: 'translate(-17px, -32px)',
-                  }}
-                  onClick={() => {
-                    this.props.deleteNode(this.props.node.data.id);
-                    this.props.onClose();
-                  }}>
-                  <FontAwesomeIcon icon={'trash-alt'} />
-                </button>
+              <button
+                className={
+                  'absolute bg-grey hover:bg-grey-dark rounded py-2 px-4 mb-2'
+                }
+                style={{
+                  left: 0,
+                  outline: 'none',
+                  transform: 'translate(-17px, -32px)',
+                }}
+                onClick={() => {
+                  this.props.deleteNode(this.props.node.data.id);
+                  this.props.onClose();
+                }}>
+                <FontAwesomeIcon icon={'trash-alt'} />
+              </button>
             )}
             {/* content */}
             {this.props.node.locked ? (
