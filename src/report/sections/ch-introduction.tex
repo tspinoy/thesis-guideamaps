@@ -1,31 +1,37 @@
 \chapter{Introduction}\label{ch:introduction}
 
+\textcolor{red}{Verwijs naar literatuur voor de eerste paragraaf. De paper van Moody is een goed vertrekpunt.} \\
 How to visualize, understand and remember a big amount of information which is written down in a long text? People want to store as much information as they can in their brains because the more they know, the less they have to look up and the faster they can proceed. Students for example, make schemes and summaries of their study material. The reason why they do that is because it is easier to learn and remember nicely visualised stuff in comparison to plain text.
 Not only the way of learning new subject material, but also teamwork can be enhanced by means of a visualization. If you write down a structure of a computer program in words, it is more difficult to discuss that structure than when the same words are translated to a drawing.\\
 
-The goal of this thesis is to create a tool in which it is possible to represent linked data in a visual manner. It should not only be possible to visualize your data, but also to edit existing data as well as extending the representation with additional data. The solution is based on a visualization tool created by \cite{erikjanssens}, called GuideaMaps. This application was mainly built to provide support for the requirement elicitation for serious games. We present a reprocessing of the first version of GuideaMaps, which can be used for other purposes as well and which has a bunch of interesting improvements under the hood.
+The goal of this thesis is to create a tool in which it is possible to represent linked data and knowledge in a visual manner. It should not only be possible to visualize the data, but also to edit existing data as well as extending the representation with additional data. The solution is based on a visualization tool created by \cite{erikjanssens}, called GuideaMaps. This application was mainly built to provide support for the requirement elicitation for serious games. It provides the functionality to enter data in pre-defined maps (trees of nodes). We present a new version of GuideaMaps, which can be used for other purposes as well and which has a bunch of interesting improvements under the hood.
 
-\section{Problem statement}\label{sec:problem-statement}
+\section{Problem Statement}\label{sec:problem-statement}
 For the first version of GuideaMaps, the main goal was to develop the following:
 
 \begin{quote}
 A tool that allows the different people (and with different background) involved in the development of a serious game (e.g., against cyber bullying) to brood over the goals, characteristics and main principles of a new to develop serious game. The tool should be easy to use and usable in meetings. Therefore, we want to explore the characteristics and capabilities of a tablet (i.e. iPad). \hfill \citep{erikjanssens}
 \end{quote}
 
-By specifying the goal in this way, end users of the application are restricted to some factors. First, they need an iPad to be able to use the application. It has to be an iPad, and not an other kind of tablet with a different operating system, because GuideaMaps was created and designed for iOS only. In some cases this can be a hard restriction, e.g. suppose one of the participants of the meeting does not have an iPad. Then there is no solution for that person to let him use the application. \\
+By specifying the goal in this way, end users of the application are restricted in different ways. First, they need an iPad to be able to use the application. Another type of tablet with a different operating system is not possible, because GuideaMaps was created and designed for iOS only. If someone doesn't have access to an iPad, he cannot use the application, which is a hard restriction. \\
 
-Further, the tool is mainly created for the purpose of serious games. This means that the nodes in the visualization have an almost fixed layout. You can edit the background color, but you cannot define your own representation of a node (e.g. change the length and width). Not being able to do that is a limitation in the sense that for some purposes this default visualization may not be very useful. In those cases, users will often search for other visualization tools where is possible.
+Initially, the tool was created for the purpose of requirement elicitation for serious games, but it can also be used for the requirement elicitation in other domains \citep{detroyerjanssens}. However, because the visualizations are based on pre-defined templates, the nodes can only be edited by the end-user in a limited way: content can be added and the background color can be changed, but the end-user cannot add new nodes. In addition, the visual notation used is fixed: the creators of the visualization templates cannot edit the representation of a node or define their own representation (e.g. change the length and width or use a different shape). Not being able to do this is a limitation in the sense that for some purposes this default visualization may not be very suitable. Furthermore, for defining a template the author had to use XML and no graphical editor was available for this purpose making it harder to define new templates for non-ICT schooled people.
 
-\section{Research questions}\label{sec:research-questions}
-The problem statement discussed in the previous section indicates that the first version of GuideaMaps comes along with some restrictions. Therefore, the following research questions about an optimized version of the application can be posed:
+\section{Research Goals}\label{sec:research-goals}
+The problem statement discussed in the previous section indicates that the first version of GuideaMaps comes along with some limitations. Therefore, the following research goals for a new version of GuideaMaps were formulated:
 
 \begin{description}
-	\item[Question 1] \hfill \\
-	Can we create a version of GuideaMaps that works on all devices and all different operating systems?
+	\item[Goal 1] \hfill \\
+	The new version of GuideaMaps should work on all common devices and on different operating systems.
 	
-	\item[Question 2] \hfill \\
-	Can we make that application generic in such a way that it can be used for different purposes?
-	If so, is it possible to make it customizable so that the user can define its own layout for the visualization?
+	\item[Goal 2] \hfill \\
+	It should be possible to pre-define the maps, i.e. the templates, in a graphical way.
+	
+	\item[Goal 3] \hfill \\
+	The new version of GuideaMaps should allow the end-user to extend and modify the pre-defined map in some restricted way.
+	
+	\item[Goal 4] \hfill \\
+	The application should be generic in such a way that it can be customized to be usable for different purposes, so that the user can define its own graphical representation for the visualization.
 \end{description}
 
-This thesis presents a solution, called \textit{GuidaMaps 2.0}, for the problem statement with the research questions taken into account. How the tool gives an answer to the research questions mentioned above is explained into detail in the continuation of this thesis.
+This thesis presents a solution, called \textit{GuidaMaps 2.0}, for the problem statement with the research goals taken into account. How the tool achieved the research goals formulated is explained into detail in the rest of this thesis.

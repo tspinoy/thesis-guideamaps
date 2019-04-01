@@ -1,5 +1,10 @@
 \chapter{Implementation}\label{ch:implementation}
 
+The previous sections explained \textit{what} the application should do, which goals should be achieved and which requirements we surely want the application meets. In this section, more details are provided about \textit{how} all this is translated to the implementation.
+
+\section{Design Choice}
+Before we started with the actual implementation, we had to decide how to achieve the first research goal, i.e. how will we make sure the application is devide- and OS-independent? A first technique could have been to make use of the Java Virtual Machine. This approach would work but at least one big problem comes along with it. We want to make it possible to let multiple people work on the same visualization, eventually at the same time. Therefore, it is more convenient to have a browser-based application. A browser is device- and OS-independent and lots of technologies exist to create applications and visualizations for the web.
+
 % --------------------
 % --- TECHNOLOGIES ---
 % --------------------
@@ -12,12 +17,12 @@ ReactJS is an open source library to create user interfaces\footnote{\url{https:
 Because of these benefits, ReactJS is the framework in which the GuideaMaps application is implemented. Each node is considered as a separate and unique React Component. The most important reason for implementing the nodes like this is performance: if the state of the node is updated, only this node is re-rendered and not the complete UI.
 
 \subsection{d3}\label{sec:d3}
-Another helpful tool is d3. With d3-hierarchy\footnote{\url{https://github.com/d3/d3-hierarchy}}, it is possible to transform JSON-data into hierarchical data. Having this kind of data makes it much easier to create a tree- or cluster-structure. In the case of GuideaMaps, a clustered visualization is very useful. The \textit{main}-node (a.k.a. the root node) is then positioned at the center, such that its child nodes can be places around it. Hence, the farther a node is away from the center, the lower it is in the hierarchy. Also, the visualization will not be messed up by positioning the nodes in this way, because every node has exactly one parent. This means there won't be a spaghetti of links where you cannot see which node the link comes from and which node it is pointing to.
+Another helpful tool is d3. With d3-hierarchy\footnote{\url{https://github.com/d3/d3-hierarchy}}, it is possible to transform JSON-data into hierarchical data. Having this kind of data makes it much easier to create a tree- or cluster-structure. In the case of GuideaMaps, a clustered visualization is very useful. The \textit{main}-node (a.k.a. the root node) is then positioned at the center, such that its child nodes can be placed around it. Hence, the farther a node is away from the center, the lower it is in the hierarchy. Also, the visualization will not be messed up by positioning the nodes in this way, because every node has exactly one parent. This means there won't be a spaghetti of links where you cannot see which node the link comes from and which node it is pointing to.
 
 \subsection{Tailwind CSS}\label{sec:tailwind}
-The style of the application is very important for the end user. Everything should look pretty and, as already mentioned in section \ref{sec:usability-requirements}, the possibilities should be straightforward and visible. While developing and creating a beautiful style for applications and websites, the code for these styles can become a big part of the implementation. Hence, a good framework is necessary to reduce the lines of code to a reasonable number. It also helps to improve the readability of the code.\\
+The style of the application is very important for the end user. Everything should look pretty and, as already mentioned in section \ref{sec:usability-requirements}, the possibilities should be straightforward and visible. While developing and creating a beautiful style for applications and websites, the code for these styles can become a big part of the implementation. Hence, a good framework is necessary to reduce the lines of style code to a reasonable number. It also helps to improve the readability of the code.\\
 
-Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assists developers to style their application. The difference with more famous frameworks, like Bootstrap, is that Tailwind CSS has no default theme. If you want to use a Bootstrap-feature, this eventually comes along with other features you don't always wanted and it can be quite hard to undo the part you didn't ask for. With tailwind on the other hand, you can grab only the features you want, without side-effects. Figure \ref{fig:examplecode-tailwindcss} shows an example with two small listings. The first uses inline style while the second makes use of tailwindCSS.\\
+Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assists developers to style their application. The difference with more famous frameworks, like Bootstrap, is that Tailwind CSS has no default theme. If you want to use a Bootstrap-feature, this eventually comes along with other features you don't always wanted and it can be quite hard to undo the part you didn't ask for. With tailwind on the other hand, you can grab only the features you want, without side-effects. Figure \ref{fig:examplecode-tailwindcss} shows an example with two small listings. The first uses inline style while the second makes use of tailwind CSS.\\
 
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\textwidth}
@@ -60,8 +65,8 @@ The figure illustrates the difference to implement four css property-value pairs
 % ---------------------
 % ----- STRUCTURE -----
 % ---------------------
-\section{Structure}\label{sec:structure}
-With the technologies mentioned in the previous section, the most important pillars the application relies on are discussed. Now it is time to have a look at the structure of the code, such that it is clear how all elements work together. Figure \ref{fig:overall-structure} shows a visualization of the structure of the code.
+\section{Main Code Structure}\label{sec:structure}
+With the technologies mentioned in the previous section, the most important pillars the application relies on are discussed. In this section, we will explain the main structure of the code, such that it is clear how all elements work together. Figure \ref{fig:overall-structure} shows a visualization of the structure of the code.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{thesis-architecture.pdf}
@@ -69,9 +74,9 @@ With the technologies mentioned in the previous section, the most important pill
 	\label{fig:overall-structure}
 \end{figure}
 
-The application is developed in such a way that it can be used as a library for other purposes than GuideaMaps as well. The general, always-returning part of the code can be found in App.js, ZoomableTree.js and Zoom.js, where the layout of the nodes is defined as well as the implementation to allow the user to zoom the visualization in and out. When talking about the library, the layer of the NodeComp and LinkComp is very interesting and important. For the GuideaMaps, an implementation for a GMNode and GMLink is provided. Each implementation describes what every node and every link should look like in the visualization \textcolor{red}{(TODO: provide more explanation about this somewhere else + coupling with requirements and RQs)}.\\
+The application is developed in such a way that it can be used as a library for other purposes than GuideaMaps as well. Hence, the research goal to have a generic solution is achieved. The general, always-returning part of the code can be found in App.js, ZoomableTree.js and Zoom.js, where the layout of the nodes is defined as well as the implementation to allow the user to zoom the visualization in and out. When talking about the library, the layer of the NodeComp and LinkComp is very interesting and important. For the GuideaMaps, an implementation for a GMNode and GMLink is provided. Each implementation describes what every node and every link should look like in the visualization.\\
 
-The strength of the library can be seen when a particular user would like to have a different representation for the nodes or the links or both. In that case, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GMNode and GMLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GMNode by MyCustomNode and GMLink by MyCustomLink. Figure \ref{fig:examplecode-library} shows the part of the code in App.js that should be adapted as explained. Note that NodeComp and LinkComp are not the only props that are passed to ZoomableTree. The others are omitted to improve the readability.
+The strength of the library can not only be seen at its genericity but also when a particular user would like to have a different representation for the nodes or the links or both. In that case, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GMNode and GMLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GMNode by MyCustomNode and GMLink by MyCustomLink. Hence, the visualization can be customized to the needs of the user. Figure \ref{fig:examplecode-library} shows the part of the code in App.js that should be adapted as explained. Note that NodeComp and LinkComp are not the only props that are passed to ZoomableTree. The others are omitted to improve the readability.
 
 \begin{figure}[H]
 	\begin{minipage}{0.5\textwidth}
@@ -108,7 +113,7 @@ The strength of the library can be seen when a particular user would like to hav
 % ------------------------------
 % ----- GUIDEAMAPS DETAILS -----
 % ------------------------------
-\section{GuideaMapsNode}
+\section{Default Layout: GuideaMaps}
 Now the overview of the structure of the application is discussed, we will consider the implementation details of the GuideaMaps visualisation in this section.
 \begin{figure}[H]
 	\centering
@@ -121,42 +126,41 @@ As you can see in figure \ref{fig:gmnodestructure}, the structure of a GuideaMap
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % hide the following subsections from the table of contents
 \subsection{Title}
-The title-div is positioned at the top of the node. It consists of the title text if this is set by the map creator. Otherwise, it shows \textit{Insert title} in italic to remind the user that he still had to set a title for this node. An end user can set the title if no title exists yet, but he can never change it.\\
+The title-div is positioned at the top of the node. It consists of the title text when this is given by the map creator. Otherwise, it shows \textit{Insert title} in italics to remind the user that he still had to set a title for this node. An end user can set the title if no title exists yet, but he can never change it. The reason for this is because we distinguish two situations. In the first situation, the end user adds a child node for a particular parent. This node has not title by default and then he should be able to insert a title. In the second situation, the user opens an existing node created by the map creator. In that case an end user is not allowed to change the title of the node, because otherwise he would be able to change the complete layout of the visualization. \\
 
-Next to the title-text, the title-div contains an icon placed near the right border. This icon indicates whether all information, a title and some content is provided or not. The icon that is shown also depends on whether the information in its child-nodes is filled in or not. We distinguish three possible situation:
+Next to the title-text, the title-div contains an icon placed near the right border. This icon indicates whether all information, i.e. some content, is provided or not. The icon that is shown also depends on whether the information in its child-nodes is filled in or not. We distinguish three possible situations:
 \begin{enumerate}
 	\item The data of the node itself and of all of its children are correctly filled in. In this case the icon will be a completely filled circle.
 	\item The data of the node itself and of all of its children are all empty. In this case the icon will be an empty circle.
-	\item In all other cases, the data of the node itself or of at least one of its nodes is (partially) filled in. Then the icon will be a semi-filled circle.
+	\item In all other cases, the data of the node itself or of at least one of its nodes is filled in. Then the icon will be a semi-filled circle.
 \end{enumerate}
 This icon can assist the user in determining whether all information is filled in. For example, if he checks the root node and sees that the circle is completely filled, he does not have to check every child-node to know that all information is filled in. On the other hand, suppose only one node is not yet provided of some content. If the user then starts from the root node and always follows the child-node with a semi-filled circle, he will find the incomplete node much faster than in the case he has to check all the nodes.
 
 
 
 \subsection{Content}
-The content of each node is just some text describing the information corresponding to the title. As long as no content is provided by the user, a description is shown in italics to assist the user in which content is expected.
+The content of each node is just some text describing the information corresponding to the title. As long as no content is provided by the user, a description is shown in italics to instruct the user which content to provide.
 
 
 
 \subsection{Controls}
-The last part of a node is the controls-div. With \textit{controls} we mean the different actions that a user can take concerting the particular node. The controls consist of three buttons: one to add a child node, one to ``open'' the node to view and edit the data and one to expand or collapse the node to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.
+The last part of a node is the controls-div. With \textit{controls} we mean the different actions that a user can take concerning the particular node. The controls consist of three buttons: one to add a child node, one to ``open'' the node to view and edit the data and one to expand or collapse the node to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.
 
 
 
 \subsection{EditModal}
-A click on the button
+A click on the button to open the node opens a modal representing the data. What this modal looks like depends on the mode. If we are in map creator mode, a form will be shown to allow to change the title, the description, the content itself and the background color. In the case of the end user mode, only the content and the background color can be changed. Only the first time a child node is added and no title and description is filled in yet, the end user is able to fill in these data as well.\\
 
-\addtocontents{toc}{\protect\setcounter{tocdepth}{2}} % add the following subsections again to the table of contents
+When changing the background color, the user can choose to include all children or not. If the checkbox ``include children'' is checked, the background color of all child-nodes on all sublevels in the hierarchy will be changed to the new color. Otherwise, only the background color of the current node will be changed.\\
+
+The text color is black by default. This can become a problem when the background color is changed to a dark color and certainly when it is black as well because then the text is not readable anymore. To solve this issue, we wrote some CSS rules that change the text-color depending on the background color. A black (or dark) background will result in white text and a white (or light) background results in black text.
  
 
 
+\subsection{Optional nodes}
+The visualization also provides optional nodes. They can be recognized by the link between this node and its parent. A regular node is connected to its parent via a solid link, while an optional node is connected via a dashed link. A special characteristic is that these nodes can be disabled by the end user. Optional nodes contain an additional button at their right side with a lock. As long as the node is enabled, the button is represented by an open lock. A click on this button disables the node and changes the icon to a closed lock. A second click re-enables the node. Next to the lock icon, a disabled node can be recognized by its gray background and a blur so that you cannot see the content anymore.
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}} % add the following subsections again to the table of contents
 
-
-% --------------------------------
-% ----- OTHER VISUALIZATIONS -----
-% --------------------------------
-\section{Other visualizations}
-Describe Plateforme DD here.
 
 
 

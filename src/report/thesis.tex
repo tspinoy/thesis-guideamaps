@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{book}
+\documentclass[a4paper,12pt,oneside]{book}
 % ---- ADDED PACKAGES ------
 \usepackage{subcaption}
 \usepackage{hyperref}
@@ -16,6 +16,7 @@
 \setlength{\parindent}{0pt}
 \usepackage{float}
 \usepackage{parcolumns}
+\usepackage[bottom]{footmisc} % make sure footnotes are always fixed to bottom and not too high
 
 \usepackage{setspace}
 \usepackage{etoolbox}
@@ -156,6 +157,14 @@
 %\geometry{bindingoffset=2cm} % make it special on double sided: different on even and odd pages
 \geometry{margin=1.2in}
 
+\fancypagestyle{section}{
+  \fancyhf{}
+  \fancyfoot[C]{\MakeUppercase\rightmark}
+  \fancyfoot[LO,RE]{GuideaMaps 2.0}
+  \fancyfoot[LE,RO]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}% Line at the header invisible
+
+}
 
 \fancypagestyle{plain}{
   \fancyhf{}
@@ -227,67 +236,73 @@
 \setcounter{page}{1}
  \pagenumbering{roman}
 
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}} % don't add the next sections to the table of contents
+\pagestyle{section} % use the section page style for the fancy header
 \input{sections/abstract-eng}
-\clearemptydoublepage
+\clearpage
 
 \input{sections/samenvatting}
-\clearemptydoublepage
+\clearpage
 
 \input{sections/acknowledgements}
-\clearemptydoublepage
+\clearpage
 
 \input{sections/declaration}
-\clearemptydoublepage
+\clearpage
+\pagestyle{fancy} % use the fancy page style again from here
+\addtocontents{toc}{\protect\setcounter{tocdepth}{5}} % stop limiting the addition to the table of contents from here
 
 \tableofcontents
 \addcontentsline{toc}{chapter}{Contents}
 %\addcontentsline{toc}{section}{List of figures}
 %\addcontentsline{toc}{section}{List of tables}
 %\addcontentsline{toc}{section}{Listings}
-\clearemptydoublepage
+\clearpage
 
 \listoffigures
 \addcontentsline{toc}{chapter}{List of Figures}
-\clearemptydoublepage
+\clearpage
 
 \lstlistoflistings
 \addcontentsline{toc}{chapter}{List of Listings}
-\clearemptydoublepage
+\clearpage
 
 \listoftables
 \addcontentsline{toc}{chapter}{List of Tables}
-\clearemptydoublepage
+\clearpage
 
 \setcounter{page}{1}
  \pagenumbering{arabic}
 
 \input{sections/ch-introduction}
-\clearemptydoublepage
+\clearpage
 
 \input{sections/ch-related-work}
-\clearemptydoublepage
+\clearpage
 
 \input{sections/ch-requirements}
-\clearemptydoublepage
+\clearpage
 
 \input{sections/ch-implementation}
-\clearemptydoublepage
+\clearpage
+
+\input{sections/ch-usecase}
+\clearpage
 
 \input{sections/ch-evaluation}
-\clearemptydoublepage
+\clearpage
 
 \input{sections/ch-conclusion}
-\clearemptydoublepage
+\clearpage
 
-\newpage
-\appendix
-\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname}\ \thechapter.\ #1}{}}
+%\appendix
+%renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname}\ \thechapter.\ #1}{}}
 %\input{sections/appendix}
 
-\renewcommand{\bibname}{References\hfill}
-\cleardoublepage
+
+\renewcommand{\bibname}{References}
+%\cleardoublepage
 \bibliographystyle{apacite}
 \bibliography{thesisbib} % change to your bib!
-
 
 \end{document}

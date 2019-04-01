@@ -74,6 +74,39 @@ ui_course_detroyer}%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+{De Troyer}%
+\ \BBA {} {Janssens}%
+}{%
+{De Troyer}%
+\ \BBA {} {Janssens}%
+}{%
+{\protect \APACyear {2014}}%
+}]{%
+detroyerjanssens}
+\APACinsertmetastar {%
+detroyerjanssens}%
+\begin{APACrefauthors}%
+{De Troyer}, O.%
+\BCBT {}\ \BBA {} {Janssens}, E.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2014}{{\APACmonth{08}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {A feature modeling approach for domain-specific
+  requirement elicitation} {A feature modeling approach for domain-specific
+  requirement elicitation}.{\BBCQ}
+\newblock
+\BIn{} \APACrefbtitle {{Requirements Patterns (RePa), 2014 IEEE 4th
+  International Workshop on}} {{Requirements Patterns (RePa), 2014 IEEE 4th
+  International Workshop on}}\ (\BPG~17-24).
+\newblock
+\APACaddressPublisher{}{IEEE}.
+\newblock
+\begin{APACrefDOI} \doi{10.1109/RePa.2014.6894839} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Janssens%
 }{%
 Janssens%
