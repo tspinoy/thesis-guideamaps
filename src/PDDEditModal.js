@@ -136,19 +136,26 @@ class PDDEditModal extends React.Component {
                   {this.props.node.data.titre}
                 </h1>
                 {this.props.node.data.image !== '' && (
-                  <img
-                    alt={'Image'}
-                    className={'float-left mb-4 w-full'}
-                    src={this.props.node.data.image}
+                  <div
+                    className={'float-left'}
                     style={{
-                      backgroundColor: '#fff',
-                      border: '2px solid #5cb85c',
+                      backgroundImage: `url('https://via.placeholder.com/300x300?text=Loading+image...')`,
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: 'contain',
                       marginBottom: '10px',
                       marginRight: '10px',
-                      maxHeight: '300px',
-                      width: 'auto',
-                    }}
-                  />
+                      minHeight: '150px',
+                    }}>
+                    <img
+                      className={'float-left'}
+                      src={this.props.node.data.image}
+                      style={{
+                        border: '2px solid #5cb85c',
+                        maxHeight: '300px',
+                      }}
+                    />
+                  </div>
                 )}
                 {this.props.node.data.resume}
               </div>
