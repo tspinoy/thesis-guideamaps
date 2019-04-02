@@ -411,7 +411,7 @@ class GMNode extends React.Component {
                   'm-auto overflow-hidden text-base w-5/6 whitespace-no-wrap'
                 }
                 style={{textOverflow: 'ellipsis'}}>
-                {'Choice node'}
+                {node.data.name}
               </div>
               <div className={'m-auto w-1/6'}>
                 {this.completenessIcon(node) !== null && (
@@ -422,89 +422,6 @@ class GMNode extends React.Component {
                 )}
               </div>
             </div>
-            {this.state.isOpen &&
-              ReactDOM.createPortal(
-                <div
-                  className={'backdrop overflow-y-scroll'}
-                  style={{
-                    height: window.innerHeight,
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    backgroundColor: 'rgba(0,0,0,0.3)', // gray background
-                    paddingTop: 50,
-                    paddingLeft: 50,
-                    paddingRight: 50,
-                    zIndex: 5000,
-                  }}>
-                  <div
-                    className={'modal overflow-y-scroll rounded'}
-                    style={{
-                      backgroundColor: '#fff',
-                      border: '2px solid black',
-                      height: '300px',
-                      //maxHeight: 500,
-                      margin: '0 auto',
-                      marginTop: '2%',
-                      padding: 15,
-                      width: '100%',
-                      maxWidth: '750px',
-                    }}>
-                    <div className={'flex'}>
-                      <h1 style={{width: '90%'}}>
-                        Select the type of node to insert
-                      </h1>
-                      <button
-                        className={
-                          'bg-grey hover:bg-grey-dark mb-2 mr-2 px-4 py-2 rounded'
-                        }
-                        style={{width: '10%'}}
-                        onClick={() => this.toggleModal()}>
-                        X
-                      </button>
-                      {this.props.node.children === undefined && (
-                        <button
-                          className={
-                            'bg-grey hover:bg-grey-dark mb-2 mr-2 px-4 py-2 rounded'
-                          }
-                          style={{width: '10%'}}
-                          onClick={() => {
-                            this.toggleModal();
-                            this.props.deleteNode(this.props.node.data.id);
-                          }}>
-                          <FontAwesomeIcon
-                            icon={'trash-alt'}
-                            className={'text-base'}
-                          />
-                        </button>
-                      )}
-                    </div>
-                    <table
-                      className={'border-separate w-full'}
-                      style={{borderSpacing: '0 5px'}}>
-                      <tbody>
-                        {Object.keys(ChoiceNodeAllowedTypes).map(function(type) {
-                          return (
-                            ChoiceNodeAllowedTypes[type] && (
-                              <tr
-                                key={type}
-                                className={'cursor-pointer text-center w-full'}
-                                style={{height: '50px'}}
-                                onClick={() => onAddNode(node, type)}>
-                                <td style={{border: '1px solid black'}}>
-                                  {type}
-                                </td>
-                              </tr>
-                            )
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>,
-                document.getElementById('modalSpace'),
-              )}
           </div>
         );
       case GMNodeTypes.OPTIONAL:
@@ -567,7 +484,7 @@ class GMNode extends React.Component {
                 <div
                   className={
                     'overflow-hidden ' +
-                    (node.title === '' ? 'italic text-sm ' : 'text-base ') +
+                    (node.title === '' ? 'italic text-sm ' : 'text-sm ') +
                     'w-5/6 whitespace-no-wrap'
                   }
                   style={{textOverflow: 'ellipsis'}}>
@@ -581,9 +498,7 @@ class GMNode extends React.Component {
                 </div>
               </div>
               <div // content div
-                className={
-                  'invertColors pb-1 pl-2 pr-2 pt-1 overflow-hidden text-base'
-                }
+                className={'invertColors pb-1 pl-2 pr-2 pt-1 overflow-hidden'}
                 style={{
                   color: node.backgroundColor, // this is inverted by the invertColors-class
                   height: '2.6em', // 1.2 times WebkitLineClamp of the paragraph
@@ -591,14 +506,14 @@ class GMNode extends React.Component {
                 <p
                   className={
                     'overflow-hidden ' +
-                    (node.content === '' ? 'italic text-sm' : '')
+                    (node.content === '' ? 'italic text-sm' : 'text-sm')
                   }
                   style={{
                     WebkitLineClamp: 2,
                     display: '-webkit-box',
                     WebkitBoxOrient: 'vertical',
                   }}>
-                  {node.content === '' ? node.description : node.content}
+                  {node.content === '' ? node.data.description : node.content}
                 </p>
               </div>
               <div // controls div
@@ -609,6 +524,8 @@ class GMNode extends React.Component {
                     locked={this.state.locked}
                     node={node}
                     onAddNode={onAddNode}
+                    onEditNode={onEditNode}
+                    onClick={onClick}
                     width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                   />
                 )}
@@ -623,7 +540,15 @@ class GMNode extends React.Component {
                   node={node}
                   onEditNode={onEditNode}
                   onNodeDataChange={onNodeDataChange}
-                  width={node.height !== 0 ? (mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2') : (mode === Modes.MAP_CREATOR ? 'w-1/2' : 'w-full')}
+                  width={
+                    node.height !== 0
+                      ? mode === Modes.MAP_CREATOR
+                        ? 'w-1/3'
+                        : 'w-1/2'
+                      : mode === Modes.MAP_CREATOR
+                      ? 'w-1/2'
+                      : 'w-full'
+                  }
                 />
                 {node.height !== 0 && (
                   // At non-child nodes the expand-collapse button should be added
@@ -675,7 +600,7 @@ class GMNode extends React.Component {
               <div
                 className={
                   'overflow-hidden ' +
-                  (node.title === '' ? 'italic text-sm ' : 'text-base ') +
+                  (node.title === '' ? 'italic text-sm ' : 'text-sm ') +
                   'w-5/6 whitespace-no-wrap'
                 }
                 style={{textOverflow: 'ellipsis'}}>
@@ -706,7 +631,7 @@ class GMNode extends React.Component {
                   display: '-webkit-box',
                   WebkitBoxOrient: 'vertical',
                 }}>
-                {node.content === '' ? node.description : node.content}
+                {node.content === '' ? node.data.description : node.content}
               </p>
             </div>
             <div // controls div
@@ -716,6 +641,8 @@ class GMNode extends React.Component {
                   bgcolor={node.backgroundColor}
                   node={node}
                   onAddNode={onAddNode}
+                  onEditNode={onEditNode}
+                  onClick={onClick}
                   width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                 />
               )}
