@@ -38,7 +38,7 @@ class PDDLink extends React.Component {
         markerMid={link.target.visible ? 'url(#arrow)' : ''}
         stroke={'#373244'}
         strokeWidth={2}
-        strokeDasharray={link.target.visible && link.optional ? 3 : 1000}
+        strokeDasharray={link.target.visible && link.optional ? 3 : 10000}
         style={{
           transform: `translate(${PDDNodeWidth / 2}px, ${PDDNodeHeight / 2}px)`,
           transition: centered && 'all 500ms ease 0s',

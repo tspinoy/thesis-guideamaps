@@ -52,13 +52,13 @@
         stroke-dashoffset: 0;
     }
     to {
-        stroke-dashoffset: 1000;
+        stroke-dashoffset: 10000;
     }
 }
 
 @keyframes linkIn {
     from {
-        stroke-dashoffset: 1000;
+        stroke-dashoffset: 10000;
     }
     to {
         stroke-dashoffset: 0;
@@ -66,11 +66,11 @@
 }
 
 .visibleLink {
-    animation: linkIn 1000ms linear forwards;
+    animation: linkIn 3000ms ease-in-out forwards;
 }
 
 .hiddenLink {
-    animation: linkOut 400ms linear forwards;
+    animation: linkOut 250ms ease-in-out forwards;
 }
 
 @keyframes moveIn {
