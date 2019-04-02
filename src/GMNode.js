@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  ItemTypes,
-  GMNodeTypes,
   ChoiceNodeAllowedTypes,
+  GMNodeTypes,
+  ItemTypes,
+  Modes,
 } from './Constants';
 import {DragSource, DropTarget} from 'react-dnd';
 import flow from 'lodash/flow';
@@ -533,24 +534,26 @@ class GMNode extends React.Component {
               '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
             }}
             onClick={onClick}>
-            <div
-              className={'absolute border border-solid border-black'}
-              style={{
-                transform:
-                  'translate(' +
-                  (GMNodeWidth - 2) +
-                  'px, ' +
-                  GMNodeHeight / 3 +
-                  'px)',
-                borderBottomRightRadius: '50%',
-                borderTopRightRadius: '50%',
-              }}
-              onClick={() => this.setState({locked: !this.state.locked})}>
-              <FontAwesomeIcon
-                icon={this.state.locked ? 'lock' : 'lock-open'}
-                style={{margin: '3px'}}
-              />
-            </div>
+            {mode === Modes.END_USER && (
+              <div
+                className={'absolute border border-solid border-black'}
+                style={{
+                  transform:
+                    'translate(' +
+                    (GMNodeWidth - 2) +
+                    'px, ' +
+                    GMNodeHeight / 3 +
+                    'px)',
+                  borderBottomRightRadius: '50%',
+                  borderTopRightRadius: '50%',
+                }}
+                onClick={() => this.setState({locked: !this.state.locked})}>
+                <FontAwesomeIcon
+                  icon={this.state.locked ? 'lock' : 'lock-open'}
+                  style={{margin: '3px'}}
+                />
+              </div>
+            )}
             <div
               className={'h-full'}
               style={{filter: this.state.locked ? 'blur(3px)' : ''}}>
@@ -600,13 +603,15 @@ class GMNode extends React.Component {
               </div>
               <div // controls div
                 className={'absolute pin-b flex rounded-b w-full'}>
-                <AddChildButton
-                  bgcolor={node.backgroundColor}
-                  locked={this.state.locked}
-                  node={node}
-                  onAddNode={onAddNode}
-                  width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
-                />
+                {mode === Modes.MAP_CREATOR && (
+                  <AddChildButton
+                    bgcolor={node.backgroundColor}
+                    locked={this.state.locked}
+                    node={node}
+                    onAddNode={onAddNode}
+                    width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+                  />
+                )}
                 <EditButton
                   bgcolor={node.backgroundColor}
                   border={true}
@@ -618,7 +623,7 @@ class GMNode extends React.Component {
                   node={node}
                   onEditNode={onEditNode}
                   onNodeDataChange={onNodeDataChange}
-                  width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+                  width={node.height !== 0 ? (mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2') : (mode === Modes.MAP_CREATOR ? 'w-1/2' : 'w-full')}
                 />
                 {node.height !== 0 && (
                   // At non-child nodes the expand-collapse button should be added
@@ -627,7 +632,7 @@ class GMNode extends React.Component {
                     locked={this.state.locked}
                     node={node}
                     onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
-                    width={'w-1/3'}
+                    width={mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2'}
                   />
                 )}
               </div>
@@ -706,12 +711,14 @@ class GMNode extends React.Component {
             </div>
             <div // controls div
               className={'absolute pin-b flex rounded-b w-full'}>
-              <AddChildButton
-                bgcolor={node.backgroundColor}
-                node={node}
-                onAddNode={onAddNode}
-                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
-              />
+              {mode === Modes.MAP_CREATOR && (
+                <AddChildButton
+                  bgcolor={node.backgroundColor}
+                  node={node}
+                  onAddNode={onAddNode}
+                  width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+                />
+              )}
               <EditButton
                 bgcolor={node.backgroundColor}
                 border={true}
@@ -722,7 +729,7 @@ class GMNode extends React.Component {
                 node={node}
                 onEditNode={onEditNode}
                 onNodeDataChange={onNodeDataChange}
-                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+                width={node.height !== 0 ? (mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2') : (mode === Modes.MAP_CREATOR ? 'w-1/2' : 'w-full')}
               />
               {node.height !== 0 && (
                 // At non-child nodes the expand-collapse button should be added
@@ -730,7 +737,7 @@ class GMNode extends React.Component {
                   bgcolor={node.backgroundColor}
                   node={node}
                   onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
-                  width={'w-1/3'}
+                  width={mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2'}
                 />
               )}
             </div>
