@@ -25,7 +25,7 @@ class ExpandCollapseButton extends React.Component {
           id={'ec-btn-node' + this.props.node.data.id}
           className={
             'block ' +
-            (!locked ? 'cursor-pointer' : 'cursor-default') +
+            (!locked ? 'cursor-pointer ' : 'cursor-default ') +
             'expand-collapse-btn font-bold invertColors items-center ' +
             'px-1 py-1 rounded-br text-grey-darkest w-full '
           }
