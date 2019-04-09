@@ -4,23 +4,40 @@ export const ItemTypes = {
   NODE: 'node',
 };
 
+/**
+ * Different node types
+ * @type {{OPTIONAL: string, CHOICE: string, DEFAULT: string}}
+ */
 export const GMNodeTypes = {
   DEFAULT: 'default',
   CHOICE: 'choice',
   OPTIONAL: 'optional',
 };
 
+/**
+ * Via a CHOICE node, an end user can choose which type the child node should be.
+ * Depending on the booleans in this object, types are (dis)allowed.
+ * @type {{OPTIONAL: boolean, CHOICE: boolean, DEFAULT: boolean}}
+ */
 export const ChoiceNodeAllowedTypes = {
   DEFAULT: true,
   CHOICE: true,
   OPTIONAL: true,
 };
 
+/**
+ * There are two types of users for the application: end users and map creators.
+ * @type {{MAP_CREATOR: string, END_USER: string}}
+ */
 export const Modes = {
   END_USER: 'END_USER',
   MAP_CREATOR: 'MAP_CREATOR',
 };
 
+/**
+ * Some variables.
+ * @type {number}
+ */
 export const GMNodeWidth = 130;
 export const GMNodeHeight = 100;
 export const PDDNodeWidth = 140;
@@ -42,10 +59,10 @@ export const project = (x, y) => {
 };
 
 /**
- * Initialize a (new) node taking the previous data of this node into account.
- * If a node is added, all nodes need to be initialized again. Therefore,
- * {@param oldNode} is passed in order to not lose information when a new node
- * is created.
+ * Initialize a (new) node taking the previous data (if this exists) of this node
+ * into account. If a node is added, all nodes need to be initialized again.
+ * Therefore, {@param oldNode} is passed in order to not lose information
+ * when a new node is created.
  * @param node: the current node
  * @param oldNode: the node with the data the current node had before or {Null} if no such node exists ({@param node} is a newly created node)
  * @param width: the width of the visualization
@@ -81,9 +98,9 @@ export const initializeGMNode = (
   node.description =
     oldNode !== null && oldNode.description !== undefined
       ? oldNode.description
-      : node.description === undefined
+      : node.data.description === undefined
       ? ''
-      : node.description;
+      : node.data.description;
 
   // Locked property
   node.locked =
@@ -96,9 +113,8 @@ export const initializeGMNode = (
       ? project(oldNode.x, oldNode.y)
       : project(node.x, node.y)
       : project(node.x, node.y);
-  // Center the content
-  node.x = projectedPositions[0] + width / 2 - GMNodeWidth / 2;
-  node.y = projectedPositions[1] + height / 2 - GMNodeHeight / 2;
+  node.x = projectedPositions[0] + width / 2 - GMNodeWidth / 2; // Center the node
+  node.y = projectedPositions[1] + height / 2 - GMNodeHeight / 2; // Center the node
 
   // Title property
   node.title =
@@ -130,28 +146,6 @@ export const initializeGMLink = link => {
   // Mark all edges to OPTIONAL nodes as optional.
   link.optional = link.target.data.type === GMNodeTypes.OPTIONAL;
   return link;
-};
-
-/**
- * A helper function to check whether the contents of two arrays are equal.
- * @param a: the first array
- * @param b: the second array
- * @return {boolean}: is {@param a} equal to {@param b} (true) or not (false)
- */
-export const arraysEqual = (a, b) => {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length !== b.length) return false;
-
-  // If you don't care about the order of the elements inside
-  // the array, you should sort both arrays here.
-  // Please note that calling sort on an array will modify that array.
-  // you might want to clone your array first.
-
-  for (let i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
 };
 
 /**
