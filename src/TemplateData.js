@@ -27,14 +27,14 @@ export const ECommerceData = [
   },
   {
     description: '',
-    id: 2,
+    id: 3,
     name: 'About Us',
     parent: 1, // company info
     type: GMNodeTypes.OPTIONAL,
   },
   {
     description: '',
-    id: 3,
+    id: 4,
     name: 'Contact Us',
     parent: 1, // company info
     type: GMNodeTypes.OPTIONAL,
@@ -43,7 +43,7 @@ export const ECommerceData = [
   {
     description:
       'It is important to keep track of your customers; different features are available for this.',
-    id: 4,
+    id: 5,
     name: 'Customer',
     parent: 0, // root
     type: GMNodeTypes.DEFAULT,
@@ -51,62 +51,62 @@ export const ECommerceData = [
   {
     description:
       'With a profile you keep track of all preferences and billing information for a customer.',
-    id: 5,
+    id: 6,
     name: 'Profile',
-    parent: 4, // Customer
+    parent: 5, // Customer
     type: GMNodeTypes.OPTIONAL,
   },
   {
     description:
       'To be able to login a customer first has to register; different possibilities are available for this.',
-    id: 6,
+    id: 7,
     name: 'Registration',
-    parent: 4, // Customer
+    parent: 5, // Customer
     type: GMNodeTypes.CHOICE,
   },
   {
     description: 'You can provide different services to your customers.',
-    id: 7,
+    id: 8,
     name: 'OPTIONAL! Customer Services',
-    parent: 4, // Customer
+    parent: 5, // Customer
     type: GMNodeTypes.CHOICE,
   },
   // Buying Goods (child of Customer)
   {
     description: '',
-    id: 8,
+    id: 9,
     name: 'Buying Goods',
-    parent: 4, // Customer
+    parent: 5, // Customer
     type: GMNodeTypes.DEFAULT,
   },
   {
     description:
       'A shopping cart feature is mandatory; it allows customer to buy products.',
-    id: 9,
+    id: 10,
     name: 'Shopping Cart',
-    parent: 8,
+    parent: 9, // Buying goods
     type: GMNodeTypes.DEFAULT,
   },
   {
     description:
       'This functionality allows the customer to actually place his order.',
-    id: 10,
+    id: 11,
     name: 'Checkout',
-    parent: 8,
+    parent: 9, // Buying goods
     type: GMNodeTypes.DEFAULT,
   },
   {
     description: '',
-    id: 11,
+    id: 12,
     name: 'Payment Method',
-    parent: 8,
+    parent: 9, // Buying goods
     type: GMNodeTypes.CHOICE,
   },
   // Product
   {
     description:
       'A lot of information can be provided about product. Select what you want to include.',
-    id: 12,
+    id: 13,
     name: 'Product',
     parent: 0, // Root
     type: GMNodeTypes.DEFAULT,
@@ -114,31 +114,31 @@ export const ECommerceData = [
   {
     description:
       'You can group products into categories, which will make searching for products easier, especially if there are many products.',
-    id: 13,
+    id: 14,
     name: 'Product Category',
-    parent: 12, // Product
+    parent: 13, // Product
     type: GMNodeTypes.OPTIONAL,
   },
   {
     description:
       'It may be useful to let customers compare different products.',
-    id: 14,
+    id: 15,
     name: 'Product Comparison',
-    parent: 12, // Product
+    parent: 13, // Product
     type: GMNodeTypes.OPTIONAL,
   },
   {
     description: 'Customers like to see an image or a 3D model of a product.',
-    id: 15,
+    id: 16,
     name: 'Product Visualization',
-    parent: 12, // Product
+    parent: 13, // Product
     type: GMNodeTypes.OPTIONAL,
   },
   // Shopping Experience
   {
     description:
       'Products should be as visible as possible. There are different ways to achieve this: hot list, frequently bought, ...',
-    id: 16,
+    id: 17,
     name: 'Shopping Experience',
     parent: 0, // Root
     type: GMNodeTypes.DEFAULT,
@@ -147,7 +147,7 @@ export const ECommerceData = [
   {
     description:
       'A customer should be able to easily find products. Select at least on possibility.',
-    id: 17,
+    id: 18,
     name: 'Searching',
     parent: 0, // Root
     type: GMNodeTypes.CHOICE,
@@ -156,7 +156,7 @@ export const ECommerceData = [
   {
     description:
       'Product availability and prices may be dependent on the country or region.',
-    id: 18,
+    id: 19,
     name: 'Region Selection',
     parent: 0, // Root
     type: GMNodeTypes.OPTIONAL,
@@ -164,7 +164,7 @@ export const ECommerceData = [
   // Language Selection
   {
     description: 'This allows customers to select their own language.',
-    id: 19,
+    id: 20,
     name: 'Language Selection',
     parent: 0, // Root
     type: GMNodeTypes.OPTIONAL,
@@ -173,7 +173,7 @@ export const ECommerceData = [
   {
     description:
       'This allows a customer to share information over a social network.',
-    id: 20,
+    id: 21,
     name: 'Share',
     parent: 0, // Root
     type: GMNodeTypes.OPTIONAL,
@@ -182,7 +182,7 @@ export const ECommerceData = [
   {
     description:
       'A "like" button provides the customer a way of expressing his feelings about a product.',
-    id: 21,
+    id: 22,
     name: 'Like',
     parent: 0, // Root
     type: GMNodeTypes.OPTIONAL,
