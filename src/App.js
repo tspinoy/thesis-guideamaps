@@ -26,6 +26,8 @@ import {PDDData, PDDData2} from './PDDData';
 import PDDEditModal from './PDDEditModal';
 import PDDLink from './PDDLink';
 
+import {ECommerceData} from './TemplateData';
+
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
 // Import solid icons
@@ -71,11 +73,37 @@ const windowWidth = window.innerWidth;
 const windowHeight = window.innerHeight;
 const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 
+const ECOMMERCE = 'e-commerce';
+const EMPTY = 'New map';
 const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
-const current_visualization = PLATEFORMEDD;
+let current_visualization = GUIDEAMAPS;
 
-let currentData = current_visualization === GUIDEAMAPS ? GMData2 : PDDData2;
+let currentData = null;
+
+const setCurrentData = () => {
+  switch (current_visualization) {
+    case EMPTY:
+      currentData = [
+        {
+          id: 0,
+          name: 'name',
+          type: GMNodeTypes.DEFAULT,
+          parent: '',
+        },
+      ];
+      break;
+    case ECOMMERCE:
+      currentData = ECommerceData;
+      break;
+    case PLATEFORMEDD:
+      currentData = PDDData2;
+      break;
+    default:
+      currentData = GMData2;
+      break;
+  }
+};
 
 // Root definitions
 let root = null;
@@ -89,7 +117,6 @@ const setRoot = (data = currentData) => {
       return d.parent;
     })(data);
 };
-setRoot();
 
 // Cluster definitions
 let cluster = null;
@@ -101,14 +128,12 @@ const setCluster = sep => {
       return a.parent === b.parent ? sep : sep;
     });
 };
-setCluster(current_visualization === GUIDEAMAPS ? 50 : PDDNodeWidth);
 
 // ClusterRoot definitions
 let clusterRoot = null;
 const setClusterRoot = () => {
   clusterRoot = cluster(root);
 };
-setClusterRoot();
 
 // ClusterNodes definitions
 let clusterNodes = null;
@@ -128,15 +153,24 @@ const setClusterNodes = (state = null) => {
       ),
     );
 };
-setClusterNodes();
-console.log(clusterNodes);
 
 // ClusterLinks definitions
 let clusterLinks = null;
 const setClusterLinks = () => {
   clusterLinks = clusterRoot.links().map(link => initializeGMLink(link));
 };
-setClusterLinks();
+
+const initializeData = () => {
+  setCurrentData();
+  setRoot();
+  setCluster(current_visualization === PLATEFORMEDD ? PDDNodeWidth : 50);
+  setClusterRoot();
+  setClusterNodes();
+  setClusterLinks();
+  console.log(clusterNodes);
+};
+
+initializeData();
 
 /* ClusterNodes contains a lot of information about each node.
  * Some parts of this information will be changed while using the app,
@@ -179,7 +213,7 @@ class App extends Component {
      */
     const addGMChildNode = (parent, type = null) => {
       currentData.push({
-        id: this.state.nodes[this.state.nodes.length - 1].id + 1,
+        id: this.state.nodes[this.state.nodes.length - 1].data.id + 1,
         name: '',
         type: type === null ? GMNodeTypes.DEFAULT : GMNodeTypes[type],
         parent: parseInt(parent.id),
@@ -279,20 +313,6 @@ class App extends Component {
       this.setState({nodes: newNodes});
     };
 
-    const updateNodeLock = nodeId => {
-      const newNodes = this.state.nodes.map(node => {
-        if (node.id === nodeId) {
-          // update the node with this nodeId
-          node.locked = !this.state.nodes[nodeId].locked;
-          return node;
-        } else {
-          // other nodes remain the same
-          return node;
-        }
-      });
-      this.setState({nodes: newNodes});
-    };
-
     /**
      * Update the position of the node after a drag and drop event.
      * @param nodeId: The id of the node of which the coordinates have to change.
@@ -359,9 +379,15 @@ class App extends Component {
       this.setState({editing: !this.state.editing});
     };
 
+    const selectTemplate = () => {
+      current_visualization = document.getElementById('templateSelect').value;
+      initializeData();
+      document.getElementById('node0').click();
+    };
+
     return (
       <div>
-        {current_visualization === GUIDEAMAPS && (
+        {/*current_visualization === GUIDEAMAPS &&*/ (
           <div
             className={'w-full text-center flex h-1 pin-t bg-grey mb-2'}
             style={{height: '50px'}}>
@@ -400,7 +426,7 @@ class App extends Component {
                     ? 'underline bg-black text-grey '
                     : '')
                 }
-                style={{width: '150px', height: '35px'}}
+                style={{height: '35px', outline: 'none', width: '150px'}}
                 onClick={() => this.setState({mode: Modes.END_USER})}>
                 END USER
               </button>
@@ -411,7 +437,7 @@ class App extends Component {
                     ? 'underline bg-black text-grey '
                     : '')
                 }
-                style={{width: '150px', height: '35px'}}
+                style={{height: '35px', outline: 'none', width: '150px'}}
                 onClick={() => this.setState({mode: Modes.MAP_CREATOR})}>
                 MAP CREATOR
               </button>
@@ -428,7 +454,27 @@ class App extends Component {
                 alt={'logo'}
                 style={{width: '50px', height: '50px'}}
               />
-              GuideaMaps
+              <select
+                className={'bg-grey border border-black border-solid rounded'}
+                id={'templateSelect'}
+                onChange={() => {
+                  selectTemplate();
+                  this.setState({nodes: clusterNodes, links: clusterLinks});
+                }}
+                style={{height: '35px', outline: 'none'}}>
+                <optgroup label={'Existing visualizations'}>
+                  <option value={GUIDEAMAPS}>{GUIDEAMAPS}</option>
+                  <option value={PLATEFORMEDD}>{PLATEFORMEDD}</option>
+                  {/* TODO: If you have a server, you can load the names of the saved visualizations here. */}
+                </optgroup>
+                <optgroup label={'Available templates'}>
+                  <option value={ECOMMERCE}>{ECOMMERCE}</option>
+                  {/* TODO: If you have a server and more templates, you can load the names of the templates here. */}
+                </optgroup>
+                <optgroup label={'Create new map'}>
+                  <option value={EMPTY}>{EMPTY}</option>
+                </optgroup>
+              </select>
             </div>
             <div className={'w-1/3 flex justify-center items-center'}>
               <button
@@ -436,7 +482,7 @@ class App extends Component {
                 className={
                   'rounded border border-black hover:bg-black hover:text-grey'
                 }
-                style={{width: '110px', height: '35px'}}>
+                style={{height: '35px', width: '110px', outline: 'none'}}>
                 Zoom to fit
               </button>
             </div>
@@ -448,27 +494,28 @@ class App extends Component {
             height={height}
             mode={this.state.mode}
             NodeComp={
-              current_visualization === GUIDEAMAPS ? GuideaMapsNode : PDDNode
+              current_visualization === PLATEFORMEDD ? PDDNode : GuideaMapsNode
             }
             links={this.state.links}
             nodes={this.state.nodes}
             onAddNode={
-              current_visualization === GUIDEAMAPS
-                ? (parent, type) => addGMChildNode(parent, type)
-                : () => null
+              current_visualization === PLATEFORMEDD
+                ? () => null
+                : (parent, type) => addGMChildNode(parent, type)
             }
             deleteNode={
-              current_visualization === GUIDEAMAPS
-                ? nodeId => deleteGMNode(nodeId)
-                : () => null
+              current_visualization === PLATEFORMEDD
+                ? () => null
+                : nodeId => deleteGMNode(nodeId)
             }
             EditNodeComp={
-              current_visualization === GUIDEAMAPS ? GMEditModal : PDDEditModal
+              current_visualization === PLATEFORMEDD ? PDDEditModal : GMEditModal
             }
             onEditNode={() => editNode()}
             onNodeDataChange={
-              current_visualization === GUIDEAMAPS
-                ? (nodeId, nodeDescription, nodeTitle, nodeContent, hexColor, children) =>
+              current_visualization === PLATEFORMEDD
+                ? () => null
+                : (nodeId, nodeDescription, nodeTitle, nodeContent, hexColor, children) =>
                   updateGMNodeData(
                     nodeId,
                     nodeDescription,
@@ -477,20 +524,18 @@ class App extends Component {
                     hexColor,
                     children,
                   )
-                : () => null
             }
-            onNodeLockUnlock={nodeId => updateNodeLock(nodeId)}
             onNodePositionChange={
-              current_visualization === GUIDEAMAPS
-                ? (nodeId, newX, newY) =>
+              current_visualization === PLATEFORMEDD
+                ? () => null
+                : (nodeId, newX, newY) =>
                   updateGMNodePosition(nodeId, newX, newY)
-                : () => null
             }
             onNodeVisibleChildrenChange={nodeId =>
               updateGMNodeVisibleChildren(nodeId)
             }
             nodeOptions={nodeOptions}
-            LinkComp={current_visualization === GUIDEAMAPS ? GMLink : PDDLink}
+            LinkComp={current_visualization === PLATEFORMEDD ? PDDLink: GMLink}
           />
         </div>
 
