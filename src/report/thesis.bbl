@@ -107,6 +107,35 @@ detroyerjanssens}%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+ISO%
+}{%
+ISO%
+}{%
+{\protect \APACyear {1998}}%
+}]{%
+usability-definition-improved}
+\APACinsertmetastar {%
+usability-definition-improved}%
+\begin{APACrefauthors}%
+ISO.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYear{1998}.
+\newblock
+\APACrefbtitle {{ISO} 9241-11: {Ergonomic} {Requirements} for {Office} {Work}
+  with {Visual} {Display} {Terminals} ({VDTs}): {Part} 11: {Guidance} on
+  {Usability}} {{ISO} 9241-11: {Ergonomic} {Requirements} for {Office} {Work}
+  with {Visual} {Display} {Terminals} ({VDTs}): {Part} 11: {Guidance} on
+  {Usability}}.
+\newblock
+\APACaddressPublisherEqAuth{}{ISO}.
+\newblock
+\begin{APACrefURL} \url{https://books.google.be/books?id=TzXYZwEACAAJ}
+  \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Janssens%
 }{%
 Janssens%
@@ -151,6 +180,33 @@ O'Donnell, A\BPBI M.%
 \newblock
 \APACrefbtitle {Knowledge Maps as Scaffolds for Cognitive Processing.}
   {Knowledge maps as scaffolds for cognitive processing.}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Preece%
+\ \protect \BOthers {.}}{%
+Preece%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {1994}}%
+}]{%
+usability-definition-preece}
+\APACinsertmetastar {%
+usability-definition-preece}%
+\begin{APACrefauthors}%
+Preece, J.%
+, Rogers, Y.%
+, Sharp, H.%
+, Benyon, D.%
+, Holland, S.%
+\BCBL {}\ \BBA {} Carey, T.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYear{1994}.
+\newblock
+\APACrefbtitle {Human-Computer Interaction} {Human-computer interaction}.
+\newblock
+\APACaddressPublisher{Essex, UK, UK}{Addison-Wesley Longman Ltd.}
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}

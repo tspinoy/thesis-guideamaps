@@ -4,10 +4,10 @@ The application should meet a lot of requirements in order to deliver some quali
 In the bachelor course \textit{User Interfaces} \citep{ui_course_detroyer} two definitions of usability were provided:
 \begin{description}
 	\item[Definition 1] \hfill \\
-	Usability is a measure of the ease with which a system can be learned and used, its safety, effectiveness and efficiency, and attitude of its users towards it.
+	Usability is a measure of the ease with which a system can be learned and used, its safety, effectiveness and efficiency, and attitude of its users towards it. \hfill \citep{usability-definition-preece}
 
 	\item[Definition 2] \hfill \\
-	Usability is the extent to which a product can be used by specified users to achieve specified goals with effectiveness, efficiency and satisfaction in a specified context of use.
+	Usability is the extent to which a product can be used by specified users to achieve specified goals with effectiveness, efficiency and satisfaction in a specified context of use. \hfill \citep{usability-definition-improved}
 \end{description}
 
 Hence, there are functional and usability requirements the system should meet in order to be evaluated as \textit{usable} by the end users.
@@ -22,15 +22,12 @@ Hence, there are functional and usability requirements the system should meet in
 	
 	\item[Customization] \hfill \\
 	End users should be able to customize the visualization a bit to their needs. It should be possible to change the background color of nodes, to add child nodes and to remove nodes they don't need anymore. But end users should only be able to delete nodes they added themselves and not the nodes initialized by the map creator. Otherwise it would be possible for end users to change the complete visualization.
-
-	\item[Device- and OS-independent] \hfill \\
-	The application should run on different kinds of devices (e.g. tablets, laptops and desktops) and operating systems (Android, iOS, MacOS and Windows). While version 1.0 was only designed for an iPad, our version should provide a solution for this restriction. One of the possibilities to solve the problem is to create the application in the browser. Hence, the user should not be limited to a particular device anymore, the tool can be used on any machine. The only restriction on the used device is that it needs to have a screen that is large enough because it is not very convenient to work with the visualization on small screen areas, e.g. on smartphones. The application could run on smartphones but it is not recommended nor required to use it on devices with relatively small screens.
   
 	\item[Genericity] \hfill \\
   The tool should be generic in such a way that it is possible to create a different design for the nodes and the links. The end user should not be restricted to the predefined design of GuideaMaps. Instead, a developer can create its own implementation for the nodes and the links, which then can be \textit{plugged in} into the system. The core of the application should be completely separated from the parts that are customizable for the end-users.
   
-	\item[Rights] \hfill \\
-	There should be two possible modes in the system: an end user mode and a map creator mode. A map creator has the rights to change the structure of the visualization, while the end user is restricted in which data he can edit. This requirements can be seen as a security mechanism to not let a particular end user mess with the visualization.
+	\item[Modes And Rights] \hfill \\
+	There should be two possible modes in the system: an end user mode and a map creator mode. A map creator has the rights to change the structure of the visualization, while the end user is restricted in which data he can edit. These requirements can be seen as a security mechanism to not let a particular end user mess with the visualization.
   
 	\item[Zoom the visualization] \hfill \\
 	As a user, you sometimes want to zoom in or out such that you get less or more information at the same time on the screen. For example, a feature to zoom is very useful in situations where you want to compare different parts of the visualization. The scrolling gesture is probably the best gesture for this action, because this is a well-known way to zoom in applications (e.g. Google Maps). Users don't like it when every application has a different gesture for the same action. Hence, it won't help them if we choose for another gesture than scrolling in GuideaMaps. Also, using the same gesture as in other applications improves the memorability and learnability of our tool.
@@ -88,4 +85,17 @@ In order to obtain a high usability, we should formulate several usability requi
 	\label{fig:icons}
 \end{figure}
 	
+\end{description}
+
+
+
+% ----------------------------------
+% ------- OTHER REQUIREMENTS -------
+% ----------------------------------
+\section{Other requirements}\label{sec:other-requirements}
+
+\begin{description}
+	\item[Device- and OS-independent] \hfill \\
+	The application should run on different kinds of devices (e.g. tablets, laptops and desktops) and operating systems (Android, iOS, MacOS and Windows). While version 1.0 was only designed for an iPad, our version should provide a solution for this restriction. One of the possibilities to solve the problem is to create the application in the browser. Hence, the user should not be limited to a particular device; the tool can be used on any machine. The only restriction on the used device is that it needs to have a screen that is large enough because it is not very convenient to work with the visualization on small screen areas, e.g. on smartphones. The application could run on smartphones but it is not recommended nor required to use it on devices with relatively small screens.
+
 \end{description}

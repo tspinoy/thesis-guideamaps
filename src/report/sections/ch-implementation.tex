@@ -113,8 +113,22 @@ The strength of the library can not only be seen at its genericity but also when
 % ------------------------------
 % ----- GUIDEAMAPS DETAILS -----
 % ------------------------------
-\section{Default Layout: GuideaMaps}
-Now the overview of the structure of the application is discussed, we will consider the implementation details of the GuideaMaps visualisation in this section.
+\section{Default Implementation: GuideaMaps}
+Now the overview of the structure of the application is discussed, we will consider the GuideaMaps visualization and its implementation details in this section. The resulting visualization can be seen in figure \ref{fig:guideamaps}.
+ 
+\begin{figure}[H]
+	\centering
+	\frame{\includegraphics[width=\linewidth]{guideamaps.png}}
+	\caption{GuideaMaps Layout.}
+	\label{fig:guideamaps}
+\end{figure}
+
+The nodes represent a specific part of the data and the links illustrate the relation between the data (i.e. the nodes). Before we discuss the nodes into detail, we start with the \textit{navigation bar} above the visualization itself. This navigation bar is divided in three equal parts. In the center, the user can select which visualization he wants to use via an option menu. The name of the currently selected option is always visible. There are several reasons why this is possible. The first is because the user should be able to switch between templates. A user should not be limited to one possible visualization. As a map creator, you can create a new template, which then can be filled with data by the end users. As an end user, you should be able to switch between different visualizations because it is possible that you are working on more than one visualization at the same time.\\
+
+The right part of the navigation bar contains a single button. A click on this button makes sure the visualization is zoomed to a certain level where all nodes fit on the screen. This is one of the reasons why we mentioned in the requirements (section \ref{sec:other-requirements}) that the screen of the used device should not be too small.\\
+
+The left part is created to be able to switch between the user roles \textcolor{red}{or modes???} (i.e. end user or map creator). A map creator has more rights and hence he can perform more actions than an end user. In the following subsections, the differences between these roles \textcolor{red}{or modes???} is elaborated.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{GMStructure.pdf}
@@ -122,7 +136,7 @@ Now the overview of the structure of the application is discussed, we will consi
 	\label{fig:gmnodestructure}
 \end{figure}
 
-As you can see in figure \ref{fig:gmnodestructure}, the structure of a GuideaMapsNode node quite easy. Each node consists of three html \textit{div}-elements: a title-div, a content-div and a controls-div.
+As you can see in figure \ref{fig:gmnodestructure}, the structure of a GuideaMapsNode node is quite easy. Each node consists of three html \textit{div}-elements: a title-div, a content-div and a controls-div.
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % hide the following subsections from the table of contents
 \subsection{Title}
