@@ -9,15 +9,17 @@ Before we started with the actual implementation, we had to decide how to achiev
 % --- TECHNOLOGIES ---
 % --------------------
 \section{Technologies}\label{sec:technologies}
-A number of technologies assisted in the developing process of the application. In this section, each of these technologies is discussed to explain its importance.
+A number of technologies assisted in the developing process of the application. The used technologies are browser-based because we chose for a solution optimized to work in the browser. In this section, each of these technologies is discussed to explain its importance.
 
 \subsection{ReactJS}\label{sec:reactjs}
 ReactJS is an open source library to create user interfaces\footnote{\url{https://reactjs.org/index.html}}. One of its main goals is to provide the best possible rendering performances\footnote{\url{https://medium.com/@thinkwik/why-reactjs-is-gaining-so-much-popularity-these-days-c3aa686ec0b3}}. Performance is high because ReactJS allows developers to break down the user interface into different components. Each component has its own \textit{state}, which contains information about the content of the component. This state can be updated while the application is running and if such an update is made, only this component is re-rendered instead of re-rendering the complete UI\footnote{\url{https://facebook.github.io/react/docs/why-react.html}}. Hence, this involves a huge benefit for the performance. Next to that, it is also not very hard to learn to code in React when comparing to other frameworks (e.g. AngularJS). If the developer knows HTML and JavaScript, he will be able to code in ReactJS quickly.\\
 
-Because of these benefits, ReactJS is the framework in which the GuideaMaps application is implemented. Each node is considered as a separate and unique React Component. The most important reason for implementing the nodes like this is performance: if the state of the node is updated, only this node is re-rendered and not the complete UI.
+Because of these benefits, ReactJS is the framework in which the GuideaMaps application is implemented. Each node and each link is considered as a separate and unique React Component. The most important reason for implementing the nodes like this is performance: if the state of the node is updated, only this node is re-rendered and not the complete UI.
 
 \subsection{d3}\label{sec:d3}
-Another helpful tool is d3. With d3-hierarchy\footnote{\url{https://github.com/d3/d3-hierarchy}}, it is possible to transform JSON-data into hierarchical data. Having this kind of data makes it much easier to create a tree- or cluster-structure. In the case of GuideaMaps, a clustered visualization is very useful. The \textit{main}-node (a.k.a. the root node) is then positioned at the center, such that its child nodes can be placed around it. Hence, the farther a node is away from the center, the lower it is in the hierarchy. Also, the visualization will not be messed up by positioning the nodes in this way, because every node has exactly one parent. This means there won't be a spaghetti of links where you cannot see which node the link comes from and which node it is pointing to.
+Another helpful tool is d3. With d3-hierarchy\footnote{\url{https://github.com/d3/d3-hierarchy}}, it is possible to transform JSON-data into hierarchical data. Having this kind of data makes it much easier to create a tree- or cluster-structure. In the case of GuideaMaps, a clustered visualization is very useful. The \textit{main}-node (a.k.a. the root node) is then positioned at the center, such that its child nodes can be placed around it. Hence, the farther a node is away from the center, the lower it is in the hierarchy. Also, the visualization will not be messed up by positioning the nodes in this way, because every node has exactly one parent. This means there won't be a spaghetti of links where you cannot see which node the link comes from and which node it is pointing to.\\
+
+Further, d3 makes it easier to create a zoomable layout. The tool is able to update the positions of the nodes each time the zooming level is changed. Hence, as a developer, you don't have to take care of the updated positions if you make use of d3. By using this technique, the functional requirements about zooming (section \ref{sec:functional-requirements}) are achieved.
 
 \subsection{Tailwind CSS}\label{sec:tailwind}
 The style of the application is very important for the end user. Everything should look pretty and, as already mentioned in section \ref{sec:usability-requirements}, the possibilities should be straightforward and visible. While developing and creating a beautiful style for applications and websites, the code for these styles can become a big part of the implementation. Hence, a good framework is necessary to reduce the lines of style code to a reasonable number. It also helps to improve the readability of the code.\\
@@ -56,7 +58,7 @@ Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assist
 	\label{fig:examplecode-tailwindcss}
 \end{figure}
 
-The figure illustrates the difference to implement four css property-value pairs in normal css and implementing the same four with tailwind. In the case of normal css, we need four lines of code to retrieve the intended result. On the other hand, with tailwind css, we add some classes providing the same style. The classnames can be placed on a single line instead of four. This example proves that the number of lines can be decreased.
+The figure illustrates the difference to implement four CSS property-value pairs in normal CSS and implementing the same four with tailwind. In the case of normal CSS, we need four lines of code to retrieve the intended result. On the other hand, with tailwind CSS, we add some classes providing the same style. The classnames can be placed on a single line instead of four. This example proves that the number of lines can be decreased.
 
 
 
@@ -74,9 +76,9 @@ With the technologies mentioned in the previous section, the most important pill
 	\label{fig:overall-structure}
 \end{figure}
 
-The application is developed in such a way that it can be used as a library for other purposes than GuideaMaps as well. Hence, the research goal to have a generic solution is achieved. The general, always-returning part of the code can be found in App.js, ZoomableTree.js and Zoom.js, where the layout of the nodes is defined as well as the implementation to allow the user to zoom the visualization in and out. When talking about the library, the layer of the NodeComp and LinkComp is very interesting and important. For the GuideaMaps, an implementation for a GMNode and GMLink is provided. Each implementation describes what every node and every link should look like in the visualization.\\
+The application is developed in such a way that it can be used as a library for other purposes than GuideaMaps as well. Hence, the research goal to have a generic solution is achieved. The general, always-returning part of the code can be found in App.js, ZoomableTree.js and Zoom.js, where the layout of the nodes is defined as well as the implementation to allow the user to zoom the visualization in and out. When talking about the library, the layer of the NodeComp and LinkComp is very interesting and important. For GuideaMaps (GM), an implementation for a GMNode and GMLink is provided. Each implementation describes what every node and every link should look like in the visualization.\\
 
-The strength of the library can not only be seen at its genericity but also when a particular user would like to have a different representation for the nodes or the links or both. In that case, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GMNode and GMLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GMNode by MyCustomNode and GMLink by MyCustomLink. Hence, the visualization can be customized to the needs of the user. Figure \ref{fig:examplecode-library} shows the part of the code in App.js that should be adapted as explained. Note that NodeComp and LinkComp are not the only props that are passed to ZoomableTree. The others are omitted to improve the readability.
+The strength of the library is its genericity, i.e. when a particular user would like to have a different representation for the nodes or the links or both. In that case, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GMNode and GMLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GMNode by MyCustomNode and GMLink by MyCustomLink. Hence, the visualization can be customized to the needs of the user. Figure \ref{fig:examplecode-library} shows the part of the code in App.js that should be adapted as explained. Note that the shown props are not the only props that are passed to ZoomableTree. The others are omitted because they should not be changed by the user and to improve the readability.
 
 \begin{figure}[H]
 	\begin{minipage}{0.5\textwidth}
@@ -85,6 +87,9 @@ The strength of the library can not only be seen at its genericity but also when
 <ZoomableTree
     NodeComp={GMNode}
     LinkComp={GMLink}
+    EditModalComp={GMEditModal}
+    onAddNode={addGMChildNode}
+    onDeleteNode={deleteGMNode}
 />
 		\end{minted}
 		\label{lst:default-components}
@@ -96,6 +101,9 @@ The strength of the library can not only be seen at its genericity but also when
 <ZoomableTree
     NodeComp={MyCustomNode}
     LinkComp={MyCustomLink}
+    EditModalComp={MyEditModal}
+    onAddNode={function(){null}}
+    onDeleteNode={function(){null}
 />
 		\end{minted}
 		\label{lst:custom-components}
@@ -106,7 +114,9 @@ The strength of the library can not only be seen at its genericity but also when
  	%\captionof{figure}{Two listings showing the difference between the default and custom use of the library.}
 \end{figure}
 
+The reason why we chose for this approach is that now the user does not have to change anything of the default implementation. You only have to create your own components and plug them in as props for ZoomableTree and leave the implementation for GuideaMaps as it is.\\
 
+Next to custom components, you can also implement your own functions to handle changes in the visualization. For example, to add a new child node, GuideaMaps calls the function passed to the \textit{onAddNode}-prop (i.e. addGMChildNode). In a custom implementation, you can pass another function to this prop to make sure that other work is done than in the default implementation. If you don't want to allow users to add child nodes, you don't have to remove this line (because the library is created in a way to avoid changes in the default code structure) but you just replace addGMChildNode by \textit{() -> null}, a function that does not do anything.
 
 
 
@@ -152,17 +162,17 @@ This icon can assist the user in determining whether all information is filled i
 
 
 
-\subsection{Content}
+\subsection{Content}\label{sec:content}
 The content of each node is just some text describing the information corresponding to the title. As long as no content is provided by the user, a description is shown in italics to instruct the user which content to provide.
 
 
 
-\subsection{Controls}
+\subsection{Controls}\label{sec:controls}
 The last part of a node is the controls-div. With \textit{controls} we mean the different actions that a user can take concerning the particular node. The controls consist of three buttons: one to add a child node, one to ``open'' the node to view and edit the data and one to expand or collapse the node to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.
 
 
 
-\subsection{EditModal}
+\subsection{EditModal}\label{sec:editmodal}
 A click on the button to open the node opens a modal representing the data. What this modal looks like depends on the mode. If we are in map creator mode, a form will be shown to allow to change the title, the description, the content itself and the background color. In the case of the end user mode, only the content and the background color can be changed. Only the first time a child node is added and no title and description is filled in yet, the end user is able to fill in these data as well.\\
 
 When changing the background color, the user can choose to include all children or not. If the checkbox ``include children'' is checked, the background color of all child-nodes on all sublevels in the hierarchy will be changed to the new color. Otherwise, only the background color of the current node will be changed.\\
@@ -171,7 +181,7 @@ The text color is black by default. This can become a problem when the backgroun
  
 
 
-\subsection{Optional nodes}
+\subsection{Optional nodes}\label{sec:optional-nodes}
 The visualization also provides optional nodes. They can be recognized by the link between this node and its parent. A regular node is connected to its parent via a solid link, while an optional node is connected via a dashed link. A special characteristic is that these nodes can be disabled by the end user. Optional nodes contain an additional button at their right side with a lock. As long as the node is enabled, the button is represented by an open lock. A click on this button disables the node and changes the icon to a closed lock. A second click re-enables the node. Next to the lock icon, a disabled node can be recognized by its gray background and a blur so that you cannot see the content anymore.
 \addtocontents{toc}{\protect\setcounter{tocdepth}{2}} % add the following subsections again to the table of contents
 
