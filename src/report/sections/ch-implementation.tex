@@ -3,28 +3,34 @@
 The previous sections explained \textit{what} the application should do, which goals should be achieved and which requirements we surely want the application meets. In this section, more details are provided about \textit{how} all this is translated to the implementation.
 
 \section{Design Choice}
-Before we started with the actual implementation, we had to decide how to achieve the first research goal, i.e. how will we make sure the application is devide- and OS-independent? A first technique could have been to make use of the Java Virtual Machine. This approach would work but at least one big problem comes along with it. We want to make it possible to let multiple people work on the same visualization, eventually at the same time. Therefore, it is more convenient to have a browser-based application. A browser is device- and OS-independent and lots of technologies exist to create applications and visualizations for the web.
+Before we started with the actual implementation, we had to decide how to achieve Research Goal \ref{item:goal:device-os-independent}, i.e. how will we make sure the application is devide- and OS-independent? A first technique could have been to make use of the Java Virtual Machine. This approach would work but at least one big problem comes along with it. We want to make it possible to let multiple people work on the same visualization, eventually at the same time. Therefore, it is more convenient to have a browser-based application.\\
+
+Nowadays, a lot of browsers exist, each with its own characteristics and differences. Because the focus of this thesis was not to have the application perfectly working on \textit{all} browsers, we made sure that the tool works without any issues in Google Chrome. We chose for Google Chrome because this is one of the most widely used browsers in the world.
 
 % --------------------
 % --- TECHNOLOGIES ---
 % --------------------
 \section{Technologies}\label{sec:technologies}
-A number of technologies assisted in the developing process of the application. The used technologies are browser-based because we chose for a solution optimized to work in the browser. In this section, each of these technologies is discussed to explain its importance.
+A browser is device- and OS-independent and lots of technologies exist to create applications and visualizations for the web. A number of technologies assisted in the developing process of the application. The used technologies are browser-based because we chose for a solution optimized to work in the browser. In this section, each of these technologies is discussed to explain its importance.
 
 \subsection{ReactJS}\label{sec:reactjs}
 ReactJS is an open source library to create user interfaces\footnote{\url{https://reactjs.org/index.html}}. One of its main goals is to provide the best possible rendering performances\footnote{\url{https://medium.com/@thinkwik/why-reactjs-is-gaining-so-much-popularity-these-days-c3aa686ec0b3}}. Performance is high because ReactJS allows developers to break down the user interface into different components. Each component has its own \textit{state}, which contains information about the content of the component. This state can be updated while the application is running and if such an update is made, only this component is re-rendered instead of re-rendering the complete UI\footnote{\url{https://facebook.github.io/react/docs/why-react.html}}. Hence, this involves a huge benefit for the performance. Next to that, it is also not very hard to learn to code in React when comparing to other frameworks (e.g. AngularJS). If the developer knows HTML and JavaScript, he will be able to code in ReactJS quickly.\\
 
-Because of these benefits, ReactJS is the framework in which the GuideaMaps application is implemented. Each node and each link is considered as a separate and unique React Component. The most important reason for implementing the nodes like this is performance: if the state of the node is updated, only this node is re-rendered and not the complete UI.
+Because of these benefits, ReactJS is the framework in which the GuideaMaps application is implemented. Each node and each link is considered as a separate and unique React Component. The most important reason for implementing the nodes like this is performance: if the state of the node is updated, only this node is re-rendered and not the complete UI.\\
+
+Alternatives to ReactJS are for example AngularJS and VueJS\footnote{https://medium.com/@TechMagic/reactjs-vs-angular5-vs-vue-js-what-to-choose-in-2018-b91e028fa91d}. ReactJS is by far the most used of these three. Further, it is said to be easier to learn because you only have one structure (``Component'') to remember, while in AngularJS this is not the case. Also, VueJS lacks resources and is not used a lot in practice, which makes it more difficult to discuss problems with other developers. Maybe the most important benefit of ReactJS is its performance; React is really fast and our tool should have fast rendering times as well. Hence, because the alternatives seem to have some important drawbacks, we chose for ReactJS as the framework in which we created the application. 
 
 \subsection{d3}\label{sec:d3}
 Another helpful tool is d3. With d3-hierarchy\footnote{\url{https://github.com/d3/d3-hierarchy}}, it is possible to transform JSON-data into hierarchical data. Having this kind of data makes it much easier to create a tree- or cluster-structure. In the case of GuideaMaps, a clustered visualization is very useful. The \textit{main}-node (a.k.a. the root node) is then positioned at the center, such that its child nodes can be placed around it. Hence, the farther a node is away from the center, the lower it is in the hierarchy. Also, the visualization will not be messed up by positioning the nodes in this way, because every node has exactly one parent. This means there won't be a spaghetti of links where you cannot see which node the link comes from and which node it is pointing to.\\
 
-Further, d3 makes it easier to create a zoomable layout. The tool is able to update the positions of the nodes each time the zooming level is changed. Hence, as a developer, you don't have to take care of the updated positions if you make use of d3. By using this technique, the functional requirements about zooming (section \ref{sec:functional-requirements}) are achieved.
+Further, d3 makes it easier to create a zoomable layout. The tool is able to update the positions of the nodes each time the zooming level is changed. Hence, as a developer, you don't have to take care of the updated positions if you make use of d3. By using this technique, the functional requirements about zooming (section \ref{sec:functional-requirements}) are achieved.\\
+
+The alternatives for d3 are most of the time they come along with a problem d3 does not have. For example ChartJS and ChartistJS are limited in the number of features: you can create nice charts with it, but with d3 provides more functionality than only charts. Further, some of the alternatives are commercial (Highcharts, Webix). d3 is open-source and provides functionality to zoom your visualization, to create a cluster of nodes based on JSON-data describing these nodes, etc. Because of the wide range of possibilities with d3, the fact that it is widely used and supported by all modern browsers and that it is able to act together with ReactJS, we believe that d3 was a better choice than its alternatives. 
 
 \subsection{Tailwind CSS}\label{sec:tailwind}
 The style of the application is very important for the end user. Everything should look pretty and, as already mentioned in section \ref{sec:usability-requirements}, the possibilities should be straightforward and visible. While developing and creating a beautiful style for applications and websites, the code for these styles can become a big part of the implementation. Hence, a good framework is necessary to reduce the lines of style code to a reasonable number. It also helps to improve the readability of the code.\\
 
-Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assists developers to style their application. The difference with more famous frameworks, like Bootstrap, is that Tailwind CSS has no default theme. If you want to use a Bootstrap-feature, this eventually comes along with other features you don't always wanted and it can be quite hard to undo the part you didn't ask for. With tailwind on the other hand, you can grab only the features you want, without side-effects. Figure \ref{fig:examplecode-tailwindcss} shows an example with two small listings. The first uses inline style while the second makes use of tailwind CSS.\\
+Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assists developers to style their application. The difference with more famous frameworks, like Bootstrap, is that Tailwind CSS has no default theme. If you want to use a Bootstrap-feature, this eventually comes along with other features you don't always wanted and it can be quite hard to undo the part you didn't ask for. Furthermore, you have to write additional lines of style code to undo the unwanted parts. With tailwind on the other hand, you can grab only the features you want, without side-effects. Figure \ref{fig:examplecode-tailwindcss} shows an example with two small listings. The first uses inline style while the second makes use of tailwind CSS.
 
 \begin{figure}[H]
 	\begin{minipage}[b]{0.5\textwidth}
@@ -32,11 +38,11 @@ Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assist
   		\begin{minted}[linenos, escapeinside=||]{html}
 <div
   style={{
-    position: absolute|,|
-    border: 1px solid black|,|
-    borderRadius: O.25rem|,|
-    padding: 0.5rem|,|
-  }}
+    |\textcolor{red}{position:}| absolute|,|
+    |\textcolor{red}{border:}| 1px solid black|,|
+    |\textcolor{red}{borderRadius:}| O.25rem|,|
+    |\textcolor{red}{padding:}|: 0.5rem|,|
+  |\textcolor{red}{\}\}}|
 />
 		\end{minted}
 		\label{lst:no-tailwind}
@@ -48,7 +54,7 @@ Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assist
 <div
     className={
       |'|absolute border border-solid border-black rounded p-2|'|
-    }
+    |\textcolor{red}{\}}|
 />
 		\end{minted}
 		\label{lst:tailwind}
@@ -58,7 +64,9 @@ Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assist
 	\label{fig:examplecode-tailwindcss}
 \end{figure}
 
-The figure illustrates the difference to implement four CSS property-value pairs in normal CSS and implementing the same four with tailwind. In the case of normal CSS, we need four lines of code to retrieve the intended result. On the other hand, with tailwind CSS, we add some classes providing the same style. The classnames can be placed on a single line instead of four. This example proves that the number of lines can be decreased.
+The figure illustrates the difference to implement four CSS property-value pairs in normal CSS and implementing the same four with tailwind. In the case of normal CSS, we need four lines of code to retrieve the intended result. On the other hand, with tailwind CSS, we add some classes providing the same style. The classnames can be placed on a single line instead of four. This example proves that the number of lines can be decreased.\\
+
+Bootstrap can be very interesting to use in applications and websites that should run on devices with small screens (e.g. smartphones). But we already decided to not optimize our application for such devices (\ref{sec:other-requirements}) and hence Bootstrap is probably not the best framework to use in this case. Given the example and the fact that Tailwind CSS does not have a default theme, we prefer Tailwind over Bootstrap. Keep in mind that it is certainly possible to create the same application with Bootstrap, but with Tailwind CSS, the code is easier to understand.\\
 
 
 
@@ -97,13 +105,13 @@ The strength of the library is its genericity, i.e. when a particular user would
 	\end{minipage}
  	\begin{minipage}{0.5\textwidth}
   		\centering
-  		\begin{minted}{html}
+  		\begin{minted}[escapeinside=||]{html}
 <ZoomableTree
     NodeComp={MyCustomNode}
     LinkComp={MyCustomLink}
     EditModalComp={MyEditModal}
-    onAddNode={function(){null}}
-    onDeleteNode={function(){null}
+    onAddNode={()->null}
+    onDeleteNode={test}
 />
 		\end{minted}
 		\label{lst:custom-components}

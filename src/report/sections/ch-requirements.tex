@@ -18,24 +18,30 @@ Hence, there are functional and usability requirements the system should meet in
 \section{Functional Requirements}\label{sec:functional-requirements}
 
 % List of functional requirements
-\begin{description}
+\begin{enumerate}[label=\textbf{\arabic*}., ref=\arabic*]
 	
-	\item[Customization] \hfill \\
+	\item \textbf{Customization\label{item:customization}} \hfill \\
 	End users should be able to customize the visualization a bit to their needs. It should be possible to change the background color of nodes, to add child nodes and to remove nodes they don't need anymore. But end users should only be able to delete nodes they added themselves and not the nodes initialized by the map creator. Otherwise it would be possible for end users to change the complete visualization.
   
-	\item[Genericity] \hfill \\
-  The tool should be generic in such a way that it is possible to create a different design for the nodes and the links. The end user should not be restricted to the predefined design of GuideaMaps. Instead, a developer can create its own implementation for the nodes and the links, which then can be \textit{plugged in} into the system. The core of the application should be completely separated from the parts that are customizable for the end-users.
-  
-	\item[Modes And Rights] \hfill \\
+	\item \textbf{Modes And Rights\label{item:modes-rights}} \hfill \\
 	There should be two possible modes in the system: an end user mode and a map creator mode. A map creator has the rights to change the structure of the visualization, while the end user is restricted in which data he can edit. These requirements can be seen as a security mechanism to not let a particular end user mess with the visualization.
   
-	\item[Zoom the visualization] \hfill \\
+	\item \textbf{Zoom the visualization}\label{item:zoom} \hfill \\
 	As a user, you sometimes want to zoom in or out such that you get less or more information at the same time on the screen. For example, a feature to zoom is very useful in situations where you want to compare different parts of the visualization. The scrolling gesture is probably the best gesture for this action, because this is a well-known way to zoom in applications (e.g. Google Maps). Users don't like it when every application has a different gesture for the same action. Hence, it won't help them if we choose for another gesture than scrolling in GuideaMaps. Also, using the same gesture as in other applications improves the memorability and learnability of our tool.
 	
-	\item[Zoom to fit] \hfill \\
-	A variation on the zooming feature is zoom to fit (a.k.a. zoom to bounding box). With custom zooming, the user can set the zooming level to meet its needs. On the other hand, zoom to fit adapts the zooming level and moves the content of the application until everything fits on the screen. 
+	\item \textbf{Zoom to fit\label{item:zoom-to-fit}} \hfill \\
+	A variation on the zooming feature is zoom to fit (a.k.a. zoom to bounding box). With custom zooming, the user can set the zooming level to meet its needs. On the other hand, zoom to fit adapts the zooming level and moves the content of the application until everything fits on the screen.
+	
+	\item \textbf{Genericity\label{item:genericity}} \hfill \\
+	The functional requirements defined until here are specific for GuideaMaps. We want our tool to be useful in many other cases than GuideaMaps. Therefore, some requirements concerning the genericity of the application can be expressed.
+  	\begin{enumerate}
+		\item The tool should be generic in such a way that it is possible to create a different design for the nodes and the links. 
+		\item The end user should not be restricted to the predefined design of GuideaMaps. 
+		\item A developer can create its own implementation for the nodes and the links, which then can be \textit{plugged in} into the system.
+		\item The core of the application should be completely separated from the parts that are customizable for the end-users.
+	\end{enumerate}
   
-\end{description}
+\end{enumerate}
 
 
 
@@ -49,43 +55,63 @@ Next to the functional requirements, the application should meet a lot of other 
 In order to obtain a high usability, we should formulate several usability requirements for the application. Later in this thesis, when we explain the implementation details, we will come back to these requirements and discuss how we managed to meet them.
 
 % List of usability requirements
-\begin{description}
-	\item[Intuitiveness] \hfill \\
-	It is important to keep in mind that the tool should not only be used by people with experience in Computer Science. It doesn't matter whether or not the user has a background in Computer Science, he should be able to easily learn to use the system in short time. Therefore, it is important to choose for clear, not misunderstandable icons on buttons where a click on this button invokes a certain action. Some examples of these actions are (1) adding a child node, (2) explore and edit a node and (3) expand/collapse a node. Good icons\footnote{\url{https://fontawesome.com/}} for each of the mentioned actions are shown in figure \ref{fig:icons}. The icons are not ambiguous, they can only be linked to one particular action and thus the user knows exactly what to expect when clicking on the button. Well chosen icons are one of the factors in the design that help users to remember how to use the system. If they recall the meaning of the icon immediately when they see it, the users will experience the system as easy to learn and easy to remember.\\
+\begin{enumerate}[label=\textbf{\arabic*}., ref=\arabic*]
+	\item \textbf{Intuitiveness\label{item:intuitiveness}} \hfill \\
+	It is important to keep in mind that the tool should not only be used by people with experience in Computer Science. It doesn't matter whether or not the user has a background in Computer Science, he should be able to easily learn to use the system in short time. Therefore, some design choices are crucial for the level of usability. 
 	
-	If the user knows it is not possible to add child nodes, we would state that a plus- and minus-icon are also possible to indicate the possibility to expand or collapse a node. If the visualization allows to add child nodes, the plus-icon should be used for this action and not for the expand- or collapse-action.
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}{.2\textwidth}
-  		\centering
-  		\includegraphics[width=.25\linewidth]{plusicon}
-  		\caption{Plus}
-  		\label{fig:plusicon}
-	\end{subfigure}%
-	\begin{subfigure}{.2\textwidth}
-  		\centering
-  		\includegraphics[width=.25\linewidth]{magnifyingicon}
-  		\caption{Explore/Edit}
-  		\label{fig:editicon}
-	\end{subfigure}
-	\begin{subfigure}{.2\textwidth}
-  		\centering
-  		\includegraphics[width=.25\linewidth]{expandicon}
-  		\caption{Expand}
-  		\label{fig:expandicon}
-	\end{subfigure}
-	\begin{subfigure}{.2\textwidth}
-  		\centering
-  		\includegraphics[width=.25\linewidth]{collapseicon}
-  		\caption{Collapse}
-  		\label{fig:collapseicon}
-	\end{subfigure}
-	\caption{Good icons for the following actions: (a) add child node, (b) explore and edit node, (c) expand node and (d) collapse node.}
-	\label{fig:icons}
-\end{figure}
+	\begin{enumerate}
 	
-\end{description}
+		\item It is important to choose for clear, not misunderstandable icons on buttons where a click on this button invokes a certain action. Some examples of these actions are (1) adding a child node, (2) explore and edit a node and (3) expand/collapse a node. Good icons\footnote{\url{https://fontawesome.com/}} for each of the mentioned actions are shown in figure \ref{fig:icons}. The icons are not ambiguous, they can only be linked to one particular action and thus the user knows exactly what to expect when clicking on the button. Well chosen icons are one of the factors in the design that help users to remember how to use the system. If they recall the meaning of the icon immediately when they see it, the users will experience the system as easy to learn and easy to remember.\\
+	
+		If the user knows it is not possible to add child nodes, we would state that a plus- and minus-icon are also possible to indicate the possibility to expand or collapse a node. If the visualization allows to add child nodes, the plus-icon should be used for this action and not for the expand- or collapse-action.
+			\begin{figure}[H]
+				\centering
+				\begin{subfigure}{.2\textwidth}
+  					\centering
+  					\includegraphics[width=.25\linewidth]{plusicon}
+  					\caption{Plus}
+  					\label{fig:plusicon}
+				\end{subfigure}%
+				\begin{subfigure}{.2\textwidth}
+  					\centering
+  					\includegraphics[width=.25\linewidth]{magnifyingicon}
+  					\caption{Explore/Edit}
+  					\label{fig:editicon}
+				\end{subfigure}
+				\begin{subfigure}{.2\textwidth}
+  					\centering
+  					\includegraphics[width=.25\linewidth]{expandicon}
+  					\caption{Expand}
+  					\label{fig:expandicon}
+				\end{subfigure}
+				\begin{subfigure}{.2\textwidth}
+  					\centering
+  					\includegraphics[width=.25\linewidth]{collapseicon}
+  					\caption{Collapse}
+  					\label{fig:collapseicon}
+				\end{subfigure}
+				\caption{Good icons for the following actions: (a) add child node, (b) explore and edit node, (c) expand node and (d) collapse node.}
+				\label{fig:icons}
+			\end{figure}
+	
+		\item As already mentioned in the functional requirement \ref{item:zoom}, gestures for trivial actions should not differ from the gesture for the same action in other applications.
+				
+	\end{enumerate}
+	
+	\item \textbf{Learnability\label{item:learnability}} \hfill \\
+	Intuitiveness and learnability are somehow related to each other. It is easier to learn how a system works if the possibilities are intuitive and actions are not hidden.
+	
+	\item \textbf{Efficiency\label{item:efficiency}} \hfill \\
+	As a user, it should be easy to achieve your goals. The application should be created in such a way that user errors are (almost) impossible.
+	
+	\item \textbf{Accessibility\label{item:accessibility}} \hfill \\
+	The target audience of the application should be limited as little as possible. 
+	\begin{enumerate}
+		\item We don't expect the user to have a background in Computer Science or visualization techniques. 
+		\item Color blind people should still be able to use the system. We can make sure this is possible by allowing map creators to choose for colors that are distinguishable by color blind people.
+	\end{enumerate}
+	
+\end{enumerate}
 
 
 
@@ -94,8 +120,8 @@ In order to obtain a high usability, we should formulate several usability requi
 % ----------------------------------
 \section{Other Requirements}\label{sec:other-requirements}
 
-\begin{description}
-	\item[Device- and OS-independent] \hfill \\
+\begin{enumerate}[label=\textbf{\arabic*}., ref=\arabic*]
+	\item \textbf{Device- and OS-independent\label{item:device-os-independent}} \hfill \\
 	The application should run on different kinds of devices (e.g. tablets, laptops and desktops) and operating systems (Android, iOS, MacOS and Windows). While version 1.0 was only designed for an iPad, our version should provide a solution for this restriction. One of the possibilities to solve the problem is to create the application in the browser. Hence, the user should not be limited to a particular device; the tool can be used on any machine. The only restriction on the used device is that it needs to have a screen that is large enough because it is not very convenient to work with the visualization on small screen areas, e.g. on smartphones. The application could run on smartphones but it is not recommended nor required to use it on devices with relatively small screens.
 
-\end{description}
+\end{enumerate}
