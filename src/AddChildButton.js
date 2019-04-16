@@ -1,7 +1,7 @@
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as ReactDOM from 'react-dom';
-import {ChoiceNodeAllowedTypes} from './Constants';
+import {GMNodeTypes} from './Constants';
 
 class AddChildButton extends React.Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class AddChildButton extends React.Component {
 
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.updateOpenState = this.updateOpenState.bind(this);
   }
@@ -39,8 +40,18 @@ class AddChildButton extends React.Component {
     setTimeout(() => this.updateOpenState(), this.state.isOpen ? 1000 : 600);
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    const parent = this.props.node;
+    const description = event.target.description.value;
+    const title = event.target.title.value;
+    const nodeType = event.target.nodeType.value;
+    const optional = event.target.optionalNode.checked;
+    this.props.onAddNode(parent, nodeType, title, description, optional);
+    this.toggleModal();
+  }
+
   render() {
-    const {node, onAddNode} = this.props;
     return (
       <div className={'tooltip ' + this.props.width}>
         <button
@@ -86,7 +97,6 @@ class AddChildButton extends React.Component {
                 style={{
                   backgroundColor: '#fff',
                   border: '2px solid black',
-                  height: '300px',
                   //maxHeight: 500,
                   margin: '0 auto',
                   marginTop: '2%',
@@ -95,9 +105,7 @@ class AddChildButton extends React.Component {
                   maxWidth: '750px',
                 }}>
                 <div className={'flex'}>
-                  <h1 style={{width: '90%'}}>
-                    Select the type of node to insert
-                  </h1>
+                  <h1 style={{width: '90%'}}>Insert child node</h1>
                   <button
                     className={
                       'bg-grey hover:bg-grey-dark mb-2 mr-2 px-4 py-2 rounded'
@@ -123,25 +131,83 @@ class AddChildButton extends React.Component {
                     </button>
                   )}
                 </div>
-                <table
-                  className={'border-separate w-full'}
-                  style={{borderSpacing: '0 5px'}}>
-                  <tbody>
-                    {Object.keys(ChoiceNodeAllowedTypes).map(function(type) {
-                      return (
-                        ChoiceNodeAllowedTypes[type] && (
-                          <tr
+                <form onSubmit={this.handleSubmit}>
+                  <div className={'mb-4'}>
+                    <label
+                      className={
+                        'block text-grey-darker text-lg font-bold mb-2'
+                      }>
+                      Node Type
+                    </label>
+                    <select name={'nodeType'}>
+                      {Object.keys(GMNodeTypes).map(function(type) {
+                        return (
+                          <option
                             key={type}
                             className={'cursor-pointer text-center w-full'}
-                            style={{height: '50px'}}
-                            onClick={() => onAddNode(node, type)}>
-                            <td style={{border: '1px solid black'}}>{type}</td>
-                          </tr>
-                        )
-                      );
-                    })}
-                  </tbody>
-                </table>
+                            style={{height: '50px'}}>
+                            {type}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className={'mb-4'}>
+                    <label
+                      className={
+                        'block text-grey-darker text-lg font-bold mb-2'
+                      }>
+                      Title
+                    </label>
+                    <input
+                      className={
+                        'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                        'leading-tight focus:outline-none focus:shadow-outline'
+                      }
+                      name={'title'}
+                      //onChange={this.handleTitleChange}
+                      placeholder={'Node title'}
+                      type={'text'}
+                    />
+                  </div>
+                  <div className={'mb-4'}>
+                    <label
+                      className={
+                        'block font-bold mb-2 text-grey-darker text-lg'
+                      }>
+                      Description
+                    </label>
+                    <input
+                      className={
+                        'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
+                        'rounded shadow text-grey-darker w-full'
+                      }
+                      name={'description'}
+                      //onChange={this.handleDescriptionChange}
+                      placeholder={'Node description'}
+                      type={'text'}
+                    />
+                  </div>
+                  <div className={'mb-4'}>
+                    <input
+                      defaultChecked={false}
+                      id={'optionalNode'}
+                      name={'optionalNode'}
+                      type={'checkbox'}
+                    />
+                    <label htmlFor={'optionalNode'}> Optional?</label>
+                  </div>
+                  <div className={'mb-4 text-center'}>
+                    <button
+                      className={
+                        'bg-blue hover:bg-blue-dark px-4 py-2 rounded text-white'
+                      }
+                      style={{minWidth: '50%', outline: 'none'}}>
+                      <FontAwesomeIcon icon={['far', 'save']} />
+                      &nbsp;Create node!
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>,
             document.getElementById('modalSpace'),

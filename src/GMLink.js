@@ -37,7 +37,7 @@ class GMLink extends React.Component {
         fill={'none'}
         markerMid={link.target.visible ? 'url(#arrow)' : ''}
         stroke={'black'}
-        strokeDasharray={link.target.visible && link.optional ? 3 : 10000}
+        strokeDasharray={link.target.visible && link.target.data.optional ? 3 : 2500}
         style={{
           transform: `translate(${GMNodeWidth / 2}px, ${GMNodeHeight / 2}px)`,
           transition: centered && 'all 500ms ease 0s',

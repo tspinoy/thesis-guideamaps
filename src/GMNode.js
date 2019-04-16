@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  ChoiceNodeAllowedTypes,
   GMNodeTypes,
   ItemTypes,
   Modes,
@@ -64,6 +63,7 @@ class GMNode extends React.Component {
     this.completeNode = this.completeNode.bind(this);
     this.emptyChildren = this.emptyChildren.bind(this);
     this.getAllChildren = this.getAllChildren.bind(this);
+    this.handleChoiceNodeClick = this.handleChoiceNodeClick.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
 
@@ -229,11 +229,8 @@ class GMNode extends React.Component {
       let children = this.getAllChildren(node);
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
-        // choice and optional child nodes don't contribute to the completeness of the node
-        if (
-          child.data.type === GMNodeTypes.CHOICE ||
-          child.data.type === GMNodeTypes.OPTIONAL
-        ) {
+        // you don't have to check optional child nodes for completeness
+        if (child.data.optional) {
           continue;
         }
         // When an incomplete node is detected, false is immediately returned
@@ -260,11 +257,8 @@ class GMNode extends React.Component {
       let children = this.getAllChildren(node);
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
-        // you don't have to check choice nodes for completeness
-        if (
-          child.data.type === GMNodeTypes.CHOICE ||
-          child.data.type === GMNodeTypes.OPTIONAL
-        ) {
+        // you don't have to check optional child nodes for completeness
+        if (child.data.optional) {
           continue;
         }
         // When an (partially) complete node is detected, false is immediately returned
@@ -353,6 +347,10 @@ class GMNode extends React.Component {
     setTimeout(() => this.updateOpenState(), this.state.isOpen ? 1000 : 600);
   }
 
+  handleChoiceNodeClick() {
+    this.toggleModal();
+  }
+
   /**
    * To render a node, a div element is created.
    * Inside this div we have another div to display the title of the node + a second div showing the content of it.
@@ -364,18 +362,18 @@ class GMNode extends React.Component {
   render() {
     const {
       centered,
-      deleteNode,
       EditNodeComp,
       mode,
       node,
       onAddNode,
       onClick,
+      onDeleteNode,
       onEditNode,
       onNodeDataChange,
-      onNodePositionChange,
+      //onNodePositionChange,
       onNodeVisibleChildrenChange,
-      connectDragSource,
-      connectDropTarget,
+      //connectDragSource,
+      //connectDropTarget,
       isDragging, // injected by react dnd
     } = this.props;
 
@@ -405,7 +403,7 @@ class GMNode extends React.Component {
                 '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
                 '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
               }}
-              onClick={() => this.toggleModal()}>
+              onClick={() => this.handleChoiceNodeClick()}>
               <div
                 className={
                   'm-auto overflow-hidden text-base w-5/6 whitespace-no-wrap'
@@ -418,146 +416,6 @@ class GMNode extends React.Component {
                   <FontAwesomeIcon
                     icon={this.completenessIcon(node)}
                     className={'text-base'}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        );
-      case GMNodeTypes.OPTIONAL:
-        return (
-          <div
-            key={node.data.id}
-            id={'node' + node.data.id}
-            className={
-              'node absolute cursor-pointer ' +
-              'border border-solid border-black rounded ' +
-              (node.visible ? 'z-40 ' : 'z-0 ') +
-              (node.visible ? 'visibleNode ' : 'hiddenNode ')
-            }
-            style={{
-              width: GMNodeWidth,
-              height: GMNodeHeight,
-              //transform: `translate(${node.x}px, ${node.y}px)`,
-              color: node.backgroundColor,
-              backgroundColor: this.state.locked
-                ? 'lightgray'
-                : node.backgroundColor,
-              //opacity: isDragging ? 0.5 : '',
-              transition: centered && 'all 500ms ease 0s',
-              '--nodex': node.x + 'px',
-              '--nodey': node.y + 'px',
-              '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
-              '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
-            }}
-            onClick={onClick}>
-            {mode === Modes.END_USER && (
-              <div
-                className={'absolute border border-solid border-black'}
-                style={{
-                  transform:
-                    'translate(' +
-                    (GMNodeWidth - 2) +
-                    'px, ' +
-                    GMNodeHeight / 3 +
-                    'px)',
-                  borderBottomRightRadius: '50%',
-                  borderTopRightRadius: '50%',
-                }}
-                onClick={() => this.setState({locked: !this.state.locked})}>
-                <FontAwesomeIcon
-                  icon={this.state.locked ? 'lock' : 'lock-open'}
-                  style={{margin: '3px'}}
-                />
-              </div>
-            )}
-            <div
-              className={'h-full'}
-              style={{filter: this.state.locked ? 'blur(3px)' : ''}}>
-              <div // title div
-                className={'bg-white flex pb-1 pl-2 pr-2 pt-1 rounded-t'}
-                style={{
-                  borderBottom: '1px solid',
-                  borderColor: 'black',
-                  color: 'black',
-                }}>
-                <div
-                  className={
-                    'overflow-hidden ' +
-                    (node.title === '' ? 'italic text-sm ' : 'text-sm ') +
-                    'w-5/6 whitespace-no-wrap'
-                  }
-                  style={{textOverflow: 'ellipsis'}}>
-                  {node.title === '' ? 'Insert title' : node.title}
-                </div>
-                <div className={'w-1/6'}>
-                  <FontAwesomeIcon
-                    icon={this.completenessIcon(node)}
-                    className={'text-base'}
-                  />
-                </div>
-              </div>
-              <div // content div
-                className={'invertColors pb-1 pl-2 pr-2 pt-1 overflow-hidden'}
-                style={{
-                  color: node.backgroundColor, // this is inverted by the invertColors-class
-                  height: '2.6em', // 1.2 times WebkitLineClamp of the paragraph
-                }}>
-                <p
-                  className={
-                    'overflow-hidden ' +
-                    (node.content === '' ? 'italic text-sm' : 'text-sm')
-                  }
-                  style={{
-                    WebkitLineClamp: 2,
-                    display: '-webkit-box',
-                    WebkitBoxOrient: 'vertical',
-                  }}>
-                  {node.content === '' ? node.data.description : node.content}
-                </p>
-              </div>
-              <div // controls div
-                className={'absolute pin-b flex rounded-b w-full'}>
-                {mode === Modes.MAP_CREATOR && (
-                  <AddChildButton
-                    bgcolor={node.backgroundColor}
-                    locked={this.state.locked}
-                    node={node}
-                    onAddNode={onAddNode}
-                    onEditNode={onEditNode}
-                    onClick={onClick}
-                    width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
-                  />
-                )}
-                <EditButton
-                  bgcolor={node.backgroundColor}
-                  border={true}
-                  deleteNode={deleteNode}
-                  EditNodeComp={EditNodeComp}
-                  leaf={node.height === 0}
-                  locked={this.state.locked}
-                  mode={mode}
-                  node={node}
-                  onEditNode={onEditNode}
-                  onNodeDataChange={onNodeDataChange}
-                  width={
-                    node.height !== 0
-                      ? mode === Modes.MAP_CREATOR
-                        ? 'w-1/3'
-                        : 'w-1/2'
-                      : mode === Modes.MAP_CREATOR
-                      ? 'w-1/2'
-                      : 'w-full'
-                  }
-                />
-                {node.height !== 0 && (
-                  // At non-child nodes the expand-collapse button should be added
-                  <ExpandCollapseButton
-                    bgcolor={node.backgroundColor}
-                    locked={this.state.locked}
-                    node={node}
-                    onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
-                    width={mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2'}
                   />
                 )}
               </div>
@@ -631,7 +489,7 @@ class GMNode extends React.Component {
                   display: '-webkit-box',
                   WebkitBoxOrient: 'vertical',
                 }}>
-                {node.content === '' ? node.data.description : node.content}
+                {node.content === '' ? node.description : node.content}
               </p>
             </div>
             <div // controls div
@@ -649,7 +507,7 @@ class GMNode extends React.Component {
               <EditButton
                 bgcolor={node.backgroundColor}
                 border={true}
-                deleteNode={deleteNode}
+                onDeleteNode={onDeleteNode}
                 EditNodeComp={EditNodeComp}
                 leaf={node.height === 0}
                 mode={mode}

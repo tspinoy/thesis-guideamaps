@@ -2,39 +2,21 @@ import React from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import Picky from 'react-picky';
-import 'react-picky/dist/picky.css';
-
-import {
-  ChoiceNodeAllowedTypes,
-  GMNodeTypes,
-  maxZoomScale,
-  Modes,
-  updateAllowedChoiceNodeType,
-} from './Constants';
+import {maxZoomScale} from './Constants';
 import './css/App.css';
 import Zoom from './Zoom.js';
 
 class ZoomableTree extends React.Component {
-  state = {allowedNodeTypes: [], selectedId: null, nodes: null};
+  state = {selectedId: null, nodes: null};
 
   componentDidMount() {
-    // Make sure that the checkbox of already allowed types are selected
-    const allowedTypes = [];
-    Object.keys(ChoiceNodeAllowedTypes).map(function(type) {
-      if (ChoiceNodeAllowedTypes[type]) {
-        allowedTypes.push({label: type, value: GMNodeTypes[type]});
-      }
-    });
-
-    this.setState({allowedNodeTypes: allowedTypes, nodes: this.props.nodes});
+    this.setState({nodes: this.props.nodes});
   }
 
   render() {
     // The nodes can be represented by different kinds of components.
     // In the case of GuideaMaps, NodeComp = GuideaMapsNode.
     const {
-      deleteNode,
       EditNodeComp,
       height,
       LinkComp,
@@ -43,6 +25,7 @@ class ZoomableTree extends React.Component {
       NodeComp,
       nodes,
       onAddNode,
+      onDeleteNode,
       onEditNode,
       onNodeDataChange,
       onNodePositionChange,
@@ -51,39 +34,8 @@ class ZoomableTree extends React.Component {
     } = this.props;
     const {selectedId} = this.state;
 
-    const options = Object.keys(ChoiceNodeAllowedTypes).map(function(type) {
-      return {label: type, value: GMNodeTypes[type]};
-    });
-
-    const handleChange = value => {
-      console.log(value);
-      this.setState({allowedNodeTypes: value});
-      updateAllowedChoiceNodeType(value);
-    };
-
     return (
       <div className={'relative'} style={{width, height}}>
-        {mode === Modes.MAP_CREATOR && (
-          <div
-            className={'absolute pin-r'}
-            style={{
-              width: '200px',
-              zIndex: 1000000000,
-            }}>
-            <Picky
-              value={this.state.allowedNodeTypes}
-              options={options}
-              onChange={handleChange}
-              open={false}
-              valueKey={'value'}
-              labelKey={'label'}
-              multiple={true}
-              includeSelectAll={true}
-              includeFilter={true}
-              dropdownHeight={600}
-            />
-          </div>
-        )}
         <Zoom
           data={nodes}
           width={width}
@@ -134,7 +86,7 @@ class ZoomableTree extends React.Component {
                 <NodeComp
                   key={n.id}
                   mode={mode}
-                  deleteNode={deleteNode}
+                  onDeleteNode={onDeleteNode}
                   node={n}
                   onClick={() => {
                     this.setState({selectedId: n.id});

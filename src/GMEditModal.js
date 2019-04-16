@@ -126,7 +126,7 @@ class GMEditModal extends React.Component {
                   transform: 'translate(-17px, -32px)',
                 }}
                 onClick={() => {
-                  this.props.deleteNode(this.props.node.data.id);
+                  this.props.onDeleteNode(this.props.node.data.id);
                   this.props.onClose();
                 }}>
                 <FontAwesomeIcon icon={'trash-alt'} />

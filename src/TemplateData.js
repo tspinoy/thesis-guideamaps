@@ -5,6 +5,7 @@ export const ECommerceData = [
     description: 'Start here',
     id: 0,
     name: 'e-commerce',
+    optional: false,
     parent: '',
     type: GMNodeTypes.DEFAULT,
   },
@@ -14,6 +15,7 @@ export const ECommerceData = [
       'Different info about the company can be provided. Some is essential; other is optional. Select what you want to include.',
     id: 1,
     name: 'Company info',
+    optional: false,
     parent: 0, // root
     type: GMNodeTypes.DEFAULT,
   },
@@ -22,22 +24,25 @@ export const ECommerceData = [
       'Logo and colors can provide an easy identification of the website.',
     id: 2,
     name: 'Branding',
+    optional: true,
     parent: 1, // company info
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   {
     description: '',
     id: 3,
     name: 'About Us',
+    optional: true,
     parent: 1, // company info
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   {
     description: '',
     id: 4,
     name: 'Contact Us',
+    optional: true,
     parent: 1, // company info
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   // Customer
   {
@@ -45,6 +50,7 @@ export const ECommerceData = [
       'It is important to keep track of your customers; different features are available for this.',
     id: 5,
     name: 'Customer',
+    optional: false,
     parent: 0, // root
     type: GMNodeTypes.DEFAULT,
   },
@@ -53,21 +59,24 @@ export const ECommerceData = [
       'With a profile you keep track of all preferences and billing information for a customer.',
     id: 6,
     name: 'Profile',
+    optional: true,
     parent: 5, // Customer
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   {
     description:
       'To be able to login a customer first has to register; different possibilities are available for this.',
     id: 7,
     name: 'Registration',
+    optional: false,
     parent: 5, // Customer
     type: GMNodeTypes.CHOICE,
   },
   {
     description: 'You can provide different services to your customers.',
     id: 8,
-    name: 'OPTIONAL! Customer Services',
+    name: 'Customer Services',
+    optional: true,
     parent: 5, // Customer
     type: GMNodeTypes.CHOICE,
   },
@@ -76,6 +85,7 @@ export const ECommerceData = [
     description: '',
     id: 9,
     name: 'Buying Goods',
+    optional: false,
     parent: 5, // Customer
     type: GMNodeTypes.DEFAULT,
   },
@@ -84,6 +94,7 @@ export const ECommerceData = [
       'A shopping cart feature is mandatory; it allows customer to buy products.',
     id: 10,
     name: 'Shopping Cart',
+    optional: false,
     parent: 9, // Buying goods
     type: GMNodeTypes.DEFAULT,
   },
@@ -92,6 +103,7 @@ export const ECommerceData = [
       'This functionality allows the customer to actually place his order.',
     id: 11,
     name: 'Checkout',
+    optional: false,
     parent: 9, // Buying goods
     type: GMNodeTypes.DEFAULT,
   },
@@ -99,6 +111,7 @@ export const ECommerceData = [
     description: '',
     id: 12,
     name: 'Payment Method',
+    optional: false,
     parent: 9, // Buying goods
     type: GMNodeTypes.CHOICE,
   },
@@ -108,6 +121,7 @@ export const ECommerceData = [
       'A lot of information can be provided about product. Select what you want to include.',
     id: 13,
     name: 'Product',
+    optional: false,
     parent: 0, // Root
     type: GMNodeTypes.DEFAULT,
   },
@@ -116,23 +130,26 @@ export const ECommerceData = [
       'You can group products into categories, which will make searching for products easier, especially if there are many products.',
     id: 14,
     name: 'Product Category',
+    optional: true,
     parent: 13, // Product
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   {
     description:
       'It may be useful to let customers compare different products.',
     id: 15,
     name: 'Product Comparison',
+    optional: true,
     parent: 13, // Product
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   {
     description: 'Customers like to see an image or a 3D model of a product.',
     id: 16,
     name: 'Product Visualization',
+    optional: true,
     parent: 13, // Product
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   // Shopping Experience
   {
@@ -140,6 +157,7 @@ export const ECommerceData = [
       'Products should be as visible as possible. There are different ways to achieve this: hot list, frequently bought, ...',
     id: 17,
     name: 'Shopping Experience',
+    optional: false,
     parent: 0, // Root
     type: GMNodeTypes.DEFAULT,
   },
@@ -149,6 +167,7 @@ export const ECommerceData = [
       'A customer should be able to easily find products. Select at least on possibility.',
     id: 18,
     name: 'Searching',
+    optional: false,
     parent: 0, // Root
     type: GMNodeTypes.CHOICE,
   },
@@ -158,16 +177,18 @@ export const ECommerceData = [
       'Product availability and prices may be dependent on the country or region.',
     id: 19,
     name: 'Region Selection',
+    optional: true,
     parent: 0, // Root
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   // Language Selection
   {
     description: 'This allows customers to select their own language.',
     id: 20,
     name: 'Language Selection',
+    optional: true,
     parent: 0, // Root
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   // Share
   {
@@ -175,8 +196,9 @@ export const ECommerceData = [
       'This allows a customer to share information over a social network.',
     id: 21,
     name: 'Share',
+    optional: true,
     parent: 0, // Root
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
   // Like
   {
@@ -184,7 +206,8 @@ export const ECommerceData = [
       'A "like" button provides the customer a way of expressing his feelings about a product.',
     id: 22,
     name: 'Like',
+    optional: true,
     parent: 0, // Root
-    type: GMNodeTypes.OPTIONAL,
+    type: GMNodeTypes.DEFAULT,
   },
 ];

@@ -79,7 +79,7 @@ class ZoomContainer extends Component {
         y: PropTypes.number,
       }),
     ),
-    selectedId: PropTypes.oneOf(PropTypes.number, null),
+    selectedId: PropTypes.oneOf(null, PropTypes.number),
     delay: PropTypes.number,
   };
 

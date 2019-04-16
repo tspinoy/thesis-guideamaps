@@ -11,18 +11,16 @@ export const ItemTypes = {
 export const GMNodeTypes = {
   DEFAULT: 'default',
   CHOICE: 'choice',
-  OPTIONAL: 'optional',
 };
 
 /**
  * Via a CHOICE node, an end user can choose which type the child node should be.
  * Depending on the booleans in this object, types are (dis)allowed.
- * @type {{OPTIONAL: boolean, CHOICE: boolean, DEFAULT: boolean}}
+ * @type {{CHOICE: boolean, DEFAULT: boolean}}
  */
 export const ChoiceNodeAllowedTypes = {
   DEFAULT: true,
   CHOICE: true,
-  OPTIONAL: true,
 };
 
 /**
@@ -144,30 +142,6 @@ export const initializeGMNode = (
  */
 export const initializeGMLink = link => {
   // Mark all edges to OPTIONAL nodes as optional.
-  link.optional = link.target.data.type === GMNodeTypes.OPTIONAL;
+  link.optional = link.target.data.optional;
   return link;
-};
-
-/**
- * The map creator can indicate which node types an end user can add from a choice node.
- * @param allowedTypes: an array containing the node types that are allowed
- */
-export const updateAllowedChoiceNodeType = allowedTypes => {
-  // Start by disallowing all node types
-  Object.keys(ChoiceNodeAllowedTypes).forEach(function(type) {
-    ChoiceNodeAllowedTypes[type] = false;
-  });
-
-  // Loop over the allowed types indicated by the map creator.
-  // These are of the form '{label: Something, value: SomethingElse}'.
-  allowedTypes.forEach(function(allowedType) {
-    // Loop over the GMNodeTypes as well.
-    Object.keys(GMNodeTypes).forEach(function(type) {
-      // If the type indicated by the map creator corresponds to the type we encounter while looping ...
-      if (GMNodeTypes[type] === allowedType['value']) {
-        // ... then set this type as allowed.
-        ChoiceNodeAllowedTypes[type] = true;
-      }
-    });
-  });
 };

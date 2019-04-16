@@ -49,28 +49,34 @@
 
 @keyframes linkOut {
     from {
+        visibility: visible;
         stroke-dashoffset: 0;
     }
     to {
-        stroke-dashoffset: 10000;
+        visibility: hidden;
+        stroke-dashoffset: 2500;
     }
 }
 
 @keyframes linkIn {
-    from {
-        stroke-dashoffset: 10000;
+    0% {
+        visibility: hidden;
+        stroke-dashoffset: 2500;
     }
-    to {
+    50% {
+        visibility: visible;
+    }
+    100% {
         stroke-dashoffset: 0;
     }
 }
 
 .visibleLink {
-    animation: linkIn 3000ms ease-in-out forwards;
+    animation: linkIn 1500ms ease-in-out forwards;
 }
 
 .hiddenLink {
-    animation: linkOut 250ms ease-in-out forwards;
+    animation: linkOut 200ms ease-in-out forwards;
 }
 
 @keyframes moveIn {

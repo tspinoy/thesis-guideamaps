@@ -210,13 +210,18 @@ class App extends Component {
      * Add a child node to the current node, which will become the {@param parent} of the new node.
      * @param parent
      * @param type
+     * @param title
+     * @param description
+     * @param optional
      */
-    const addGMChildNode = (parent, type = null) => {
+    const addGMChildNode = (parent, type = null, title, description, optional) => {
       currentData.push({
         id: this.state.nodes[this.state.nodes.length - 1].data.id + 1,
-        name: '',
-        type: type === null ? GMNodeTypes.DEFAULT : GMNodeTypes[type],
+        description: description,
+        name: title,
+        optional: optional,
         parent: parseInt(parent.id),
+        type: type === null ? GMNodeTypes.DEFAULT : GMNodeTypes[type],
       });
 
       setRoot(currentData);
@@ -239,6 +244,8 @@ class App extends Component {
           ),
         );
       setClusterLinks();
+
+      console.log(clusterNodes);
 
       this.setState({nodes: clusterNodes, links: clusterLinks});
     };
@@ -490,28 +497,33 @@ class App extends Component {
         )}
         <div className={'w-screen flex justify-center items-center mt-5'}>
           <ZoomableTree
-            width={width}
+            // Fixed props
             height={height}
+            links={this.state.links}
             mode={this.state.mode}
+            nodes={this.state.nodes}
+            nodeOptions={nodeOptions} // remove this
+            onEditNode={() => editNode()}
+            width={width}
+            // Variable props
+            EditNodeComp={
+              current_visualization === PLATEFORMEDD ? PDDEditModal : GMEditModal
+            }
+            LinkComp={current_visualization === PLATEFORMEDD ? PDDLink : GMLink}
             NodeComp={
               current_visualization === PLATEFORMEDD ? PDDNode : GuideaMapsNode
             }
-            links={this.state.links}
-            nodes={this.state.nodes}
             onAddNode={
               current_visualization === PLATEFORMEDD
                 ? () => null
-                : (parent, type) => addGMChildNode(parent, type)
+                : (parent, type, title, description, optional) =>
+                    addGMChildNode(parent, type, title, description, optional)
             }
-            deleteNode={
+            onDeleteNode={
               current_visualization === PLATEFORMEDD
                 ? () => null
                 : nodeId => deleteGMNode(nodeId)
             }
-            EditNodeComp={
-              current_visualization === PLATEFORMEDD ? PDDEditModal : GMEditModal
-            }
-            onEditNode={() => editNode()}
             onNodeDataChange={
               current_visualization === PLATEFORMEDD
                 ? () => null
@@ -534,8 +546,6 @@ class App extends Component {
             onNodeVisibleChildrenChange={nodeId =>
               updateGMNodeVisibleChildren(nodeId)
             }
-            nodeOptions={nodeOptions}
-            LinkComp={current_visualization === PLATEFORMEDD ? PDDLink: GMLink}
           />
         </div>
 
