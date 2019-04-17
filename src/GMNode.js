@@ -448,12 +448,33 @@ class GMNode extends React.Component {
               '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
             }}
             onClick={onClick}>
+            {mode === Modes.END_USER && node.data.optional && (
+              <div
+                className={'absolute border border-solid border-black'}
+                style={{
+                  transform:
+                    'translate(' +
+                    (GMNodeWidth - 2) +
+                    'px, ' +
+                    GMNodeHeight / 3 +
+                    'px)',
+                  borderBottomRightRadius: '50%',
+                  borderTopRightRadius: '50%',
+                }}
+                onClick={() => this.setState({locked: !this.state.locked})}>
+                <FontAwesomeIcon
+                  icon={this.state.locked ? 'lock' : 'lock-open'}
+                  style={{margin: '3px'}}
+                />
+              </div>
+            )}
             <div // title div
               className={'bg-white flex pb-1 pl-2 pr-2 pt-1 rounded-t'}
               style={{
                 borderBottom: '1px solid',
                 borderColor: 'black',
                 color: 'black',
+                filter: this.state.locked ? 'blur(3px)' : '',
               }}>
               <div
                 className={
@@ -477,6 +498,7 @@ class GMNode extends React.Component {
               }
               style={{
                 color: node.backgroundColor, // this is inverted by the invertColors-class
+                filter: this.state.locked ? 'blur(3px)' : '',
                 height: '2.6em', // 1.2 times WebkitLineClamp of the paragraph
               }}>
               <p
@@ -493,10 +515,12 @@ class GMNode extends React.Component {
               </p>
             </div>
             <div // controls div
-              className={'absolute pin-b flex rounded-b w-full'}>
+              className={'absolute pin-b flex rounded-b w-full'}
+              style={{filter: this.state.locked ? 'blur(3px)' : ''}}>
               {mode === Modes.MAP_CREATOR && (
                 <AddChildButton
                   bgcolor={node.backgroundColor}
+                  locked={this.state.locked}
                   node={node}
                   onAddNode={onAddNode}
                   onEditNode={onEditNode}
@@ -510,6 +534,7 @@ class GMNode extends React.Component {
                 onDeleteNode={onDeleteNode}
                 EditNodeComp={EditNodeComp}
                 leaf={node.height === 0}
+                locked={this.state.locked}
                 mode={mode}
                 node={node}
                 onEditNode={onEditNode}
@@ -520,6 +545,7 @@ class GMNode extends React.Component {
                 // At non-child nodes the expand-collapse button should be added
                 <ExpandCollapseButton
                   bgcolor={node.backgroundColor}
+                  locked={this.state.locked}
                   node={node}
                   onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
                   width={mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2'}
