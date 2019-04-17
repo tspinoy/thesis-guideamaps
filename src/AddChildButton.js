@@ -173,10 +173,10 @@ class AddChildButton extends React.Component {
                     Node Type
                   </label>
                   <select
-                    className={'mb-4'}
+                    className={'border border-solid mb-4'}
                     id={'nodeType'}
                     onChange={this.handleNodeTypeChange}
-                    required={true}>
+                    style={{height: '35px', outline: 'none', width: '150px'}}>
                     <option disabled={true} selected={'selected'}>
                       Select node type
                     </option>
@@ -191,7 +191,7 @@ class AddChildButton extends React.Component {
                       );
                     })}
                   </select>
-                  {this.state.childNodeType === GMNodeTypes.CHOICE ? (
+                  {this.state.childNodeType === GMNodeTypes.CHOICE && (
                     <div className={'mb-4'}>
                       <label
                         className={
@@ -200,8 +200,14 @@ class AddChildButton extends React.Component {
                         Choice Type
                       </label>
                       <select
+                        className={'border border-solid'}
                         id={'choiceType'}
-                        onChange={this.handleChoiceTypeChange}>
+                        onChange={this.handleChoiceTypeChange}
+                        style={{
+                          height: '35px',
+                          outline: 'none',
+                          width: '150px',
+                        }}>
                         <option disabled={true} selected={'selected'}>
                           Choose here
                         </option>
@@ -228,7 +234,8 @@ class AddChildButton extends React.Component {
                         })}
                       </select>
                     </div>
-                  ) : (
+                  )}
+                  {this.state.childNodeType === GMNodeTypes.DEFAULT && (
                     <div className={'mb-4'}>
                       <label
                         className={
@@ -238,7 +245,7 @@ class AddChildButton extends React.Component {
                       </label>
                       <input
                         className={
-                          'shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                          'mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
                           'leading-tight focus:outline-none focus:shadow-outline'
                         }
                         name={'title'}
@@ -246,10 +253,6 @@ class AddChildButton extends React.Component {
                         placeholder={'Node title'}
                         type={'text'}
                       />
-                    </div>
-                  )}
-                  {this.state.childNodeType !== GMNodeTypes.CHOICE && (
-                    <div className={'mb-4'}>
                       <label
                         className={
                           'block font-bold mb-2 text-grey-darker text-lg'
