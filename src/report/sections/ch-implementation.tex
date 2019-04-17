@@ -91,13 +91,10 @@ The strength of the library is its genericity, i.e. when a particular user would
 \begin{figure}[H]
 	\begin{minipage}{0.5\textwidth}
  		 \centering
-		 \begin{minted}[linenos]{html}
+		 \begin{minted}[linenos, escapeinside=||]{html}
 <ZoomableTree
-    NodeComp={GMNode}
-    LinkComp={GMLink}
-    EditModalComp={GMEditModal}
-    onAddNode={addGMChildNode}
-    onDeleteNode={deleteGMNode}
+    |\textcolor{mygreen}{NodeComp}|=|\textcolor{red}{\{GMNode\}}|
+    |\textcolor{mygreen}{LinkComp}|=|\textcolor{red}{\{GMLink\}}|
 />
 		\end{minted}
 		\label{lst:default-components}
@@ -107,11 +104,8 @@ The strength of the library is its genericity, i.e. when a particular user would
   		\centering
   		\begin{minted}[escapeinside=||]{html}
 <ZoomableTree
-    NodeComp={MyCustomNode}
-    LinkComp={MyCustomLink}
-    EditModalComp={MyEditModal}
-    onAddNode={()->null}
-    onDeleteNode={test}
+    |\textcolor{mygreen}{NodeComp}|=|\textcolor{red}{\{MyCustomNode\}}|
+    |\textcolor{mygreen}{LinkComp}|=|\textcolor{red}{\{MyCustomLink\}}|
 />
 		\end{minted}
 		\label{lst:custom-components}
@@ -145,7 +139,7 @@ The nodes represent a specific part of the data and the links illustrate the rel
 
 The right part of the navigation bar contains a single button. A click on this button makes sure the visualization is zoomed to a certain level where all nodes fit on the screen. This is one of the reasons why we mentioned in the requirements (section \ref{sec:other-requirements}) that the screen of the used device should not be too small.\\
 
-The left part is created to be able to switch between the user roles \textcolor{red}{or modes???} (i.e. end user or map creator). A map creator has more rights and hence he can perform more actions than an end user. In the following subsections, the differences between these roles \textcolor{red}{or modes???} is elaborated.
+The left part is created to be able to switch between the user modes (i.e. end user or map creator). A map creator has more rights and hence he can perform more actions than an end user. In the following subsections, the differences between these modes is elaborated.
 
 \begin{figure}[H]
 	\centering
@@ -176,17 +170,43 @@ The content of each node is just some text describing the information correspond
 
 
 \subsection{Controls}\label{sec:controls}
-The last part of a node is the controls-div. With \textit{controls} we mean the different actions that a user can take concerning the particular node. The controls consist of three buttons: one to add a child node, one to ``open'' the node to view and edit the data and one to expand or collapse the node to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.
+The last part of a node is the controls-div. With \textit{controls} we mean the different actions that a user can take concerning the particular node. The number of actions a user can perform depends on the mode. An end user has two buttons: one to ``open'' the node to view and edit the data and one to expand or collapse the node to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.\\
+
+Because a map creator is allowed to add child nodes, a third button can be found in its controls-div of the node. A click on this button opens a small modal, where some information about the new node should be provided before the node can be created. Figure \ref{fig:gm-add-default} illustrates what the modal looks like when the user wants to add a default node. He has to start by selecting the option ``Default'' at the top, after which two input fields appear to insert a title and a description for the node. A click on the button at the bottom will add a child node of the selected type and with the provided title and description.\\
+
+It is possible to add an \textit{empty} node if the user does not provide a title and/or a description. Even though it is not really useful to add nodes without any context, we only require the user to select the type of the child node. If the type is unknown, the node will not be added. An example case where a map creator would add an empty node is when he wants to remind himself a child node is necessary at that place, but currently he does not know exactly what data the node should contain.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{GMAddChildNodeModal-Default.png}
+	\caption{The edit modal in map creator mode.}
+	\label{fig:gm-add-default}
+\end{figure}
+
+\textcolor{red}{TODO: describe addition of choice nodes}
 
 
 
 \subsection{EditModal}\label{sec:editmodal}
-A click on the button to open the node opens a modal representing the data. What this modal looks like depends on the mode. If we are in map creator mode, a form will be shown to allow to change the title, the description, the content itself and the background color. In the case of the end user mode, only the content and the background color can be changed. Only the first time a child node is added and no title and description is filled in yet, the end user is able to fill in these data as well.\\
+A click on the button to open the node opens a modal representing the data. What this modal looks like depends on the mode. If we are in map creator mode, a form will be shown to allow to change the title, the description, the content itself and the background color (Figure \ref{fig:gm-editmodal-mapcreator}). In the case of the end user mode (Figure \ref{fig:gm-editmodal-enduser}), only the content and the background color can be changed. Only the first time a child node is added and no title and description is filled in yet, the end user is able to fill in these data as well.\\
 
 When changing the background color, the user can choose to include all children or not. If the checkbox ``include children'' is checked, the background color of all child-nodes on all sublevels in the hierarchy will be changed to the new color. Otherwise, only the background color of the current node will be changed.\\
 
 The text color is black by default. This can become a problem when the background color is changed to a dark color and certainly when it is black as well because then the text is not readable anymore. To solve this issue, we wrote some CSS rules that change the text-color depending on the background color. A black (or dark) background will result in white text and a white (or light) background results in black text.
- 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{GMEditModal-MapCreator.png}
+	\caption{The edit modal in map creator mode.}
+	\label{fig:gm-editmodal-mapcreator}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{GMEditModal-EndUser.png}
+	\caption{The edit modal in end user mode.}
+	\label{fig:gm-editmodal-enduser}
+\end{figure}
 
 
 \subsection{Optional nodes}\label{sec:optional-nodes}
