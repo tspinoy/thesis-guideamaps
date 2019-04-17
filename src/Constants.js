@@ -6,21 +6,11 @@ export const ItemTypes = {
 
 /**
  * Different node types
- * @type {{OPTIONAL: string, CHOICE: string, DEFAULT: string}}
+ * @type {{CHOICE: string, DEFAULT: string}}
  */
 export const GMNodeTypes = {
-  DEFAULT: 'default',
-  CHOICE: 'choice',
-};
-
-/**
- * Via a CHOICE node, an end user can choose which type the child node should be.
- * Depending on the booleans in this object, types are (dis)allowed.
- * @type {{CHOICE: boolean, DEFAULT: boolean}}
- */
-export const ChoiceNodeAllowedTypes = {
-  DEFAULT: true,
-  CHOICE: true,
+  DEFAULT: 'Default',
+  CHOICE: 'Choice',
 };
 
 /**
@@ -141,7 +131,6 @@ export const initializeGMNode = (
  * @return {*}: the link with all information
  */
 export const initializeGMLink = link => {
-  // Mark all edges to OPTIONAL nodes as optional.
-  link.optional = link.target.data.optional;
+  //link.optional = link.target.data.optional;
   return link;
 };

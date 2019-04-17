@@ -51,6 +51,7 @@ import {
   faCircle as faCircleRegular,
   faSave,
 } from '@fortawesome/free-regular-svg-icons';
+import {ChoiceNodeData} from './ChoiceNodeData';
 library.add(
   faAdjust,
   faCircleRegular,
@@ -209,20 +210,63 @@ class App extends Component {
     /**
      * Add a child node to the current node, which will become the {@param parent} of the new node.
      * @param parent
-     * @param type
+     * @param nodeType
+     * @param choiceNodeType
+     * @param choiceNodeCategory
      * @param title
      * @param description
      * @param optional
      */
-    const addGMChildNode = (parent, type = null, title, description, optional) => {
-      currentData.push({
-        id: this.state.nodes[this.state.nodes.length - 1].data.id + 1,
-        description: description,
-        name: title,
-        optional: optional,
-        parent: parseInt(parent.id),
-        type: type === null ? GMNodeTypes.DEFAULT : GMNodeTypes[type],
-      });
+    const addGMChildNode = (
+      parent,
+      nodeType,
+      choiceNodeCategory,
+      choiceNodeType,
+      title,
+      description,
+      optional,
+    ) => {
+      console.log(optional);
+      let nextId = this.state.nodes[this.state.nodes.length - 1].data.id + 1;
+      if (nodeType === GMNodeTypes.CHOICE) {
+        const choiceNodeId =
+          this.state.nodes[this.state.nodes.length - 1].data.id + 1;
+        currentData.push({
+          id: choiceNodeId,
+          description: description,
+          name: ChoiceNodeData[choiceNodeCategory][choiceNodeType].name,
+          optional: optional,
+          parent: parseInt(parent.id),
+          type: nodeType,
+        });
+        const obj = ChoiceNodeData[choiceNodeCategory][choiceNodeType].choices;
+        for (const key in obj) {
+          // optional check for properties from prototype chain
+          if (obj.hasOwnProperty(key)) {
+            // not a property from prototype chain
+            let value = obj[key];
+            currentData.push({
+              id: ++nextId,
+              description: value.description,
+              name: value.name,
+              optional: optional,
+              parent: choiceNodeId,
+              type: GMNodeTypes.DEFAULT,
+            });
+          } else {
+            // property from prototype chain
+          }
+        }
+      } else {
+        currentData.push({
+          id: nextId,
+          description: description,
+          name: title,
+          optional: optional,
+          parent: parseInt(parent.id),
+          type: GMNodeTypes[nodeType],
+        });
+      }
 
       setRoot(currentData);
       setCluster(50);
@@ -516,8 +560,24 @@ class App extends Component {
             onAddNode={
               current_visualization === PLATEFORMEDD
                 ? () => null
-                : (parent, type, title, description, optional) =>
-                    addGMChildNode(parent, type, title, description, optional)
+                : (
+                    parent,
+                    nodeType,
+                    choiceNodeCategory,
+                    choiceNodeType,
+                    title,
+                    description,
+                    optional,
+                  ) =>
+                    addGMChildNode(
+                      parent,
+                      nodeType,
+                      choiceNodeCategory,
+                      choiceNodeType,
+                      title,
+                      description,
+                      optional,
+                    )
             }
             onDeleteNode={
               current_visualization === PLATEFORMEDD
