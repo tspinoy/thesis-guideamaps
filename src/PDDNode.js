@@ -49,6 +49,7 @@ class PDDNode extends React.Component {
     this.props.onClick();
     if (
       this.props.centered &&
+      this.props.node.data.id !== 0 &&
       parseInt(this.props.lastSelectedId) === this.props.node.data.id
     ) {
       document.getElementById('editbtn' + this.props.node.data.id).click();
