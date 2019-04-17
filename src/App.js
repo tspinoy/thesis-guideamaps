@@ -5,13 +5,10 @@ import * as d3 from 'd3';
 import logo from './logo.svg';
 
 import {
-  GMNodeHeight,
   GMNodeTypes,
-  GMNodeWidth,
   initializeGMLink,
   initializeGMNode,
   Modes,
-  PDDNodeHeight,
   PDDNodeWidth,
 } from './Constants';
 import ZoomableTree from './ZoomableTree';
@@ -22,11 +19,11 @@ import {GMData2} from './GMData';
 import GMEditModal from './GMEditModal';
 
 import PDDNode from './PDDNode';
-import {PDDData, PDDData2} from './PDDData';
+import {PDDData2} from './PDDData';
 import PDDEditModal from './PDDEditModal';
 import PDDLink from './PDDLink';
 
-import {ECommerceData} from './TemplateData';
+import {TemplateData} from './TemplateData';
 
 // Font Awesome for SVG icons
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -74,7 +71,6 @@ const windowWidth = window.innerWidth;
 const windowHeight = window.innerHeight;
 const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 
-const ECOMMERCE = 'e-commerce';
 const EMPTY = 'New map';
 const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
@@ -83,26 +79,36 @@ let current_visualization = GUIDEAMAPS;
 let currentData = null;
 
 const setCurrentData = () => {
-  switch (current_visualization) {
-    case EMPTY:
-      currentData = [
-        {
-          id: 0,
-          name: 'name',
-          type: GMNodeTypes.DEFAULT,
-          parent: '',
-        },
-      ];
-      break;
-    case ECOMMERCE:
-      currentData = ECommerceData;
-      break;
-    case PLATEFORMEDD:
-      currentData = PDDData2;
-      break;
-    default:
-      currentData = GMData2;
-      break;
+  // First check whether we will show a template.
+  let template = false;
+  Object.keys(TemplateData).map(function(t) {
+    if (current_visualization === TemplateData[t].name) {
+      currentData = TemplateData[t].nodes;
+      template = true;
+    }
+  });
+
+  // If it is not a template, it is one of the predefined visualizations (GM or PDD)
+  // or an empty visualization (with a single node as starting point.
+  if (!template) {
+    switch (current_visualization) {
+      case EMPTY:
+        currentData = [
+          {
+            id: 0,
+            name: 'name',
+            type: GMNodeTypes.DEFAULT,
+            parent: '',
+          },
+        ];
+        break;
+      case PLATEFORMEDD:
+        currentData = PDDData2;
+        break;
+      default:
+        currentData = GMData2;
+        break;
+    }
   }
 };
 
@@ -519,8 +525,17 @@ class App extends Component {
                   {/* TODO: If you have a server, you can load the names of the saved visualizations here. */}
                 </optgroup>
                 <optgroup label={'Available templates'}>
-                  <option value={ECOMMERCE}>{ECOMMERCE}</option>
-                  {/* TODO: If you have a server and more templates, you can load the names of the templates here. */}
+                  {Object.keys(TemplateData).map(function(template) {
+                    return (
+                      <option
+                        key={template}
+                        className={'cursor-pointer text-center w-full'}
+                        style={{height: '50px'}}
+                        value={TemplateData[template].name}>
+                        {TemplateData[template].name}
+                      </option>
+                    );
+                  })}
                 </optgroup>
                 <optgroup label={'Create new map'}>
                   <option value={EMPTY}>{EMPTY}</option>
