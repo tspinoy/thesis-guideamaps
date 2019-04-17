@@ -271,9 +271,13 @@ class AddChildButton extends React.Component {
                       />
                     </div>
                   )}
-                  <div className={'mb-4'}>
+                  <div
+                    className={'mb-4'}
+                    style={{
+                      display: this.props.node.data.optional ? 'none' : 'block',
+                    }}>
                     <input
-                      defaultChecked={false}
+                      defaultChecked={this.props.node.data.optional}
                       id={'optionalNode'}
                       name={'optionalNode'}
                       type={'checkbox'}
