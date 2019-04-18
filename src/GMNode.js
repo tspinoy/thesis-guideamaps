@@ -362,16 +362,16 @@ class GMNode extends React.Component {
   render() {
     const {
       centered,
-      EditNodeComp,
+      EditModalComp,
       mode,
       node,
       onAddNode,
       onClick,
       onDeleteNode,
       onEditNode,
-      onNodeDataChange,
+      onNodeUpdate,
       //onNodePositionChange,
-      onNodeVisibleChildrenChange,
+      onVisibleChildrenUpdate,
       //connectDragSource,
       //connectDropTarget,
       isDragging, // injected by react dnd
@@ -532,13 +532,13 @@ class GMNode extends React.Component {
                 bgcolor={node.backgroundColor}
                 border={true}
                 onDeleteNode={onDeleteNode}
-                EditNodeComp={EditNodeComp}
+                EditModalComp={EditModalComp}
                 leaf={node.height === 0}
                 locked={this.state.locked}
                 mode={mode}
                 node={node}
                 onEditNode={onEditNode}
-                onNodeDataChange={onNodeDataChange}
+                onNodeUpdate={onNodeUpdate}
                 width={node.height !== 0 ? (mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2') : (mode === Modes.MAP_CREATOR ? 'w-1/2' : 'w-full')}
               />
               {node.height !== 0 && (
@@ -547,7 +547,7 @@ class GMNode extends React.Component {
                   bgcolor={node.backgroundColor}
                   locked={this.state.locked}
                   node={node}
-                  onNodeVisibleChildrenChange={onNodeVisibleChildrenChange}
+                  onVisibleChildrenUpdate={onVisibleChildrenUpdate}
                   width={mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2'}
                 />
               )}

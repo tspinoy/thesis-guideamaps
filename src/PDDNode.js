@@ -23,7 +23,7 @@ class PDDNode extends React.Component {
       .getElementById('node' + this.props.node.data.id)
       .addEventListener('dblclick', () => {
         this.props.node.children !== undefined &&
-          this.props.onNodeVisibleChildrenChange(this.props.node.data.id);
+          this.props.onVisibleChildrenUpdate(this.props.node.data.id);
       });
   }
 
@@ -60,8 +60,8 @@ class PDDNode extends React.Component {
     const {
       node,
       onEditNode,
-      EditNodeComp,
-      onNodeDataChange,
+      EditModalComp,
+      onNodeUpdate,
       centered,
     } = this.props;
 
@@ -117,12 +117,12 @@ class PDDNode extends React.Component {
               <EditButton
                 bgcolor={node.data.image !== '' ? '#ffffff' : '#000000'}
                 border={false}
-                EditNodeComp={EditNodeComp}
+                EditModalComp={EditModalComp}
                 iconSize={'lg'}
                 leaf={node.height === 0}
                 node={node}
                 onEditNode={onEditNode}
-                onNodeDataChange={onNodeDataChange}
+                onNodeUpdate={onNodeUpdate}
                 tooltiptext={false}
                 width={'w-full'}
               />
@@ -160,7 +160,7 @@ class PDDNode extends React.Component {
               }}
               onClick={() => {
                 this.props.onClick();
-                this.props.onNodeVisibleChildrenChange(this.props.node.data.id);
+                this.props.onVisibleChildrenUpdate(this.props.node.data.id);
               }}>
               <FontAwesomeIcon
                 icon={node.visibleChildren ? 'minus' : 'plus'}

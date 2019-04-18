@@ -300,6 +300,10 @@ class App extends Component {
       this.setState({nodes: clusterNodes, links: clusterLinks});
     };
 
+    /**
+     * Delete a node with a specific id.
+     * @param nodeId: the id of the node to be deleted
+     */
     const deleteGMNode = nodeId => {
       const index = currentData.findIndex(node => node.id === nodeId);
       currentData.splice(index, 1); // remove the node from currentData.
@@ -565,8 +569,10 @@ class App extends Component {
             onEditNode={() => editNode()}
             width={width}
             // Variable props
-            EditNodeComp={
-              current_visualization === PLATEFORMEDD ? PDDEditModal : GMEditModal
+            EditModalComp={
+              current_visualization === PLATEFORMEDD
+                ? PDDEditModal
+                : GMEditModal
             }
             LinkComp={current_visualization === PLATEFORMEDD ? PDDLink : GMLink}
             NodeComp={
@@ -599,7 +605,7 @@ class App extends Component {
                 ? () => null
                 : nodeId => deleteGMNode(nodeId)
             }
-            onNodeDataChange={
+            onNodeUpdate={
               current_visualization === PLATEFORMEDD
                 ? () => null
                 : (nodeId, nodeDescription, nodeTitle, nodeContent, hexColor, children) =>
@@ -618,7 +624,7 @@ class App extends Component {
                 : (nodeId, newX, newY) =>
                   updateGMNodePosition(nodeId, newX, newY)
             }
-            onNodeVisibleChildrenChange={nodeId =>
+            onVisibleChildrenUpdate={nodeId =>
               updateGMNodeVisibleChildren(nodeId)
             }
           />
