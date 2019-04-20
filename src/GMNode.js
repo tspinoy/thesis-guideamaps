@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  GMNodeTypes,
-  ItemTypes,
-  Modes,
-} from './Constants';
+import {GMNodeTypes, ItemTypes, Modes} from './Constants';
 import {DragSource, DropTarget} from 'react-dnd';
 import flow from 'lodash/flow';
 
@@ -15,6 +11,7 @@ import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as ReactDOM from 'react-dom';
+import { ChoiceNodeData } from "./ChoiceNodeData";
 
 const nodeSource = {
   beginDrag(props, monitor, component) {
@@ -60,6 +57,7 @@ class GMNode extends React.Component {
       isOpen: false,
       locked: false, // optional nodes can be locked
     };
+    this.addChoiceChildNodes = this.addChoiceChildNodes.bind(this);
     this.completeNode = this.completeNode.bind(this);
     this.emptyChildren = this.emptyChildren.bind(this);
     this.getAllChildren = this.getAllChildren.bind(this);
@@ -351,15 +349,51 @@ class GMNode extends React.Component {
     this.toggleModal();
   }
 
+  addChoiceChildNodes(event, choiceNodeCategory, choiceNodeType) {
+    const choices = ChoiceNodeData[choiceNodeCategory][choiceNodeType].choices;
+    // Check all checkboxes and add the selected nodes
+    Object.values(choices).forEach(c => {
+      const el = document.getElementById(c.name);
+      if (el.checked) {
+        this.props.onAddNode(
+          this.props.node,
+          GMNodeTypes.DEFAULT,
+          null,
+          null,
+          c.name,
+          c.description,
+          this.props.node.data.optional,
+        );
+      }
+    });
+    this.toggleModal();
+  }
+
   /**
    * To render a node, a div element is created.
    * Inside this div we have another div to display the title of the node + a second div showing the content of it.
    * The last div is responsible for the interactions:
-   * - Adding a child node
+   * - Adding a child node (only visible in map creator mode)
    * - Edit the current node
    * - Expand or collapse the current node to show or hide the child nodes (only visible if the node does have children)
    * */
   render() {
+    const createTableOfChoices = (choiceNodeCategory, choiceNodeType) => {
+      const choices =
+        ChoiceNodeData[choiceNodeCategory][choiceNodeType].choices;
+      return (
+        <form>
+          {Object.values(choices).map(c => (
+            <div className={'border border-solid m-4 p-4 rounded'} key={c.name}>
+              <input type={'checkbox'} value={c.name} id={c.name} />
+              <label htmlFor={c.name}>&nbsp;{c.name}</label>
+              <p>{c.description}</p>
+            </div>
+          ))}
+        </form>
+      );
+    };
+
     const {
       centered,
       EditModalComp,
@@ -420,6 +454,98 @@ class GMNode extends React.Component {
                 )}
               </div>
             </div>
+            {this.state.isOpen &&
+              ReactDOM.createPortal(
+                <div
+                  className={'backdrop overflow-y-scroll'}
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0.3)', // gray background
+                    bottom: 0,
+                    height: window.innerHeight,
+                    left: 0,
+                    paddingLeft: 50,
+                    paddingRight: 50,
+                    paddingTop: 50,
+                    right: 0,
+                    top: 0,
+                    zIndex: 5000,
+                  }}>
+                  <div
+                    className={'absolute modal rounded w-full'}
+                    style={{
+                      backgroundColor: '#fff',
+                      left: '50%',
+                      margin: '0 auto',
+                      //maxHeight: 500,
+                      maxWidth: '750px',
+                      minHeight: 300,
+                      padding: 15,
+                      top: '10%',
+                      transform: 'translate(-50%, 0)',
+                      width: '90%',
+                    }}>
+                    <button
+                      className={
+                        'absolute bg-grey hover:bg-grey-dark py-2 px-4 mb-2 rounded'
+                      }
+                      style={{
+                        outline: 'none',
+                        right: 0,
+                        transform: 'translate(17px, -32px)',
+                      }}
+                      onClick={() => this.toggleModal()}>
+                      X
+                    </button>
+                    {
+                      this.props.mode === Modes.MAP_CREATOR &&
+                      this.props.node.children === undefined &&
+                      this.props.node.data.id !== 0 && (
+                        <button
+                          className={
+                            'absolute bg-grey hover:bg-grey-dark rounded py-2 px-4 mb-2'
+                          }
+                          style={{
+                            left: 0,
+                            outline: 'none',
+                            transform: 'translate(-17px, -32px)',
+                          }}
+                          onClick={() => {
+                            this.props.onDeleteNode(this.props.node.data.id);
+                            this.toggleModal();
+                          }}>
+                          <FontAwesomeIcon icon={'trash-alt'} />
+                        </button>
+                      )}
+                    {/* content */}
+                    <div>
+                      <h1>{node.data.name}</h1>
+                      <h3>Possible choices:</h3>
+                      {createTableOfChoices(
+                        node.data.choiceNodeCategory,
+                        node.data.choiceNodeType,
+                      )}
+                    </div>
+                    <div className={'text-center'}>
+                      <button
+                        className={
+                          'bg-blue hover:bg-blue-dark px-4 py-2 rounded text-white'
+                        }
+                        style={{minWidth: '50%', outline: 'none'}}
+                        onClick={e =>
+                          this.addChoiceChildNodes(
+                            e,
+                            node.data.choiceNodeCategory,
+                            node.data.choiceNodeType,
+                          )
+                        }>
+                        <FontAwesomeIcon icon={['far', 'save']} />
+                        &nbsp;Save and close
+                      </button>
+                    </div>
+                  </div>
+                </div>,
+                document.getElementById('modalSpace'),
+              )}
           </div>
         );
       default:
@@ -539,7 +665,15 @@ class GMNode extends React.Component {
                 node={node}
                 onEditNode={onEditNode}
                 onNodeUpdate={onNodeUpdate}
-                width={node.height !== 0 ? (mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2') : (mode === Modes.MAP_CREATOR ? 'w-1/2' : 'w-full')}
+                width={
+                  node.height !== 0
+                    ? mode === Modes.MAP_CREATOR
+                      ? 'w-1/3'
+                      : 'w-1/2'
+                    : mode === Modes.MAP_CREATOR
+                    ? 'w-1/2'
+                    : 'w-full'
+                }
               />
               {node.height !== 0 && (
                 // At non-child nodes the expand-collapse button should be added

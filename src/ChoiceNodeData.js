@@ -8,12 +8,12 @@ export const ChoiceNodeData = {
       type: GMNodeTypes.CHOICE,
       choices: {
         Male: {
-          description: 'Male',
+          description: 'Male description',
           name: 'Male',
           type: GMNodeTypes.DEFAULT,
         },
         Female: {
-          description: 'Female',
+          description: 'Female description',
           name: 'Female',
           type: GMNodeTypes.DEFAULT,
         },

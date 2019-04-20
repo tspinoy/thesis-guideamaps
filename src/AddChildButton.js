@@ -213,7 +213,7 @@ class AddChildButton extends React.Component {
                         </option>
                         {Object.keys(ChoiceNodeData).map(function(category) {
                           return (
-                            <optgroup label={category}>
+                            <optgroup key={category} label={category}>
                               {Object.keys(ChoiceNodeData[category]).map(
                                 function(type) {
                                   return (

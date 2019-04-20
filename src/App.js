@@ -232,37 +232,20 @@ class App extends Component {
       description,
       optional,
     ) => {
-      console.log(optional);
       let nextId = this.state.nodes[this.state.nodes.length - 1].data.id + 1;
       if (nodeType === GMNodeTypes.CHOICE) {
         const choiceNodeId =
           this.state.nodes[this.state.nodes.length - 1].data.id + 1;
         currentData.push({
           id: choiceNodeId,
+          choiceNodeCategory: choiceNodeCategory,
+          choiceNodeType: choiceNodeType,
           description: description,
           name: ChoiceNodeData[choiceNodeCategory][choiceNodeType].name,
           optional: optional,
           parent: parseInt(parent.id),
           type: nodeType,
         });
-        const obj = ChoiceNodeData[choiceNodeCategory][choiceNodeType].choices;
-        for (const key in obj) {
-          // optional check for properties from prototype chain
-          if (obj.hasOwnProperty(key)) {
-            // not a property from prototype chain
-            let value = obj[key];
-            currentData.push({
-              id: ++nextId,
-              description: value.description,
-              name: value.name,
-              optional: optional,
-              parent: choiceNodeId,
-              type: GMNodeTypes.DEFAULT,
-            });
-          } else {
-            // property from prototype chain
-          }
-        }
       } else {
         currentData.push({
           id: nextId,
@@ -340,7 +323,7 @@ class App extends Component {
      * @param hexColor: The new color of the node in hexadecimal.
      * @param children: A boolean to tell whether the children have to be updated with the new color or not.
      * */
-    const updateGMNodeData = (
+    const updateGMNode = (
       nodeId,
       nodeDescription,
       nodeTitle,
@@ -397,7 +380,7 @@ class App extends Component {
      * Expand or collapse a particular node with id = nodeId.
      * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
      */
-    const updateGMNodeVisibleChildren = nodeId => {
+    const updateGMVisibleChildren = nodeId => {
       const newNodes = this.state.nodes.map(node => {
         if (node.data.id === nodeId) {
           // update the node with this nodeId
@@ -609,7 +592,7 @@ class App extends Component {
               current_visualization === PLATEFORMEDD
                 ? () => null
                 : (nodeId, nodeDescription, nodeTitle, nodeContent, hexColor, children) =>
-                  updateGMNodeData(
+                  updateGMNode(
                     nodeId,
                     nodeDescription,
                     nodeTitle,
@@ -625,7 +608,7 @@ class App extends Component {
                   updateGMNodePosition(nodeId, newX, newY)
             }
             onVisibleChildrenUpdate={nodeId =>
-              updateGMNodeVisibleChildren(nodeId)
+              updateGMVisibleChildren(nodeId)
             }
           />
         </div>
