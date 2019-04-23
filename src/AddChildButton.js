@@ -224,7 +224,7 @@ class AddChildButton extends React.Component {
                                       }
                                       selected={''}
                                       style={{height: '50px'}}>
-                                      {type}
+                                      {ChoiceNodeData[category][type].name}
                                     </option>
                                   );
                                 },

@@ -384,10 +384,22 @@ class GMNode extends React.Component {
       return (
         <form>
           {Object.values(choices).map(c => (
-            <div className={'border border-solid m-4 p-4 rounded'} key={c.name}>
-              <input type={'checkbox'} value={c.name} id={c.name} />
-              <label htmlFor={c.name}>&nbsp;{c.name}</label>
-              <p>{c.description}</p>
+            <div
+              className={'border border-solid flex m-4 rounded'}
+              key={c.name}>
+              <div className={'border-r p-4'}>
+                <input type={'checkbox'} value={c.name} id={c.name} />
+              </div>
+              <div className={'pl-4'}>
+                <div
+                  className={'relative'}
+                  style={{top: '50%', transform: 'translate(0, -50%)'}}>
+                  <strong>
+                    <label htmlFor={c.name}>{c.name}</label>
+                  </strong>
+                  <p>{c.description}</p>
+                </div>
+              </div>
             </div>
           ))}
         </form>

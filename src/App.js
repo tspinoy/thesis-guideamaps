@@ -93,10 +93,12 @@ const setCurrentData = () => {
   if (!template) {
     switch (current_visualization) {
       case EMPTY:
+      case GUIDEAMAPS:
         currentData = [
           {
             id: 0,
-            name: 'name',
+            description: 'Start here',
+            name: 'Name',
             type: GMNodeTypes.DEFAULT,
             parent: '',
           },

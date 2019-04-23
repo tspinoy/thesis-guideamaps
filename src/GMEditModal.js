@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {SketchPicker} from 'react-color';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Modes} from './Constants';
+import { GMNodeTypes, Modes } from "./Constants";
 
 class GMEditModal extends React.Component {
   constructor(props) {
@@ -114,26 +114,26 @@ class GMEditModal extends React.Component {
               onClick={() => this.props.onClose()}>
               X
             </button>
-            {
-              this.props.mode === Modes.MAP_CREATOR &&
+            {((this.props.mode === Modes.MAP_CREATOR &&
               this.props.node.children === undefined &&
-              this.props.node.data.id !== 0 && (
-                <button
-                  className={
-                    'absolute bg-grey hover:bg-grey-dark rounded py-2 px-4 mb-2'
-                  }
-                  style={{
-                    left: 0,
-                    outline: 'none',
-                    transform: 'translate(-17px, -32px)',
-                  }}
-                  onClick={() => {
-                    this.props.onDeleteNode(this.props.node.data.id);
-                    this.props.onClose();
-                  }}>
-                  <FontAwesomeIcon icon={'trash-alt'} />
-                </button>
-              )}
+              this.props.node.data.id !== 0) ||
+              this.props.node.parent.data.type === GMNodeTypes.CHOICE) && (
+              <button
+                className={
+                  'absolute bg-grey hover:bg-grey-dark rounded py-2 px-4 mb-2'
+                }
+                style={{
+                  left: 0,
+                  outline: 'none',
+                  transform: 'translate(-17px, -32px)',
+                }}
+                onClick={() => {
+                  this.props.onDeleteNode(this.props.node.data.id);
+                  this.props.onClose();
+                }}>
+                <FontAwesomeIcon icon={'trash-alt'} />
+              </button>
+            )}
             {/* content */}
             {this.props.node.locked ? (
               <div className={'mt-12 text-center'}>

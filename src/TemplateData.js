@@ -1,7 +1,7 @@
 import {GMNodeTypes} from './Constants';
 
 export const TemplateData = {
-  ECOMMERCE: {
+  eCommerce: {
     name: 'e-commerce',
     nodes: [
       {
@@ -67,6 +67,8 @@ export const TemplateData = {
         type: GMNodeTypes.DEFAULT,
       },
       {
+        choiceNodeCategory: 'eCommerce',
+        choiceNodeType: 'Registration',
         description:
           'To be able to login a customer first has to register; different possibilities are available for this.',
         id: 7,
@@ -76,6 +78,8 @@ export const TemplateData = {
         type: GMNodeTypes.CHOICE,
       },
       {
+        choiceNodeCategory: 'eCommerce',
+        choiceNodeType: 'CustomerServices',
         description: 'You can provide different services to your customers.',
         id: 8,
         name: 'Customer Services',
@@ -111,6 +115,8 @@ export const TemplateData = {
         type: GMNodeTypes.DEFAULT,
       },
       {
+        choiceNodeCategory: 'eCommerce',
+        choiceNodeType: 'PaymentMethod',
         description: '',
         id: 12,
         name: 'Payment Method',
@@ -167,6 +173,8 @@ export const TemplateData = {
       },
       // Searching
       {
+        choiceNodeCategory: 'eCommerce',
+        choiceNodeType: 'Searching',
         description:
           'A customer should be able to easily find products. Select at least on possibility.',
         id: 18,
