@@ -2,8 +2,8 @@
 
 \bibitem [\protect \citeauthoryear {%
 Balaid%
-, Rozan%
-, Hikmi%
+, Abd~Rozan%
+, Norris~Hikmi%
 \BCBL {}\ \BBA {} Memon%
 }{%
 Balaid%
@@ -15,17 +15,22 @@ knowledgemapsbalaid}
 knowledgemapsbalaid}%
 \begin{APACrefauthors}%
 Balaid, A.%
-, Rozan, M\BPBI Z\BPBI A.%
-, Hikmi, S\BPBI N.%
+, Abd~Rozan, M\BPBI Z.%
+, Norris~Hikmi, S.%
 \BCBL {}\ \BBA {} Memon, J.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
 \APACrefYearMonthDay{2016}{}{}.
 \newblock
-\APACrefbtitle {Knowledge Maps: A systematic literature review and directions
-  for future research.} {Knowledge maps: A systematic literature review and
-  directions for future research.}
+{\BBOQ}\APACrefatitle {{Knowledge maps: A systematic literature review and
+  directions for future research}} {{Knowledge maps: A systematic literature
+  review and directions for future research}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{International Journal of Information
+  Management}{36}{}{451-475}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.ijinfomgt.2016.02.005} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -33,7 +38,7 @@ Davies%
 }{%
 Davies%
 }{%
-{\protect \APACyear {2010}}%
+{\protect \APACyear {2011}}%
 }]{%
 davies}
 \APACinsertmetastar {%
@@ -43,34 +48,16 @@ Davies, M.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
-\APACrefYearMonthDay{2010}{}{}.
+\APACrefYearMonthDay{2011}{}{}.
 \newblock
-\APACrefbtitle {Concept mapping, mind mapping and argument mapping: what are
-  the differences and do they matter?} {Concept mapping, mind mapping and
-  argument mapping: what are the differences and do they matter?}
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-{De Troyer}%
-}{%
-{De Troyer}%
-}{%
-{\protect \APACyear {2016}}%
-}]{%
-ui_course_detroyer}
-\APACinsertmetastar {%
-ui_course_detroyer}%
-\begin{APACrefauthors}%
-{De Troyer}, O.%
-\end{APACrefauthors}%
-\unskip\
+{\BBOQ}\APACrefatitle {{Concept Mapping, Mind Mapping and Argument Mapping:
+  What are the Differences and Do They Matter?}} {{Concept Mapping, Mind
+  Mapping and Argument Mapping: What are the Differences and Do They
+  Matter?}}{\BBCQ}
 \newblock
-\APACrefYearMonthDay{2016}{}{}.
+\APACjournalVolNumPages{High Educ}{62}{}{279-301}.
 \newblock
-\APACrefbtitle {{Computer Science, Lecture Notes: User Interfaces}.} {{Computer
-  Science, Lecture Notes: User Interfaces}.}
-\newblock
-\APAChowpublished {Vrije Universiteit Brussel}.
+\begin{APACrefDOI} \doi{10.1007/s10734-010-9387-6} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -107,6 +94,36 @@ detroyerjanssens}%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Eppler%
+}{%
+Eppler%
+}{%
+{\protect \APACyear {2006}}%
+}]{%
+eppler-2006}
+\APACinsertmetastar {%
+eppler-2006}%
+\begin{APACrefauthors}%
+Eppler, M\BPBI J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2006}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {A comparison between concept maps, mind maps, conceptual
+  diagrams, and visual metaphors as complementary tools for knowledge
+  construction and sharing.} {A comparison between concept maps, mind maps,
+  conceptual diagrams, and visual metaphors as complementary tools for
+  knowledge construction and sharing.}{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Information Visualization}{5}{3}{202-210}.
+\newblock
+\begin{APACrefURL}
+  \url{http://dblp.uni-trier.de/db/journals/ivs/ivs5.html#Eppler06}
+  \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 ISO%
 }{%
 ISO%
@@ -117,22 +134,16 @@ usability-definition-improved}
 \APACinsertmetastar {%
 usability-definition-improved}%
 \begin{APACrefauthors}%
-ISO.%
+ISO, E.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
 \APACrefYear{1998}.
 \newblock
-\APACrefbtitle {{ISO} 9241-11: {Ergonomic} {Requirements} for {Office} {Work}
-  with {Visual} {Display} {Terminals} ({VDTs}): {Part} 11: {Guidance} on
-  {Usability}} {{ISO} 9241-11: {Ergonomic} {Requirements} for {Office} {Work}
-  with {Visual} {Display} {Terminals} ({VDTs}): {Part} 11: {Guidance} on
-  {Usability}}.
-\newblock
-\APACaddressPublisherEqAuth{}{ISO}.
-\newblock
-\begin{APACrefURL} \url{https://books.google.be/books?id=TzXYZwEACAAJ}
-  \end{APACrefURL}
+\APACrefbtitle {{ISO 9241/11: Ergonomic Requirements for Office Work with
+  Visual Display Terminals (VDTs) - Part 11: Guidance on Usability}} {{ISO
+  9241/11: Ergonomic Requirements for Office Work with Visual Display Terminals
+  (VDTs) - Part 11: Guidance on Usability}}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -158,6 +169,59 @@ Janssens, E.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Moody%
+}{%
+Moody%
+}{%
+{\protect \APACyear {2009}}%
+}]{%
+moody-physicsofnotations-2009}
+\APACinsertmetastar {%
+moody-physicsofnotations-2009}%
+\begin{APACrefauthors}%
+Moody, D.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2009}{{\APACmonth{11}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{The ``Physics'' of Notations: Toward a Scientific Basis
+  for Constructing Visual Notations in Software Engineering}} {{The ``Physics''
+  of Notations: Toward a Scientific Basis for Constructing Visual Notations in
+  Software Engineering}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{IEEE Transactions on Software
+  Engineering}{35}{6}{756--779}.
+\newblock
+\begin{APACrefURL} \url{https://doi.org/10.1109/TSE.2009.67} \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1109/TSE.2009.67} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Moody%
+}{%
+Moody%
+}{%
+{\protect \APACyear {2012}}%
+}]{%
+moody-innsbruck-2012}
+\APACinsertmetastar {%
+moody-innsbruck-2012}%
+\begin{APACrefauthors}%
+Moody, D.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2012}{}{}.
+\newblock
+\APACrefbtitle {{The Physics of Notations: A Scientific Approach to Designing
+  Visual Notations for Model Driven Development}.} {{The Physics of Notations:
+  A Scientific Approach to Designing Visual Notations for Model Driven
+  Development}.}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 O'Donnell%
 , Dansereau%
 \BCBL {}\ \BBA {} Hall%
@@ -172,14 +236,19 @@ knowledgemapsodonnell}%
 \begin{APACrefauthors}%
 O'Donnell, A\BPBI M.%
 , Dansereau, D\BPBI F.%
-\BCBL {}\ \BBA {} Hall, R\BPBI H.%
+\BCBL {}\ \BBA {} Hall, R.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
 \APACrefYearMonthDay{2002}{}{}.
 \newblock
-\APACrefbtitle {Knowledge Maps as Scaffolds for Cognitive Processing.}
-  {Knowledge maps as scaffolds for cognitive processing.}
+{\BBOQ}\APACrefatitle {Knowledge {M}aps as {S}caffolds for {C}ognitive
+  {P}rocessing} {Knowledge {M}aps as {S}caffolds for {C}ognitive
+  {P}rocessing}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Educational Psychology Review}{14}{5}{}.
+\newblock
+\begin{APACrefDOI} \doi{10.1023/A:1013132527007} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -207,6 +276,40 @@ Preece, J.%
 \APACrefbtitle {Human-Computer Interaction} {Human-computer interaction}.
 \newblock
 \APACaddressPublisher{Essex, UK, UK}{Addison-Wesley Longman Ltd.}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Wiegmann%
+, F.~Dansereau%
+, C.~McCagg%
+, L.~Rewey%
+\BCBL {}\ \BBA {} Pitre%
+}{%
+Wiegmann%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {1992}}%
+}]{%
+wiegmann-1992}
+\APACinsertmetastar {%
+wiegmann-1992}%
+\begin{APACrefauthors}%
+Wiegmann, D.%
+, F.~Dansereau, D.%
+, C.~McCagg, E.%
+, L.~Rewey, K.%
+\BCBL {}\ \BBA {} Pitre, U.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1992}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{Effects of Knowledge Map Characteristics on Information
+  Processing}} {{Effects of Knowledge Map Characteristics on Information
+  Processing}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Contemporary Educational Psychology}{17}{}{136-155}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/0361-476X(92)90055-4} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}

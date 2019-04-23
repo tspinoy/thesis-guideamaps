@@ -110,6 +110,8 @@
 \usepackage{mdframed}
 \surroundwithmdframed[backgroundcolor=bgcolor]{minted}
 
+\let\Chapter\chapter
+\def\chapter{\addtocontents{lol}{\protect\addvspace{10pt}}\Chapter}
 \usepackage{tocloft}
 \makeatletter
 \begingroup\let\newcounter\@gobble\let\setcounter\@gobbletwo
@@ -173,7 +175,7 @@
 \fancypagestyle{plain}{
   \fancyhf{}
   %\fancyfoot[C]{\MakeUppercase\leftmark}
-  \fancyfoot[LO,RE]{\MakeUppercase\chaptername~\thechapter: \MakeUppercase\leftmark}
+  \fancyfoot[LO,RE]{\MakeUppercase\leftmark}
   \fancyfoot[LE,RO]{\thepage}
   \renewcommand{\headrulewidth}{0pt}% Line at the header invisible
   \renewcommand{\footrulewidth}{0.1pt} % 0pt -> line invisible
@@ -246,14 +248,11 @@
 
 \input{sections/declaration}
 \clearpage
-\pagestyle{fancy} % use the fancy page style again from here
 \addtocontents{toc}{\protect\setcounter{tocdepth}{5}} % stop limiting the addition to the table of contents from here
 
+\pagestyle{fancy} % use the fancy page style again from here
 \tableofcontents
-\addcontentsline{toc}{chapter}{Contents}
-%\addcontentsline{toc}{section}{List of figures}
-%\addcontentsline{toc}{section}{List of tables}
-%\addcontentsline{toc}{section}{Listings}
+%\addcontentsline{toc}{chapter}{Contents}
 \clearpage
 
 \listoffigures
