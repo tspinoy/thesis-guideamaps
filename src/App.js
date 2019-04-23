@@ -8,6 +8,7 @@ import {
   GMNodeTypes,
   initializeGMLink,
   initializeGMNode,
+  ModalID,
   Modes,
   PDDNodeWidth,
 } from './Constants';
@@ -616,7 +617,7 @@ class App extends Component {
         </div>
 
         <div
-          id={'modalSpace'}
+          id={ModalID}
           className={
             'absolute pin-t z-50 ' +
             (this.state.editing ? 'editing' : 'finished')

@@ -13,6 +13,8 @@ export const GMNodeTypes = {
   CHOICE: 'Choice',
 };
 
+export const ModalID = 'modalSpace';
+
 /**
  * There are two types of users for the application: end users and map creators.
  * @type {{MAP_CREATOR: string, END_USER: string}}

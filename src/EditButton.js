@@ -1,6 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {ModalID} from './Constants';
 
 class EditButton extends React.Component {
   constructor(props) {
@@ -95,7 +96,7 @@ class EditButton extends React.Component {
               updateNode={this.updateNode}
               onClose={this.toggleModal}
             />,
-            document.getElementById('modalSpace'),
+            document.getElementById(ModalID),
           )}
       </div>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as ReactDOM from 'react-dom';
-import {GMNodeTypes} from './Constants';
+import {GMNodeTypes, ModalID} from './Constants';
 import {ChoiceNodeData} from './ChoiceNodeData';
 
 class AddChildButton extends React.Component {
@@ -297,7 +297,7 @@ class AddChildButton extends React.Component {
                 </form>
               </div>
             </div>,
-            document.getElementById('modalSpace'),
+            document.getElementById(ModalID),
           )}
       </div>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {SketchPicker} from 'react-color';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { GMNodeTypes, Modes } from "./Constants";
+import {GMNodeTypes, Modes} from './Constants';
 
 class GMEditModal extends React.Component {
   constructor(props) {
