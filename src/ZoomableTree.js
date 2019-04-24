@@ -27,6 +27,7 @@ class ZoomableTree extends React.Component {
       onAddNode,
       onDeleteNode,
       onEditNode,
+      onNodeLockUpdate,
       onNodeUpdate,
       onNodePositionChange,
       onVisibleChildrenUpdate,
@@ -84,7 +85,7 @@ class ZoomableTree extends React.Component {
               </svg>
               {zoomedNodes.map(n => (
                 <NodeComp
-                  key={n.id}
+                  key={n.data.id}
                   mode={mode}
                   onDeleteNode={onDeleteNode}
                   node={n}
@@ -94,6 +95,7 @@ class ZoomableTree extends React.Component {
                   onAddNode={onAddNode}
                   onEditNode={onEditNode}
                   onVisibleChildrenUpdate={onVisibleChildrenUpdate}
+                  onNodeLockUpdate={onNodeLockUpdate}
                   onNodePositionChange={onNodePositionChange}
                   onNodeUpdate={onNodeUpdate}
                   centered={centered}

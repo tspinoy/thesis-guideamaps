@@ -86,6 +86,7 @@ class AddChildButton extends React.Component {
     }
     const optional = event.target.optionalNode.checked;
     this.props.onAddNode(
+      null,
       parent,
       nodeType,
       choiceNodeCategory,

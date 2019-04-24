@@ -177,7 +177,6 @@ const initializeData = () => {
   setClusterRoot();
   setClusterNodes();
   setClusterLinks();
-  console.log(clusterNodes);
 };
 
 initializeData();
@@ -218,6 +217,7 @@ class App extends Component {
 
     /**
      * Add a child node to the current node, which will become the {@param parent} of the new node.
+     * @param id
      * @param parent
      * @param nodeType
      * @param choiceNodeType
@@ -227,6 +227,7 @@ class App extends Component {
      * @param optional
      */
     const addGMChildNode = (
+      id = null,
       parent,
       nodeType,
       choiceNodeCategory,
@@ -235,12 +236,13 @@ class App extends Component {
       description,
       optional,
     ) => {
-      let nextId = this.state.nodes[this.state.nodes.length - 1].data.id + 1;
+      let nextId =
+        id === null
+          ? this.state.nodes[this.state.nodes.length - 1].data.id + 1
+          : id;
       if (nodeType === GMNodeTypes.CHOICE) {
-        const choiceNodeId =
-          this.state.nodes[this.state.nodes.length - 1].data.id + 1;
         currentData.push({
-          id: choiceNodeId,
+          id: nextId,
           choiceNodeCategory: choiceNodeCategory,
           choiceNodeType: choiceNodeType,
           description: description,
@@ -280,8 +282,6 @@ class App extends Component {
           ),
         );
       setClusterLinks();
-
-      console.log(clusterNodes);
 
       this.setState({nodes: clusterNodes, links: clusterLinks});
     };
@@ -379,6 +379,23 @@ class App extends Component {
       this.setState({nodes: newNodes});
     };
 
+    const updateGMNodeLock = nodeId => {
+      const newNodes = this.state.nodes.map(node => {
+        if (node.data.id === nodeId) {
+          const newLockedStatus = !node.locked;
+          node.locked = newLockedStatus;
+
+          const childNodes = node.descendants();
+          for (let x = 1; x < childNodes.length; x++) {
+            const child = childNodes[x];
+            child.locked = newLockedStatus;
+          }
+        }
+        return node;
+      });
+      this.setState({nodes: newNodes});
+    };
+
     /**
      * Expand or collapse a particular node with id = nodeId.
      * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
@@ -434,7 +451,9 @@ class App extends Component {
 
     return (
       <div>
-        {/*current_visualization === GUIDEAMAPS &&*/ (
+        {
+          /*current_visualization === GUIDEAMAPS &&*/
+
           <div
             className={'w-full text-center flex h-1 pin-t bg-grey mb-2'}
             style={{height: '50px'}}>
@@ -543,7 +562,7 @@ class App extends Component {
               </button>
             </div>
           </div>
-        )}
+        }
         <div className={'w-screen flex justify-center items-center mt-5'}>
           <ZoomableTree
             // Fixed props
@@ -568,6 +587,7 @@ class App extends Component {
               current_visualization === PLATEFORMEDD
                 ? () => null
                 : (
+                    id,
                     parent,
                     nodeType,
                     choiceNodeCategory,
@@ -577,6 +597,7 @@ class App extends Component {
                     optional,
                   ) =>
                     addGMChildNode(
+                      id,
                       parent,
                       nodeType,
                       choiceNodeCategory,
@@ -591,10 +612,22 @@ class App extends Component {
                 ? () => null
                 : nodeId => deleteGMNode(nodeId)
             }
+            onNodeLockUpdate={
+              current_visualization === PLATEFORMEDD
+                ? () => null
+                : nodeId => updateGMNodeLock(nodeId)
+            }
             onNodeUpdate={
               current_visualization === PLATEFORMEDD
                 ? () => null
-                : (nodeId, nodeDescription, nodeTitle, nodeContent, hexColor, children) =>
+                : (
+                  nodeId,
+                  nodeDescription,
+                  nodeTitle,
+                  nodeContent,
+                  hexColor,
+                  children,
+                ) =>
                   updateGMNode(
                     nodeId,
                     nodeDescription,
@@ -610,9 +643,7 @@ class App extends Component {
                 : (nodeId, newX, newY) =>
                   updateGMNodePosition(nodeId, newX, newY)
             }
-            onVisibleChildrenUpdate={nodeId =>
-              updateGMVisibleChildren(nodeId)
-            }
+            onVisibleChildrenUpdate={nodeId => updateGMVisibleChildren(nodeId)}
           />
         </div>
 

@@ -55,7 +55,7 @@ class GMNode extends React.Component {
     super(props);
     this.state = {
       isOpen: false,
-      locked: false, // optional nodes can be locked
+      selectedChoices: [],
     };
     this.addChoiceChildNodes = this.addChoiceChildNodes.bind(this);
     this.completeNode = this.completeNode.bind(this);
@@ -352,18 +352,35 @@ class GMNode extends React.Component {
   addChoiceChildNodes(event, choiceNodeCategory, choiceNodeType) {
     const choices = ChoiceNodeData[choiceNodeCategory][choiceNodeType].choices;
     // Check all checkboxes and add the selected nodes
-    Object.values(choices).forEach(c => {
+    Object.values(choices).forEach((c, index) => {
       const el = document.getElementById(c.name);
-      if (el.checked) {
-        this.props.onAddNode(
-          this.props.node,
-          GMNodeTypes.DEFAULT,
-          null,
-          null,
-          c.name,
-          c.description,
-          this.props.node.data.optional,
-        );
+      const id = this.props.node.data.id * 1000 + index;
+      if (el.checked && !this.state.selectedChoices.includes(id)) {
+        // timeout needed to avoid simultaneously adding two nodes which would result in identical keys for the links
+        setTimeout(() => {
+          this.props.onAddNode(
+            id,
+            this.props.node,
+            GMNodeTypes.DEFAULT,
+            null,
+            null,
+            c.name,
+            c.description,
+            this.props.node.data.optional,
+          );
+          this.setState({
+            selectedChoices: [...this.state.selectedChoices, id],
+          });
+        }, 250);
+      } else if (!el.checked && this.state.selectedChoices.includes(id)) {
+        this.props.onDeleteNode(id); // Delete the node
+        // And update the state
+        let updatedSelectedChoices = [...this.state.selectedChoices]; // make a separate copy of the array
+        const pos = updatedSelectedChoices.indexOf(id);
+        if (pos !== -1) {
+          updatedSelectedChoices.splice(pos, 1);
+          this.setState({selectedChoices: updatedSelectedChoices});
+        }
       }
     });
     this.toggleModal();
@@ -383,12 +400,17 @@ class GMNode extends React.Component {
         ChoiceNodeData[choiceNodeCategory][choiceNodeType].choices;
       return (
         <form>
-          {Object.values(choices).map(c => (
+          {Object.values(choices).map((c, index) => (
             <div
               className={'border border-solid flex m-4 rounded'}
               key={c.name}>
               <div className={'border-r p-4'}>
-                <input type={'checkbox'} value={c.name} id={c.name} />
+                <input
+                  defaultChecked={this.state.selectedChoices.includes(this.props.node.data.id * 1000 + index)}
+                  id={c.name}
+                  type={'checkbox'}
+                  value={c.name}
+                />
               </div>
               <div className={'pl-4'}>
                 <div
@@ -415,6 +437,7 @@ class GMNode extends React.Component {
       onClick,
       onDeleteNode,
       onEditNode,
+      onNodeLockUpdate,
       onNodeUpdate,
       //onNodePositionChange,
       onVisibleChildrenUpdate,
@@ -427,44 +450,71 @@ class GMNode extends React.Component {
       case GMNodeTypes.CHOICE:
         return (
           //connectDragSource(connectDropTarget(
-          <div>
+          <div
+            key={node.data.id}
+            id={'node' + node.data.id}
+            className={
+              'node absolute flex ' +
+              'border border-solid border-black rounded ' +
+              'p-2 cursor-pointer ' +
+              (node.visible ? 'z-40 ' : 'z-0 ') +
+              (node.visible ? 'visibleNode ' : 'hiddenNode ')
+            }
+            style={{
+              width: GMNodeWidth,
+              height: GMNodeHeight / 2,
+              backgroundColor: node.locked ? 'gray' : '#fff690',
+              opacity: isDragging ? 0.5 : '',
+              transition: centered && 'all 500ms ease 0s',
+              '--nodex': node.x + 'px',
+              '--nodey': node.y + GMNodeHeight / 4 + 'px',
+              '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
+              '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
+            }}>
+            {mode === Modes.END_USER && node.data.optional && (
+              <div
+                className={'absolute border border-solid border-black'}
+                style={{
+                  transform:
+                    'translate(' +
+                    (GMNodeWidth - 10) +
+                    'px, ' +
+                    GMNodeHeight / 25 +
+                    'px)',
+                  borderBottomRightRadius: '50%',
+                  borderTopRightRadius: '50%',
+                }}
+                onClick={() => onNodeLockUpdate(node.data.id)}>
+                <FontAwesomeIcon
+                  icon={node.locked ? 'lock' : 'lock-open'}
+                  style={{margin: '3px'}}
+                />
+              </div>
+            )}
             <div
-              key={node.data.id}
-              id={'node' + node.data.id}
               className={
-                'node absolute flex ' +
-                'border border-solid border-black rounded ' +
-                'p-2 cursor-pointer ' +
-                (node.visible ? 'z-40 ' : 'z-0 ') +
-                (node.visible ? 'visibleNode ' : 'hiddenNode ')
+                'm-auto overflow-hidden text-base w-5/6 whitespace-no-wrap'
+              }
+              onClick={() =>
+                !node.locked ? this.handleChoiceNodeClick() : null
               }
               style={{
-                width: GMNodeWidth,
-                height: GMNodeHeight / 2,
-                backgroundColor: '#fff690',
-                opacity: isDragging ? 0.5 : '',
-                transition: centered && 'all 500ms ease 0s',
-                '--nodex': node.x + 'px',
-                '--nodey': node.y + GMNodeHeight / 4 + 'px',
-                '--parentx': this.getRootXY(node)[0] + 'px', // fading goes always from/to the point of the root node
-                '--parenty': this.getRootXY(node)[1] + 'px', // because the clicked node is centered first
-              }}
-              onClick={() => this.handleChoiceNodeClick()}>
-              <div
-                className={
-                  'm-auto overflow-hidden text-base w-5/6 whitespace-no-wrap'
-                }
-                style={{textOverflow: 'ellipsis'}}>
-                {node.data.name}
-              </div>
-              <div className={'m-auto w-1/6'}>
-                {this.completenessIcon(node) !== null && (
-                  <FontAwesomeIcon
-                    icon={this.completenessIcon(node)}
-                    className={'text-base'}
-                  />
-                )}
-              </div>
+                filter: node.locked ? 'blur(1px)' : '',
+                textOverflow: 'ellipsis',
+              }}>
+              {node.data.name}
+            </div>
+            <div
+              className={'m-auto w-1/6'}
+              onClick={() =>
+                !node.locked ? this.handleChoiceNodeClick() : null
+              }>
+              {this.completenessIcon(node) !== null && (
+                <FontAwesomeIcon
+                  icon={this.completenessIcon(node)}
+                  className={'text-base'}
+                />
+              )}
             </div>
             {this.state.isOpen &&
               ReactDOM.createPortal(
@@ -577,7 +627,7 @@ class GMNode extends React.Component {
               width: GMNodeWidth,
               height: GMNodeHeight,
               color: node.backgroundColor,
-              backgroundColor: node.backgroundColor,
+              backgroundColor: node.locked ? 'grey' : node.backgroundColor,
               //opacity: isDragging ? 0.5 : '',
               transition: centered && 'all 500ms ease 0s',
               '--nodex': node.x + 'px',
@@ -599,9 +649,9 @@ class GMNode extends React.Component {
                   borderBottomRightRadius: '50%',
                   borderTopRightRadius: '50%',
                 }}
-                onClick={() => this.setState({locked: !this.state.locked})}>
+                onClick={() => onNodeLockUpdate(node.data.id)}>
                 <FontAwesomeIcon
-                  icon={this.state.locked ? 'lock' : 'lock-open'}
+                  icon={node.locked ? 'lock' : 'lock-open'}
                   style={{margin: '3px'}}
                 />
               </div>
@@ -612,7 +662,7 @@ class GMNode extends React.Component {
                 borderBottom: '1px solid',
                 borderColor: 'black',
                 color: 'black',
-                filter: this.state.locked ? 'blur(3px)' : '',
+                filter: node.locked ? 'blur(1px)' : '',
               }}>
               <div
                 className={
@@ -632,11 +682,11 @@ class GMNode extends React.Component {
             </div>
             <div // content div
               className={
-                'invertColors pb-1 pl-2 pr-2 pt-1 overflow-hidden text-base'
+                'invertColors pb-1 pl-2 pr-2 pt-1 overflow-hidden text-base ' +
+                (node.locked ? 'locked' : '')
               }
               style={{
                 color: node.backgroundColor, // this is inverted by the invertColors-class
-                filter: this.state.locked ? 'blur(3px)' : '',
                 height: '2.6em', // 1.2 times WebkitLineClamp of the paragraph
               }}>
               <p
@@ -654,11 +704,11 @@ class GMNode extends React.Component {
             </div>
             <div // controls div
               className={'absolute pin-b flex rounded-b w-full'}
-              style={{filter: this.state.locked ? 'blur(3px)' : ''}}>
+              style={{filter: node.locked ? 'blur(1px)' : ''}}>
               {mode === Modes.MAP_CREATOR && (
                 <AddChildButton
                   bgcolor={node.backgroundColor}
-                  locked={this.state.locked}
+                  locked={node.locked}
                   node={node}
                   onAddNode={onAddNode}
                   onEditNode={onEditNode}
@@ -672,7 +722,7 @@ class GMNode extends React.Component {
                 onDeleteNode={onDeleteNode}
                 EditModalComp={EditModalComp}
                 leaf={node.height === 0}
-                locked={this.state.locked}
+                locked={node.locked}
                 mode={mode}
                 node={node}
                 onEditNode={onEditNode}
@@ -691,7 +741,7 @@ class GMNode extends React.Component {
                 // At non-child nodes the expand-collapse button should be added
                 <ExpandCollapseButton
                   bgcolor={node.backgroundColor}
-                  locked={this.state.locked}
+                  locked={node.locked}
                   node={node}
                   onVisibleChildrenUpdate={onVisibleChildrenUpdate}
                   width={mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2'}

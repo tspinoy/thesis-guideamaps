@@ -4,6 +4,12 @@
     -webkit-font-smoothing: antialiased; /* used to avoid "boldlike" font */
 }
 
+.invertColors.locked {
+    filter: invert(100%) saturate(0%) brightness(100%) contrast(10000%) blur(1px);
+    -moz-osx-font-smoothing: grayscale; /* used to avoid "boldlike" font */
+    -webkit-font-smoothing: antialiased; /* used to avoid "boldlike" font */
+}
+
 @keyframes moveFromParent {
     from {
         top: var(--parenty);
