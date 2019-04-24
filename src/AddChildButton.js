@@ -8,6 +8,7 @@ class AddChildButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      choices: [],
       childNodeType: '',
       choiceNodeType: '',
       choiceNodeCategory: '',
@@ -15,12 +16,17 @@ class AddChildButton extends React.Component {
     };
 
     // This binding is necessary to make `this` work in the callback
+    this.addCustomChoice = this.addCustomChoice.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChoiceTypeChange = this.handleChoiceTypeChange.bind(this);
     this.handleNodeTypeChange = this.handleNodeTypeChange.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.updateOpenState = this.updateOpenState.bind(this);
+  }
+
+  componentDidMount() {
+    this.addCustomChoice(0);
   }
 
   // This syntax ensures `this` is bound within handleClick.
@@ -104,6 +110,46 @@ class AddChildButton extends React.Component {
     });
   }
 
+  addCustomChoice(id) {
+    this.setState({
+      choices: [
+        ...this.state.choices,
+        <div
+          className={'border border-solid mb-4 p-4 rounded'}
+          key={'choice' + id}>
+          <div className={'mb-4'}>
+            <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
+              {'Choice node ' + id + ' title'}
+            </label>
+            <input
+              className={
+                'appearance-none border leading-tight px-3 py-2 ' +
+                'rounded shadow text-grey-darker w-full'
+              }
+              name={'title'}
+              placeholder={'Node ' + id + ' title'}
+              type={'text'}
+            />
+          </div>
+          <div className={'mb-4'}>
+            <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
+              {'Choice node ' + id + ' description'}
+            </label>
+            <input
+              className={
+                'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
+                'rounded shadow text-grey-darker w-full'
+              }
+              name={'description'}
+              placeholder={'Node ' + id + ' description'}
+              type={'text'}
+            />
+          </div>
+        </div>,
+      ],
+    });
+  };
+
   render() {
     return (
       <div className={'tooltip ' + this.props.width}>
@@ -150,7 +196,7 @@ class AddChildButton extends React.Component {
                 style={{
                   backgroundColor: '#fff',
                   border: '2px solid black',
-                  //maxHeight: 500,
+                  maxHeight: '80%',
                   margin: '0 auto',
                   marginTop: '2%',
                   padding: 15,
@@ -168,7 +214,7 @@ class AddChildButton extends React.Component {
                     X
                   </button>
                 </div>
-                <form onSubmit={this.handleSubmit}>
+                <form>
                   <label
                     className={'block text-grey-darker text-lg font-bold mb-2'}>
                     Node Type
@@ -192,7 +238,7 @@ class AddChildButton extends React.Component {
                       );
                     })}
                   </select>
-                  {this.state.childNodeType === GMNodeTypes.CHOICE && (
+                  {this.state.childNodeType === GMNodeTypes.CHOICE && false && (
                     <div className={'mb-4'}>
                       <label
                         className={
@@ -236,42 +282,41 @@ class AddChildButton extends React.Component {
                       </select>
                     </div>
                   )}
-                  {this.state.childNodeType === GMNodeTypes.DEFAULT && (
-                    <div className={'mb-4'}>
-                      <label
-                        className={
-                          'block text-grey-darker text-lg font-bold mb-2'
-                        }>
-                        Title
-                      </label>
-                      <input
-                        className={
-                          'mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
-                          'leading-tight focus:outline-none focus:shadow-outline'
-                        }
-                        name={'title'}
-                        //onChange={this.handleTitleChange}
-                        placeholder={'Node title'}
-                        type={'text'}
-                      />
-                      <label
-                        className={
-                          'block font-bold mb-2 text-grey-darker text-lg'
-                        }>
-                        Description
-                      </label>
-                      <input
-                        className={
-                          'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
-                          'rounded shadow text-grey-darker w-full'
-                        }
-                        name={'description'}
-                        //onChange={this.handleDescriptionChange}
-                        placeholder={'Node description'}
-                        type={'text'}
-                      />
-                    </div>
-                  )}
+                  <div className={'mb-4'}>
+                    <label
+                      className={
+                        'block text-grey-darker text-lg font-bold mb-2'
+                      }>
+                      Title
+                    </label>
+                    <input
+                      className={
+                        'mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker ' +
+                        'leading-tight focus:outline-none focus:shadow-outline'
+                      }
+                      name={'title'}
+                      //onChange={this.handleTitleChange}
+                      placeholder={'Node title'}
+                      type={'text'}
+                    />
+                    <label
+                      className={
+                        'block font-bold mb-2 text-grey-darker text-lg'
+                      }>
+                      Description
+                    </label>
+                    <input
+                      className={
+                        'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
+                        'rounded shadow text-grey-darker w-full'
+                      }
+                      name={'description'}
+                      //onChange={this.handleDescriptionChange}
+                      placeholder={'Node description'}
+                      type={'text'}
+                    />
+                  </div>
+                  <div id={'custom-choices'}>{this.state.choices}</div>
                   <div
                     className={'mb-4'}
                     style={{
@@ -290,7 +335,19 @@ class AddChildButton extends React.Component {
                       className={
                         'bg-blue hover:bg-blue-dark px-4 py-2 rounded text-white'
                       }
-                      style={{minWidth: '50%', outline: 'none'}}>
+                      onClick={e => {
+                        e.preventDefault();
+                        this.addCustomChoice(this.state.choices.length);
+                      }}
+                      style={{minWidth: '30%', outline: 'none'}}>
+                      Add extra choice
+                    </button>
+                    <button
+                      className={
+                        'bg-blue hover:bg-blue-dark px-4 py-2 rounded text-white'
+                      }
+                      onClick={this.handleSubmit}
+                      style={{minWidth: '30%', outline: 'none'}}>
                       <FontAwesomeIcon icon={['far', 'save']} />
                       &nbsp;Create node!
                     </button>
