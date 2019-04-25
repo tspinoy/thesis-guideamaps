@@ -413,6 +413,14 @@ class GMNode extends React.Component {
       this.toggleModal();
     } else if (this.props.mode === Modes.MAP_CREATOR) {
       const choices = {};
+      const lowerLimit = event.target.lowerLimit.value;
+      const upperLimit = event.target.upperLimit.value;
+
+      if (lowerLimit > upperLimit) {
+        alert('The lower limit cannot be higher than the upper limit.');
+        return;
+      }
+
       for (let i = 0; i < this.state.customChoices.length; i++) {
         const title = event.target['titleChoice' + i].value;
         const description = event.target['descriptionChoice' + i].value;
@@ -422,8 +430,6 @@ class GMNode extends React.Component {
           type: GMNodeTypes.DEFAULT,
         };
       }
-      const lowerLimit = event.target.lowerLimit.value;
-      const upperLimit = event.target.upperLimit.value;
       this.props.onNodeChoicesUpdate(
         this.props.node.id,
         choices,
@@ -567,7 +573,6 @@ class GMNode extends React.Component {
 
     const createTableOfChoices = () => {
       const choices = node.choices;
-      console.log(this.state.activeChoices);
       return (
         <form>
           {Object.values(choices).map((c, index) => (
@@ -838,11 +843,19 @@ class GMNode extends React.Component {
                         <div>
                           <h1>{node.data.name}</h1>
                           <h3>
-                            {'Select between ' +
-                              node.choiceLowerLimit +
-                              ' and ' +
-                              node.choiceUpperLimit +
-                              ' choices.'}
+                            {node.choiceLowerLimit === node.choiceUpperLimit
+                              ? 'Select exactly ' +
+                                node.choiceLowerLimit +
+                                (node.choiceLowerLimit == 1
+                                  ? ' choice.'
+                                  : ' choices.')
+                              : 'Select between ' +
+                                node.choiceLowerLimit +
+                                ' and ' +
+                                node.choiceUpperLimit +
+                                (node.choiceUpperLimit == 1
+                                  ? ' choice.'
+                                  : ' choices.')}
                           </h3>
                           <h3 className={'mb-4'}>Possible choices:</h3>
                           {createTableOfChoices()}
