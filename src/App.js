@@ -617,7 +617,9 @@ class App extends Component {
                 ? () => null
                 : nodeId => deleteGMNode(nodeId)
             }
-            onNodeChoicesUpdate={nodeId => updateGMChoicePossibilities(nodeId)}
+            onNodeChoicesUpdate={(nodeId, choices) =>
+              updateGMChoicePossibilities(nodeId, choices)
+            }
             onNodeLockUpdate={
               current_visualization === PLATEFORMEDD
                 ? () => null

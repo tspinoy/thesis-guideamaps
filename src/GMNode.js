@@ -55,17 +55,21 @@ class GMNode extends React.Component {
     super(props);
     this.state = {
       isOpen: false,
+      customChoices: [],
       selectedChoices: [],
     };
+    this.addCustomChoice = this.addCustomChoice.bind(this);
     this.addChoiceChildNodes = this.addChoiceChildNodes.bind(this);
     this.completeNode = this.completeNode.bind(this);
     this.emptyChildren = this.emptyChildren.bind(this);
     this.getAllChildren = this.getAllChildren.bind(this);
     this.handleChoiceNodeClick = this.handleChoiceNodeClick.bind(this);
+    this.loadChoices = this.loadChoices.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidMount() {
+    this.loadChoices(this.props.node);
     let node = document.getElementById('node' + this.props.node.data.id);
     setTimeout(() => {
       if (node.classList.contains('visibleNode')) {
@@ -313,7 +317,6 @@ class GMNode extends React.Component {
             return ['fas', 'circle'];
           } else {
             // At least one of the children is incomplete
-            console.log('this');
             return ['fas', 'adjust'];
           }
         } else {
@@ -358,40 +361,146 @@ class GMNode extends React.Component {
     this.toggleModal();
   }
 
-  addChoiceChildNodes(node) {
-    const choices = node.choices;
-    // Check all checkboxes and add the selected nodes
-    Object.values(choices).forEach((c, index) => {
-      const el = document.getElementById(c.name);
-      const id = this.props.node.data.id * 1000 + index;
-      if (el.checked && !this.state.selectedChoices.includes(id)) {
-        // timeout needed to avoid simultaneously adding two nodes which would result in identical keys for the links
-        setTimeout(() => {
-          this.props.onAddNode(
-            id,
-            this.props.node,
-            GMNodeTypes.DEFAULT,
-            {},
-            c.name,
-            c.description,
-            this.props.node.data.optional,
-          );
-          this.setState({
-            selectedChoices: [...this.state.selectedChoices, id],
-          });
-        }, 250);
-      } else if (!el.checked && this.state.selectedChoices.includes(id)) {
-        this.props.onDeleteNode(id); // Delete the node
-        // And update the state
-        let updatedSelectedChoices = [...this.state.selectedChoices]; // make a separate copy of the array
-        const pos = updatedSelectedChoices.indexOf(id);
-        if (pos !== -1) {
-          updatedSelectedChoices.splice(pos, 1);
-          this.setState({selectedChoices: updatedSelectedChoices});
+  addChoiceChildNodes(event, node) {
+    if (this.props.mode === Modes.END_USER) {
+      const choices = node.choices;
+      // Check all checkboxes and add the selected nodes
+      Object.values(choices).forEach((c, index) => {
+        const el = document.getElementById(c.name);
+        const id = this.props.node.data.id * 1000 + index;
+        if (el.checked && !this.state.selectedChoices.includes(id)) {
+          // timeout needed to avoid simultaneously adding two nodes which would result in identical keys for the links
+          setTimeout(() => {
+            this.props.onAddNode(
+              id,
+              this.props.node,
+              GMNodeTypes.DEFAULT,
+              {},
+              c.name,
+              c.description,
+              this.props.node.data.optional,
+            );
+            this.setState({
+              selectedChoices: [...this.state.selectedChoices, id],
+            });
+          }, 250);
+        } else if (!el.checked && this.state.selectedChoices.includes(id)) {
+          this.props.onDeleteNode(id); // Delete the node
+          // And update the state
+          let updatedSelectedChoices = [...this.state.selectedChoices]; // make a separate copy of the array
+          const pos = updatedSelectedChoices.indexOf(id);
+          if (pos !== -1) {
+            updatedSelectedChoices.splice(pos, 1);
+            this.setState({selectedChoices: updatedSelectedChoices});
+          }
         }
+      });
+      this.toggleModal();
+    } else {
+      const choices = {};
+      for (let i = 0; i < this.state.customChoices.length; i++) {
+        const title = event.target['titleChoice' + i].value;
+        const description = event.target['descriptionChoice' + i].value;
+        choices[title] = {
+          description: description,
+          name: title,
+          type: GMNodeTypes.DEFAULT,
+        };
       }
+      this.props.onNodeChoicesUpdate(this.props.node.id, choices);
+      this.toggleModal();
+      setTimeout(() => this.loadChoices(this.props.node), 1000);
+    }
+  }
+
+  loadChoices(node) {
+    let result = [];
+    Object.keys(node.choices).forEach((c, index) => {
+      let choice = node.choices[c];
+      result.push(
+        <div
+          className={'border border-solid mb-4 p-4 rounded'}
+          key={'choice' + index}>
+          <div className={'mb-4'}>
+            <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
+              {'Choice node ' + index + ' title'}
+            </label>
+            <input
+              className={
+                'appearance-none border leading-tight px-3 py-2 ' +
+                'rounded shadow text-grey-darker w-full'
+              }
+              defaultValue={choice.name}
+              name={'titleChoice' + index}
+              placeholder={'Node ' + index + ' title'}
+              type={'text'}
+            />
+          </div>
+          <div className={'mb-4'}>
+            <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
+              {'Choice node ' + index + ' description'}
+            </label>
+            <input
+              className={
+                'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
+                'rounded shadow text-grey-darker w-full'
+              }
+              defaultValue={choice.description}
+              name={'descriptionChoice' + index}
+              placeholder={'Node ' + index + ' description'}
+              type={'text'}
+            />
+          </div>
+        </div>,
+      );
     });
-    this.toggleModal();
+    this.setState({customChoices: result});
+  }
+
+  addCustomChoice(choice) {
+    this.setState({
+      customChoices: [
+        ...this.state.customChoices,
+        <div
+          className={'border border-solid mb-4 p-4 rounded'}
+          key={'choice' + this.state.customChoices.length}>
+          <div className={'mb-4'}>
+            <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
+              {'Choice node ' + this.state.customChoices.length + ' title'}
+            </label>
+            <input
+              className={
+                'appearance-none border leading-tight px-3 py-2 ' +
+                'rounded shadow text-grey-darker w-full'
+              }
+              defaultValue={choice.name}
+              name={'titleChoice' + this.state.customChoices.length}
+              placeholder={'Node ' + this.state.customChoices.length + ' title'}
+              type={'text'}
+            />
+          </div>
+          <div className={'mb-4'}>
+            <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
+              {'Choice node ' +
+                this.state.customChoices.length +
+                ' description'}
+            </label>
+            <input
+              className={
+                'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
+                'rounded shadow text-grey-darker w-full'
+              }
+              defaultValue={choice.description}
+              name={'descriptionChoice' + this.state.customChoices.length}
+              placeholder={
+                'Node ' + this.state.customChoices.length + ' description'
+              }
+              type={'text'}
+            />
+          </div>
+        </div>,
+      ],
+    });
   }
 
   /**
@@ -543,14 +652,14 @@ class GMNode extends React.Component {
                     zIndex: 5000,
                   }}>
                   <div
-                    className={'absolute modal rounded w-full'}
+                    className={'absolute rounded w-full'}
                     style={{
                       backgroundColor: '#fff',
                       left: '50%',
                       margin: '0 auto',
-                      //maxHeight: 500,
+                      maxHeight: '80%',
                       maxWidth: '750px',
-                      minHeight: 300,
+                      minHeight: '50%',
                       padding: 15,
                       top: '10%',
                       transform: 'translate(-50%, 0)',
@@ -589,22 +698,76 @@ class GMNode extends React.Component {
                         </button>
                       )}
                     {/* content */}
-                    <div>
-                      <h1>{node.data.name}</h1>
-                      <h3>Possible choices:</h3>
-                      {createTableOfChoices()}
-                    </div>
-                    <div className={'text-center'}>
-                      <button
-                        className={
-                          'bg-blue hover:bg-blue-dark px-4 py-2 rounded text-white'
-                        }
-                        style={{minWidth: '50%', outline: 'none'}}
-                        onClick={() => this.addChoiceChildNodes(node)}>
-                        <FontAwesomeIcon icon={['far', 'save']} />
-                        &nbsp;Save and close
-                      </button>
-                    </div>
+                    {mode === Modes.MAP_CREATOR && (
+                      <div
+                        className={'absolute overflow-y-scroll'}
+                        style={{width: '96%', height: '95%'}}>
+                        <div>
+                          <h1>{node.data.name}</h1>
+                          <h3 className={'mb-4'}>Possible choices:</h3>
+                          <form
+                            onSubmit={e => {
+                              e.preventDefault();
+                              this.addChoiceChildNodes(e, node);
+                            }}>
+                            {this.state.customChoices}
+                            <div className={'text-center'}>
+                              <button
+                                className={
+                                  'bg-blue hover:bg-blue-dark mr-4 px-4 py-2 rounded text-white'
+                                }
+                                onClick={e => {
+                                  e.preventDefault();
+                                  this.addCustomChoice(
+                                    this.state.customChoices.length,
+                                  );
+                                }}
+                                style={{minWidth: '30%', outline: 'none'}}>
+                                Add extra choice
+                              </button>
+                              <button
+                                className={
+                                  'bg-blue hover:bg-blue-dark ml-4 ' +
+                                  'px-4 py-2 rounded text-white'
+                                }
+                                style={{
+                                  minWidth: '30%',
+                                  outline: 'none',
+                                }}>
+                                <FontAwesomeIcon icon={['far', 'save']} />
+                                &nbsp;Save and close
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    )}
+                    {mode === Modes.END_USER && (
+                      <div
+                        className={'absolute overflow-y-scroll'}
+                        style={{width: '96%', height: '95%'}}>
+                        <div>
+                          <h1>{node.data.name}</h1>
+                          <h3 className={'mb-4'}>Possible choices:</h3>
+                          {createTableOfChoices()}
+                        </div>
+                        <div className={'text-center'}>
+                          <button
+                            className={
+                              'bg-blue hover:bg-blue-dark ' +
+                              'px-4 py-2 rounded text-white'
+                            }
+                            style={{
+                              minWidth: '50%',
+                              outline: 'none',
+                            }}
+                            onClick={e => this.addChoiceChildNodes(e, node)}>
+                            <FontAwesomeIcon icon={['far', 'save']} />
+                            &nbsp;Save and close
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>,
                 document.getElementById('modalSpace'),
