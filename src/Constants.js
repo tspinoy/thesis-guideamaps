@@ -76,6 +76,14 @@ export const initializeGMNode = (
     node.backgroundColor = '#ffb018';
   }
 
+  // Choices property (choice nodes only)
+  node.choices =
+    oldNode !== null && oldNode.choices !== undefined
+      ? oldNode.choices
+      : node.data.choices === undefined
+      ? {}
+      : node.data.choices;
+
   // Content property
   node.content =
     oldNode !== null && oldNode.content !== undefined
@@ -110,6 +118,8 @@ export const initializeGMNode = (
   node.title =
     oldNode !== null && oldNode.title !== undefined
       ? oldNode.title
+      : node.data.name === undefined
+      ? ''
       : node.data.name;
 
   // Visible property

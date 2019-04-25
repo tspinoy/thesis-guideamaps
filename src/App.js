@@ -220,8 +220,7 @@ class App extends Component {
      * @param id
      * @param parent
      * @param nodeType
-     * @param choiceNodeType
-     * @param choiceNodeCategory
+     * @param choices
      * @param title
      * @param description
      * @param optional
@@ -230,8 +229,7 @@ class App extends Component {
       id = null,
       parent,
       nodeType,
-      choiceNodeCategory,
-      choiceNodeType,
+      choices,
       title,
       description,
       optional,
@@ -243,10 +241,9 @@ class App extends Component {
       if (nodeType === GMNodeTypes.CHOICE) {
         currentData.push({
           id: nextId,
-          choiceNodeCategory: choiceNodeCategory,
-          choiceNodeType: choiceNodeType,
+          choices: choices,
           description: description,
-          name: ChoiceNodeData[choiceNodeCategory][choiceNodeType].name,
+          name: title,
           optional: optional,
           parent: parseInt(parent.id),
           type: nodeType,
@@ -356,6 +353,16 @@ class App extends Component {
           // other nodes remain the same
           return node;
         }
+      });
+      this.setState({nodes: newNodes});
+    };
+
+    const updateGMChoicePossibilities = (nodeId, choices) => {
+      const newNodes = this.state.nodes.map(node => {
+        if (node.id === nodeId) {
+          node.choices = choices;
+        }
+        return node;
       });
       this.setState({nodes: newNodes});
     };
@@ -590,8 +597,7 @@ class App extends Component {
                     id,
                     parent,
                     nodeType,
-                    choiceNodeCategory,
-                    choiceNodeType,
+                    choices,
                     title,
                     description,
                     optional,
@@ -600,8 +606,7 @@ class App extends Component {
                       id,
                       parent,
                       nodeType,
-                      choiceNodeCategory,
-                      choiceNodeType,
+                      choices,
                       title,
                       description,
                       optional,
@@ -612,6 +617,7 @@ class App extends Component {
                 ? () => null
                 : nodeId => deleteGMNode(nodeId)
             }
+            onNodeChoicesUpdate={nodeId => updateGMChoicePossibilities(nodeId)}
             onNodeLockUpdate={
               current_visualization === PLATEFORMEDD
                 ? () => null

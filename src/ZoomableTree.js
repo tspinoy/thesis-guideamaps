@@ -27,6 +27,7 @@ class ZoomableTree extends React.Component {
       onAddNode,
       onDeleteNode,
       onEditNode,
+      onNodeChoicesUpdate,
       onNodeLockUpdate,
       onNodeUpdate,
       onNodePositionChange,
@@ -95,6 +96,7 @@ class ZoomableTree extends React.Component {
                   onAddNode={onAddNode}
                   onEditNode={onEditNode}
                   onVisibleChildrenUpdate={onVisibleChildrenUpdate}
+                  onNodeChoicesUpdate={onNodeChoicesUpdate}
                   onNodeLockUpdate={onNodeLockUpdate}
                   onNodePositionChange={onNodePositionChange}
                   onNodeUpdate={onNodeUpdate}

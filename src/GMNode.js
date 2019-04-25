@@ -11,7 +11,7 @@ import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as ReactDOM from 'react-dom';
-import { ChoiceNodeData } from "./ChoiceNodeData";
+import {ChoiceNodeData} from './ChoiceNodeData';
 
 const nodeSource = {
   beginDrag(props, monitor, component) {
@@ -169,12 +169,12 @@ class GMNode extends React.Component {
   completeNode(node) {
     return node.content !== '';
     /*
-    if (this.props.mode === Modes.END_USER) {
+    if (node.data.type === GMNodeTypes.CHOICE) {
+      return node.title !== '';
+    } else if (node.data.type === GMNodeTypes.DEFAULT) {
       return node.content !== '';
-    } else if (this.props.mode === Modes.MAP_CREATOR) {
-      return node.title !== '' && node.content !== '';
     }
-     */
+    */
   }
 
   /**
@@ -185,12 +185,12 @@ class GMNode extends React.Component {
   emptyNode(node) {
     return node.content === '';
     /*
-    if (this.props.mode === Modes.END_USER) {
+    if (node.data.type === GMNodeTypes.CHOICE) {
+      return node.title === '';
+    } else if (node.data.type === GMNodeTypes.DEFAULT) {
       return node.content === '';
-    } else if (this.props.mode === Modes.MAP_CREATOR) {
-      return node.title === '' && node.content === '';
     }
-     */
+    */
   }
 
   /**
@@ -231,8 +231,12 @@ class GMNode extends React.Component {
         if (child.data.optional) {
           continue;
         }
-        // When an incomplete node is detected, false is immediately returned
-        if (!this.completeNode(child)) {
+        if (child.data.type === GMNodeTypes.CHOICE) {
+          if (!this.completeChildren(child)) {
+            return false;
+          }
+        } else if (!this.completeNode(child)) {
+          // When an incomplete node is detected, false is immediately returned
           return false;
         }
       }
@@ -259,8 +263,12 @@ class GMNode extends React.Component {
         if (child.data.optional) {
           continue;
         }
-        // When an (partially) complete node is detected, false is immediately returned
-        if (this.completeNode(child)) {
+        if (child.data.type === GMNodeTypes.CHOICE) {
+          if (!this.emptyChildren(child)) {
+            return false;
+          }
+        } else if (this.completeNode(child)) {
+          // When an (partially) complete node is detected, false is immediately returned
           return false;
         }
       }
@@ -305,6 +313,7 @@ class GMNode extends React.Component {
             return ['fas', 'circle'];
           } else {
             // At least one of the children is incomplete
+            console.log('this');
             return ['fas', 'adjust'];
           }
         } else {
@@ -349,8 +358,8 @@ class GMNode extends React.Component {
     this.toggleModal();
   }
 
-  addChoiceChildNodes(event, choiceNodeCategory, choiceNodeType) {
-    const choices = ChoiceNodeData[choiceNodeCategory][choiceNodeType].choices;
+  addChoiceChildNodes(node) {
+    const choices = node.choices;
     // Check all checkboxes and add the selected nodes
     Object.values(choices).forEach((c, index) => {
       const el = document.getElementById(c.name);
@@ -362,8 +371,7 @@ class GMNode extends React.Component {
             id,
             this.props.node,
             GMNodeTypes.DEFAULT,
-            null,
-            null,
+            {},
             c.name,
             c.description,
             this.props.node.data.optional,
@@ -395,9 +403,27 @@ class GMNode extends React.Component {
    * - Expand or collapse the current node to show or hide the child nodes (only visible if the node does have children)
    * */
   render() {
-    const createTableOfChoices = (choiceNodeCategory, choiceNodeType) => {
-      const choices =
-        ChoiceNodeData[choiceNodeCategory][choiceNodeType].choices;
+    const {
+      centered,
+      EditModalComp,
+      mode,
+      node,
+      onAddNode,
+      onClick,
+      onDeleteNode,
+      onEditNode,
+      onNodeChoicesUpdate,
+      onNodeLockUpdate,
+      onNodeUpdate,
+      //onNodePositionChange,
+      onVisibleChildrenUpdate,
+      //connectDragSource,
+      //connectDropTarget,
+      isDragging, // injected by react dnd
+    } = this.props;
+
+    const createTableOfChoices = () => {
+      const choices = node.choices;
       return (
         <form>
           {Object.values(choices).map((c, index) => (
@@ -406,7 +432,9 @@ class GMNode extends React.Component {
               key={c.name}>
               <div className={'border-r p-4'}>
                 <input
-                  defaultChecked={this.state.selectedChoices.includes(this.props.node.data.id * 1000 + index)}
+                  defaultChecked={this.state.selectedChoices.includes(
+                    node.data.id * 1000 + index,
+                  )}
                   id={c.name}
                   type={'checkbox'}
                   value={c.name}
@@ -427,24 +455,6 @@ class GMNode extends React.Component {
         </form>
       );
     };
-
-    const {
-      centered,
-      EditModalComp,
-      mode,
-      node,
-      onAddNode,
-      onClick,
-      onDeleteNode,
-      onEditNode,
-      onNodeLockUpdate,
-      onNodeUpdate,
-      //onNodePositionChange,
-      onVisibleChildrenUpdate,
-      //connectDragSource,
-      //connectDropTarget,
-      isDragging, // injected by react dnd
-    } = this.props;
 
     switch (node.data.type) {
       case GMNodeTypes.CHOICE:
@@ -582,10 +592,7 @@ class GMNode extends React.Component {
                     <div>
                       <h1>{node.data.name}</h1>
                       <h3>Possible choices:</h3>
-                      {createTableOfChoices(
-                        node.data.choiceNodeCategory,
-                        node.data.choiceNodeType,
-                      )}
+                      {createTableOfChoices()}
                     </div>
                     <div className={'text-center'}>
                       <button
@@ -593,13 +600,7 @@ class GMNode extends React.Component {
                           'bg-blue hover:bg-blue-dark px-4 py-2 rounded text-white'
                         }
                         style={{minWidth: '50%', outline: 'none'}}
-                        onClick={e =>
-                          this.addChoiceChildNodes(
-                            e,
-                            node.data.choiceNodeCategory,
-                            node.data.choiceNodeType,
-                          )
-                        }>
+                        onClick={() => this.addChoiceChildNodes(node)}>
                         <FontAwesomeIcon icon={['far', 'save']} />
                         &nbsp;Save and close
                       </button>
@@ -713,6 +714,7 @@ class GMNode extends React.Component {
                   onAddNode={onAddNode}
                   onEditNode={onEditNode}
                   onClick={onClick}
+                  onNodeChoicesUpdate={onNodeChoicesUpdate}
                   width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
                 />
               )}

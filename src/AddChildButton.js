@@ -70,37 +70,54 @@ class AddChildButton extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const parent = this.props.node;
-    let description = '';
-    if (event.target.description !== undefined) {
-      description = event.target.description.value;
-    }
-    const title = event.target.title.value;
+
+    // First detect the node type to be added
     const nodeType = this.state.childNodeType;
     if (nodeType === '') {
       alert('The node type is required.');
       return;
     }
-    let choiceNodeType = null;
-    let choiceNodeCategory = null;
-    if (nodeType === GMNodeTypes.CHOICE) {
-      choiceNodeType = this.state.choiceNodeType;
-      choiceNodeCategory = this.state.choiceNodeCategory;
-      if (choiceNodeType === '') {
-        alert('The type of choice node is required.');
-        return;
-      }
-    }
+
+    // Get the title and description and optional-property of the new node
+    const title = event.target.title.value;
+    const description = event.target.description.value;
     const optional = event.target.optionalNode.checked;
-    this.props.onAddNode(
-      null,
-      parent,
-      nodeType,
-      choiceNodeCategory,
-      choiceNodeType,
-      title,
-      description,
-      optional,
-    );
+
+    if (nodeType === GMNodeTypes.DEFAULT) {
+      this.props.onAddNode(
+        null,
+        parent,
+        nodeType,
+        null,
+        title,
+        description,
+        optional,
+      );
+    } else if (nodeType === GMNodeTypes.CHOICE) {
+      let choices = {};
+      for (let i = 0; i < this.state.choices.length; i++) {
+        const choiceTitle = event.target['titleChoice' + i].value;
+        const choiceDescription = event.target['descriptionChoice' + i].value;
+        choices[choiceTitle] = {
+          description: choiceDescription,
+          name: choiceTitle,
+          type: GMNodeTypes.DEFAULT,
+        };
+      }
+      this.props.onAddNode(
+        null,
+        parent,
+        nodeType,
+        choices,
+        title,
+        description,
+        optional,
+      );
+      //this.props.onNodeChoicesUpdate(this.props.node.id, choices);
+      this.toggleModal();
+      return;
+    }
+
     this.toggleModal();
     // Restore initial state.
     this.setState({
@@ -126,7 +143,7 @@ class AddChildButton extends React.Component {
                 'appearance-none border leading-tight px-3 py-2 ' +
                 'rounded shadow text-grey-darker w-full'
               }
-              name={'title'}
+              name={'titleChoice' + id}
               placeholder={'Node ' + id + ' title'}
               type={'text'}
             />
@@ -140,7 +157,7 @@ class AddChildButton extends React.Component {
                 'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
                 'rounded shadow text-grey-darker w-full'
               }
-              name={'description'}
+              name={'descriptionChoice' + id}
               placeholder={'Node ' + id + ' description'}
               type={'text'}
             />
@@ -148,7 +165,7 @@ class AddChildButton extends React.Component {
         </div>,
       ],
     });
-  };
+  }
 
   render() {
     return (
@@ -214,7 +231,7 @@ class AddChildButton extends React.Component {
                     X
                   </button>
                 </div>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                   <label
                     className={'block text-grey-darker text-lg font-bold mb-2'}>
                     Node Type
@@ -316,7 +333,9 @@ class AddChildButton extends React.Component {
                       type={'text'}
                     />
                   </div>
-                  <div id={'custom-choices'}>{this.state.choices}</div>
+                  {this.state.childNodeType === GMNodeTypes.CHOICE && (
+                    <div id={'custom-choices'}>{this.state.choices}</div>
+                  )}
                   <div
                     className={'mb-4'}
                     style={{
@@ -331,23 +350,34 @@ class AddChildButton extends React.Component {
                     <label htmlFor={'optionalNode'}> Optional?</label>
                   </div>
                   <div className={'mb-4 text-center'}>
+                    {this.state.childNodeType === GMNodeTypes.CHOICE && (
+                      <button
+                        className={
+                          'bg-blue hover:bg-blue-dark mr-4 px-4 py-2 rounded text-white'
+                        }
+                        onClick={e => {
+                          e.preventDefault();
+                          this.addCustomChoice(this.state.choices.length);
+                        }}
+                        style={{minWidth: '30%', outline: 'none'}}>
+                        Add extra choice
+                      </button>
+                    )}
                     <button
                       className={
-                        'bg-blue hover:bg-blue-dark px-4 py-2 rounded text-white'
+                        'bg-blue hover:bg-blue-dark ' +
+                        (this.state.childNodeType === GMNodeTypes.CHOICE
+                          ? 'ml-4 '
+                          : '') +
+                        'px-4 py-2 rounded text-white'
                       }
-                      onClick={e => {
-                        e.preventDefault();
-                        this.addCustomChoice(this.state.choices.length);
-                      }}
-                      style={{minWidth: '30%', outline: 'none'}}>
-                      Add extra choice
-                    </button>
-                    <button
-                      className={
-                        'bg-blue hover:bg-blue-dark px-4 py-2 rounded text-white'
-                      }
-                      onClick={this.handleSubmit}
-                      style={{minWidth: '30%', outline: 'none'}}>
+                      style={{
+                        minWidth:
+                          this.state.childNodeType === GMNodeTypes.CHOICE
+                            ? '30%'
+                            : '50%',
+                        outline: 'none',
+                      }}>
                       <FontAwesomeIcon icon={['far', 'save']} />
                       &nbsp;Create node!
                     </button>
