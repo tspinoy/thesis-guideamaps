@@ -67,8 +67,20 @@ export const TemplateData = {
         type: GMNodeTypes.DEFAULT,
       },
       {
-        choiceNodeCategory: 'eCommerce',
-        choiceNodeType: 'Registration',
+        choices: {
+          FullRegistration: {
+            description:
+              'This allows a registration from which a detailed profile can be created.',
+            name: 'Full Registration',
+            type: GMNodeTypes.DEFAULT,
+          },
+          QuickRegistration: {
+            description:
+              'This allows a registration with a minimal of information to be entered by the user.',
+            name: 'Quick Registration',
+            type: GMNodeTypes.DEFAULT,
+          },
+        },
         description:
           'To be able to login a customer first has to register; different possibilities are available for this.',
         id: 7,
@@ -78,8 +90,24 @@ export const TemplateData = {
         type: GMNodeTypes.CHOICE,
       },
       {
-        choiceNodeCategory: 'eCommerce',
-        choiceNodeType: 'CustomerServices',
+        choices: {
+          ShipmentTracking: {
+            description: 'This allows a customer to track his order.',
+            name: 'Shipment Tracking',
+            type: GMNodeTypes.DEFAULT,
+          },
+          ReturnService: {
+            description: 'This allows a customer to return goods.',
+            name: 'Return Service',
+            type: GMNodeTypes.DEFAULT,
+          },
+          InvoiceDetails: {
+            description:
+              'This allows a customer to change details about his invoice.',
+            name: 'Invoice Details',
+            type: GMNodeTypes.DEFAULT,
+          },
+        },
         description: 'You can provide different services to your customers.',
         id: 8,
         name: 'Customer Services',
@@ -115,8 +143,23 @@ export const TemplateData = {
         type: GMNodeTypes.DEFAULT,
       },
       {
-        choiceNodeCategory: 'eCommerce',
-        choiceNodeType: 'PaymentMethod',
+        choices: {
+          BankTransfer: {
+            description: '',
+            name: 'Bank Transfer',
+            type: GMNodeTypes.DEFAULT,
+          },
+          CreditDebitCard: {
+            description: '',
+            name: 'Credit/Debit Card',
+            type: GMNodeTypes.DEFAULT,
+          },
+          PayPal: {
+            description: '',
+            name: 'PayPal',
+            type: GMNodeTypes.DEFAULT,
+          },
+        },
         description: '',
         id: 12,
         name: 'Payment Method',
@@ -173,8 +216,20 @@ export const TemplateData = {
       },
       // Searching
       {
-        choiceNodeCategory: 'eCommerce',
-        choiceNodeType: 'Searching',
+        choices: {
+          Search: {
+            description:
+              'This allows a customer to search for products based on keywords.',
+            name: 'Search',
+            type: GMNodeTypes.DEFAULT,
+          },
+          Browse: {
+            description:
+              'This allows a customer to search for products based on categories.',
+            name: 'Browse',
+            type: GMNodeTypes.DEFAULT,
+          },
+        },
         description:
           'A customer should be able to easily find products. Select at least on possibility.',
         id: 18,
