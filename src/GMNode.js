@@ -11,7 +11,6 @@ import EditButton from './EditButton';
 import ExpandCollapseButton from './ExpandCollapseButton';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as ReactDOM from 'react-dom';
-import {ChoiceNodeData} from './ChoiceNodeData';
 
 const nodeSource = {
   beginDrag(props, monitor, component) {
@@ -638,7 +637,7 @@ class GMNode extends React.Component {
             {this.state.isOpen &&
               ReactDOM.createPortal(
                 <div
-                  className={'backdrop overflow-y-scroll'}
+                  className={'backdrop'}
                   style={{
                     backgroundColor: 'rgba(0,0,0,0.3)', // gray background
                     bottom: 0,
@@ -652,15 +651,17 @@ class GMNode extends React.Component {
                     zIndex: 5000,
                   }}>
                   <div
-                    className={'absolute rounded w-full'}
+                    className={'absolute overflow-y-auto rounded w-full'}
                     style={{
                       backgroundColor: '#fff',
                       left: '50%',
                       margin: '0 auto',
                       maxHeight: '80%',
                       maxWidth: '750px',
-                      minHeight: '50%',
-                      padding: 15,
+                      paddingBottom: 30,
+                      paddingLeft: 50,
+                      paddingRight: 50,
+                      paddingTop: 30,
                       top: '10%',
                       transform: 'translate(-50%, 0)',
                       width: '90%',
@@ -672,7 +673,7 @@ class GMNode extends React.Component {
                       style={{
                         outline: 'none',
                         right: 0,
-                        transform: 'translate(17px, -32px)',
+                        transform: 'translate(0, -30px)',
                       }}
                       onClick={() => this.toggleModal()}>
                       X
@@ -688,7 +689,7 @@ class GMNode extends React.Component {
                           style={{
                             left: 0,
                             outline: 'none',
-                            transform: 'translate(-17px, -32px)',
+                            transform: 'translate(0, -30px)',
                           }}
                           onClick={() => {
                             this.props.onDeleteNode(this.props.node.data.id);
@@ -699,9 +700,7 @@ class GMNode extends React.Component {
                       )}
                     {/* content */}
                     {mode === Modes.MAP_CREATOR && (
-                      <div
-                        className={'absolute overflow-y-scroll'}
-                        style={{width: '96%', height: '95%'}}>
+                      <div className={'relative overflow-y-scroll'}>
                         <div>
                           <h1>{node.data.name}</h1>
                           <h3 className={'mb-4'}>Possible choices:</h3>
@@ -743,9 +742,7 @@ class GMNode extends React.Component {
                       </div>
                     )}
                     {mode === Modes.END_USER && (
-                      <div
-                        className={'absolute overflow-y-scroll'}
-                        style={{width: '96%', height: '95%'}}>
+                      <div className={'overflow-y-scroll'}>
                         <div>
                           <h1>{node.data.name}</h1>
                           <h3 className={'mb-4'}>Possible choices:</h3>
