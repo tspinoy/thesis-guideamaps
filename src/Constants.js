@@ -76,6 +76,20 @@ export const initializeGMNode = (
     node.backgroundColor = '#ffb018';
   }
 
+  node.choiceLowerLimit =
+    oldNode !== null && oldNode.choiceLowerLimit !== undefined
+      ? oldNode.choiceLowerLimit
+      : node.data.choiceLowerLimit === undefined
+      ? 0
+      : node.data.choiceLowerLimit;
+
+  node.choiceUpperLimit =
+    oldNode !== null && oldNode.choiceUpperLimit !== undefined
+      ? oldNode.choiceUpperLimit
+      : node.data.choiceUpperLimit === undefined
+      ? 1
+      : node.data.choiceUpperLimit;
+
   // Choices property (choice nodes only)
   node.choices =
     oldNode !== null && oldNode.choices !== undefined

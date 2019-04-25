@@ -357,10 +357,17 @@ class App extends Component {
       this.setState({nodes: newNodes});
     };
 
-    const updateGMChoicePossibilities = (nodeId, choices) => {
+    const updateGMChoicePossibilities = (
+      nodeId,
+      choices,
+      lowerLimit,
+      upperLimit,
+    ) => {
       const newNodes = this.state.nodes.map(node => {
         if (node.id === nodeId) {
           node.choices = choices;
+          node.choiceLowerLimit = lowerLimit;
+          node.choiceUpperLimit = upperLimit;
         }
         return node;
       });
@@ -617,8 +624,13 @@ class App extends Component {
                 ? () => null
                 : nodeId => deleteGMNode(nodeId)
             }
-            onNodeChoicesUpdate={(nodeId, choices) =>
-              updateGMChoicePossibilities(nodeId, choices)
+            onNodeChoicesUpdate={(nodeId, choices, lowerLimit, upperLimit) =>
+              updateGMChoicePossibilities(
+                nodeId,
+                choices,
+                lowerLimit,
+                upperLimit,
+              )
             }
             onNodeLockUpdate={
               current_visualization === PLATEFORMEDD

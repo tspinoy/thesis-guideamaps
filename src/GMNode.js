@@ -55,13 +55,15 @@ class GMNode extends React.Component {
     this.state = {
       isOpen: false,
       customChoices: [],
-      selectedChoices: [],
+      activeChoices: [], // to keep track of which choices are selected
+      checkedChoices: 0,
     };
     this.addCustomChoice = this.addCustomChoice.bind(this);
     this.addChoiceChildNodes = this.addChoiceChildNodes.bind(this);
     this.completeNode = this.completeNode.bind(this);
     this.emptyChildren = this.emptyChildren.bind(this);
     this.getAllChildren = this.getAllChildren.bind(this);
+    this.handleChoiceClick = this.handleChoiceClick.bind(this);
     this.handleChoiceNodeClick = this.handleChoiceNodeClick.bind(this);
     this.loadChoices = this.loadChoices.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
@@ -362,12 +364,26 @@ class GMNode extends React.Component {
 
   addChoiceChildNodes(event, node) {
     if (this.props.mode === Modes.END_USER) {
+      if (this.state.checkedChoices < parseInt(node.choiceLowerLimit)) {
+        alert(
+          'You have to select at least ' + node.choiceLowerLimit + ' choices.',
+        );
+        return;
+      } else if (this.state.checkedChoices > parseInt(node.choiceUpperLimit)) {
+        alert(
+          'You selected more than the maximum of ' +
+            node.choiceUpperLimit +
+            ' choices.',
+        );
+        return;
+      }
+
       const choices = node.choices;
       // Check all checkboxes and add the selected nodes
       Object.values(choices).forEach((c, index) => {
         const el = document.getElementById(c.name);
         const id = this.props.node.data.id * 1000 + index;
-        if (el.checked && !this.state.selectedChoices.includes(id)) {
+        if (el.checked && !this.state.activeChoices.includes(id)) {
           // timeout needed to avoid simultaneously adding two nodes which would result in identical keys for the links
           setTimeout(() => {
             this.props.onAddNode(
@@ -380,22 +396,22 @@ class GMNode extends React.Component {
               this.props.node.data.optional,
             );
             this.setState({
-              selectedChoices: [...this.state.selectedChoices, id],
+              activeChoices: [...this.state.activeChoices, id],
             });
           }, 250);
-        } else if (!el.checked && this.state.selectedChoices.includes(id)) {
-          this.props.onDeleteNode(id); // Delete the node
+        } else if (!el.checked && this.state.activeChoices.includes(id)) {
+          this.props.onDeleteNode(id); // Delete the node with the id that we created ourselves. This is why we had to create the id: we needed it to be able to delete the node.
           // And update the state
-          let updatedSelectedChoices = [...this.state.selectedChoices]; // make a separate copy of the array
-          const pos = updatedSelectedChoices.indexOf(id);
+          let updatedActiveChoices = [...this.state.activeChoices]; // make a separate copy of the array
+          const pos = updatedActiveChoices.indexOf(id);
           if (pos !== -1) {
-            updatedSelectedChoices.splice(pos, 1);
-            this.setState({selectedChoices: updatedSelectedChoices});
+            updatedActiveChoices.splice(pos, 1);
+            this.setState({activeChoices: updatedActiveChoices});
           }
         }
       });
       this.toggleModal();
-    } else {
+    } else if (this.props.mode === Modes.MAP_CREATOR) {
       const choices = {};
       for (let i = 0; i < this.state.customChoices.length; i++) {
         const title = event.target['titleChoice' + i].value;
@@ -406,7 +422,14 @@ class GMNode extends React.Component {
           type: GMNodeTypes.DEFAULT,
         };
       }
-      this.props.onNodeChoicesUpdate(this.props.node.id, choices);
+      const lowerLimit = event.target.lowerLimit.value;
+      const upperLimit = event.target.upperLimit.value;
+      this.props.onNodeChoicesUpdate(
+        this.props.node.id,
+        choices,
+        lowerLimit,
+        upperLimit,
+      );
       this.toggleModal();
       setTimeout(() => this.loadChoices(this.props.node), 1000);
     }
@@ -502,6 +525,18 @@ class GMNode extends React.Component {
     });
   }
 
+  handleChoiceClick(event) {
+    if (event.target.checked) {
+      this.setState(prevState => ({
+        checkedChoices: prevState.checkedChoices + 1,
+      }));
+    } else {
+      this.setState(prevState => ({
+        checkedChoices: prevState.checkedChoices - 1,
+      }));
+    }
+  }
+
   /**
    * To render a node, a div element is created.
    * Inside this div we have another div to display the title of the node + a second div showing the content of it.
@@ -532,6 +567,7 @@ class GMNode extends React.Component {
 
     const createTableOfChoices = () => {
       const choices = node.choices;
+      console.log(this.state.activeChoices);
       return (
         <form>
           {Object.values(choices).map((c, index) => (
@@ -540,10 +576,11 @@ class GMNode extends React.Component {
               key={c.name}>
               <div className={'border-r p-4'}>
                 <input
-                  defaultChecked={this.state.selectedChoices.includes(
+                  defaultChecked={this.state.activeChoices.includes(
                     node.data.id * 1000 + index,
                   )}
                   id={c.name}
+                  onChange={e => this.handleChoiceClick(e)}
                   type={'checkbox'}
                   value={c.name}
                 />
@@ -710,6 +747,61 @@ class GMNode extends React.Component {
                               this.addChoiceChildNodes(e, node);
                             }}>
                             {this.state.customChoices}
+                            Lower limit:{' '}
+                            <select
+                              className={'border border-solid mb-4'}
+                              defaultValue={node.choiceLowerLimit}
+                              id={'lowerLimit'}
+                              name={'lowerLimit'}
+                              style={{
+                                height: '35px',
+                                outline: 'none',
+                                width: '150px',
+                              }}>
+                              {this.state.customChoices.map(function(c, index) {
+                                return (
+                                  <option
+                                    className={
+                                      'cursor-pointer text-center w-full'
+                                    }
+                                    key={c.name}
+                                    value={index}>
+                                    {index}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                            <br />
+                            Upper limit:{' '}
+                            <select
+                              className={'border border-solid mb-4'}
+                              defaultValue={node.choiceUpperLimit}
+                              id={'upperLimit'}
+                              name={'upperLimit'}
+                              style={{
+                                height: '35px',
+                                outline: 'none',
+                                width: '150px',
+                              }}>
+                              {this.state.customChoices.map(function(c, index) {
+                                if (index > 0) {
+                                  return (
+                                    <option
+                                      className={
+                                        'cursor-pointer text-center w-full'
+                                      }
+                                      key={c.name}
+                                      value={index}>
+                                      {index}
+                                    </option>
+                                  );
+                                }
+                              })}
+                              <option
+                                className={'cursor-pointer text-center w-full'}>
+                                {this.state.customChoices.length}
+                              </option>
+                            </select>
                             <div className={'text-center'}>
                               <button
                                 className={
@@ -745,6 +837,13 @@ class GMNode extends React.Component {
                       <div className={'overflow-y-scroll'}>
                         <div>
                           <h1>{node.data.name}</h1>
+                          <h3>
+                            {'Select between ' +
+                              node.choiceLowerLimit +
+                              ' and ' +
+                              node.choiceUpperLimit +
+                              ' choices.'}
+                          </h3>
                           <h3 className={'mb-4'}>Possible choices:</h3>
                           {createTableOfChoices()}
                         </div>

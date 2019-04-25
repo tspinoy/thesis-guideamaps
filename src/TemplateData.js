@@ -67,6 +67,8 @@ export const TemplateData = {
         type: GMNodeTypes.DEFAULT,
       },
       {
+        choiceLowerLimit: 0,
+        choiceUpperLimit: 2,
         choices: {
           FullRegistration: {
             description:
@@ -90,6 +92,8 @@ export const TemplateData = {
         type: GMNodeTypes.CHOICE,
       },
       {
+        choiceLowerLimit: 0,
+        choiceUpperLimit: 3,
         choices: {
           ShipmentTracking: {
             description: 'This allows a customer to track his order.',
@@ -143,6 +147,8 @@ export const TemplateData = {
         type: GMNodeTypes.DEFAULT,
       },
       {
+        choiceLowerLimit: 0,
+        choiceUpperLimit: 3,
         choices: {
           BankTransfer: {
             description: '',
@@ -216,6 +222,8 @@ export const TemplateData = {
       },
       // Searching
       {
+        choiceLowerLimit: 0,
+        choiceUpperLimit: 2,
         choices: {
           Search: {
             description:
