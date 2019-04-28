@@ -95,6 +95,9 @@ class AddChildButton extends React.Component {
       );
     } else if (nodeType === GMNodeTypes.CHOICE) {
       let choices = {};
+      const lowerLimit = event.target.lowerLimit.value;
+      const upperLimit = event.target.upperLimit.value;
+
       for (let i = 0; i < this.state.choices.length; i++) {
         const choiceTitle = event.target['titleChoice' + i].value;
         const choiceDescription = event.target['descriptionChoice' + i].value;
@@ -104,14 +107,26 @@ class AddChildButton extends React.Component {
           type: GMNodeTypes.DEFAULT,
         };
       }
+      const nextId = this.props.nrOfNodes;
+      console.log(nextId);
       this.props.onAddNode(
-        null,
+        nextId,
         parent,
         nodeType,
         choices,
         title,
         description,
         optional,
+      );
+      setTimeout(
+        () =>
+          this.props.onNodeChoicesUpdate(
+            nextId,
+            choices,
+            lowerLimit,
+            upperLimit,
+          ),
+        200,
       );
       //this.props.onNodeChoicesUpdate(this.props.node.id, choices);
       this.toggleModal();
@@ -334,7 +349,59 @@ class AddChildButton extends React.Component {
                     />
                   </div>
                   {this.state.childNodeType === GMNodeTypes.CHOICE && (
-                    <div id={'custom-choices'}>{this.state.choices}</div>
+                    <React.Fragment>
+                      <div id={'custom-choices'}>{this.state.choices}</div>
+                      {'Lower limit: '}
+                      <select
+                        className={'border border-solid mb-4'}
+                        defaultValue={0}
+                        id={'lowerLimit'}
+                        name={'lowerLimit'}
+                        style={{
+                          height: '35px',
+                          outline: 'none',
+                          width: '150px',
+                        }}>
+                        {this.state.choices.map(function(c, index) {
+                          return (
+                            <option
+                              className={'cursor-pointer text-center w-full'}
+                              key={c.name}
+                              value={index}>
+                              {index}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      <br />
+                      Upper limit:{' '}
+                      <select
+                        className={'border border-solid mb-4'}
+                        defaultValue={this.state.choices.length}
+                        id={'upperLimit'}
+                        name={'upperLimit'}
+                        style={{
+                          height: '35px',
+                          outline: 'none',
+                          width: '150px',
+                        }}>
+                        {this.state.choices.map(function(c, index) {
+                          if (index > 0) {
+                            return (
+                              <option
+                                className={'cursor-pointer text-center w-full'}
+                                key={c.name}
+                                value={index}>
+                                {index}
+                              </option>
+                            );
+                          }
+                        })}
+                        <option className={'cursor-pointer text-center w-full'}>
+                          {this.state.choices.length}
+                        </option>
+                      </select>
+                    </React.Fragment>
                   )}
                   <div
                     className={'mb-4'}

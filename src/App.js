@@ -364,7 +364,7 @@ class App extends Component {
       upperLimit,
     ) => {
       const newNodes = this.state.nodes.map(node => {
-        if (node.id === nodeId) {
+        if (node.data.id === nodeId) {
           node.choices = choices;
           node.choiceLowerLimit = lowerLimit;
           node.choiceUpperLimit = upperLimit;

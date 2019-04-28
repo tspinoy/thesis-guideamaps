@@ -90,6 +90,7 @@ class ZoomableTree extends React.Component {
                   mode={mode}
                   onDeleteNode={onDeleteNode}
                   node={n}
+                  nrOfNodes={nodes.length}
                   onClick={() => {
                     this.setState({selectedId: n.id});
                   }}

@@ -983,6 +983,7 @@ class GMNode extends React.Component {
                   bgcolor={node.backgroundColor}
                   locked={node.locked}
                   node={node}
+                  nrOfNodes={this.props.nrOfNodes}
                   onAddNode={onAddNode}
                   onEditNode={onEditNode}
                   onClick={onClick}
