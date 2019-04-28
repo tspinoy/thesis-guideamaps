@@ -393,7 +393,7 @@ class GMNode extends React.Component {
               {},
               c.name,
               c.description,
-              this.props.node.data.optional,
+              false,
             );
             this.setState({
               activeChoices: [...this.state.activeChoices, id],
