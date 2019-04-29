@@ -2,7 +2,6 @@ import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as ReactDOM from 'react-dom';
 import {GMNodeTypes, ModalID} from './Constants';
-import {ChoiceNodeData} from './ChoiceNodeData';
 
 class AddChildButton extends React.Component {
   constructor(props) {
@@ -10,16 +9,12 @@ class AddChildButton extends React.Component {
     this.state = {
       choices: [],
       childNodeType: '',
-      choiceNodeType: '',
-      choiceNodeCategory: '',
       isOpen: false,
     };
 
     // This binding is necessary to make `this` work in the callback
     this.addCustomChoice = this.addCustomChoice.bind(this);
-    this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChoiceTypeChange = this.handleChoiceTypeChange.bind(this);
     this.handleNodeTypeChange = this.handleNodeTypeChange.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.updateOpenState = this.updateOpenState.bind(this);
@@ -27,12 +22,6 @@ class AddChildButton extends React.Component {
 
   componentDidMount() {
     this.addCustomChoice(0);
-  }
-
-  // This syntax ensures `this` is bound within handleClick.
-  handleClick() {
-    this.setState({isOpen: true});
-    //this.props.onAddNode(this.props.node);
   }
 
   /**
@@ -43,61 +32,66 @@ class AddChildButton extends React.Component {
   }
 
   /**
-   * Do some important stuff when the modal is toggled (opened or closed).
+   * Open or close the modal.
    */
   toggleModal() {
-    this.props.onEditNode();
-    this.props.onClick();
+    this.props.onEditNode(); // Make sure the modal will be visible or invisible again
+    this.props.onClick(); // Center the clicked node
     // Depending on the animation, you have to wait before the state is changed.
     // The content of #modalSpace is deleted when the this.state.isOpen = false.
     // Hence, we have to wait to delete it until the animation is finished.
     setTimeout(() => this.updateOpenState(), this.state.isOpen ? 600 : 0);
   }
 
-  handleChoiceTypeChange() {
-    const e = document.getElementById('choiceType');
-    this.setState({
-      choiceNodeCategory: e.options[e.selectedIndex].parentNode.label,
-      choiceNodeType: e.options[e.selectedIndex].value,
-    });
-  }
-
+  /**
+   * Update the state each time the node type of the node-to-add is changed.
+   */
   handleNodeTypeChange() {
     const e = document.getElementById('nodeType');
     this.setState({childNodeType: e.options[e.selectedIndex].value});
   }
 
+  /**
+   * When the form with the information about the node-to-add is submitted,
+   * the submitted data should be handled in order to create the correct node.
+   * @param event
+   */
   handleSubmit(event) {
     event.preventDefault();
+    // The current node will be the parent of the node that is added.
     const parent = this.props.node;
 
-    // First detect the node type to be added
+    // First detect the node type to be added.
     const nodeType = this.state.childNodeType;
     if (nodeType === '') {
+      // If the nodeType is not specified, the node cannot be created.
       alert('The node type is required.');
       return;
     }
 
-    // Get the title and description and optional-property of the new node
+    // Get the title, description and optional-property of the new node.
     const title = event.target.title.value;
     const description = event.target.description.value;
     const optional = event.target.optionalNode.checked;
 
+    // 2 cases: the nodeType = DEFAULT and the nodeType = CHOICE.
     if (nodeType === GMNodeTypes.DEFAULT) {
       this.props.onAddNode(
-        null,
-        parent,
-        nodeType,
-        null,
-        title,
-        description,
-        optional,
+        null, // id (not necessary to pass it here, it is computed in App.js)
+        parent, // parent node
+        nodeType, // type of the node (GMNodeTypes.DEFAULT)
+        null, // choices (null in case nodeType != CHOICE)
+        title, // the title (aka name) of the node
+        description, // the description of the node
+        optional, // boolean to indicate whether the node is optional or not
       );
     } else if (nodeType === GMNodeTypes.CHOICE) {
+      // Second case
       let choices = {};
       const lowerLimit = event.target.lowerLimit.value;
       const upperLimit = event.target.upperLimit.value;
 
+      // Collect the choices prepared by the map creator.
       for (let i = 0; i < this.state.choices.length; i++) {
         const choiceTitle = event.target['titleChoice' + i].value;
         const choiceDescription = event.target['descriptionChoice' + i].value;
@@ -107,41 +101,42 @@ class AddChildButton extends React.Component {
           type: GMNodeTypes.DEFAULT,
         };
       }
+      // Take as id of the node-to-add the number of nodes the visualization already contains.
+      // We need this id later once more.
       const nextId = this.props.nrOfNodes;
-      console.log(nextId);
       this.props.onAddNode(
-        nextId,
-        parent,
-        nodeType,
-        choices,
-        title,
-        description,
-        optional,
+        nextId, // id
+        parent, // parent node
+        nodeType, // type of the node (GMNodeTypes.CHOICE)
+        choices, // choices prepared by the map creator
+        title, // the title (aka name) of the node
+        description, // the description of the node
+        optional, // boolean to indicate whether the node is optional or not
       );
+      // Because it is not possible to do this immediately, we set a timeout.
       setTimeout(
         () =>
           this.props.onNodeChoicesUpdate(
-            nextId,
-            choices,
+            nextId, // id (because we need it here, we had to store it in a const)
+            choices, // the choices created by the map creator
             lowerLimit,
             upperLimit,
           ),
         200,
       );
-      //this.props.onNodeChoicesUpdate(this.props.node.id, choices);
-      this.toggleModal();
-      return;
     }
 
-    this.toggleModal();
+    this.toggleModal(); // Close the modal after finish.
     // Restore initial state.
-    this.setState({
-      childNodeType: '',
-      choiceNodeCategory: '',
-      choiceNodeType: '',
-    });
+    this.setState({childNodeType: ''});
   }
 
+  /**
+   * Construct an additional choice for the choice node.
+   * This function makes sure that additional html-elements are added
+   * such that the user can insert additional choice possibilities.
+   * @param id: the id (number) of the choice possibility.
+   */
   addCustomChoice(id) {
     this.setState({
       choices: [
@@ -151,7 +146,7 @@ class AddChildButton extends React.Component {
           key={'choice' + id}>
           <div className={'mb-4'}>
             <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
-              {'Choice node ' + id + ' title'}
+              {'Choice ' + id + ' title'}
             </label>
             <input
               className={
@@ -159,13 +154,13 @@ class AddChildButton extends React.Component {
                 'rounded shadow text-grey-darker w-full'
               }
               name={'titleChoice' + id}
-              placeholder={'Node ' + id + ' title'}
+              placeholder={'Choice ' + id + ' title'}
               type={'text'}
             />
           </div>
           <div className={'mb-4'}>
             <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
-              {'Choice node ' + id + ' description'}
+              {'Choice ' + id + ' description'}
             </label>
             <input
               className={
@@ -173,7 +168,7 @@ class AddChildButton extends React.Component {
                 'rounded shadow text-grey-darker w-full'
               }
               name={'descriptionChoice' + id}
-              placeholder={'Node ' + id + ' description'}
+              placeholder={'Choice ' + id + ' description'}
               type={'text'}
             />
           </div>
@@ -196,7 +191,7 @@ class AddChildButton extends React.Component {
             borderTop: '1px solid',
             borderRight: '1px solid',
             borderColor: this.props.node.backgroundColor,
-            color: this.props.node.backgroundColor,
+            color: this.props.node.backgroundColor, // inverted by invertColors (class)
             outline: 'none',
           }}
           /* the button should not be clickable when the node is locked */
@@ -270,50 +265,6 @@ class AddChildButton extends React.Component {
                       );
                     })}
                   </select>
-                  {this.state.childNodeType === GMNodeTypes.CHOICE && false && (
-                    <div className={'mb-4'}>
-                      <label
-                        className={
-                          'block text-grey-darker text-lg font-bold mb-2'
-                        }>
-                        Choice Type
-                      </label>
-                      <select
-                        className={'border border-solid'}
-                        id={'choiceType'}
-                        onChange={this.handleChoiceTypeChange}
-                        style={{
-                          height: '35px',
-                          outline: 'none',
-                          width: '150px',
-                        }}>
-                        <option disabled={true} selected={'selected'}>
-                          Choose here
-                        </option>
-                        {Object.keys(ChoiceNodeData).map(function(category) {
-                          return (
-                            <optgroup key={category} label={category}>
-                              {Object.keys(ChoiceNodeData[category]).map(
-                                function(type) {
-                                  return (
-                                    <option
-                                      key={type}
-                                      className={
-                                        'cursor-pointer text-center w-full'
-                                      }
-                                      selected={''}
-                                      style={{height: '50px'}}>
-                                      {ChoiceNodeData[category][type].name}
-                                    </option>
-                                  );
-                                },
-                              )}
-                            </optgroup>
-                          );
-                        })}
-                      </select>
-                    </div>
-                  )}
                   <div className={'mb-4'}>
                     <label
                       className={

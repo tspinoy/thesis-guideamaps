@@ -18,13 +18,6 @@ class PDDNode extends React.Component {
         node.classList.add('node');
       }
     }, 600);
-
-    document
-      .getElementById('node' + this.props.node.data.id)
-      .addEventListener('dblclick', () => {
-        this.props.node.children !== undefined &&
-          this.props.onVisibleChildrenUpdate(this.props.node.data.id);
-      });
   }
 
   componentDidUpdate() {
@@ -45,13 +38,18 @@ class PDDNode extends React.Component {
     return [current.x, current.y];
   }
 
+  /**
+   * OnClick is a bit special in PDD. The first click is meant to center the node.
+   * A second click (if the node is still centered) opens the node.
+   */
   onClickHandler() {
-    this.props.onClick();
+    this.props.onClick(); // Center the node.
     if (
       this.props.centered &&
       this.props.node.data.id !== 0 &&
       parseInt(this.props.lastSelectedId) === this.props.node.data.id
     ) {
+      // Simulate a click to open the node.
       document.getElementById('editbtn' + this.props.node.data.id).click();
     }
   }

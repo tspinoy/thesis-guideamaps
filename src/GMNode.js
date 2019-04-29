@@ -58,13 +58,14 @@ class GMNode extends React.Component {
       activeChoices: [], // to keep track of which choices are selected
       checkedChoices: 0,
     };
-    this.addCustomChoice = this.addCustomChoice.bind(this);
+
+    // This binding is necessary to make `this` work in the callback
     this.addChoiceChildNodes = this.addChoiceChildNodes.bind(this);
+    this.addCustomChoice = this.addCustomChoice.bind(this);
     this.completeNode = this.completeNode.bind(this);
     this.emptyChildren = this.emptyChildren.bind(this);
     this.getAllChildren = this.getAllChildren.bind(this);
     this.handleChoiceClick = this.handleChoiceClick.bind(this);
-    this.handleChoiceNodeClick = this.handleChoiceNodeClick.bind(this);
     this.loadChoices = this.loadChoices.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
@@ -169,7 +170,7 @@ class GMNode extends React.Component {
   /**
    * A {@param node} is defined as complete if the "content"-field is filled in.
    * @param node
-   * @return {boolean}
+   * @return {boolean}: The content-field is filled in (true) or not (false)
    */
   completeNode(node) {
     return node.content !== '';
@@ -185,7 +186,7 @@ class GMNode extends React.Component {
   /**
    * A {@param node} is defined as empty if the "content"-field is empty.
    * @param node
-   * @return {boolean}
+   * @return {boolean}: The content-field is filled in (false) or not (true)
    */
   emptyNode(node) {
     return node.content === '';
@@ -347,19 +348,15 @@ class GMNode extends React.Component {
   }
 
   /**
-   * Do some important stuff when the modal is toggled (opened or closed).
+   * Open or close the modal.
    */
   toggleModal() {
-    this.props.onEditNode();
-    this.props.onClick();
+    this.props.onEditNode(); // Make sure the modal will be visible or invisible again
+    this.props.onClick(); // Center the clicked node
     // Depending on the animation, you have to wait before the state is changed.
     // The content of #modalSpace is deleted when the this.state.isOpen = false.
     // Hence, we have to wait to delete it until the animation is finished.
     setTimeout(() => this.updateOpenState(), this.state.isOpen ? 600 : 0);
-  }
-
-  handleChoiceNodeClick() {
-    this.toggleModal();
   }
 
   addChoiceChildNodes(event, node) {
@@ -485,44 +482,45 @@ class GMNode extends React.Component {
     this.setState({customChoices: result});
   }
 
-  addCustomChoice(choice) {
+  /**
+   * Construct an additional choice for the choice node.
+   * This function makes sure that additional html-elements are added
+   * such that the user can insert additional choice possibilities.
+   * @param id: the id (number) of the choice possibility.
+   */
+  addCustomChoice(id) {
+    console.log(id);
     this.setState({
       customChoices: [
         ...this.state.customChoices,
         <div
           className={'border border-solid mb-4 p-4 rounded'}
-          key={'choice' + this.state.customChoices.length}>
+          key={'choice' + id}>
           <div className={'mb-4'}>
             <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
-              {'Choice node ' + this.state.customChoices.length + ' title'}
+              {'Choice node ' + id + ' title'}
             </label>
             <input
               className={
                 'appearance-none border leading-tight px-3 py-2 ' +
                 'rounded shadow text-grey-darker w-full'
               }
-              defaultValue={choice.name}
-              name={'titleChoice' + this.state.customChoices.length}
-              placeholder={'Node ' + this.state.customChoices.length + ' title'}
+              name={'titleChoice' + id}
+              placeholder={'Node ' + id + ' title'}
               type={'text'}
             />
           </div>
           <div className={'mb-4'}>
             <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
-              {'Choice node ' +
-                this.state.customChoices.length +
-                ' description'}
+              {'Choice node ' + id + ' description'}
             </label>
             <input
               className={
                 'appearance-none border focus:outline-none focus:shadow-outline leading-tight px-3 py-2 ' +
                 'rounded shadow text-grey-darker w-full'
               }
-              defaultValue={choice.description}
-              name={'descriptionChoice' + this.state.customChoices.length}
-              placeholder={
-                'Node ' + this.state.customChoices.length + ' description'
-              }
+              name={'descriptionChoice' + id}
+              placeholder={'Node ' + id + ' description'}
               type={'text'}
             />
           </div>
@@ -531,12 +529,19 @@ class GMNode extends React.Component {
     });
   }
 
+  /**
+   * Keep track of the current number of selected choices
+   * to be able to check the cardinalities.
+   * @param event
+   */
   handleChoiceClick(event) {
     if (event.target.checked) {
+      // Increment because additional choice is selected.
       this.setState(prevState => ({
         checkedChoices: prevState.checkedChoices + 1,
       }));
     } else {
+      // Decrement because one choice less is selected.
       this.setState(prevState => ({
         checkedChoices: prevState.checkedChoices - 1,
       }));
@@ -655,9 +660,7 @@ class GMNode extends React.Component {
               className={
                 'm-auto overflow-hidden text-base w-5/6 whitespace-no-wrap'
               }
-              onClick={() =>
-                !node.locked ? this.handleChoiceNodeClick() : null
-              }
+              onClick={() => (!node.locked ? this.toggleModal() : null)}
               style={{
                 filter: node.locked ? 'blur(1px)' : '',
                 textOverflow: 'ellipsis',
@@ -666,9 +669,7 @@ class GMNode extends React.Component {
             </div>
             <div
               className={'m-auto w-1/6'}
-              onClick={() =>
-                !node.locked ? this.handleChoiceNodeClick() : null
-              }>
+              onClick={() => (!node.locked ? this.toggleModal() : null)}>
               {this.completenessIcon(node) !== null && (
                 <FontAwesomeIcon
                   icon={this.completenessIcon(node)}
@@ -720,8 +721,7 @@ class GMNode extends React.Component {
                       onClick={() => this.toggleModal()}>
                       X
                     </button>
-                    {
-                      this.props.mode === Modes.MAP_CREATOR &&
+                    {this.props.mode === Modes.MAP_CREATOR &&
                       this.props.node.children === undefined &&
                       this.props.node.data.id !== 0 && (
                         <button

@@ -217,13 +217,14 @@ class App extends Component {
 
     /**
      * Add a child node to the current node, which will become the {@param parent} of the new node.
-     * @param id
-     * @param parent
-     * @param nodeType
-     * @param choices
-     * @param title
-     * @param description
-     * @param optional
+     * @param id {Number}: The id of the node-to-add. When it is null, the id is computed by this function,
+     * otherwise, the id passed as argument is taken as the id of the new node.
+     * @param parent {Node}: The parent node.
+     * @param nodeType {GMNodeTypes}: The type of the node-to-add.
+     * @param choices {Object|null}: nodeType === GMNodeTypes.CHOICE ? An object with the choices of the choice node. : null.
+     * @param title {String}: The title (aka name) of the node-to-add.
+     * @param description {String}: The description of the node-to-add.
+     * @param optional {Boolean}: The node-to-add is optional (true) or not (false).
      */
     const addGMChildNode = (
       id = null,
@@ -280,16 +281,16 @@ class App extends Component {
         );
       setClusterLinks();
 
-      this.setState({nodes: clusterNodes, links: clusterLinks});
+      this.setState({nodes: clusterNodes, links: clusterLinks}); // Update the state
     };
 
     /**
      * Delete a node with a specific id.
-     * @param nodeId: the id of the node to be deleted
+     * @param nodeId: The id of the node to be deleted.
      */
     const deleteGMNode = nodeId => {
       const index = currentData.findIndex(node => node.id === nodeId);
-      currentData.splice(index, 1); // remove the node from currentData.
+      currentData.splice(index, 1); // Remove the node from currentData.
       setRoot(currentData);
       setCluster(50);
       setClusterRoot();
@@ -306,22 +307,22 @@ class App extends Component {
             this.state.nodes.length !== index ? findNodeWithId(node.id) : null,
             width,
             height,
-            this.state.nodes.length === index, // additional node
+            this.state.nodes.length === index,
           ),
         );
       setClusterLinks();
 
-      this.setState({nodes: clusterNodes, links: clusterLinks});
+      this.setState({nodes: clusterNodes, links: clusterLinks}); // Update the state
     };
 
     /**
      * Update the data of a node after it was edited and the form was submitted.
-     * @param nodeId: The id of the node of which the data have to change.
-     * @param nodeDescription: A string describing the (expected) content of the node.
-     * @param nodeTitle: The new title of the node.
-     * @param nodeContent: The new content of the node.
-     * @param hexColor: The new color of the node in hexadecimal.
-     * @param children: A boolean to tell whether the children have to be updated with the new color or not.
+     * @param nodeId {Number}: The id of the node of which the data has to change.
+     * @param nodeDescription {String}: A string describing the (expected) content of the node.
+     * @param nodeTitle {String}: The new title of the node.
+     * @param nodeContent {String}: The new content of the node.
+     * @param hexColor {String}: The new color of the node in hexadecimal.
+     * @param children {Boolean}: A boolean to tell whether the children have to be updated with the new color or not.
      * */
     const updateGMNode = (
       nodeId,
@@ -331,9 +332,11 @@ class App extends Component {
       hexColor,
       children,
     ) => {
+      console.log(hexColor);
+      // Loop over all nodes.
       const newNodes = this.state.nodes.map(node => {
         if (node.id === nodeId) {
-          // update the node with this nodeId
+          // Update its data if the id is correct.
           node.description = nodeDescription;
           node.title = nodeTitle;
           node.content = nodeContent;
@@ -347,36 +350,41 @@ class App extends Component {
               child.backgroundColor = hexColor;
             }
           }
-
-          return node;
-        } else {
-          // other nodes remain the same
-          return node;
         }
+        return node; // Return the (updated) node
       });
-      this.setState({nodes: newNodes});
+      this.setState({nodes: newNodes}); // Update the state
     };
 
+    /**
+     * Update the choices and choice-limits of a choice node.
+     * @param nodeId {Number}: The id of the node to be updated.
+     * @param choices {Object}: An object with the choices for the choice node.
+     * @param lowerLimit {Number}: The lowest number of choices the user should select.
+     * @param upperLimit {Number}: The highest number of choices the user can select.
+     */
     const updateGMChoicePossibilities = (
       nodeId,
       choices,
       lowerLimit,
       upperLimit,
     ) => {
+      // Loop over all nodes.
       const newNodes = this.state.nodes.map(node => {
         if (node.data.id === nodeId) {
+          // Update its data if the id is correct.
           node.choices = choices;
           node.choiceLowerLimit = lowerLimit;
           node.choiceUpperLimit = upperLimit;
         }
-        return node;
+        return node; // Return the (updated) node
       });
-      this.setState({nodes: newNodes});
+      this.setState({nodes: newNodes}); // Update the state
     };
 
     /**
      * Update the position of the node after a drag and drop event.
-     * @param nodeId: The id of the node of which the coordinates have to change.
+     * @param nodeId {Number}: The id of the node of which the coordinates have to change.
      * @param newX: The new x-coordinate of the node.
      * @param newY: The new y-coordinate of the node.
      */
@@ -390,15 +398,22 @@ class App extends Component {
           return node;
         }
       });
-      this.setState({nodes: newNodes});
+      this.setState({nodes: newNodes}); // Update the state
     };
 
+    /**
+     * Lock or unlock a node.
+     * @param nodeId {Number}: The id of the node to (un)lock.
+     */
     const updateGMNodeLock = nodeId => {
+      // Loop over all nodes.
       const newNodes = this.state.nodes.map(node => {
         if (node.data.id === nodeId) {
+          // Update its data if the id is correct.
           const newLockedStatus = !node.locked;
           node.locked = newLockedStatus;
 
+          // Lock all descendant nodes as well.
           const childNodes = node.descendants();
           for (let x = 1; x < childNodes.length; x++) {
             const child = childNodes[x];
@@ -407,27 +422,29 @@ class App extends Component {
         }
         return node;
       });
-      this.setState({nodes: newNodes});
+      this.setState({nodes: newNodes}); // Update the state
     };
 
     /**
      * Expand or collapse a particular node with id = nodeId.
-     * @param nodeId: The id of the node of which we want to show or hide the descendant nodes.
+     * @param nodeId {Number}: The id of the node of which we want to show or hide the descendant nodes.
      */
     const updateGMVisibleChildren = nodeId => {
+      // Loop over all nodes.
       const newNodes = this.state.nodes.map(node => {
         if (node.data.id === nodeId) {
-          // update the node with this nodeId
+          // Update its data if the id is correct.
           node.visibleChildren = !node.visibleChildren;
           if (node.visibleChildren) {
+            // Loop over the children if we want to make them visible.
             node.children.map(child => {
-              child.visible = true; // make the child visible
+              child.visible = true; // Make the child visible
               if (
                 child.data.type === GMNodeTypes.CHOICE &&
                 child.children !== undefined
               ) {
                 for (let x = 0; x < child.children.length; x++) {
-                  // make the children under of a choice node visible by default
+                  // Make the children under of a choice node visible by default
                   const c = child.children[x];
                   c.visible = true;
                   child.visibleChildren = true;
@@ -435,6 +452,7 @@ class App extends Component {
               }
             });
           } else {
+            // The child nodes should not be visible
             const childNodes = node.descendants();
             // Invert the show property of all descending nodes, start from x=1 to not hide the node itself!
             for (let x = 1; x < childNodes.length; x++) {
@@ -443,24 +461,28 @@ class App extends Component {
               child.visibleChildren = false;
             }
           }
-          return node;
-        } else {
-          // other nodes remain the same
-          return node;
         }
+        return node;
       });
 
       this.setState({nodes: newNodes});
     };
 
+    /**
+     * this.state.editing defines whether the EditModal is visible or not.
+     * A call to this function inverts visible to invisible and invisible to visible.
+     */
     const editNode = () => {
       this.setState({editing: !this.state.editing});
     };
 
+    /**
+     * In the navbar, the user can select which template or visualization he wants.
+     */
     const selectTemplate = () => {
       current_visualization = document.getElementById('templateSelect').value;
       initializeData();
-      document.getElementById('node0').click();
+      document.getElementById('node0').click(); // Center the root node.
     };
 
     return (

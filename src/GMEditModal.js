@@ -29,43 +29,67 @@ class GMEditModal extends React.Component {
     this.handleTitleChange = this.handleTitleChange.bind(this);
   }
 
+  /**
+   * Update the state with the new background color each time it is changed.
+   * @param color
+   */
   handleColorChange(color) {
     this.setState({nodeBackground: color.hex});
   }
 
+  /**
+   * Update the state with the new node content each time it is changed.
+   * @param event
+   */
   handleContentChange(event) {
     this.setState({nodeContent: event.target.value});
   }
 
+  /**
+   * Update the state with the new node description each time it is changed.
+   * @param event
+   */
+  handleDescriptionChange(event) {
+    this.setState({nodeDescription: event.target.value});
+  }
+
+  /**
+   * Update the state with the inverted boolean each time the checkbox is clicked.
+   */
   handleIncludeChildrenChange() {
     this.setState({includeChildren: !this.state.includeChildren});
   }
 
+  /**
+   * Update the state with the new node title each time it is changed.
+   */
+  handleTitleChange(event) {
+    this.setState({nodeTitle: event.target.value});
+  }
+
+  /**
+   * When the form with the information about the node-to-update is submitted,
+   * the submitted data should be handled in order to update the correct node.
+   * @param event
+   */
   handleSubmit(event) {
     event.preventDefault();
-    event.persist();
+    // Take all data inserted via the form.
     const newDescription = this.state.nodeDescription;
     const newTitle = this.state.nodeTitle;
     const newContent = this.state.nodeContent;
     const newBackground = this.state.nodeBackground;
     const includeChildren = this.state.includeChildren;
-    this.props.updateNode(
-      this.props.node.id,
-      newDescription,
-      newTitle,
-      newContent,
-      newBackground,
-      includeChildren,
+    // Update the node with the updated data.
+    this.props.onNodeUpdate(
+      this.props.node.id, // The id of the node-to-update
+      newDescription, // The updated description
+      newTitle, // The updated title
+      newContent, // The updated content
+      newBackground, // The updated background color
+      includeChildren, // Boolean to know whether the color of the children should be updated as well (true) or not (false)
     );
     this.props.onClose();
-  }
-
-  handleDescriptionChange(event) {
-    this.setState({nodeDescription: event.target.value});
-  }
-
-  handleTitleChange(event) {
-    this.setState({nodeTitle: event.target.value});
   }
 
   render() {

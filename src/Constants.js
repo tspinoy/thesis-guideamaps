@@ -13,6 +13,10 @@ export const GMNodeTypes = {
   CHOICE: 'Choice',
 };
 
+/**
+ * The id of the edit-modal.
+ * @type {string}
+ */
 export const ModalID = 'modalSpace';
 
 /**
@@ -38,8 +42,8 @@ export const minZoomScale = 0.38;
 
 /**
  * Function to position the nodes in a way to get a radial layout.
- * @param x: x-coordinate in a non-radial cluster-layout.
- * @param y: y-coordinate in a non-radial cluster-layout.
+ * @param x {Number}: x-coordinate in a non-radial cluster-layout.
+ * @param y {Number}: y-coordinate in a non-radial cluster-layout.
  * @return number[] x and y positions in radial cluster-layout.
  * */
 export const project = (x, y) => {
@@ -55,9 +59,9 @@ export const project = (x, y) => {
  * when a new node is created.
  * @param node: the current node
  * @param oldNode: the node with the data the current node had before or {Null} if no such node exists ({@param node} is a newly created node)
- * @param width: the width of the visualization
- * @param height: the height of the visualization
- * @param firstTimeOrAdditionalNode: a boolean
+ * @param width {Number}: the width of the visualization
+ * @param height {Number}: the height of the visualization
+ * @param firstTimeOrAdditionalNode {Boolean}: a boolean
  * @return {*}: the node with all information
  */
 export const initializeGMNode = (

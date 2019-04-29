@@ -10,46 +10,12 @@ class PDDEditModal extends React.Component {
       nodeContent: this.props.nodeContent,
       nodeBackground: this.props.nodeBackground,
       includeChildren: true,
-      selectedTab: 'content',
     };
 
     /* This binding is necessary to make `this` work in the callback.
      * For instance to be able to use "this.props..." and "this.state...".
      */
-    this.handleColorChange = this.handleColorChange.bind(this);
-    this.handleContentChange = this.handleContentChange.bind(this);
-    this.handleIncludeChildrenChange = this.handleIncludeChildrenChange.bind(
-      this,
-    );
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.clickNode = this.clickNode.bind(this);
-  }
-
-  handleColorChange(color) {
-    this.setState({nodeBackground: color.hex});
-  }
-
-  handleContentChange(event) {
-    this.setState({nodeContent: event.target.value});
-  }
-
-  handleIncludeChildrenChange() {
-    this.setState({includeChildren: !this.state.includeChildren});
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const newTitle = this.state.nodeTitle;
-    const newContent = this.state.nodeContent;
-    const newBackground = this.state.nodeBackground;
-    const includeChildren = this.state.includeChildren;
-    this.props.updateNode(newTitle, newContent, newBackground, includeChildren);
-    this.props.onClose();
-  }
-
-  handleTitleChange(event) {
-    this.setState({nodeTitle: event.target.value});
+    PDDEditModal.clickNode = PDDEditModal.clickNode.bind(this);
   }
 
   static getDataById(id) {
@@ -60,7 +26,7 @@ class PDDEditModal extends React.Component {
     }
   }
 
-  clickNode(ref) {
+  static clickNode(ref) {
     document.getElementById('title' + ref).click();
   }
 
@@ -148,6 +114,7 @@ class PDDEditModal extends React.Component {
                       minHeight: '150px',
                     }}>
                     <img
+                      alt={'Image'}
                       className={'float-left'}
                       src={this.props.node.data.image}
                       style={{
@@ -186,7 +153,7 @@ class PDDEditModal extends React.Component {
                         <td
                           className={'p-3'}
                           onClick={() => {
-                            this.clickNode(ref);
+                            PDDEditModal.clickNode(ref);
                             this.props.onClose();
                           }}
                           style={{border: '1px solid #5cb85c'}}>
