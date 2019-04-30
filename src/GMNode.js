@@ -238,7 +238,13 @@ class GMNode extends React.Component {
           continue;
         }
         if (child.data.type === GMNodeTypes.CHOICE) {
-          if (!this.completeChildren(child)) {
+          if (child.children === undefined && child.choiceLowerLimit !== 0) {
+            return false;
+          } else if (
+            child.children.length >= child.choiceLowerLimit &&
+            !this.completeChildren(child)
+          ) {
+            console.log('here');
             return false;
           }
         } else if (!this.completeNode(child)) {
