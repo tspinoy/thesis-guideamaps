@@ -124,7 +124,11 @@ class PDDEditModal extends React.Component {
                     />
                   </div>
                 )}
-                {this.props.node.data.resume}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: this.props.node.data.resume,
+                  }}
+                />
               </div>
             </div>
             <div
