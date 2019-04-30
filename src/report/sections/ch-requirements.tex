@@ -16,15 +16,29 @@ Hence, we can distinguish between functional requirements and usability requirem
 This chapter starts by identifying the different user classes. Next, we will present and justify the major requirements formulated for our system, functional as well as usability requirements and other requirements. Detailed requirements and requirements that are rather straightforward are omitted here.
 
 
-\section{User Class: Map Creator}\label{sec:user-class-map-creator}
-
-\section{User Class: End User}\label{sec:user-class-end-user}
-\textcolor{red}{TODO: Beschrijf de verschillende user classes.}\\
-A map creator has the rights to change the structure of the visualization, while the end user is restricted in which data he can edit.
 
 % ----------------------------------
-% ----- FUNCTIONAL REQUIREMENTS ----
+% ---------- USER CLASSES ----------
 % ----------------------------------
+\section{User Classes}\label{sec:user-classes}
+In our system, each user can be classified in one of the following three user classes: (1) developer, (2) map creator and (3) end-user. The class the user belongs to defines its rights and possibilities, which are not particularly unique for the class. An overlap in the rights is possible, i.e. users of different classes can have a number of rights in common.
+
+\subsection{Developer}\label{sec:user-class-developer}
+A developer is a user who can define and implement a custom layout for the nodes and the links. This means that, if the purpose of the visualization differs from the default, a developer can make sure that the tool can be used with a different layout while the possibilities (in terms of functionality) are still the same. Developers are the only users that are able to do this because map creators and end-users are not allowed to extend the code with a custom implementation. The exact steps that need to be taken in order to provide a custom layout in the tool are explained in sections \ref{ch:implementation} and \ref{ch:usecase}.
+
+\subsection{Map Creator}\label{sec:user-class-map-creator}
+A map creator has the rights to change the structure of the visualization. With the structure, we don't mean the layout of the nodes and the links, but the composition of the map itself. Hence, the map creator ``initializes'' the map by creating the nodes and links necessary for his goal. He provides a title and eventually a description for each node. As a map creator, it is impossible to already provide the content of the node because that is the responsibility of the end-user. 
+
+\subsection{End User}\label{sec:user-class-end-user}
+The end-user is the most restricted user in terms of rights. However, it is this user that has to provide the most important part, i.e. the content of the nodes. They cannot change the title or the description, provided by the map creator because this would give them the opportunity to change the structure of the visualization (which is a right reserved for the map creator). If the map creator did not provide this information, the end-user can add it, but never change it again afterwards, because, once the information is added, we are in the same situation as when the map creator would have provided it.
+
+
+
+% ----------------------------------
+% ---------- REQUIREMENTS ----------
+% ----------------------------------
+\section{Requirements}\label{sec:requirements}
+
 \subsection{Functional Requirements}\label{sec:functional-requirements}
 
 % List of functional requirements
@@ -56,10 +70,6 @@ A map creator has the rights to change the structure of the visualization, while
 
 
 
-
-% ----------------------------------
-% ----- USABILITY REQUIREMENTS -----
-% ----------------------------------
 \subsection{Usability Requirements}\label{sec:usability-requirements}
 In order to obtain a high usability, we should formulate the necessarily usability requirements for the application. Later in this thesis, when we explain the implementation details, we will come back to these requirements and discuss how we managed to meet them.
 
@@ -128,10 +138,7 @@ In order to obtain a high usability, we should formulate the necessarily usabili
 
 
 
-% ----------------------------------
-% ------- OTHER REQUIREMENTS -------
-% ----------------------------------
-\section{Other Requirements}\label{sec:other-requirements}
+\subsection{Other Requirements}\label{sec:other-requirements}
 
 \begin{enumerate}[label=\textbf{\arabic*}., ref=\arabic*]
 	\item \textbf{Device- and OS-independent\label{item:device-os-independent}} \hfill \\

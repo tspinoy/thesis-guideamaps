@@ -10,6 +10,10 @@ Further, the form of representations/visualizations has a greater effect on unde
 
 The goal of this thesis is to create a tool with high cognitive effectiveness, in which it is possible to represent linked data and knowledge in a visual manner. It should not only be possible to create a visual notation of the data, but also to edit the data as well as extending the representation with additional data. The solution is based on a visualization tool created by \cite{erikjanssens}, called GuideaMaps. This application was mainly built to provide support for the requirement elicitation for serious games. It provides the functionality to enter information in pre-defined maps (trees of nodes). We present a new version of GuideaMaps, which can be used for other purposes as well and which has a bunch of interesting improvements under the hood.
 
+
+
+
+
 \section{Problem Statement}\label{sec:problem-statement}
 For the first version of GuideaMaps, the main goal was to develop the following:
 
@@ -20,6 +24,10 @@ For the first version of GuideaMaps, the main goal was to develop the following:
 By specifying the goal in this way, end users of the application are restricted in different ways. First, they need an iPad to be able to use the application. Another type of tablet with a different operating system is not possible, because GuideaMaps was created and designed for iOS only. If someone doesn't have access to an iPad, (s)he cannot use the application, which is a hard restriction.\\
 
 Furthermore, the tool focuses on requirement elicitation. Initially, the tool was created for the purpose of requirement elicitation for serious games, but it can also be used for the requirement elicitation in other domains \citep{detroyerjanssens}. However, because the visualizations are based on pre-defined templates, the nodes can only be edited by the end-user in a limited way: content can be given and the background color can be changed, but the end-user cannot add new nodes. In addition, the visual notation used is fixed: the creators of the visualization templates cannot edit the representation of a node or define their own representation (e.g. change the length and width or use a different shape). Not being able to do this is a limitation in the sense that for some purposes this default visualization may not be very suitable. Furthermore, for defining a template the author had to use XML and no graphical editor was available for this purpose making it harder for non-ICT schooled people to define new templates.
+
+
+
+
 
 \section{Research Goals}\label{sec:research-goals}
 The issues discussed in the previous section indicate that the first version of GuideaMaps comes along with some limitations. Therefore, the following research goals for a new version of GuideaMaps were formulated:
@@ -38,9 +46,13 @@ The issues discussed in the previous section indicate that the first version of 
 	The application should be generic in such a way that it can be customized to be usable for different purposes, i.e. the user should be able to define its own graphical representation for the visualization.
 \end{enumerate}
 
-This thesis presents a solution, called \textit{GuideaMaps 2.0} \textcolor{red}{(?)}, for the problem statement taking the research goals into account. How the tool achieved the formulated research goals is explained into detail in the rest of this thesis.\\
+This thesis presents a solution, called \textit{GuideaMaps 2.0}, for the problem statement taking the research goals into account. How the tool achieved the formulated research goals is explained into detail in the rest of this thesis.\\
 
-In the next chapter, called ``related work'', we discuss different visualization techniques and existing tools in the same domain as our goal. Chapter \ref{ch:requirements} provides information about the different user classes for the system and the functional, usability and other requirements the system should be able to achieve.\\
+
+
+
+\section{Thesis Structure}\label{sec:thesis-structure}
+In the next chapter, called ``Related Work'', we discuss different visualization techniques and existing tools in the same domain as our goal. Chapter \ref{ch:requirements} provides information about the different user classes for the system and the functional, usability and other requirements the system should be able to achieve.\\
 
 These two chapters are followed by the implementation of our tool. Information about why certain choices are made and which technologies are used can be found in this chapter. Further, more details are provided about how the code is structured. We show how GuideaMaps is implemented and how the code is structured as a library so that the tool can also be used for other purposes. In the chapter following the implementation, an other use case is elaborated to show the simplicity of the library.\\
 

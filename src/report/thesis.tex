@@ -17,6 +17,8 @@
 \usepackage{float}
 \usepackage{parcolumns}
 \usepackage[bottom]{footmisc} % make sure footnotes are always fixed to bottom and not too high
+\usepackage{titles}
+\setcounter{secnumdepth}{4}
 
 \usepackage{setspace}
 \usepackage{etoolbox}
@@ -299,9 +301,10 @@
 %\input{sections/appendix}
 
 
-\renewcommand{\bibname}{References}
+\renewcommand{\bibname}{References\hfill}
 %\cleardoublepage
 \bibliographystyle{apacite}
 \bibliography{thesisbib} % change to your bib!
+\addcontentsline{toc}{section}{References}
 
 \end{document}

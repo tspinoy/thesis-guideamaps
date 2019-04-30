@@ -140,6 +140,15 @@ The right part of the navigation bar contains a single button. A click on this b
 
 The left part of the navigation bar is created to be able to switch between the user modes (i.e. end user or map creator). As required, a map creator has more rights and hence he can perform more actions than an end user. In the following subsections, the differences between these modes are elaborated.
 
+
+
+
+
+% ---------------------------
+% ------ DEFAULT NODES ------
+% ---------------------------
+\subsection{Default Nodes}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{GMStructure.pdf}
@@ -149,8 +158,8 @@ The left part of the navigation bar is created to be able to switch between the 
 
 As you can see in figure \ref{fig:gmnodestructure}, the structure of a GuideaMapsNode node is quite simple. Each node consists of three html \textit{div}-elements: a title-div, a content-div and a controls-div explained below.
 
-\addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % hide the following subsections from the table of contents
-\subsection{Title}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}} % hide the following subsections from the table of contents
+\subsubsection{Title}
 The title-div is positioned at the top of the node. It consists of the title text when this is given by the map creator. Otherwise, it shows \textit{Insert title} in italics to remind the user that he still has to set a title for this node. An end user can set the title if no title exists yet, but he can never change it. The reason for this is because we distinguish two situations. In the first situation, the end user adds a child node for a particular parent. This node has no title by default and then he should be able to insert a title. In the second situation, the user opens an existing node created by the map creator. In that case an end user is not allowed to change the title of the node, because otherwise he would be able to change the meaning of the node. \\
 
 Next to the title-text, the title-div contains an icon placed near the right border. This icon indicates to an end-user whether all information for the node, i.e. content, is provided or not. The icon that is shown also depends on whether the information in the child-nodes is given or not. We distinguish three possible situations:
@@ -163,12 +172,12 @@ This icon can assist the user in determining whether all information requested b
 
 
 
-\subsection{Content}\label{sec:content}
+\subsubsection{Content}\label{sec:content}
 The content of each node is some text describing the information required for the node. As long as no content is provided by the user, a description is shown in italics to instruct the user which content to provide.
 
 
 
-\subsection{Controls}\label{sec:controls}
+\subsubsection{Controls}\label{sec:controls}
 The last part of a node is the controls-div. With \textit{controls} we mean the different actions a user can take concerning the particular node. The number of actions a user can perform depends on the mode. An end user has two buttons: one to ``open'' the node to view and edit the data, and one to expand or collapse the node, i.e. to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.\\
 
 Because a map creator is allowed to add child nodes, a third button can be found in his controls-div of the node to add a child node. A click on this button opens a small modal, where some information about the new node should be provided before the node can be created. Figure \ref{fig:gm-add-default} illustrates what the modal looks like when the user wants to add a default node. He has to start by selecting the option ``Default'' at the top, after which two input fields appear to insert a title and a description for the node. A click on the button at the bottom will add a child node of the selected type and with the provided title and description.\\
@@ -186,7 +195,7 @@ It is possible to add an \textit{empty} node if the user does not provide a titl
 
 
 
-\subsection{EditModal}\label{sec:editmodal}
+\subsubsection{EditModal}\label{sec:editmodal}
 A click on the button to open the node opens a modal representing the data. What this modal looks like depends on the mode. If we are in map creator mode, a form will be shown to allow to change the title, the description, and the background color (Figure \ref{fig:gm-editmodal-mapcreator}). In the case of the end user mode (Figure \ref{fig:gm-editmodal-enduser}), only the content and the background color can be changed. Only the first time a child node is added and no title and description is available yet, the end user is able to fill in these data as well.\\
 
 When changing the background color, the user can choose to use the color also for all children or not. If the checkbox ``include children'' is checked, the background color of all child-nodes on all sublevels in the hierarchy will be changed to the new color. Otherwise, only the background color of the current node will be changed.\\
@@ -208,9 +217,35 @@ The text color is black by default. This can become a problem when the backgroun
 \end{figure}
 
 
+
+
+
+% ----------------------------
+% ------- CHOICE NODES -------
+% ----------------------------
+\subsection{Choice Nodes}
+\begin{figure}[H]
+	\centering
+	\frame{\includegraphics[width=\linewidth]{GMChoiceNode-MapCreator.png}}
+	\caption{An opened choice node map creator mode.}
+	\label{fig:gm-choicenode-mapcreator}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\frame{\includegraphics[width=\linewidth]{GMChoiceNode-EndUser.png}}
+	\caption{An opened choice node in end user mode.}
+	\label{fig:gm-choicenode-enduser}
+\end{figure}
+
+
+
+
+% ----------------------------
+% ------ OPTIONAL NODES ------
+% ----------------------------
 \subsection{Optional nodes}\label{sec:optional-nodes}
 The visualization also provides optional nodes. They can be recognized by the representation of the link between this node and its parent. A regular node is connected to its parent via a solid line, while an optional node is connected via a dashed line. A special characteristic of optional nodes is that these nodes can be disabled by the end user. Therefore, optional nodes contain an additional button, represented as a lock, at their right side. As long as the node is enabled, the button is represented by an open lock. A click on this button disables the node and changes the icon to a closed lock. The node can be enabled again by clicking the lock again. Next to the lock icon, a disabled node can be recognized by its gray background and a blur so that the content is less readable.
-\addtocontents{toc}{\protect\setcounter{tocdepth}{2}} % add the following subsections again to the table of contents
 
 
 
