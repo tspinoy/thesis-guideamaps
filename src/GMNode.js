@@ -71,7 +71,7 @@ class GMNode extends React.Component {
   }
 
   componentDidMount() {
-    this.loadChoices(this.props.node);
+    //this.loadChoices(this.props.node);
     let node = document.getElementById('node' + this.props.node.data.id);
     setTimeout(() => {
       if (node.classList.contains('visibleNode')) {
@@ -427,6 +427,9 @@ class GMNode extends React.Component {
       ) {
         const title = event.target['titleChoice' + i].value;
         const description = event.target['descriptionChoice' + i].value;
+        if (title === '' && description === '') {
+          continue;
+        }
         choices[title] = {
           description: description,
           name: title,
@@ -434,7 +437,7 @@ class GMNode extends React.Component {
         };
       }
       this.props.onNodeChoicesUpdate(
-        node.id,
+        node.data.id,
         choices,
         node.choiceLowerLimit,
         node.choiceUpperLimit,
@@ -454,14 +457,18 @@ class GMNode extends React.Component {
       for (let i = 0; i < this.state.customChoices.length; i++) {
         const title = event.target['titleChoice' + i].value;
         const description = event.target['descriptionChoice' + i].value;
+        if (title === '' && description === '') {
+          continue;
+        }
         choices[title] = {
           description: description,
           name: title,
           type: GMNodeTypes.DEFAULT,
         };
       }
+
       this.props.onNodeChoicesUpdate(
-        this.props.node.id,
+        node.data.id,
         choices,
         lowerLimit,
         upperLimit,
@@ -469,7 +476,7 @@ class GMNode extends React.Component {
 
       const title = event.target.title.value;
       this.props.onNodeUpdate(
-        this.props.node.id, // The id of the node-to-update
+        this.props.node.data.id, // The id of the node-to-update
         this.props.node.description, // The description is not changed
         title, // The updated title
         this.props.node.content, // The content is not changed
@@ -478,7 +485,7 @@ class GMNode extends React.Component {
       );
 
       this.toggleModal();
-      setTimeout(() => this.loadChoices(this.props.node), 1000);
+      //setTimeout(() => this.loadChoices(this.props.node), 1000);
     }
   }
 
@@ -523,19 +530,17 @@ class GMNode extends React.Component {
               type={'text'}
             />
           </div>
-          {index === this.state.customChoices.length - 1 && (
-            <button
-              className={
-                'absolute bg-blue hover:bg-blue-dark mr-4 px-4 py-2 text-white'
-              }
-              onClick={e => {
-                e.preventDefault();
-                this.addCustomChoice(this.state.customChoices.length);
-              }}
-              style={{borderRadius: '50%', outline: 'none', right: 0}}>
-              <FontAwesomeIcon className={'text-base'} icon={'plus'} />
-            </button>
-          )}
+          <button
+            className={
+              'absolute bg-blue hover:bg-blue-dark mr-4 px-4 py-2 text-white'
+            }
+            onClick={e => {
+              e.preventDefault();
+              this.addCustomChoice(this.state.customChoices.length);
+            }}
+            style={{borderRadius: '50%', outline: 'none', right: 0}}>
+            <FontAwesomeIcon className={'text-base'} icon={'plus'} />
+          </button>
         </div>,
       );
     });
@@ -925,19 +930,6 @@ class GMNode extends React.Component {
                               </option>
                             </select>
                             <div className={'text-center'}>
-                              <button
-                                className={
-                                  'bg-blue hover:bg-blue-dark mr-4 px-4 py-2 rounded text-white'
-                                }
-                                onClick={e => {
-                                  e.preventDefault();
-                                  this.addCustomChoice(
-                                    this.state.customChoices.length,
-                                  );
-                                }}
-                                style={{minWidth: '30%', outline: 'none'}}>
-                                Add extra choice
-                              </button>
                               <button
                                 className={
                                   'bg-blue hover:bg-blue-dark ml-4 ' +

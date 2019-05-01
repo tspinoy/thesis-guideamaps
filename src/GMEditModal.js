@@ -82,7 +82,7 @@ class GMEditModal extends React.Component {
     const includeChildren = this.state.includeChildren;
     // Update the node with the updated data.
     this.props.onNodeUpdate(
-      this.props.node.id, // The id of the node-to-update
+      this.props.node.data.id, // The id of the node-to-update
       newDescription, // The updated description
       newTitle, // The updated title
       newContent, // The updated content
