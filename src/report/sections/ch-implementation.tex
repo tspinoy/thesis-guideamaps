@@ -224,6 +224,13 @@ The text color is black by default. This can become a problem when the backgroun
 % ------- CHOICE NODES -------
 % ----------------------------
 \subsection{Choice Nodes}
+The second type of nodes is called ``choice nodes''. This type differs from the default type in multiple ways. First the layout is different: while default nodes have a title-, content- and controls-div, a choice node only has a title-div.\\
+
+The purpose is to let the user choose between different possibilities as children for the node. For example, the choice node with title ``Payment Method'' can have ``Cash'', ``Bancontact'' or other methods as child node. Depending on the goal of the map, one (or more) of these methods is chosen by the user.\\
+
+It is the task of the map creator to define the possible choices the end-user can make. Therefore, when the map creator clicks on a choice node, a modal opens as shown in Figure \ref{fig:gm-choicenode-mapcreator}. The modal provides textfields in which the map creator can insert the information about each choice, i.e. a title and a description. Because there is no maximum number of choices a map creator can provide, he can always ask to add more textfields to be able to give the information about an additional node. Note that if the map creator saves the information and reopens the modal, the already given data can be edited in the same form and additional choices can be added. To delete a choice, the map creator only has to keep the textfields of the choice empty.\\
+
+Another feature particular for choice nodes consists of the cardinalities a map creator can define. The map creator can set a lower limit and an upper limit. The lower limit is the minimum number of choices the end-user has to select. For example, if the lower limit is equal to two, the end-user cannot select only one choice. The upper limit is the maximum number of choices that can be selected by the end-user. By default the lower limit is equal to zero and the upper limit is equal to the total number of choices the map creator provided. It is not possible to set the upper limit equal to zero because this would not make sense: end-user would not be able to select any choice. Hence, the choice node would have no meaning and be useless.
 \begin{figure}[H]
 	\centering
 	\frame{\includegraphics[width=\linewidth]{GMChoiceNode-MapCreator.png}}
@@ -231,6 +238,9 @@ The text color is black by default. This can become a problem when the backgroun
 	\label{fig:gm-choicenode-mapcreator}
 \end{figure}
 
+The modal showing up when the end-user clicks on a choice node is not equal to the modal the map creator can see after the same action. As an end-user, you see the title of the node on top, but it is not possible to edit it like a map creator. Under the title is written how many choices the end-user should select. For example ``Select between 1 and 3 choices'', where 1 is the lower limit and 3 the upper limit configured by the map creator. This instruction is followed by a form, where every possible choice is made visible by showing the title and the description. The end-user can select the choices he wants via a checkbox. With a click on the button, the selected choices are registered and added as children to the choice node. It is possible at any time to adapt the children by reopening the modal. At that moment, the checkbox(es) of the previously selected choice(s) will be checked. To remove a choice as child of the choice node, it is sufficient to uncheck the checkbox.\\
+
+Next to selecting choices given by the map creator, it can sometimes be necessary to be able to add an extra possibility, which was not given by the map creator. Therefore, an end-user can create additional choices, which later on can be added as children of the choice node. Additional choices can be created in the same way as the map creator can do it. By a click on the button, an additional part of the form appears in the modal. When the form is submitted, the additional choice is registered with the given title and description.
 \begin{figure}[H]
 	\centering
 	\frame{\includegraphics[width=\linewidth]{GMChoiceNode-EndUser.png}}
