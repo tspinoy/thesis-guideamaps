@@ -81,7 +81,7 @@ class EditButton extends React.Component {
               nodeContent={node.content}
               nodeBackground={bgcolor}
               show={this.state.isOpen}
-              onNodeUpdate ={onNodeUpdate}
+              onNodeUpdate={onNodeUpdate}
               onClose={this.toggleModal}
             />,
             document.getElementById(ModalID),

@@ -332,10 +332,9 @@ class App extends Component {
       hexColor,
       children,
     ) => {
-      console.log(hexColor);
       // Loop over all nodes.
       const newNodes = this.state.nodes.map(node => {
-        if (node.id === nodeId) {
+        if (node.data.id === nodeId) {
           // Update its data if the id is correct.
           node.description = nodeDescription;
           node.title = nodeTitle;

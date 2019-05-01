@@ -71,7 +71,6 @@ class GMNode extends React.Component {
   }
 
   componentDidMount() {
-    //this.loadChoices(this.props.node);
     let node = document.getElementById('node' + this.props.node.data.id);
     setTimeout(() => {
       if (node.classList.contains('visibleNode')) {
@@ -485,7 +484,6 @@ class GMNode extends React.Component {
       );
 
       this.toggleModal();
-      //setTimeout(() => this.loadChoices(this.props.node), 1000);
     }
   }
 
