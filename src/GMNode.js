@@ -238,8 +238,10 @@ class GMNode extends React.Component {
           continue;
         }
         if (child.data.type === GMNodeTypes.CHOICE) {
-          if (child.children === undefined && child.choiceLowerLimit !== 0) {
-            return false;
+          if (child.children === undefined) {
+            if (child.choiceLowerLimit !== 0) {
+              return false;
+            }
           } else if (
             child.children.length >= child.choiceLowerLimit &&
             !this.completeChildren(child)
@@ -439,6 +441,18 @@ class GMNode extends React.Component {
         lowerLimit,
         upperLimit,
       );
+
+      const title = event.target.title.value;
+      console.log(title);
+      this.props.onNodeUpdate(
+        this.props.node.id, // The id of the node-to-update
+        this.props.node.description, // The description is not changed
+        title, // The updated title
+        this.props.node.content, // The content is not changed
+        this.props.node.backgroundColor, // The background color is not changed
+        false, // The color of the children should not be changed
+      );
+
       this.toggleModal();
       setTimeout(() => this.loadChoices(this.props.node), 1000);
     }
@@ -671,7 +685,7 @@ class GMNode extends React.Component {
                 filter: node.locked ? 'blur(1px)' : '',
                 textOverflow: 'ellipsis',
               }}>
-              {node.data.name}
+              {node.title}
             </div>
             <div
               className={'m-auto w-1/6'}
@@ -750,13 +764,28 @@ class GMNode extends React.Component {
                     {mode === Modes.MAP_CREATOR && (
                       <div className={'relative overflow-y-scroll'}>
                         <div>
-                          <h1>{node.data.name}</h1>
-                          <h3 className={'mb-4'}>Possible choices:</h3>
                           <form
                             onSubmit={e => {
                               e.preventDefault();
                               this.addChoiceChildNodes(e, node);
                             }}>
+                            <label
+                              className={
+                                'block font-bold mb-2 text-grey-darker text-lg'
+                              }>
+                              {'Title'}
+                            </label>
+                            <input
+                              className={
+                                'appearance-none border leading-tight px-3 py-2 ' +
+                                'rounded shadow text-grey-darker w-full'
+                              }
+                              name={'title'}
+                              placeholder={'Title'}
+                              type={'text'}
+                              defaultValue={this.props.node.title}
+                            />
+                            <h3 className={'mb-4'}>Possible choices:</h3>
                             {this.state.customChoices}
                             Lower limit:{' '}
                             <select
@@ -847,7 +876,7 @@ class GMNode extends React.Component {
                     {mode === Modes.END_USER && (
                       <div className={'overflow-y-scroll'}>
                         <div>
-                          <h1>{node.data.name}</h1>
+                          <h1>{node.title}</h1>
                           <h3>
                             {node.choiceLowerLimit === node.choiceUpperLimit
                               ? 'Select exactly ' +
