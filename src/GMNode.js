@@ -361,6 +361,10 @@ class GMNode extends React.Component {
   toggleModal() {
     this.props.onEditNode(); // Make sure the modal will be visible or invisible again
     this.props.onClick(); // Center the clicked node
+    if (this.props.node.data.type === GMNodeTypes.CHOICE) {
+      // Load the choices if the opened node is a choice node
+      this.loadChoices(this.props.node);
+    }
     // Depending on the animation, you have to wait before the state is changed.
     // The content of #modalSpace is deleted when the this.state.isOpen = false.
     // Hence, we have to wait to delete it until the animation is finished.
@@ -415,6 +419,27 @@ class GMNode extends React.Component {
           }
         }
       });
+
+      for (
+        let i = Object.keys(this.props.node.choices).length;
+        i < this.state.customChoices.length;
+        i++
+      ) {
+        const title = event.target['titleChoice' + i].value;
+        const description = event.target['descriptionChoice' + i].value;
+        choices[title] = {
+          description: description,
+          name: title,
+          type: GMNodeTypes.DEFAULT,
+        };
+      }
+      this.props.onNodeChoicesUpdate(
+        node.id,
+        choices,
+        node.choiceLowerLimit,
+        node.choiceUpperLimit,
+      );
+
       this.toggleModal();
     } else if (this.props.mode === Modes.MAP_CREATOR) {
       const choices = {};
@@ -443,7 +468,6 @@ class GMNode extends React.Component {
       );
 
       const title = event.target.title.value;
-      console.log(title);
       this.props.onNodeUpdate(
         this.props.node.id, // The id of the node-to-update
         this.props.node.description, // The description is not changed
@@ -464,8 +488,11 @@ class GMNode extends React.Component {
       let choice = node.choices[c];
       result.push(
         <div
-          className={'border border-solid mb-4 p-4 rounded'}
-          key={'choice' + index}>
+          className={'border border-solid mb-6 p-4 rounded'}
+          key={'choice' + index}
+          style={{
+            display: this.props.mode === Modes.MAP_CREATOR ? 'block' : 'none',
+          }}>
           <div className={'mb-4'}>
             <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
               {'Choice node ' + index + ' title'}
@@ -496,6 +523,19 @@ class GMNode extends React.Component {
               type={'text'}
             />
           </div>
+          {index === this.state.customChoices.length - 1 && (
+            <button
+              className={
+                'absolute bg-blue hover:bg-blue-dark mr-4 px-4 py-2 text-white'
+              }
+              onClick={e => {
+                e.preventDefault();
+                this.addCustomChoice(this.state.customChoices.length);
+              }}
+              style={{borderRadius: '50%', outline: 'none', right: 0}}>
+              <FontAwesomeIcon className={'text-base'} icon={'plus'} />
+            </button>
+          )}
         </div>,
       );
     });
@@ -509,12 +549,11 @@ class GMNode extends React.Component {
    * @param id: the id (number) of the choice possibility.
    */
   addCustomChoice(id) {
-    console.log(id);
     this.setState({
       customChoices: [
         ...this.state.customChoices,
         <div
-          className={'border border-solid mb-4 p-4 rounded'}
+          className={'border border-solid mb-6 p-4 rounded'}
           key={'choice' + id}>
           <div className={'mb-4'}>
             <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
@@ -544,6 +583,17 @@ class GMNode extends React.Component {
               type={'text'}
             />
           </div>
+          <button
+            className={
+              'absolute bg-blue hover:bg-blue-dark mr-4 px-4 py-2 text-white'
+            }
+            onClick={e => {
+              e.preventDefault();
+              this.addCustomChoice(this.state.customChoices.length);
+            }}
+            style={{borderRadius: '50%', outline: 'none', right: 0}}>
+            <FontAwesomeIcon className={'text-base'} icon={'plus'} />
+          </button>
         </div>,
       ],
     });
@@ -599,7 +649,11 @@ class GMNode extends React.Component {
     const createTableOfChoices = () => {
       const choices = node.choices;
       return (
-        <form>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            this.addChoiceChildNodes(e, node);
+          }}>
           {Object.values(choices).map((c, index) => (
             <div
               className={'border border-solid flex m-4 rounded'}
@@ -627,6 +681,34 @@ class GMNode extends React.Component {
               </div>
             </div>
           ))}
+          {this.state.customChoices}
+          <div className={'text-center'}>
+            <button
+              className={
+                'bg-blue hover:bg-blue-dark mr-4 px-4 py-2 rounded text-white'
+              }
+              onClick={e => {
+                e.preventDefault();
+                this.addCustomChoice(
+                  this.state.customChoices.length,
+                );
+              }}
+              style={{minWidth: '30%', outline: 'none'}}>
+              Add extra choice
+            </button>
+            <button
+              className={
+                'bg-blue hover:bg-blue-dark ml-4 ' +
+                'px-4 py-2 rounded text-white'
+              }
+              style={{
+                minWidth: '30%',
+                outline: 'none',
+              }}>
+              <FontAwesomeIcon icon={['far', 'save']} />
+              &nbsp;Save and close
+            </button>
+          </div>
         </form>
       );
     };
@@ -777,7 +859,7 @@ class GMNode extends React.Component {
                             </label>
                             <input
                               className={
-                                'appearance-none border leading-tight px-3 py-2 ' +
+                                'appearance-none border leading-tight mb-4 px-3 py-2 ' +
                                 'rounded shadow text-grey-darker w-full'
                               }
                               name={'title'}
@@ -894,21 +976,6 @@ class GMNode extends React.Component {
                           </h3>
                           <h3 className={'mb-4'}>Possible choices:</h3>
                           {createTableOfChoices()}
-                        </div>
-                        <div className={'text-center'}>
-                          <button
-                            className={
-                              'bg-blue hover:bg-blue-dark ' +
-                              'px-4 py-2 rounded text-white'
-                            }
-                            style={{
-                              minWidth: '50%',
-                              outline: 'none',
-                            }}
-                            onClick={e => this.addChoiceChildNodes(e, node)}>
-                            <FontAwesomeIcon icon={['far', 'save']} />
-                            &nbsp;Save and close
-                          </button>
                         </div>
                       </div>
                     )}
