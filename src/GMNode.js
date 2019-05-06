@@ -474,9 +474,10 @@ class GMNode extends React.Component {
       );
 
       const title = event.target.title.value;
+      const description = event.target.description.value;
       this.props.onNodeUpdate(
         this.props.node.data.id, // The id of the node-to-update
-        this.props.node.description, // The description is not changed
+        description, // The updated description
         title, // The updated title
         this.props.node.content, // The content is not changed
         this.props.node.backgroundColor, // The background color is not changed
@@ -594,7 +595,11 @@ class GMNode extends React.Component {
               e.preventDefault();
               this.addCustomChoice(this.state.customChoices.length);
             }}
-            style={{borderRadius: '50%', outline: 'none', right: 0}}>
+            style={{
+              borderRadius: '50%',
+              outline: 'none',
+              right: this.props.mode === Modes.MAP_CREATOR ? 0 : '8%',
+            }}>
             <FontAwesomeIcon className={'text-base'} icon={'plus'} />
           </button>
         </div>,
@@ -870,6 +875,22 @@ class GMNode extends React.Component {
                               type={'text'}
                               defaultValue={this.props.node.title}
                             />
+                            <label
+                              className={
+                                'block font-bold mb-2 text-grey-darker text-lg'
+                              }>
+                              {'Description'}
+                            </label>
+                            <input
+                              className={
+                                'appearance-none border leading-tight mb-4 px-3 py-2 ' +
+                                'rounded shadow text-grey-darker w-full'
+                              }
+                              name={'description'}
+                              placeholder={'Description'}
+                              type={'text'}
+                              defaultValue={this.props.node.description}
+                            />
                             <h3 className={'mb-4'}>Possible choices:</h3>
                             {this.state.customChoices}
                             Lower limit:{' '}
@@ -948,8 +969,9 @@ class GMNode extends React.Component {
                     {mode === Modes.END_USER && (
                       <div className={'overflow-y-scroll'}>
                         <div>
-                          <h1>{node.title}</h1>
-                          <h3>
+                          <h1 className={'mb-4'}>{node.title}</h1>
+                          <h3 className={'mb-4'}>{node.description}</h3>
+                          <h4>
                             {node.choiceLowerLimit === node.choiceUpperLimit
                               ? 'Select exactly ' +
                                 node.choiceLowerLimit +
@@ -963,8 +985,8 @@ class GMNode extends React.Component {
                                 (node.choiceUpperLimit == 1
                                   ? ' choice.'
                                   : ' choices.')}
-                          </h3>
-                          <h3 className={'mb-4'}>Possible choices:</h3>
+                          </h4>
+                          <h4 className={'mb-4'}>Possible choices:</h4>
                           {createTableOfChoices()}
                         </div>
                       </div>
