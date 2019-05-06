@@ -1,12 +1,15 @@
 \chapter{Implementation}\label{ch:implementation}
 
-\textcolor{red}{TODO: Op voorhand al beter beschrijven wat de applicatie moet doen. Dit is mogelijk nog niet duidelijk.}\\
 The previous sections explained \textit{what} the application should do, which goals should be achieved and which requirements we surely want the application meets. In this section, more details are provided about \textit{how} all this is translated to an implementation.
 
 \section{Design Choice}
-Before we started with the actual implementation, we had to decide how to achieve Research Goal \ref{item:goal:device-os-independent}, i.e. how will we make sure the application is device- and OS-independent? A first technique could have been to make use of the Java Virtual Machine. This approach would work but we want to make it possible to let multiple people work on the same visualization (Functional Requirement \ref{item:work-simultaneously}, eventually at the same time. Therefore, it is more convenient to have a browser-based application.\textcolor{red}{TODO: cross-platform tools was ook een optie geweest. Waarom niet?}\\
+Before we started with the actual implementation, we had to decide how to achieve Research Goal \ref{item:goal:device-os-independent}, i.e. how will we make sure the application is device- and OS-independent? A first technique could have been to make use of the Java Virtual Machine. This approach would work but we want to make it possible to let multiple people work on the same visualization (Functional Requirement \ref{item:work-simultaneously}, eventually at the same time. Therefore, it is more convenient to have a browser-based application.\\
 
-Nowadays, a lot of browsers exist, each with their own characteristics and differences. Because the goal of this thesis was to have a functional prototype, it is not required that the application works perfectly on \textit{all} possible browsers. However, we made sure that the tool works without any issues in Google Chrome. We chose for Google Chrome because this is one of the most widely used browsers in the world.
+Nowadays, a lot of browsers exist, each with their own characteristics and differences. Because the goal of this thesis was to have a functional prototype, it is not required that the application works perfectly on \textit{all} possible browsers. However, we made sure that the tool works without any issues in Google Chrome. We chose for Google Chrome because this is one of the most widely used browsers in the world.\\
+
+Another technique could have been to create the app via a cross-platform tool. A well-known example of such a tool is Xamarin (created by Microsoft). It would be possible to create the application with Xamarin, but one of the prerequisites\footnote{\url{https://docs.microsoft.com/en-us/xamarin/get-started/quickstarts/single-page?pivots=macos}} proposed by Microsoft is knowledge of C\#. Because we never worked with C\# in the past, this seems not to be the best choice for us.\\
+
+Cross-platform tools like PhoneGap\footnote{\url{https://phonegap.com/}} require to install the application on the device itself, which consumes disk space. We want to minimize the amount of disk space used by our application. Therefore, we concluded that a browser-based solution is better for our goal than the Java Virtual Machine and cross-platform tools.
 
 % --------------------
 % --- TECHNOLOGIES ---
@@ -42,7 +45,7 @@ Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assist
     |\textcolor{red}{position:}| absolute|,|
     |\textcolor{red}{border:}| 1px solid black|,|
     |\textcolor{red}{borderRadius:}| O.25rem|,|
-    |\textcolor{red}{padding:}|: 0.5rem|,|
+    |\textcolor{red}{padding:}| 0.5rem|,|
   |\textcolor{red}{\}\}}|
 />
 		\end{minted}
@@ -65,7 +68,7 @@ Tailwind CSS\footnote{\url{https://tailwindcss.com/}} is a framework that assist
 	\label{fig:examplecode-tailwindcss}
 \end{figure}
 
-The figure illustrates the difference to implement four CSS property-value pairs in normal CSS and implementing the same four with tailwind. In the case of normal CSS, we need four lines of code to obtain the intended result. On the other hand, with tailwind CSS, we add some classes providing the same style. The classnames can be placed on a single line instead of four. This example proves that the number of lines can be decreased. \textcolor{red}{TODO: beter uitleggen, want het lijkt alsof het even veel lijnen zijn nu.}\\
+The figure illustrates the difference to implement four CSS property-value pairs in normal CSS and implementing the same four with tailwind. In the case of normal CSS, we need four lines of code to obtain the intended result. On the other hand, with tailwind CSS, we add some classes providing the same style. By using these classnames, the developer can read the properties faster than with normal CSS. In tailwind, if you see ``absolute'', you immediately know it is about the position, while in normal CSS you spend some time on reading ``position'' and then the value. Hence, when you read lots of lines of CSS code, you win some time when tailwind is used compared to normal CSS.\\
 
 Bootstrap can be very interesting to use in applications and websites that should run on devices with small screens (e.g. smartphones). But we already decided not to optimize our application for such devices (\ref{sec:other-requirements}). Given the example and the fact that Tailwind CSS does not have a default theme, we prefer Tailwind over Bootstrap. Keep in mind that it is certainly possible to create the same application with Bootstrap, but with Tailwind CSS, the code will be easier to understand.\\
 
@@ -85,7 +88,9 @@ With the technologies mentioned in the previous section, the most important pill
 	\label{fig:overall-structure}
 \end{figure}
 
-The application is developed in such a way that it can be used as a library for other purposes than GuideaMaps. In this way, Research Goal \ref{item:goal:generic} to have a generic solution will be achieved. The general, always-returning part of the code can be found in App.js, ZoomableTree.js and Zoom.js, where the layout of the nodes is defined as well as the implementation to allow the user to zoom the visualization in and out. To realize the library, the layer of the NodeComp and LinkComp is very important. For GuideaMaps (shorthand GM), an implementation for NodeComp and LinkComp, being GMNode and GMLink is provided. Each implementation describes how every node and every link should look like in the visualization. When a particular user would like to have a different representation for the nodes or the links or both, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the rest of the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GMNode and GMLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GMNode and GMLink by this component (e.g. MyCustomNode and/or MyCustomLink). Hence, the visualization can be customized to the needs of the user and Functional Requirement \ref{item:customization} is achieved. Figure \ref{fig:examplecode-library} shows the part of the code in App.js that should be adapted as explained. Note that the shown props are not the only props that are passed to ZoomableTree. The others are omitted for readability.
+The application is developed in such a way that it can be used as a library for other purposes than GuideaMaps. In this way, Research Goal \ref{item:goal:generic} to have a generic solution will be achieved. The general, always-returning part of the code can be found in App.js, ZoomableTree.js and Zoom.js, where the layout of the nodes is defined as well as the implementation to allow the user to zoom the visualization in and out. To realize the library, the layer of the NodeComp and LinkComp is very important. For GuideaMaps (shorthand GM), an implementation for NodeComp and LinkComp, being GMNode and GMLink is provided. Each implementation describes how every node and every link should look like in the visualization. When a particular user would like to have a different representation for the nodes or the links or both, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the rest of the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GMNode and GMLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GMNode and GMLink by this component (e.g. MyCustomNode and/or MyCustomLink). Hence, the visualization can be customized to the needs of the user and Functional Requirement \ref{item:customization} is achieved. Figure \ref{fig:examplecode-library} shows the part of the code in App.js that should be adapted as explained. Note that the shown props are not the only props that are passed to ZoomableTree. The others are omitted for readability.\\
+
+The reason why we chose for this approach is that now the developer does not have to change anything of the default implementation. He only has to create his own components and plug them in as props for ZoomableTree and leave the rest of the implementation as it is.\\
 
 \begin{figure}[H]
 	\begin{minipage}{0.5\textwidth}
@@ -115,9 +120,7 @@ The application is developed in such a way that it can be used as a library for 
  	%\captionof{figure}{Two listings showing the difference between the default and custom use of the library.}
 \end{figure}
 
-The reason why we chose for this approach is that now the developer does not have to change anything of the default implementation. He only has to create his own components and plug them in as props for ZoomableTree and leave the rest of the implementation as it is.\\
-
-Next to custom components, a developer can also implement his own functions to handle changes in the visualization. For example, to add a new child node, GuideaMaps calls the function passed to the \textit{onAddNode}-prop (i.e. addGMChildNode). In a custom implementation, you can pass another function to this prop to make sure that other work is done. If you do not want to allow users to add child nodes, you do not have to remove this line but you just replace addGMChildNode by \textit{() -> null}, a function that does not do anything (because the library is created in a way to avoid changes in the default code structure). More details about the use of the library can be found in Chapter \ref{ch:usecase}, where a complete use case is elaborated.
+Next to custom components, a developer can also implement his own functions to handle changes in the visualization. For example, to add a new child node, GuideaMaps calls the function passed to the \textit{onAddNode}-prop (i.e. addGMChildNode). In a custom implementation, you can pass another function to this prop to make sure that other work is done. If you do not want to allow users to add child nodes, you do not have to remove this line but you just replace addGMChildNode by \textit{() -> null}, a function that does not do anything (because the library is created in a way to avoid changes in the default code structure). It is not wrong to keep addGMChildNode as parameter, but if the function would be called, this can lead to errors or wrong behaviour of the application. Therefore, we recommend to always pass \textit{() -> null} as argument to functions that should not be used. More details about the use of the library can be found in Chapter \ref{ch:usecase}, where a complete use case is elaborated.
 
 
 
@@ -125,18 +128,18 @@ Next to custom components, a developer can also implement his own functions to h
 % ----- GUIDEAMAPS DETAILS -----
 % ------------------------------
 \section{Default Implementation: GuideaMaps}
-Now the overview of the structure of the application has been discussed, we will consider the GuideaMaps visualization and its implementation details in this section. An example visualization can be seen in figure \ref{fig:guideamaps}.
- 
-\begin{figure}[H]
+Now the overview of the structure of the application has been discussed, we will consider the GuideaMaps visualization and its implementation details in this section. An example visualization can be seen in Figure \ref{fig:guideamaps}.\\
+
+The nodes represent a specific part of the data and the links illustrate the relation between the data (i.e. the nodes). Before we discuss the nodes into detail, we start with the \textit{navigation bar} above the visualization itself. This navigation bar is divided in three equal parts. In the center, the user can select via an option menu which map or template he wants to use. The name of the selected option is always visible. This functionality is available because the user should be able to switch between different tasks. In each task, the user can work with a different map or start a new map based on one of the existing templates, created by a map creator.\\
+
+The right part of the navigation bar contains a single button. A click on this button makes sure the visualization is zoomed in such a way that all nodes fit in the window. This is one of the reasons why we mentioned in the requirements (section \ref{sec:other-requirements}) that the screen of the used device should not be too small. If the screen is too small, the nodes of a larger visualization will overlap each other because otherwise they would not fit all on the screen. When nodes overlap, a lot of information can be hidden and the visualization can become useless.
+
+\begin{figure}[h]
 	\centering
 	\frame{\includegraphics[width=\linewidth]{guideamaps.png}}
 	\caption{GuideaMaps Layout.}
 	\label{fig:guideamaps}
 \end{figure}
-
-The nodes represent a specific part of the data and the links illustrate the relation between the data (i.e. the nodes). Before we discuss the nodes into detail, we start with the \textit{navigation bar} above the visualization itself. This navigation bar is divided in three equal parts. In the center, the user can select via an option menu which map or template he wants to use. The name of the selected option is always visible. This functionality is available because the user should be able to switch between different tasks. In each task, the user can work with a different map or start a new map based on one of the existing templates, created by a map creator.\\
-
-The right part of the navigation bar contains a single button. A click on this button makes sure the visualization is zoomed in such a way that all nodes fit in the window. This is one of the reasons why we mentioned in the requirements (section \ref{sec:other-requirements}) that the screen of the used device should not be too small. If the screen is too small, the nodes of a larger visualization will overlap each other because otherwise they would not fit all on the screen. When nodes overlap, a lot of information can be hidden and the visualization can become useless.\\
 
 The left part of the navigation bar is created to be able to switch between the user modes (i.e. end user or map creator). As required, a map creator has more rights and hence he can perform more actions than an end user. In the following subsections, the differences between these modes are elaborated.
 
@@ -164,7 +167,7 @@ The title-div is positioned at the top of the node. It consists of the title tex
 
 Next to the title-text, the title-div contains an icon placed near the right border. This icon indicates to an end-user whether all information for the node, i.e. content, is provided or not. The icon that is shown also depends on whether the information in the child-nodes is given or not. We distinguish three possible situations:
 \begin{enumerate}
-	\item The node itself and all of its (non-optional) children are correctly filled in. In this case the icon will be a completely filled circle. \textcolor{red}{TODO: dit is de eerste keer dat het over optional nodes gaat. Volgorde veranderen?}
+	\item The node itself and all of its (non-optional) children are correctly filled in. In this case the icon will be a completely filled circle.
 	\item The node itself and all of its (non-optional) children are still empty. In this case the icon will be an empty circle.
 	\item In all other cases, the node itself or at least one of its child-nodes is filled. Then the icon will be a semi-filled circle.
 \end{enumerate}
@@ -178,20 +181,50 @@ The content of each node is some text describing the information required for th
 
 
 \subsubsection{Controls}\label{sec:controls}
-The last part of a node is the controls-div. With \textit{controls} we mean the different actions a user can take concerning the particular node. The number of actions a user can perform depends on the mode. An end user has two buttons: one to ``open'' the node to view and edit the data, and one to expand or collapse the node, i.e. to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.\\
+The last part of a node is the controls-div. With \textit{controls} we mean the different actions a user can take concerning the particular node. As actions, a user can (a) add child nodes, (b) explore and edit data of a node, (c) expand and (d) collapse a node. As mentioned in the Usability Requirements (section \ref{sec:usability-requirements}), it is very important to choose for non-misunderstandable icons. Therefore, we chose for icons like in Figure \ref{fig:icons}.\\
+
+The number of actions a user can perform depends on the mode. An end user has two buttons: one to ``open'' the node to view and edit the data, and one to expand or collapse the node, i.e. to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.\\
 
 Because a map creator is allowed to add child nodes, a third button can be found in his controls-div of the node to add a child node. A click on this button opens a small modal, where some information about the new node should be provided before the node can be created. Figure \ref{fig:gm-add-default} illustrates what the modal looks like when the user wants to add a default node. He has to start by selecting the option ``Default'' at the top, after which two input fields appear to insert a title and a description for the node. A click on the button at the bottom will add a child node of the selected type and with the provided title and description.\\
 
-It is possible to add an \textit{empty} node if the user does not provide a title and/or a description. Even though it is not really useful to add nodes without any context, we only require the user to select the type of the child node. If the type is unknown, the node will not be added. A situation where a map creator would add an empty node is when he wants to remind himself that a child node is necessary at that place, but details about the expected content are not yet known.
+It is possible to add an \textit{empty} node if the user does not provide a title and/or a description. Even though it is not really useful to add nodes without any context, we only require the user to select the type of the child node. If the type is unknown, the node will not be added. A situation where a map creator would add an empty node is when he wants to remind himself that a child node is necessary at that place, but details about the expected content are not yet known.\\
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.2\textwidth}
+  		\centering
+  		\includegraphics[width=.25\linewidth]{plusicon}
+  		\caption{Plus}
+  		\label{fig:plusicon}
+	\end{subfigure}%
+	\begin{subfigure}{.2\textwidth}
+  		\centering
+  		\includegraphics[width=.25\linewidth]{magnifyingicon}
+  		\caption{Explore/Edit}
+  		\label{fig:editicon}
+	\end{subfigure}
+	\begin{subfigure}{.2\textwidth}
+		\centering
+  		\includegraphics[width=.25\linewidth]{expandicon}
+  		\caption{Expand}
+  		\label{fig:expandicon}
+	\end{subfigure}
+	\begin{subfigure}{.2\textwidth}
+  		\centering
+  		\includegraphics[width=.25\linewidth]{collapseicon}
+  		\caption{Collapse}
+  		\label{fig:collapseicon}
+	\end{subfigure}
+	\caption{Good icons for the following actions: (a) add child node, (b) explore and edit node, (c) expand node and (d) collapse node.}
+	\label{fig:icons}
+\end{figure}
 
 \begin{figure}[H]
 	\centering
 	\frame{\includegraphics[width=\linewidth]{GMAddChildNodeModal-Default.png}}
-	\caption{The edit modal in map creator mode.}
+	\caption{Adding a default node.}
 	\label{fig:gm-add-default}
 \end{figure}
-
-\textcolor{red}{TODO: describe addition of choice nodes}
 
 
 
@@ -200,7 +233,9 @@ A click on the button to open the node opens a modal representing the data. What
 
 When changing the background color, the user can choose to use the color also for all children or not. If the checkbox ``include children'' is checked, the background color of all child-nodes on all sublevels in the hierarchy will be changed to the new color. Otherwise, only the background color of the current node will be changed.\\
 
-The text color is black by default. This can become a problem when the background color is changed to a dark color and certainly when it is black as well because then the text is not readable anymore. To solve this issue, we wrote some CSS rules that change the text-color depending on the background color. A black (or dark) background will result in white text and a white (or light) background results in black text.
+The text color is black by default. This can become a problem when the background color is changed to a dark color and certainly when it is black as well because then the text is not readable anymore. To solve this issue, we wrote some CSS rules that change the text-color depending on the background color. A black (or dark) background will result in white text and a white (or light) background results in black text.\\
+
+The possibility to change the background color of the nodes and the fact that the text color is adapted taking the background color into account is a nice feature for color blind people. In this way, they can adapt the background colors of the nodes they can distinguish better. Hence, Usability Requirement \ref{item:accessibility} is achieved by this functionality.
 
 \begin{figure}[H]
 	\centering
@@ -228,17 +263,27 @@ The second type of nodes is called ``choice nodes''. This type differs from the 
 
 The purpose is to let the user choose between different possibilities as children for the node. For example, the choice node with title ``Payment Method'' can have ``Cash'', ``Bancontact'' or other methods as child node. Depending on the goal of the map, one (or more) of these methods is chosen by the user.\\
 
-It is the task of the map creator to define the possible choices the end-user can make. Therefore, when the map creator clicks on a choice node, a modal opens as shown in Figure \ref{fig:gm-choicenode-mapcreator}. The modal provides textfields in which the map creator can insert the information about each choice, i.e. a title and a description. Because there is no maximum number of choices a map creator can provide, he can always ask to add more textfields to be able to give the information about an additional node. Note that if the map creator saves the information and reopens the modal, the already given data can be edited in the same form and additional choices can be added. To delete a choice, the map creator only has to keep the textfields of the choice empty.\\
+It is the task of the map creator to define the possible choices the end-user can select. Therefore, when the map creator clicks on a button to add a child node, a similar modal to the one in Figure \ref{fig:gm-add-default} opens as shown in Figure \ref{fig:gm-add-choice}. The modal provides textfields in which the map creator can insert a title and a description for the node and the information about each choice, i.e. again a title and a description. Because there is no maximum number of choices a map creator can provide, he can always ask to add more textfields to be able to give the information about an additional choice.\\
 
 Another feature particular for choice nodes consists of the cardinalities a map creator can define. The map creator can set a lower limit and an upper limit. The lower limit is the minimum number of choices the end-user has to select. For example, if the lower limit is equal to two, the end-user cannot select only one choice. The upper limit is the maximum number of choices that can be selected by the end-user. By default the lower limit is equal to zero and the upper limit is equal to the total number of choices the map creator provided. It is not possible to set the upper limit equal to zero because this would not make sense: end-user would not be able to select any choice. Hence, the choice node would have no meaning and be useless.
+
+\begin{figure}[H]
+	\centering
+	\frame{\includegraphics[width=\linewidth]{GMAddChildNodeModal-Choice.png}}
+	\caption{Adding a choice node.}
+	\label{fig:gm-add-choice}
+\end{figure}
+
+After the node is created, the map creator can edit the node by performing a single click on the choice node. Then a modal opens where he can edit the title, the description and the already defined choices. To delete a choice, the map creator only has to keep the textfields of the choice empty.
+
 \begin{figure}[H]
 	\centering
 	\frame{\includegraphics[width=\linewidth]{GMChoiceNode-MapCreator.png}}
-	\caption{An opened choice node map creator mode.}
+	\caption{An opened choice node in map creator mode.}
 	\label{fig:gm-choicenode-mapcreator}
 \end{figure}
 
-The modal showing up when the end-user clicks on a choice node is not equal to the modal the map creator can see after the same action. As an end-user, you see the title of the node on top, but it is not possible to edit it like a map creator. Under the title is written how many choices the end-user should select. For example ``Select between 1 and 3 choices'', where 1 is the lower limit and 3 the upper limit configured by the map creator. This instruction is followed by a form, where every possible choice is made visible by showing the title and the description. The end-user can select the choices he wants via a checkbox. With a click on the button, the selected choices are registered and added as children to the choice node. It is possible at any time to adapt the children by reopening the modal. At that moment, the checkbox(es) of the previously selected choice(s) will be checked. To remove a choice as child of the choice node, it is sufficient to uncheck the checkbox.\\
+The modal showing up when the end-user clicks on a choice node (Figure \ref{fig:gm-choicenode-enduser}) is not equal to the modal the map creator can see after the same action. As an end-user, you see the title and description of the node on top, but it is not possible to edit these like a map creator. Under the description is written how many choices the end-user should select. For example ``Select between 1 and 3 choices'', where 1 is the lower limit and 3 the upper limit configured by the map creator. This instruction is followed by a form, where every possible choice is made visible by showing the title and the description. The end-user can select the choices he wants via a checkbox. With a click on the button, the selected choices are registered and added as children to the choice node. It is possible at any time to adapt the children by reopening the modal. At that moment, the checkbox(es) of the previously selected choice(s) will be checked. To remove a choice as child of the choice node, it is sufficient to uncheck the checkbox.\\
 
 Next to selecting choices given by the map creator, it can sometimes be necessary to be able to add an extra possibility, which was not given by the map creator. Therefore, an end-user can create additional choices, which later on can be added as children of the choice node. Additional choices can be created in the same way as the map creator can do it. By a click on the button, an additional part of the form appears in the modal. When the form is submitted, the additional choice is registered with the given title and description.
 \begin{figure}[H]
@@ -250,12 +295,13 @@ Next to selecting choices given by the map creator, it can sometimes be necessar
 
 
 
-
 % ----------------------------
 % ------ OPTIONAL NODES ------
 % ----------------------------
 \subsection{Optional nodes}\label{sec:optional-nodes}
-The visualization also provides optional nodes. They can be recognized by the representation of the link between this node and its parent. A regular node is connected to its parent via a solid line, while an optional node is connected via a dashed line. A special characteristic of optional nodes is that these nodes can be disabled by the end user. Therefore, optional nodes contain an additional button, represented as a lock, at their right side. As long as the node is enabled, the button is represented by an open lock. A click on this button disables the node and changes the icon to a closed lock. The node can be enabled again by clicking the lock again. Next to the lock icon, a disabled node can be recognized by its gray background and a blur so that the content is less readable.
+The visualization also provides optional nodes. They can be recognized by the representation of the link between this node and its parent. A regular node is connected to its parent via a solid line, while an optional node is connected via a dashed line. A special characteristic of optional nodes is that these nodes can be disabled by the end user. Therefore, optional nodes contain an additional button, represented as a lock, at their right side. As long as the node is enabled, the button is represented by an open lock. A click on this button disables the node and changes the icon to a closed lock. The node can be enabled again by clicking the lock again. Next to the lock icon, a disabled node can be recognized by its gray background and a blur so that the content is less readable. \\
+
+A second characteristic of optional nodes is that they do not contribute to the ``completeness'' of the visualization. Hence, to determine whether the completeness icon of a node should be empty, filled or partially filled, optional child nodes and their descendants (which are optional as well) are skipped because it does not matter whether content is provided in these nodes or not. There is only one exception on this rule: when a choice node is optional but it does have children (selected by an end-user), these children are not optional and are checked for completeness.
 
 
 

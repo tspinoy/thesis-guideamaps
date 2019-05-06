@@ -13,7 +13,7 @@ Note that the second definition emphasizes the fact that usability is dependent 
 
 Hence, we can distinguish between functional requirements and usability requirements. The system should meet the functional requirements to provide the right functionality and it should meet the usability requirements to be usable. There are also requirements that do not belong to either category, e.g. the so-called non-functional requirements.\\
 
-This chapter starts by identifying the different user classes. Next, we will present and justify the major requirements formulated for our system, functional as well as usability requirements and other requirements. Detailed requirements and requirements that are rather straightforward are omitted here.
+This chapter starts by identifying the different user classes. Next, we will present and justify the major requirements formulated for our system, functional as well as usability requirements and other requirements. Detailed requirements and requirements that are rather straightforward are omitted here. Later in this thesis, when we explain the implementation details, we will come back to these requirements and discuss how we managed to meet them.
 
 
 
@@ -48,19 +48,19 @@ The end-user is the most restricted user in terms of rights. However, it is this
 	Goal \ref{item:goal:extend-modify} formulated earlier stated that the new version of GuideaMaps should allow the end-user to extend and modify the pre-defined map in some restricted way, i.e. they should be able to change the background color of nodes, to add child nodes and to remove nodes they don't need, and it should also be possible to add new options in choice nodes. However, end-users should only be able to delete nodes they added themselves and not the nodes defined by the map creator. Otherwise it would be possible for end users to change the pre-defined map completely. The purpose of allowing the end-user to edit the map in some restricted way is to adjust it to situations that were not foreseen by the map creator.
   
 	\item \textbf{Modes And Rights\label{item:modes-rights}} \hfill \\
-	Because we have two user classes that require different functionality, two modes are needed: an end user mode and a map creator mode. These modes can be seen as a security mechanism to not let a particular end-user mess with a map definition.
+	Next to the developer, we have two user classes that require different functionality. Therefore, two modes are needed: and end-user mode and a map creator mode. These modes can be seen as a security mechanism to not let a particular end-user mess with a map definition. Depending on the mode the application is in, the corresponding functionality should be available. For example, in map creator mode, there should be a way to add a child node, while in the end-user mode, this functionality should not be available.
   
 	\item \textbf{Zoom the visualization}\label{item:zoom} \hfill \\
 	Zooming in or out such that you get less or more information at the same time on the screen is a frequently provided functionality for large visualizations. A feature to zoom is, for example, very useful in situations where you want to compare different parts of the visualization or focus on a certain part. The scrolling gesture is probably the best gesture for this action, because this is a well-known way to zoom in applications (e.g. Google Maps). Using the same gesture as in other applications will improve the learnability of our tool.
 	
 	\item \textbf{Zoom to fit\label{item:zoom-to-fit}} \hfill \\
-	A variation on the zooming feature is ``zoom to fit'' (a.k.a. zoom until the complete figure fits into the bounding box). With custom zooming, the user can set the zooming level to meet its needs. Zoom to fit automatically adapts the zooming level and moves the content of the application until everything fits on the screen.
-	
+	A variation on the zooming feature is ``zoom to fit'' (a.k.a. zoom until the complete figure fits into the bounding box). With custom zooming, the user can set the zooming level to meet its needs. Zoom to fit automatically adapts the zooming level and moves the content of the application until everything fits on the screen. This feature can, for example, be very useful to get an overview of the current data in the visualization.
+		
 	\item \textbf{Genericity\label{item:genericity}} \hfill \\
 	Goal \ref{item:goal:generic} formulated earlier states that the application should be usable for different purposes. While GuideaMaps was usable in the context of domain specific requirement elicitation, our tool should also be useful in many other cases. Therefore, some requirements concerning the genericity of the application are needed:
   	\begin{enumerate}
 		\item The tool should be generic in such a way that it is possible to use a different representation, e.g. shape/size for the nodes and the links.
-		\item A developer should be able to create its own implementation for the nodes and the links, which then can be \textit{plugged in} into the system. \textcolor{red}{Leg het verschil uit met a.}
+		\item The default implementation should not be changed. An implementation for the nodes and the links created by a developer, should be \textit{plugged in} into the system, without affecting the default implementation.
 	\end{enumerate}
 	
 	\item \textbf{Simultaneously Edit Same Visualization\label{item:work-simultaneously}} \hfill \\
@@ -71,7 +71,6 @@ The end-user is the most restricted user in terms of rights. However, it is this
 
 
 \subsection{Usability Requirements}\label{sec:usability-requirements}
-In order to obtain a high usability, we should formulate the necessarily usability requirements for the application. Later in this thesis, when we explain the implementation details, we will come back to these requirements and discuss how we managed to meet them.
 
 % List of usability requirements
 \begin{enumerate}[label=\textbf{\arabic*}., ref=\arabic*]
@@ -81,39 +80,6 @@ In order to obtain a high usability, we should formulate the necessarily usabili
 	\begin{enumerate}
 	
 		\item As icons\footnote{\url{https://fontawesome.com/}} take in general less space than text, we will use icons to indicate possible actions. Some examples of these actions are (1) adding a child node, (2) viewing the content of a node, (3) editing a node and (4) expand/collapse a node. However, it is important to choose for clear, not misunderstandable icons. The icons should not be ambiguous, they should link to one particular action and thus the user should know exactly what to expect when clicking on the icon. Well chosen icons are one of the factors in the design that contribute to learnability and ease of use.\\
-	
-		If the user knows it is not possible to add child nodes, we would state that a plus- and minus-icon are also possible to indicate the possibility to expand or collapse a node. If the visualization allows to add child nodes, the plus-icon should be used for this action and not for the expand- or collapse-action. \textcolor{red}{TODO: Niet duidelijk, beter uitleggen.}
-			\begin{figure}[H]
-				\centering
-				\begin{subfigure}{.2\textwidth}
-  					\centering
-  					\includegraphics[width=.25\linewidth]{plusicon}
-  					\caption{Plus}
-  					\label{fig:plusicon}
-				\end{subfigure}%
-				\begin{subfigure}{.2\textwidth}
-  					\centering
-  					\includegraphics[width=.25\linewidth]{magnifyingicon}
-  					\caption{Explore/Edit}
-  					\label{fig:editicon}
-				\end{subfigure}
-				\begin{subfigure}{.2\textwidth}
-  					\centering
-  					\includegraphics[width=.25\linewidth]{expandicon}
-  					\caption{Expand}
-  					\label{fig:expandicon}
-				\end{subfigure}
-				\begin{subfigure}{.2\textwidth}
-  					\centering
-  					\includegraphics[width=.25\linewidth]{collapseicon}
-  					\caption{Collapse}
-  					\label{fig:collapseicon}
-				\end{subfigure}
-				\caption{Good icons for the following actions: (a) add child node, (b) explore and edit node, (c) expand node and (d) collapse node.}
-				\label{fig:icons}
-			\end{figure}
-			
-		\textcolor{red}{TODO: De icons in de figuur zijn al de oplossing, niet de requirement. Plaats ze ergens anders.}
 	
 		\item As already mentioned in Functional Requirement \ref{item:zoom}, gestures for common actions should not differ from the gestures used for the same action in other applications.
 				
@@ -131,7 +97,7 @@ In order to obtain a high usability, we should formulate the necessarily usabili
 	The target audience of the application should be limited as little as possible. 
 	\begin{enumerate}
 		\item We don't expect the user to have a background in Computer Science or visualization techniques. \textcolor{red}{TODO: Dit is geen echt usability requirement. Moet beter.}
-		\item Color blind people should still be able to use the system. We can make sure this is possible by allowing users to choose for colors that are distinguishable by color blind people. \textcolor{red}{TODO: Dit is al een deel van de oplossing. Plaats de oplossing ergens anders.}
+		\item Color blind people should still be able to use the system.
 	\end{enumerate}
 	
 \end{enumerate}
@@ -143,9 +109,12 @@ In order to obtain a high usability, we should formulate the necessarily usabili
 \begin{enumerate}[label=\textbf{\arabic*}., ref=\arabic*]
 	\item \textbf{Device- and OS-independent\label{item:device-os-independent}} \hfill \\
 	According to Research Goal \ref{item:goal:device-os-independent}, the application should run on different kinds of devices (e.g. tablets, laptops and desktops) and operating systems (Android, iOS, MacOS and Windows). While version 1.0 was only designed for an iPad, our version should provide a solution for this restriction.\\
+	
 	The only restriction on the used device is that it needs to have a screen that is large enough because it is not very convenient to work with the visualization on small screen areas, e.g. on smartphones. The application could run on smartphones but it is not recommended nor required to use it on devices with relatively small screens.
 	
 	\item \textbf{Code Separation\label{item:code-separation}} \hfill \\
-	The core of the application should be completely separated from the parts that are customizable for the end-users.
+	The core of the application should be completely separated from custom implementations created by developers.
 
 \end{enumerate}
+
+
