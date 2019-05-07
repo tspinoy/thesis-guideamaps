@@ -181,13 +181,7 @@ The content of each node is some text describing the information required for th
 
 
 \subsubsection{Controls}\label{sec:controls}
-The last part of a node is the controls-div. With \textit{controls} we mean the different actions a user can take concerning the particular node. As actions, a user can (a) add child nodes, (b) explore and edit data of a node, (c) expand and (d) collapse a node. As mentioned in the Usability Requirements (section \ref{sec:usability-requirements}), it is very important to choose for non-misunderstandable icons. Therefore, we chose for icons like in Figure \ref{fig:icons}.\\
-
-The number of actions a user can perform depends on the mode. An end user has two buttons: one to ``open'' the node to view and edit the data, and one to expand or collapse the node, i.e. to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.\\
-
-Because a map creator is allowed to add child nodes, a third button can be found in his controls-div of the node to add a child node. A click on this button opens a small modal, where some information about the new node should be provided before the node can be created. Figure \ref{fig:gm-add-default} illustrates what the modal looks like when the user wants to add a default node. He has to start by selecting the option ``Default'' at the top, after which two input fields appear to insert a title and a description for the node. A click on the button at the bottom will add a child node of the selected type and with the provided title and description.\\
-
-It is possible to add an \textit{empty} node if the user does not provide a title and/or a description. Even though it is not really useful to add nodes without any context, we only require the user to select the type of the child node. If the type is unknown, the node will not be added. A situation where a map creator would add an empty node is when he wants to remind himself that a child node is necessary at that place, but details about the expected content are not yet known.\\
+The last part of a node is the controls-div. With \textit{controls} we mean the different actions a user can take concerning the particular node. As actions, a user can (a) add child nodes, (b) explore and edit data of a node, (c) expand and (d) collapse a node. As mentioned in the Usability Requirements (section \ref{sec:usability-requirements}), it is very important to choose for non-misunderstandable icons. Therefore, we chose for icons like in Figure \ref{fig:icons}.
 
 \begin{figure}[H]
 	\centering
@@ -218,6 +212,12 @@ It is possible to add an \textit{empty} node if the user does not provide a titl
 	\caption{Good icons for the following actions: (a) add child node, (b) explore and edit node, (c) expand node and (d) collapse node.}
 	\label{fig:icons}
 \end{figure}
+
+The number of actions a user can perform depends on the mode. An end user has two buttons: one to ``open'' the node to view and edit the data, and one to expand or collapse the node, i.e. to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.\\
+
+Because a map creator is allowed to add child nodes, a third button can be found in his controls-div of the node to add a child node. A click on this button opens a small modal, where some information about the new node should be provided before the node can be created. Figure \ref{fig:gm-add-default} illustrates what the modal looks like when the user wants to add a default node. He has to start by selecting the option ``Default'' at the top, after which two input fields appear to insert a title and a description for the node. A click on the button at the bottom will add a child node of the selected type and with the provided title and description.\\
+
+It is possible to add an \textit{empty} node if the user does not provide a title and/or a description. Even though it is not really useful to add nodes without any context, we only require the user to select the type of the child node. If the type is unknown, the node will not be added. A situation where a map creator would add an empty node is when he wants to remind himself that a child node is necessary at that place, but details about the expected content are not yet known.\\
 
 \begin{figure}[H]
 	\centering
@@ -274,7 +274,7 @@ Another feature particular for choice nodes consists of the cardinalities a map 
 	\label{fig:gm-add-choice}
 \end{figure}
 
-After the node is created, the map creator can edit the node by performing a single click on the choice node. Then a modal opens where he can edit the title, the description and the already defined choices. To delete a choice, the map creator only has to keep the textfields of the choice empty.
+After the node is created, the map creator can edit the node by performing a single click on the choice node. Then a modal opens where he can edit the title, the description and the already defined choices (Figure \ref{fig:gm-choicenode-mapcreator}). To delete a choice, the map creator only has to keep the textfields of the choice empty.
 
 \begin{figure}[H]
 	\centering

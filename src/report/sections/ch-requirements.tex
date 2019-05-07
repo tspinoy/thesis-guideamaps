@@ -27,7 +27,7 @@ In our system, each user can be classified in one of the following three user cl
 A developer is a user who can define and implement a custom layout for the nodes and the links. This means that, if the purpose of the visualization differs from the default, a developer can make sure that the tool can be used with a different layout while the possibilities (in terms of functionality) are still the same. Developers are the only users that are able to do this because map creators and end-users are not allowed to extend the code with a custom implementation. The exact steps that need to be taken in order to provide a custom layout in the tool are explained in sections \ref{ch:implementation} and \ref{ch:usecase}.
 
 \subsection{Map Creator}\label{sec:user-class-map-creator}
-A map creator has the rights to change the structure of the visualization. With the structure, we don't mean the layout of the nodes and the links, but the composition of the map itself. Hence, the map creator ``initializes'' the map by creating the nodes and links necessary for his goal. He provides a title and eventually a description for each node. As a map creator, it is impossible to already provide the content of the node because that is the responsibility of the end-user. 
+A map creator has the rights to change the structure of the visualization. With the structure, we do not mean the layout of the nodes and the links, but the composition of the map itself. Hence, the map creator ``initializes'' the map by creating the nodes and links necessary for his goal. He provides a title and a description for each node. As a map creator, it is impossible to already provide the content of the node because that is the responsibility of the end-user. 
 
 \subsection{End User}\label{sec:user-class-end-user}
 The end-user is the most restricted user in terms of rights. However, it is this user that has to provide the most important part, i.e. the content of the nodes. They cannot change the title or the description, provided by the map creator because this would give them the opportunity to change the structure of the visualization (which is a right reserved for the map creator). If the map creator did not provide this information, the end-user can add it, but never change it again afterwards, because, once the information is added, we are in the same situation as when the map creator would have provided it.
@@ -38,7 +38,7 @@ The end-user is the most restricted user in terms of rights. However, it is this
 % ---------- REQUIREMENTS ----------
 % ----------------------------------
 \section{Requirements}\label{sec:requirements}
-
+\textcolor{red}{TODO: is er genoeg uitgelegd bij welke user class(es) de requirements horen?}
 \subsection{Functional Requirements}\label{sec:functional-requirements}
 
 % List of functional requirements
