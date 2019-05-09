@@ -867,7 +867,7 @@ export const PDDDataComplete = [
     content:
       '<div>' +
       "<p><em>Texte issu d'une présentation PowerPoint, réalisé par les élèves de la classe de 2ème secondaire du Collège Saint Michel d'Etterbeek pour sensibiliser les autres élèves à la gestion des déchets.</em></p><br>" +
-      '<p>&quot;Après avoir travaillé sur le tri des déchets et ses conséquences, nous voulons nous mobiliser et vous en faire prendre conscience...</p>' +
+      '<p>&quot;Après avoir travaillé sur le tri des déchets et ses conséquences, nous voulons nous mobiliser et vous en faire prendre conscience...</p><br>' +
       "<p>Actuellement, les océans sont pollués par plus de 100 millions de tonnes de plastiques. Le huitième continent qu'est ce que c'est ? C'est tous les déchets non recyclés. Ils se trouvent entre les Etats - Unis et le Japon, dans l'océan pacifique. D'où viennent les plastiques ? Les plastiques proviennent des grands cargos qui coulent, des gens au bord de la plage qui jettent leurs déchets et aussi de pays qui n'ont pas les moyens de recycler donc ils les rejettent dans la mer.</p><br>" +
       '<p>Comment les gens réagissent ... ? Les gens à travers le monde ne prennent pas conscience de la quantité de plastiques dispersés dans les différents milieux aquatiques. Après une réflexion de longue durée, des personnes se sont mobilisées pour ne consommer que 25 kilos de déchets par an et éviter de polluer autant nos océans ... Aidez nous à ne pas former le 8ème continent !</p><br>' +
       '<p>Amine, Charles, Chloé, Elisa, Grâce, Grégoire, Hazem, Hrandy, Imane, Karolina, Mateo, Matthaeus, Michel, Mohamed, Salma et Yassin&quot;</p>' +
