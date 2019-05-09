@@ -1,6 +1,6 @@
 \chapter{Related Work}\label{ch:related-work}
 
-There exist lots of ways to visualize data and the relations between data. In this chapter, we discuss work related to the needs of GuideaMaps 2.0.
+There exist lots of ways to visualize data and the relations between data. In this chapter, we discuss visualization techniques related to the needs of GuideaMaps 2.0 (section \ref{sec:visualization-techniques}). In section \ref{sec:existing-tools}, we discuss related tools.
 
 
 % ------------------------------------
@@ -16,7 +16,7 @@ The most well-known technique to visualize related data is to create a mind map 
 
 Mind maps are created by writing the main idea in the middle of the drawing, while all sub-ideas are placed around that center node. Each sub-idea is connected with its parent by means of a line. Hence, this kind of visualization is not difficult to create or understand. Its simplicity is one of the reasons why it is used a lot in practice.\\
 
-Because mind maps is not a new concept, but one that most people already know quite well, we will only discuss one important aspect about this visualization technique. When using a digital version of mind maps, in general, the user can change the position of the nodes. \cite{wiegmann-1992} state that maps taking the gestalt principles into account would be more performance-effective than maps that don't integrate gestalt principles. Therefore, digital mind map systems usually allow their users to re-organize the nodes using drag and drop and by changing the color of the nodes. In this way, the user can, for example, put nodes containing similar data closer to each other and give them the same color (proximity and similarity principle).
+Because mind maps is not a new concept, but one that most people already know quite well, we will only discuss one important aspect about this visualization technique. When using a digital version of mind maps, in general, the user can change the position of the nodes. \cite{wiegmann-1992} state that maps taking the Gestalt principles \citep{koffka2013principles} into account would be more performance-effective than maps that don't integrate Gestalt principles. Therefore, digital mind map systems usually allow their users to re-organize the nodes using drag and drop and by changing the color of the nodes. In this way, the user can, for example, put nodes containing similar data closer to each other and give them the same color (proximity and similarity principle).
 
 
 
@@ -24,7 +24,7 @@ Because mind maps is not a new concept, but one that most people already know qu
 % ----- VISUAL METAPHORS -----
 % ----------------------------
 \subsection{Visual Metaphors}\label{sec:visual-metaphors}
-Another technique to represent content is visual metaphors.
+Another technique that can be used to represent content is the use of visual metaphors.
 
 \begin{quote}
 ``A visual metaphor is a graphic structure that uses the shape and elements of a familiar natural or manmade artefact or of an easily recognizable activity or story to organize content meaningfully and use the associations with the metaphor to convey additional meaning about the content.'' \hfill \citep{eppler-2006}
@@ -39,7 +39,7 @@ This technique could be used if you want to help users to memorize the most impo
 	\label{fig:visual-metaphor}
 \end{figure}
 
-As you can see in the figure, the visualization is completely adapted to the specific case of the topic. In this way, it is very difficult to create a generic metaphor, which can be used for different topics. As our tool should be usable for different topics, the technique of visual metaphors is not suitable for the needs of our tool.
+As you can see in the figure, the visualization is completely adapted to the specific case of the topic. In this way, it is very difficult to create a generic metaphor, which can be used for different topics. As our tool should be usable for different topics, the technique of visual metaphors is less suitable for the needs of our tool.
 
 
 % --------------------------
@@ -64,7 +64,7 @@ Hence, we can state that GuideaMaps makes use of a knowledge map visualization a
 % ----- EXISTING TOOLS -----
 % --------------------------
 \section{Existing Tools}\label{sec:existing-tools}
-In this section, we will discuss several already existing tools with similar functionality as the goal of our application.
+In this section, we will discuss several already existing tools with similar functionality as defined in the goals of our application.
 
 \subsection{Bubbl.us}
 Bubbl.us\footnote{\url{https://bubbl.us/}} is an online mind-mapping tool with very interesting features. Because it is browser-based, it works on all platforms and devices. Furthermore, you do not have to download any software to be able to use it. The biggest drawback of the system is that the nodes only contain a title. It is impossible to provide some content in addition to the title of the node. Hence, this tool is probably only useful to write down simple ideas instead of more complex structures of related data. Another drawback is that you can only change the color of the nodes but you can not customize their shape. But, as a user, you can drag and drop the nodes, share the visualization, work on it simultaneously, etc. Hence, Bubbl.us seems to be a well-created tool with lots of advantages. However, for the purpose of GuideaMaps 2.0, we need some functionality this tool does not provide.

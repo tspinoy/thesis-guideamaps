@@ -169,6 +169,32 @@ Janssens, E.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Koffka%
+}{%
+Koffka%
+}{%
+{\protect \APACyear {2013}}%
+}]{%
+koffka2013principles}
+\APACinsertmetastar {%
+koffka2013principles}%
+\begin{APACrefauthors}%
+Koffka, K.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYear{2013}.
+\newblock
+\APACrefbtitle {Principles Of Gestalt Psychology} {Principles of gestalt
+  psychology}.
+\newblock
+\APACaddressPublisher{}{Taylor \& Francis}.
+\newblock
+\begin{APACrefURL} \url{https://books.google.be/books?id=tWxHAQAAQBAJ}
+  \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Moody%
 }{%
 Moody%
