@@ -20,7 +20,7 @@ import {GMData2} from './GMData';
 import GMEditModal from './GMEditModal';
 
 import PDDNode from './PDDNode';
-import {PDDData2} from './PDDData';
+import { PDDData2, PDDDataComplete } from "./PDDData";
 import PDDEditModal from './PDDEditModal';
 import PDDLink from './PDDLink';
 
@@ -75,7 +75,7 @@ const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 const EMPTY = 'New map';
 const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
-let current_visualization = GUIDEAMAPS;
+let current_visualization = PLATEFORMEDD;
 
 let currentData = null;
 
@@ -106,7 +106,7 @@ const setCurrentData = () => {
         ];
         break;
       case PLATEFORMEDD:
-        currentData = PDDData2;
+        currentData = PDDDataComplete;
         break;
       default:
         currentData = GMData2;

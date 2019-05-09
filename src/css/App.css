@@ -179,7 +179,17 @@
 .crossReference:hover {
     transform: scale(1.1);
     z-index: 50000;
-    background-color: #5cb85c;
+    background-color: var(--color);
+    color: white;
+}
+
+.closePDDModalButton {
+    background-color: white;
+    color: var(--color);
+}
+
+.closePDDModalButton:hover {
+    background-color: var(--color);
     color: white;
 }
 

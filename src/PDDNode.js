@@ -3,6 +3,7 @@ import './css/App.css';
 import EditButton from './EditButton';
 import {PDDNodeHeight, PDDNodeWidth} from './Constants';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {getPrimaryNodeColor} from './PDDData';
 
 class PDDNode extends React.Component {
   constructor(props) {
@@ -74,16 +75,10 @@ class PDDNode extends React.Component {
           (node.visible ? 'visibleNode ' : 'hiddenNode ')
         }
         style={{
-          backgroundColor:
-            node.data.id === 0
-              ? '#373244'
-              : node.data.image !== ''
-              ? '#60b660'
-              : 'white',
+          backgroundColor: getPrimaryNodeColor(node),
           border: '3px solid #ffffff',
           borderRadius: '50%',
-          boxShadow:
-            node.data.id === 0 ? '0 0 0 3px #373244' : '0 0 0 3px #5cb85c',
+          boxShadow: '0 0 0 3px ' + getPrimaryNodeColor(node),
           color: 'white',
           cursor: 'pointer',
           fontWeight: 'bold',
@@ -99,21 +94,20 @@ class PDDNode extends React.Component {
           <div // title div
             id={'title' + node.data.id}
             className={
-              'flex h-full invertColors items-center justify-center ' +
+              'flex h-full items-center justify-center ' +
               'pb-1 pt-1 pl-2 pr-2 relative text-center ' +
-              (node.data.image !== '' ? 'text-black ' : 'text-white ') +
               'w-full '
             }
             onClick={this.onClickHandler}>
             <p className={'text-base overflow-hidden'}>
-              {node.data.titre === '' ? 'No title' : node.data.titre}
+              {node.data.title === '' ? 'No title' : node.data.title}
             </p>
           </div>
           <div // controls div
-            className={'absolute invertColors pin-b rounded-b w-full'}>
+            className={'absolute pin-b rounded-b w-full'}>
             {node.data.id > 0 && (
               <EditButton
-                bgcolor={node.data.image !== '' ? '#ffffff' : '#000000'}
+                bgcolor={'#000000'}
                 border={false}
                 EditModalComp={EditModalComp}
                 iconSize={'lg'}
@@ -135,7 +129,7 @@ class PDDNode extends React.Component {
           )}
         </div>
         {node.height !== 0 && (
-          // At non-child nodes the expand-collapse button should be added
+          // At non-child nodes the edit button should be added
           <div
             className={'tooltip absolute'}
             style={{
@@ -149,11 +143,11 @@ class PDDNode extends React.Component {
                 'px-1 py-1 rounded-br text-grey-darkest w-full '
               }
               style={{
-                border: '3px solid #60b660',
+                border: '3px solid ' + getPrimaryNodeColor(node),
                 borderRadius: '50%',
                 boxShadow: '0 0 0 2px #ffffff',
                 //borderColor: node.backgroundColor,
-                color: '#60b660',
+                color: getPrimaryNodeColor(node),
                 outline: 'none',
               }}
               onClick={() => {

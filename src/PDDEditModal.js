@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {PDDData2} from './PDDData';
+import {
+  getPrimaryNodeColor,
+  getSecondaryNodeColor,
+  PDDData2,
+  PDDDataComplete,
+} from './PDDData';
 
 class PDDEditModal extends React.Component {
   constructor(props) {
@@ -19,9 +24,9 @@ class PDDEditModal extends React.Component {
   }
 
   static getDataById(id) {
-    for (let i = 0; i < PDDData2.length; i++) {
-      if (PDDData2[i].id === id) {
-        return PDDData2[i];
+    for (let i = 0; i < PDDDataComplete.length; i++) {
+      if (PDDDataComplete[i].id === id) {
+        return PDDDataComplete[i];
       }
     }
   }
@@ -41,6 +46,16 @@ class PDDEditModal extends React.Component {
       height: '50px',
       textAlign: 'center',
       width: '100%',
+      '--color': getPrimaryNodeColor(this.props.node),
+    };
+
+    const closeButtonStyle = {
+      border: '2px solid ' + getPrimaryNodeColor(this.props.node),
+      borderRadius: '50%',
+      padding: '7px 10px 7px 10px',
+      right: 0,
+      transform: 'translate(17px, -32px)',
+      '--color': getPrimaryNodeColor(this.props.node),
     };
 
     return (
@@ -62,7 +77,7 @@ class PDDEditModal extends React.Component {
           className={'absolute bg-white modal w-full'}
           style={{
             border: '2px solid',
-            borderColor: '#5cb85c',
+            borderColor: getPrimaryNodeColor(this.props.node),
             borderRadius: 5,
             height: '75%',
             left: '50%',
@@ -73,16 +88,8 @@ class PDDEditModal extends React.Component {
             transform: 'translate(-50%,-50%)',
           }}>
           <button
-            className={
-              'absolute bg-white hover:bg-green-dark border border-green-dark ' +
-              'hover:text-white text-green'
-            }
-            style={{
-              borderRadius: '50%',
-              padding: '7px 10px 7px 10px',
-              right: 0,
-              transform: 'translate(17px, -32px)',
-            }}
+            className={'absolute closePDDModalButton'}
+            style={closeButtonStyle}
             onClick={() => this.props.onClose()}>
             X
           </button>
@@ -94,12 +101,14 @@ class PDDEditModal extends React.Component {
               <div
                 className={'h-full p-3 overflow-scroll'}
                 style={{
-                  backgroundColor: '#ecf5d5',
+                  backgroundColor: getSecondaryNodeColor(this.props.node),
                   borderRight:
                     this.props.node.data.crossRefs.length !== 0 && 'solid 1px',
                 }}>
-                <h1 className={'pb-2'} style={{color: '#5cb85c'}}>
-                  {this.props.node.data.titre}
+                <h1
+                  className={'pb-2'}
+                  style={{color: getPrimaryNodeColor(this.props.node)}}>
+                  {this.props.node.data.title}
                 </h1>
                 {this.props.node.data.image !== '' && (
                   <div
@@ -118,7 +127,8 @@ class PDDEditModal extends React.Component {
                       className={'float-left'}
                       src={this.props.node.data.image}
                       style={{
-                        border: '2px solid #5cb85c',
+                        border:
+                          '2px solid ' + getPrimaryNodeColor(this.props.node),
                         maxHeight: '300px',
                       }}
                     />
@@ -126,7 +136,7 @@ class PDDEditModal extends React.Component {
                 )}
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: this.props.node.data.resume,
+                    __html: this.props.node.data.content,
                   }}
                 />
               </div>
@@ -141,8 +151,12 @@ class PDDEditModal extends React.Component {
               }}>
               <div
                 className={'h-full overflow-scroll p-3'}
-                style={{backgroundColor: '#ecf5d5'}}>
-                <h1 className={'pb-2'} style={{color: '#5cb85c'}}>
+                style={{
+                  backgroundColor: getSecondaryNodeColor(this.props.node),
+                }}>
+                <h1
+                  className={'pb-2'}
+                  style={{color: getPrimaryNodeColor(this.props.node)}}>
                   Cross refs
                 </h1>
                 <table
@@ -160,8 +174,12 @@ class PDDEditModal extends React.Component {
                             PDDEditModal.clickNode(ref);
                             this.props.onClose();
                           }}
-                          style={{border: '1px solid #5cb85c'}}>
-                          {PDDEditModal.getDataById(ref)['titre']}
+                          style={{
+                            border:
+                              '1px solid ' +
+                              getPrimaryNodeColor(this.props.node),
+                          }}>
+                          {PDDEditModal.getDataById(ref)['title']}
                         </td>
                       </tr>
                     ))}
