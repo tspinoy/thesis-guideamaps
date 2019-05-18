@@ -24,13 +24,17 @@ This chapter starts by identifying the different user classes. Next, we will pre
 For our system, we can identify three user classes: (1) developer, (2) map creator and (3) end-user. The class the user belongs to will define its rights and possibilities. An overlap in the rights is possible, i.e. users of different classes can have a number of rights and possibilities in common. The different user classes are described into more detail in the following subsections.
 
 \subsection{Developer}\label{sec:user-class-developer}
-A developer is a user who can define and implement a custom visualization for the nodes and the links. This means that a developer can make sure that the tool can be used with a different visualization while the possibilities (in terms of functionality) are still the same. Developers are the only users that are able to do this because map creators and end-users are not allowed to extend the code with a custom implementation. The exact steps that need to be taken in order to provide a custom visualization in the tool are explained in sections \ref{ch:implementation} and \ref{ch:usecase}.
+A developer is a user who can define and implement a custom visualization for the nodes and the links. This means that a developer can make sure that the tool can be used with a different visualization while the possibilities (in terms of functionality) are still the same. Developers are the only users that are able to do this because map creators and end-users are not allowed to extend the code with a custom implementation. The exact steps that need to be taken in order to provide a custom visualization in the tool are explained in chapter \ref{ch:implementation} and \ref{ch:usecase}.
 
 \subsection{Map Creator}\label{sec:user-class-map-creator}
-A map creator has the rights to create a so-called Guidea template or change the structure of an existing template. With the structure, we do not mean the layout of the nodes and the links, but the composition of the map itself. Hence, the map creator ``initializes'' the map by creating the nodes and links necessary for his goal. He provides a title and a description for each node. As a map creator, it is not possible to already provide the content of the node because that is the responsibility of the end-user. Note that this user corresponds to the template creator in GuideaMaps 1.0. However, in GuideaMaps 1.0 this had to be done in XML, while in our version it will be done in a graphical way. We use the term ``map'' here (instead of template) because the term ``map'' is easier to understand than the term ``template'' by non-ICT schooled users.
+A map creator has the rights to create a so-called Guidea template or change the structure of an existing template. With the structure, we do not mean the layout of the nodes and the links, but the composition of the map itself. Hence, the map creator ``initializes'' the map by creating the nodes and links necessary for his goal. He provides a title and a description for each node. As a map creator, it is not possible to already provide the content of the node because that is the responsibility of the end-user. Note that this user corresponds to the template creator in GuideaMaps 1.0. However, in GuideaMaps 1.0 this had to be done in XML, while in our version it will be done in a graphical way \textcolor{blue}{to achieve \ref{goal:templates-graphical}}. We use the term ``map'' here (instead of template) because the term ``map'' is easier to understand than the term ``template'' by non-ICT schooled users.
 
 \subsection{End User}\label{sec:user-class-end-user}
-The end-user is the most restricted user in terms of rights and functionalities. He will use the map defined by a map creator and fill it with content. The end-user cannot change the title or the description, provided by the map creator, of a node but only provide the content. We have this restriction because otherwise this would give them the opportunity to change the structure of the map (which is a right reserved for the map creator). If the map creator did not provide this information, the end-user can add it, but never change it again afterwards, because, once the information is added, it is the same situation as when the map creator would have provided it.
+The end-user is the most restricted user in terms of rights and functionalities. He will use the map defined by a map creator and fill it with content. The end-user cannot change the title or the description, provided by the map creator, of a node but only provide the content. We have this restriction because otherwise this would give them the opportunity to change the structure of the map (which is a right reserved for the map creator). If the map creator did not provide this information, the end-user can add it, but never change it again afterwards, because, once the information is added, it is the same situation as when the map creator would have provided it.\\
+
+\textcolor{blue}{
+Further, an end-user is allowed to add child-nodes but they cannot delete nodes, because otherwise it would be possible for end-users to change the pre-defined map completely. The purpose of allowing the end-user to edit the map in some restricted way is to allow them to adjust the map to situations that were not foreseen by the map creator.
+}
 
 
 
@@ -38,33 +42,42 @@ The end-user is the most restricted user in terms of rights and functionalities.
 % ---------- REQUIREMENTS ----------
 % ----------------------------------
 \section{Requirements}\label{sec:requirements}
-\textcolor{red}{TODO: is er genoeg uitgelegd bij welke user class(es) de requirements horen?}
+
 \subsection{Functional Requirements}\label{sec:functional-requirements}
 
 % List of functional requirements
-\begin{enumerate}[label=\textbf{\arabic*}., ref=\arabic*]
+\begin{enumerate}[label=\textbf{FR \arabic*}., labelindent=0.5cm, ref=FR \arabic*, leftmargin=*]
+
+	\item \label{fr:modes-rights}
+		The system needs two modes: and end-user mode and a map creator mode. Depending on the mode used, the corresponding functionality should be available. 
 	
-	\item \textbf{Customization\label{item:customization}} \hfill \\
-	Goal \ref{item:goal:extend-modify} formulated earlier stated that the new version of GuideaMaps should allow the end-user to extend and modify the pre-defined map in some restricted way, i.e. they should be able to change the background color of nodes, to add missing child nodes, and it should also be possible to add new options in choice nodes. Furthermore, we allow an end-user to delete nodes. However, end-users should only be able to delete nodes they added themselves and not the nodes defined by the map creator. Otherwise it would be possible for end users to change the pre-defined map completely. The purpose of allowing the end-user to edit the map in some restricted way is to allow them to adjust the map to situations that were not foreseen by the map creator.
-  
-	\item \textbf{Modes And Rights\label{item:modes-rights}} \hfill \\
-	Actually, there are two user classes that will work with the visualization of the maps but that require some different functionality. Therefore, two modes are needed: and end-user mode and a map creator mode. These modes can be seen as a security mechanism to not let a particular end-user mess with a map definition. Depending on the mode used, the corresponding functionality should be available. For example, in map creator mode, there should be a way to add a child node, while in the end-user mode, this functionality should not be available. In future, work, the modes will only be available after logging in with a proper account.
-  
-	\item \textbf{Zoom the visualization}\label{item:zoom} \hfill \\
-	Zooming in or out such that you get less or more information at the same time on the screen is a frequently provided functionality for large visualizations. A feature to zoom is, for example, very useful in situations where you want to compare different parts of the visualization or focus on a certain part. The scrolling gesture is probably the best gesture for this action, because this is a well-known way to zoom in applications (e.g. Google Maps). Using the same gesture as in other applications will improve the learnability of our tool.
-	
-	\item \textbf{Zoom to fit\label{item:zoom-to-fit}} \hfill \\
-	A variation on the zooming feature is ``zoom to fit'' (a.k.a. zoom until the complete figure fits into the bounding box). With custom zooming, the user can set the zooming level to meet its needs. Zoom to fit automatically adapts the zooming level and moves the content of the application until everything fits on the screen. This feature can, for example, be very useful to get an overview of the current data in the visualization.
+	\item \label{fr:mapcreator:template}
+		A map creator should be able to define a structure for the visualization and provide a title and description for each added node and options for choice nodes.
 		
-	\item \textbf{Genericity\label{item:genericity}} \hfill \\
-	Goal \ref{item:goal:generic} formulated earlier states that the application should be usable for different purposes. While GuideaMaps was usable in the context of domain specific requirement elicitation, our tool should also be useful in many other cases. Therefore, some requirements concerning the genericity of the application are needed:
+	\item \label{fr:customization} 
+		\ref{goal:extend-modify} formulated earlier stated that the new version of GuideaMaps should allow the end-user to extend and modify the pre-defined map in some restricted way, i.e. they should be able to change the background color of nodes, to add missing child nodes, and it should also be possible to add new options in choice nodes. 
+	
+	\item \label{fr:delete-nodes}
+		Map creators should be able to delete nodes as well, while end-users can only add missing ones.
+		
+	\item \label{fr:expand-collapse}
+		Users should be able to collapse nodes to hide their children and expand nodes to show their children again.
+  
+	\item \label{fr:zoom}
+		Zooming in or out such that you get less or more information at the same time on the screen is a frequently provided functionality for large visualizations. A feature to zoom is, for example, very useful in situations where you want to compare different parts of the visualization or focus on a certain part.
+	
+	\item \label{fr:zoom-to-fit}
+		A variation on the zooming feature is ``zoom to fit'' (a.k.a. zoom until the complete figure fits into the bounding box). With custom zooming, the user can set the zooming level to meet its needs. Zoom to fit automatically adapts the zooming level and moves the content of the application until everything fits on the screen. This feature can, for example, be very useful to get an overview of the current data in the visualization.
+		
+	\item \label{fr:genericity}
+		\ref{goal:generic} formulated earlier states that the application should be usable for different purposes. While GuideaMaps was usable in the context of domain specific requirement elicitation, our tool should also be useful in many other cases. Therefore, some requirements concerning the genericity of the application are needed:
   	\begin{enumerate}
 		\item The tool should be generic in such a way that it is possible to use a different representation, e.g. shape/size for the nodes and the links.
 		\item The default implementation should not be changed. An implementation for the nodes and the links created by a developer, should be \textit{plugged in} into the system, without affecting the default implementation.
 	\end{enumerate}
 	
-	\item \textbf{Simultaneously Edit Same Visualization\label{item:work-simultaneously}} \hfill \\
-	Multiple users should be able to work on the same visualization at the same time.
+	\item \label{fr:work-simultaneously}
+		Multiple users should be able to work on the same visualization at the same time.
   
 \end{enumerate}
 
@@ -73,32 +86,22 @@ The end-user is the most restricted user in terms of rights and functionalities.
 \subsection{Usability Requirements}\label{sec:usability-requirements}
 
 % List of usability requirements
-\begin{enumerate}[label=\textbf{\arabic*}., ref=\arabic*]
-	\item \textbf{Intuitiveness\label{item:intuitiveness}} \hfill \\
-	It is important to keep in mind that the tool should not only be used by people with experience in Computer Science. It does not matter whether or not the user has a background in Computer Science, he should be able to easily learn to use the system in a short time. Therefore, the following usability requirements have been formulated: 
+\begin{enumerate}[label=\textbf{UR \arabic*}., ref=UR \arabic*, labelindent=0.5cm, leftmargin=*]
+
+	\item \label{ur:intuitiveness}
+		The tool should not only be used by people with experience in Computer Science. It does not matter whether or not the user has a background in Computer Science, he should be able to easily learn to use the system in a short time.
 	
-	\begin{enumerate}
+	\item \label{ur:icons}
+		Possible actions should be labeled by clear, not misunderstandable icons. The icons should not be ambiguous, they should link to one particular action and thus the user should know exactly what to expect when clicking on the icon. Well chosen icons are one of the factors in the design that contribute to learnability and ease of use.
 	
-		\item As icons\footnote{\url{https://fontawesome.com/}} take in general less space than text, we will use icons to indicate possible actions. Some examples of these actions are (1) adding a child node, (2) viewing the content of a node, (3) editing a node and (4) expand/collapse a node. However, it is important to choose for clear, not misunderstandable icons. The icons should not be ambiguous, they should link to one particular action and thus the user should know exactly what to expect when clicking on the icon. Well chosen icons are one of the factors in the design that contribute to learnability and ease of use.\\
+	\item \label{ur:gestures}
+		Gestures for common actions should not differ from the gestures used for the same action in other applications. (e.g. the scrolling gesture is probably the best gesture for zooming, because this is a well-known way to zoom in applications (e.g. Google Maps). Using the same gesture as in other applications will improve the learnability of our tool.)
 	
-		\item As already mentioned in Functional Requirement \ref{item:zoom}, gestures for common actions should not differ from the gestures used for the same action in other applications.
-				
-	\end{enumerate}
+	\item \label{ur:accessibility}
+		The target audience of the application should be limited as little as possible: color blind people should still be able to use the system.
 	
-	\item \textbf{Learnability\label{item:learnability}} \hfill \\
-	\textcolor{red}{TODO: Dit is geen echt usability requirement. Moet beter.}\\
-	Intuitiveness and learnability are somehow related to each other. It is easier to learn how a system works if the possibilities are intuitive and actions are not hidden.
-	
-	\item \textbf{Efficiency\label{item:efficiency}} \hfill \\
-	\textcolor{red}{TODO: Dit is geen echt usability requirement. Moet beter.}\\
-	As a user, it should be easy to achieve your goals. The application should be created in such a way that user errors are (almost) impossible.
-	
-	\item \textbf{Accessibility\label{item:accessibility}} \hfill \\
-	The target audience of the application should be limited as little as possible. 
-	\begin{enumerate}
-		\item We don't expect the user to have a background in Computer Science or visualization techniques. \textcolor{red}{TODO: Dit is geen echt usability requirement. Moet beter.}
-		\item Color blind people should still be able to use the system.
-	\end{enumerate}
+	\item \label{ur:time}
+		To save time, end-users should be able to add extra options to choice nodes without having to contact the map creator to update the options.
 	
 \end{enumerate}
 
@@ -106,14 +109,14 @@ The end-user is the most restricted user in terms of rights and functionalities.
 
 \subsection{Other Requirements}\label{sec:other-requirements}
 
-\begin{enumerate}[label=\textbf{\arabic*}., ref=\arabic*]
-	\item \textbf{Device- and OS-independent\label{item:device-os-independent}} \hfill \\
-	According to Research Goal \ref{item:goal:device-os-independent}, the application should run on different kinds of devices (e.g. tablets, laptops and desktops) and operating systems (Android, iOS, MacOS and Windows). While version 1.0 was only designed for an iPad, our version should provide a solution for this restriction.\\
+\begin{enumerate}[label=\textbf{OR \arabic*}., ref=OR \arabic*, labelindent=0.5cm, leftmargin=*]
+	\item \label{or:device-os-independent}
+		To achieve \ref{goal:device-os-independent}, the application should run on different kinds of devices (e.g. tablets, laptops and desktops) and operating systems (Android, iOS, MacOS and Windows). While version 1.0 was only designed for an iPad, our version should provide a solution for this restriction.\\
 	
 	The only restriction on the used device is that it needs to have a screen that is large enough because it is not very convenient to work with the visualization on small screen areas, e.g. on smartphones. The application could run on smartphones but it is not recommended nor required to use it on devices with relatively small screens.
 	
-	\item \textbf{Code Separation\label{item:code-separation}} \hfill \\
-	The core of the application should be completely separated from custom implementations created by developers.
+	\item \label{item:code-separation}
+		The core of the application should be completely separated from custom implementations created by developers.
 
 \end{enumerate}
 

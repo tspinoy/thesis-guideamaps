@@ -216,19 +216,9 @@
 
 %\cleardoublepage
 %\pagebreak
+\includepdf[pages=-]{titlepage_nl/thesis.pdf}
 
-% only for Dutch Students!! otherwise delete second title page
 
-%%only if your thesis is written in English; otherwise delete this page
-\title{Editable and Customizable Knowledge Maps}
-\pretitle{Masterproef ingediend in gedeeltelijke vervulling van de eisen voor het behalen van de graad\\Master of Science in de Ingenieurswetenschappen: Computerwetenschappen}
-%%\subtitle{An optional Subtitle Here}
-\faculty{Wetenschappen \& Bio-ingenieurswetenschappen} % Note: without the word "Faculty"!
-\author{Thijs Spinoy}
-\date{Juni 2019}
-\promotors{Prof.\ Dr.\ Olga De Troyer\\ \vspace{0.5mm} \\Advisor: \\Jan Maushagen \vspace{0.5mm} }
-\maketitle
-%\pagebreak
 \newpage\null\thispagestyle{empty}\newpage
 
 \setcounter{page}{1}
@@ -297,11 +287,23 @@
 %renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname}\ \thechapter.\ #1}{}}
 %\input{sections/appendix}
 
-
-\renewcommand{\bibname}{References\hfill}
+\appendix
+%\renewcommand{\bibname}{References\hfill}
+\renewcommand{\bibsection}{\chapter{\refname}}
 %\cleardoublepage
 \bibliographystyle{apacite}
 \bibliography{thesisbib} % change to your bib!
-\addcontentsline{toc}{section}{References}
+%\addcontentsline{toc}{section}{References}
+
+\includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{Plateforme DD Questionnaire\label{appendix:pdd-questionnaire}}},offset=0 -10cm]{sections/PDDQuestionnaire.pdf}
+\markboth{Plateforme DD Questionnaire}{Plateforme DD Questionnaire} % ensure the correct name appears in the header and footer
+\includepdf[pages=2-,pagecommand={\pagestyle{fancy}}]{sections/PDDQuestionnaire.pdf}
+\clearpage
+
+\includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{User Experience Questionnaire\label{appendix:ueq-questionnaire}}},offset=0 -10cm]{sections/UEQ_English.pdf}
+\markboth{User Experience Questionnaire}{User Experience Questionnaire} % ensure the correct name appears in the header and footer
+\includepdf[pages=2-,pagecommand={\pagestyle{fancy}}]{sections/UEQ_English.pdf}
+\clearpage
+
 
 \end{document}

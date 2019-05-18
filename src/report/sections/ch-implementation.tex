@@ -3,13 +3,13 @@
 The previous sections explained \textit{what} the application should do, which goals should be achieved and which requirements we surely want the application to meet. In this section, more details are provided about \textit{how} all this is translated to an implementation.
 
 \section{Web Application}
-Before we started with the actual implementation, we had to decide how to achieve Research Goal \ref{item:goal:device-os-independent}, i.e. how will we make sure the application is device- and OS-independent? (Requirement section \ref{sec:other-requirements}) A first technique could have been to make use of the Java Virtual Machine. This approach would work but we want to make it possible to let multiple people work on the same visualization (Functional Requirement \ref{item:work-simultaneously}, eventually at the same time. Therefore, it is more convenient to have a browser-based application, i.e. Web Application.\\
+Before we started with the actual implementation, we had to decide how to achieve Research Goal \ref{item:goal:device-os-independent}, i.e. how will we make sure the application is device- and OS-independent? (Requirement section \ref{sec:other-requirements}) A first technique could have been to make use of the Java Virtual Machine. This approach would work but we want to make it possible to let multiple people work on the same visualization (\ref{fr:work-simultaneously}), eventually at the same time. Therefore, it is more convenient to have a browser-based application, i.e. Web Application.\\
 
 Nowadays, a lot of browsers exist, each with their own characteristics and differences. Because the goal of this thesis was to have a functional prototype, it is not required that the application works perfectly on \textit{all} possible browsers. However, we wanted to make sure that the tool works without any issues in one of the most popular browsers, being Google Chrome.\\
 
-Another technique could have been to create the app via a cross-platform tool. A well-known example of such a tool is Xamarin (created by Microsoft). It would be possible to create the application with Xamarin, but one of the prerequisites\footnote{\url{https://docs.microsoft.com/en-us/xamarin/get-started/quickstarts/single-page?pivots=macos}} proposed by Microsoft is knowledge of C\#. Because we never worked with C\# in the past, this seems not to be the best choice for us.\\
-
-Cross-platform tools like PhoneGap\footnote{\url{https://phonegap.com/}} require to install the application on the device itself, which consumes disk space. We want to minimize the amount of disk space used by our application. Therefore, we concluded that a browser-based solution is better for our goal than the Java Virtual Machine and cross-platform tools.
+\textcolor{blue}{
+Another possibility would have been to use cross-platform tools like PhoneGap\footnote{\url{https://phonegap.com/}} and Cordova\footnote{\url{https://cordova.apache.org/}}. The benefit of those tools is that, if a real application is preferable to a browser-based application, it is still possible to wrap the browser app into a real app. Hence, from then on the application can be installed on the device itself. A drawback of this is that the app cannot be used if the device has not enough disk space. Further, the app is possibly not up-to-date at any time. This can become an issue when the app would be collaborative and multiple users with different versions of the app want to work with it. Therefore, we concluded that a browser-based solution is better for our goal than the Java Virtual Machine and cross-platform tools.
+}
 
 % --------------------
 % --- TECHNOLOGIES ---
@@ -27,7 +27,7 @@ Alternatives for ReactJS are for example AngularJS and VueJS\footnote{https://me
 \subsection{d3}\label{sec:d3}
 Another helpful tool is d3. With d3-hierarchy\footnote{\url{https://github.com/d3/d3-hierarchy}}, it is possible to transform JSON-data into hierarchical data. Having this kind of data makes it much easier to create a tree- or cluster-structure. In the case of GuideaMaps, a clustered visualization is very useful. The \textit{main}-node (a.k.a. the root node) is then positioned at the center, such that its child nodes can be placed around it. Hence, the further a node is away from the center, the lower it is in the hierarchy. Also, the visualization will not be messed up by positioning the nodes in this way, because every node has exactly one parent. This means there will not be a spaghetti of links where you cannot see from which node the link comes and to which node it is pointing.\\
 
-Further, d3 makes it easier to create a zoomable layout. The tool is able to update the positions of the nodes each time the zooming level is changed. Hence, as a developer, you do not have to take care of the updated positions if you make use of d3. By using this technique, the functional requirements about zooming (section \ref{sec:functional-requirements} Requirement \ref{item:zoom} and \ref{item:zoom-to-fit}) are easily achieved.\\
+Further, d3 makes it easier to create a zoomable layout. The tool is able to update the positions of the nodes each time the zooming level is changed. Hence, as a developer, you do not have to take care of the updated positions if you make use of d3. By using this technique, the functional requirements about zooming (\ref{fr:zoom} and \ref{fr:zoom-to-fit}) are easily achieved.\\
 
 The alternatives for d3 most of the time come with a problem d3 does not have. For example ChartJS and ChartistJS are limited in the number of features: you can create nice charts with it, but d3 provides more visualizations than only charts. Further, some of the alternatives are commercial (Highcharts, Webix). d3 is open-source and provides functionality to zoom, to create a cluster of nodes based on JSON-data describing these nodes, etc. Because of the wide range of possibilities with d3, the fact that it is widely used and supported by all modern browsers and that it is able to act together with ReactJS, we believe that d3 was a better choice than its alternatives. 
 
@@ -88,7 +88,7 @@ With the technologies mentioned in the previous section, the most important pill
 	\label{fig:overall-structure}
 \end{figure}
 
-The application is developed in such a way that it can be used as a library for other purposes than GuideaMaps. In this way, Research Goal \ref{item:goal:generic} to have a generic solution will be achieved. The general, always-returning part of the code can be found in App.js, ZoomableTree.js and Zoom.js, where the layout of the nodes is defined as well as the implementation to allow the user to zoom the visualization in and out. To realize the library, the layer of the NodeComp and LinkComp is very important. For GuideaMaps (shorthand GM), an implementation for NodeComp and LinkComp, being GMNode and GMLink is provided. Each implementation describes how every node and every link should look like in the visualization. When a particular user would like to have a different representation for the nodes or the links or both, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the rest of the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GMNode and GMLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GMNode and GMLink by this component (e.g. MyCustomNode and/or MyCustomLink). Hence, the visualization can be customized to the needs of the user and Functional Requirement \ref{item:customization} is achieved. Figure \ref{fig:examplecode-library} shows the part of the code in App.js that should be adapted as explained. Note that the shown props are not the only props that are passed to ZoomableTree. The others are omitted for readability.\\
+The application is developed in such a way that it can be used as a library for other purposes than GuideaMaps. In this way, Research Goal \ref{item:goal:generic} to have a generic solution will be achieved. The general, always-returning part of the code can be found in App.js, ZoomableTree.js and Zoom.js, where the layout of the nodes is defined as well as the implementation to allow the user to zoom the visualization in and out. To realize the library, the layer of the NodeComp and LinkComp is very important. For GuideaMaps (shorthand GM), an implementation for NodeComp and LinkComp, being GMNode and GMLink is provided. Each implementation describes how every node and every link should look like in the visualization. When a particular user would like to have a different representation for the nodes or the links or both, new components (e.g. MyCustomNode and MyCustomLink) should be implemented. In the rest of the code, only one line should be adapted: in App.js, ZoomableTree is called with a certain number of props. Two of these props are NodeComp and LinkComp, which are set to GMNode and GMLink, respectively, by default. Hence, the only action that is required to \textit{plug in} an other component is replacing GMNode and GMLink by this component (e.g. MyCustomNode and/or MyCustomLink). Hence, the visualization can be customized to the needs of the user and \ref{fr:customization} is achieved. Figure \ref{fig:examplecode-library} shows the part of the code in App.js that should be adapted as explained. Note that the shown props are not the only props that are passed to ZoomableTree. The others are omitted for readability.\\
 
 The reason why we chose for this approach is that now the developer does not have to change anything of the default implementation. He only has to create his own components and plug them in as props for ZoomableTree and leave the rest of the implementation as it is.\\
 
@@ -215,15 +215,15 @@ The last part of a node is the controls-div. With \textit{controls} we mean the 
 
 The number of actions a user can perform depends on the mode. An end-user has two buttons: one to ``open'' the node to view and edit the data, and one to expand or collapse the node, i.e. to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.\\
 
-Because a map creator is allowed to add child nodes, a third button can be found in his controls-div of the node to add a child node. A click on this button opens a small modal window, where some information about the new node should be provided before the node can be created. Figure \ref{fig:gm-add-default} illustrates what the modal window looks like when the user wants to add a regular node. He has to start by selecting the option ``Default'' at the top, after which two input fields appear to insert the title and the description for the node. A click on the button at the bottom will add a child node of the selected type and with the provided title and description.\\
+Because a map creator is allowed to add child nodes, a third button can be found in his controls-div of the node to add a child node. A click on this button opens a small modal window, where some information about the new node should be provided before the node can be created. Figure \ref{fig:gm-add-general} illustrates what the modal window looks like when the user wants to add a regular node. He has to start by selecting the option ``Default'' at the top, after which two input fields appear to insert the title and the description for the node. A click on the button at the bottom will add a child node of the selected type and with the provided title and description.\\
 
 It is possible to add an \textit{empty} node if the user does not provide a title and/or a description. Even though it is not really useful to add nodes without any context, we only require the user to select the type of the child node. If the type is unknown, the node will not be added. A situation where a map creator would add an empty node is when he wants to remind himself that a child node is necessary at that place, but details about the expected content are not yet known.\\
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{GMAddChildNodeModal-Default.png}}
-	\caption{Adding a default node.}
-	\label{fig:gm-add-default}
+	\frame{\includegraphics[width=\linewidth]{GMAddChildNodeModal-General.png}}
+	\caption{Adding a general node.}
+	\label{fig:gm-add-general}
 \end{figure}
 
 
@@ -235,7 +235,7 @@ When changing the background color, the user can choose to use the color also fo
 
 The text color is black by default. This can become a problem when the background color is changed to a dark color and certainly when it is black as well because then the text is not readable anymore. To solve this issue, we wrote some CSS rules that change the text-color depending on the background color. A black (or dark) background will result in white text and a white (or light) background results in black text.\\
 
-The possibility to change the background color of the nodes and the fact that the text color is adapted taking the background color into account is also a useful feature for color-blind people. In this way, they can adapt the background colors of the nodes to colors they can distinguish better. Hence, Usability Requirement \ref{item:accessibility} is achieved by this functionality.
+The possibility to change the background color of the nodes and the fact that the text color is adapted taking the background color into account is also a useful feature for color-blind people. In this way, they can adapt the background colors of the nodes to colors they can distinguish better. Hence, requirement \ref{ur:accessibility} is achieved by this functionality.
 
 \begin{figure}[H]
 	\centering
@@ -292,6 +292,8 @@ Next to selecting choices given by the map creator, it can sometimes be necessar
 	\caption{An opened choice node in end user mode.}
 	\label{fig:gm-choicenode-enduser}
 \end{figure}
+
+\textcolor{red}{TODO: update figure -> select at least one node and cardinality says between 0 and 2}
 
 
 

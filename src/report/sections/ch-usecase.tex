@@ -1,10 +1,13 @@
 \chapter{Another Use Case}\label{ch:usecase}
-To demonstrate that we achieved Research Goal \ref{item:goal:generic}, we implemented a different use case, called \textit{Plateforme DD}. The goal was to visualize the links between the projects mentioned on their website\footnote{https://sciences.brussels/dd/} because this was not clear from the structure of the site for the following reasons. The site is divided into different parts. There are lots of links to other pages on the site, which belong to a particular part. By following these links, the user can get lost quite easily on this site and it is very difficult to understand how the different projects are linked to each other. Therefore, the responsible people of Plateforme DD were looking for a visualization to make it easier for user to grasp the relationships between the different projects. To create such a visualization, we could make use of our own library. In this way, we can show that our tool can be used in cases where the visualization and functionality is completely different from the one for GuideaMaps. The created visualization for a subset of the projects on the Plateforme DD website can be seen in Figure \ref{fig:plateforme-dd}.\\
+\textcolor{blue}{To demonstrate that we achieved Research Goal \ref{item:goal:generic}, we implemented a different use case, called \textit{Plateforme DD}. In the first section, we describe the purpose of this use case. The second section is about how the library can be used to create a visualization for the system.}
+
+\section{Plateforme DD}\label{sec:pdd}
+The goal was to visualize the links between the projects mentioned on their website\footnote{https://sciences.brussels/dd/} because this was not clear from the structure of the site for the following reasons. The site is divided into different parts. There are lots of links to other pages on the site, which belong to a particular part. By following these links, the user can get lost quite easily on this site and it is very difficult to understand how the different projects are linked to each other. Therefore, the responsible people of Plateforme DD were looking for a visualization to make it easier for user to grasp the relationships between the different projects. To create such a visualization, we could make use of our own library. In this way, we can show that our tool can be used in cases where the visualization and functionality is completely different from the one for GuideaMaps. The created visualization for a subset of the projects on the Plateforme DD website can be seen in Figure \ref{fig:plateforme-dd}.\\
 
 \begin{figure}[H]
 	\centering
 	\frame{\includegraphics[width=\linewidth]{plateforme-dd.png}}
-	\caption{Plateforme DD Layout.}
+	\caption{Plateforme DD Visualization.}
 	\label{fig:plateforme-dd}
 \end{figure}
 
@@ -88,6 +91,6 @@ The button to open the node is positioned in the center at the bottom of the nod
 
 The second button is one to expand or collapse the child nodes. As already said, we cannot position it next to the other button at the bottom of the node. Therefore we position it at the top-left of the boundary of the node. There, a circle is visible with a minus inside if the children are visible. A click on the minus will collapse the node such that the children are not visible anymore and replace the minus by a plus. When the user clicks on that plus again, the exact opposite action will happen: the node will be expanded and hence the children of the node will be visible again and the plus is replaced by a minus.\\
 
-Note that a plus and minus can be used here as symbols to expand and collapse a node. This is possible because there can be no confusion with the action of adding a child node in Plateforme DD. If this would be possible, other symbols should be used to avoid such confusion and to not reduce the intuitiveness (Usability Requirement \ref{item:intuitiveness}).
+Note that a plus and minus can be used here as symbols to expand and collapse a node. This is possible because there can be no confusion with the action of adding a child node in Plateforme DD. If this would be possible, other symbols should be used to avoid such confusion and to not reduce the intuitiveness (requirement \ref{ur:intuitiveness}).
 
 

@@ -34,6 +34,34 @@ Balaid, A.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Ca{\~n}as%
+\ \protect \BOthers {.}}{%
+Ca{\~n}as%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2004}}%
+}]{%
+canas2004conceptmapping}
+\APACinsertmetastar {%
+canas2004conceptmapping}%
+\begin{APACrefauthors}%
+Ca{\~n}as, A.%
+, Hill, G.%
+, Carff, R.%
+, Suri, N.%
+, Lott, J.%
+, Eskridge, T.%
+\BDBL {}Carvajal, R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2004}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{CmapTools: A Knowledge Modeling and Sharing
+  Environment}} {{CmapTools: A Knowledge Modeling and Sharing
+  Environment}}.{\BBCQ}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Davies%
 }{%
 Davies%
@@ -163,9 +191,9 @@ Janssens, E.%
 \newblock
 \APACrefYearMonthDay{2013}{}{}.
 \newblock
-\APACrefbtitle {Supporting Requirement Elicitation for Serious Games using a
-  Guided Ideation tool on iPad.} {Supporting requirement elicitation for
-  serious games using a guided ideation tool on ipad.}
+\APACrefbtitle {{Supporting Requirement Elicitation for Serious Games using a
+  Guided Ideation tool on iPad}.} {{Supporting Requirement Elicitation for
+  Serious Games using a Guided Ideation tool on iPad}.}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -185,13 +213,12 @@ Koffka, K.%
 \newblock
 \APACrefYear{2013}.
 \newblock
-\APACrefbtitle {Principles Of Gestalt Psychology} {Principles of gestalt
-  psychology}.
+\APACrefbtitle {{Principles Of Gestalt Psychology}} {{Principles Of Gestalt
+  Psychology}}.
 \newblock
 \APACaddressPublisher{}{Taylor \& Francis}.
 \newblock
-\begin{APACrefURL} \url{https://books.google.be/books?id=tWxHAQAAQBAJ}
-  \end{APACrefURL}
+\begin{APACrefDOI} \doi{10.4324/9781315009292} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -225,26 +252,32 @@ Moody, D.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-Moody%
+Novak%
+\ \BBA {} Ca{\~n}as%
 }{%
-Moody%
+Novak%
+\ \BBA {} Ca{\~n}as%
 }{%
-{\protect \APACyear {2012}}%
+{\protect \APACyear {2006}}%
 }]{%
-moody-innsbruck-2012}
+novak2006conceptmapping}
 \APACinsertmetastar {%
-moody-innsbruck-2012}%
+novak2006conceptmapping}%
 \begin{APACrefauthors}%
-Moody, D.%
+Novak, J\BPBI D.%
+\BCBT {}\ \BBA {} Ca{\~n}as, A\BPBI J.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
-\APACrefYearMonthDay{2012}{}{}.
+\APACrefYearMonthDay{2006}{}{}.
 \newblock
-\APACrefbtitle {{The Physics of Notations: A Scientific Approach to Designing
-  Visual Notations for Model Driven Development}.} {{The Physics of Notations:
-  A Scientific Approach to Designing Visual Notations for Model Driven
-  Development}.}
+{\BBOQ}\APACrefatitle {{The Origins of the Concept Mapping Tool and the
+  Continuing Evolution of the Tool}} {{The Origins of the Concept Mapping Tool
+  and the Continuing Evolution of the Tool}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Information Visualization}{5}{3}{175-184}.
+\newblock
+\begin{APACrefDOI} \doi{10.1057/palgrave.ivs.9500126} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -302,6 +335,36 @@ Preece, J.%
 \APACrefbtitle {Human-Computer Interaction} {Human-computer interaction}.
 \newblock
 \APACaddressPublisher{Essex, UK, UK}{Addison-Wesley Longman Ltd.}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Scherl%
+, Dethleffsen%
+\BCBL {}\ \BBA {} Meyer%
+}{%
+Scherl%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2012}}%
+}]{%
+scherl2012moodle}
+\APACinsertmetastar {%
+scherl2012moodle}%
+\begin{APACrefauthors}%
+Scherl, A.%
+, Dethleffsen, K.%
+\BCBL {}\ \BBA {} Meyer, M.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2012}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Interactive knowledge networks for interdisciplinary
+  course navigation within Moodle} {Interactive knowledge networks for
+  interdisciplinary course navigation within moodle}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Advances in Physiology Education}{36}{4}{284-297}.
+\newblock
+\begin{APACrefDOI} \doi{10.1152/advan.00086.2012} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
