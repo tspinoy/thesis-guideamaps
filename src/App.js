@@ -20,7 +20,7 @@ import {GMData2} from './GMData';
 import GMEditModal from './GMEditModal';
 
 import PDDNode from './PDDNode';
-import { PDDData2, PDDDataComplete } from "./PDDData";
+import {PDDData2, PDDDataComplete} from './PDDData';
 import PDDEditModal from './PDDEditModal';
 import PDDLink from './PDDLink';
 
@@ -75,16 +75,24 @@ const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 const EMPTY = 'New map';
 const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
-let current_visualization = PLATEFORMEDD;
+let current_visualization = TemplateData.eCommerce.name;
 
 let currentData = null;
+let savedData = {};
 
 const setCurrentData = () => {
   // First check whether we will show a template.
   let template = false;
   Object.keys(TemplateData).map(function(t) {
     if (current_visualization === TemplateData[t].name) {
-      currentData = TemplateData[t].nodes;
+      if (savedData[current_visualization] !== undefined) {
+        // There is saved data, open it
+        currentData = savedData[current_visualization];
+      } else {
+        // No saved data exists yet, open the default data
+        currentData = TemplateData[t].nodes;
+      }
+      //currentData = TemplateData[t].nodes;
       template = true;
     }
   });
@@ -92,25 +100,31 @@ const setCurrentData = () => {
   // If it is not a template, it is one of the predefined visualizations (GM or PDD)
   // or an empty visualization (with a single node as starting point.
   if (!template) {
-    switch (current_visualization) {
-      case EMPTY:
-      case GUIDEAMAPS:
-        currentData = [
-          {
-            id: 0,
-            description: 'Start here',
-            name: 'Name',
-            type: GMNodeTypes.DEFAULT,
-            parent: '',
-          },
-        ];
-        break;
-      case PLATEFORMEDD:
-        currentData = PDDDataComplete;
-        break;
-      default:
-        currentData = GMData2;
-        break;
+    // Open saved data if it exists
+    if (savedData[current_visualization] !== undefined) {
+      currentData = savedData[current_visualization];
+    } else {
+      // No saved data exists, open the default data
+      switch (current_visualization) {
+        case EMPTY:
+        case GUIDEAMAPS:
+          currentData = [
+            {
+              id: 0,
+              description: 'Start here',
+              name: '',
+              type: GMNodeTypes.DEFAULT,
+              parent: '',
+            },
+          ];
+          break;
+        case PLATEFORMEDD:
+          currentData = PDDDataComplete;
+          break;
+        default:
+          currentData = GMData2;
+          break;
+      }
     }
   }
 };
@@ -479,9 +493,10 @@ class App extends Component {
      * In the navbar, the user can select which template or visualization he wants.
      */
     const selectTemplate = () => {
-      current_visualization = document.getElementById('templateSelect').value;
+      savedData[current_visualization] = currentData; // Save the data, so that it can be reopened later if the user switches back to this template
+      current_visualization = document.getElementById('templateSelect').value; // Switch to the selected template
       initializeData();
-      document.getElementById('node0').click(); // Center the root node.
+      document.getElementById('node0').click(); // Center the root node
     };
 
     return (
@@ -564,8 +579,16 @@ class App extends Component {
                 }}
                 style={{height: '35px', outline: 'none'}}>
                 <optgroup label={'Existing visualizations'}>
-                  <option value={GUIDEAMAPS}>{GUIDEAMAPS}</option>
-                  <option value={PLATEFORMEDD}>{PLATEFORMEDD}</option>
+                  <option
+                    value={GUIDEAMAPS}
+                    selected={current_visualization === GUIDEAMAPS}>
+                    {GUIDEAMAPS}
+                  </option>
+                  <option
+                    value={PLATEFORMEDD}
+                    selected={current_visualization === PLATEFORMEDD}>
+                    {PLATEFORMEDD}
+                  </option>
                   {/* TODO: If you have a server, you can load the names of the saved visualizations here. */}
                 </optgroup>
                 <optgroup label={'Available templates'}>
@@ -574,6 +597,9 @@ class App extends Component {
                       <option
                         key={template}
                         className={'cursor-pointer text-center w-full'}
+                        selected={
+                          current_visualization === TemplateData[template].name
+                        }
                         style={{height: '50px'}}
                         value={TemplateData[template].name}>
                         {TemplateData[template].name}
@@ -581,9 +607,11 @@ class App extends Component {
                     );
                   })}
                 </optgroup>
-                <optgroup label={'Create new map'}>
-                  <option value={EMPTY}>{EMPTY}</option>
-                </optgroup>
+                {this.state.mode === Modes.MAP_CREATOR && (
+                  <optgroup label={'Create new map'}>
+                    <option value={EMPTY}>{EMPTY}</option>
+                  </optgroup>
+                )}
               </select>
             </div>
             <div className={'w-1/3 flex justify-center items-center'}>
@@ -601,6 +629,7 @@ class App extends Component {
         <div className={'w-screen flex justify-center items-center mt-5'}>
           <ZoomableTree
             // Fixed props
+            currentVisualization={current_visualization}
             height={height}
             links={this.state.links}
             mode={this.state.mode}

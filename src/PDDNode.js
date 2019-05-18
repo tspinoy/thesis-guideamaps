@@ -83,6 +83,13 @@ class PDDNode extends React.Component {
           cursor: 'pointer',
           fontWeight: 'bold',
           height: node.data.id === 0 ? PDDNodeHeight * 1.3 : PDDNodeHeight,
+          transform:
+            node.data.id === 0 &&
+            'translate(' +
+              -(PDDNodeWidth * 0.15) +
+              'px,' +
+              -(PDDNodeHeight * 0.15) +
+              'px)',
           transition: centered && 'all 500ms ease 0s',
           width: node.data.id === 0 ? PDDNodeWidth * 1.3 : PDDNodeWidth,
           '--nodex': node.x + 'px',

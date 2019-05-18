@@ -11,6 +11,11 @@ class ZoomableTree extends React.Component {
 
   componentDidMount() {
     this.setState({nodes: this.props.nodes});
+    if (this.props.currentVisualization === 'PlateformeDD') {
+      for (let i = 1; i < 4; i++) {
+        document.getElementById('ec-btn-node' + i).click();
+      }
+    }
   }
 
   render() {

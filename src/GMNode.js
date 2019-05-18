@@ -1092,19 +1092,17 @@ class GMNode extends React.Component {
             <div // controls div
               className={'absolute pin-b flex rounded-b w-full'}
               style={{filter: node.locked ? 'blur(1px)' : ''}}>
-              {mode === Modes.MAP_CREATOR && (
-                <AddChildButton
-                  bgcolor={node.backgroundColor}
-                  locked={node.locked}
-                  node={node}
-                  nrOfNodes={this.props.nrOfNodes}
-                  onAddNode={onAddNode}
-                  onEditNode={onEditNode}
-                  onClick={onClick}
-                  onNodeChoicesUpdate={onNodeChoicesUpdate}
-                  width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
-                />
-              )}
+              <AddChildButton
+                bgcolor={node.backgroundColor}
+                locked={node.locked}
+                node={node}
+                nrOfNodes={this.props.nrOfNodes}
+                onAddNode={onAddNode}
+                onEditNode={onEditNode}
+                onClick={onClick}
+                onNodeChoicesUpdate={onNodeChoicesUpdate}
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
+              />
               <EditButton
                 bgcolor={node.backgroundColor}
                 border={true}
@@ -1116,15 +1114,7 @@ class GMNode extends React.Component {
                 node={node}
                 onEditNode={onEditNode}
                 onNodeUpdate={onNodeUpdate}
-                width={
-                  node.height !== 0
-                    ? mode === Modes.MAP_CREATOR
-                      ? 'w-1/3'
-                      : 'w-1/2'
-                    : mode === Modes.MAP_CREATOR
-                    ? 'w-1/2'
-                    : 'w-full'
-                }
+                width={node.height !== 0 ? 'w-1/3' : 'w-1/2'}
               />
               {node.height !== 0 && (
                 // At non-child nodes the expand-collapse button should be added
@@ -1133,7 +1123,7 @@ class GMNode extends React.Component {
                   locked={node.locked}
                   node={node}
                   onVisibleChildrenUpdate={onVisibleChildrenUpdate}
-                  width={mode === Modes.MAP_CREATOR ? 'w-1/3' : 'w-1/2'}
+                  width={'w-1/3'}
                 />
               )}
             </div>

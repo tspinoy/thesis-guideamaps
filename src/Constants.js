@@ -9,7 +9,7 @@ export const ItemTypes = {
  * @type {{CHOICE: string, DEFAULT: string}}
  */
 export const GMNodeTypes = {
-  DEFAULT: 'Default',
+  DEFAULT: 'General',
   CHOICE: 'Choice',
 };
 

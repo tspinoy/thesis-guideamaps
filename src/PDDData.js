@@ -1,5 +1,60 @@
 import React from 'react';
 
+import imgAgriculture from './images/agriculture.jpg';
+import imgAlimentation from './images/alimentation.jpg';
+import imgAssiette from './images/assiette.jpg';
+import imgBarrage from './images/barrage.jpg';
+import imgBioconversionAlimentaire from './images/bioconversion-alimentaire.jpg';
+import imgBiomasse from './images/biomasse.jpg';
+import imgCentraleNucleaire from './images/centrales-nucleaires.jpg';
+import imgCoVoiturage from './images/co-voiturage.jpg';
+import imgConsommationEnergetique from './images/consommation-energetique.png';
+import imgDechets from './images/dechets.jpg';
+import imgDechetsDansLaNature from './images/dechets-dans-la-nature.jpg';
+import imgDechetsDansLesOceans from './images/dechets-dans-les-oceans.jpg';
+import imgDeplacerPiedVelo from './images/deplacer-a-pied-ou-a-vélo.jpg';
+import imgDistributionElectricite from './images/distribution-eletricite.jpg';
+import imgEnergie from './images/energie.png';
+import imgEnergieEolienne from './images/energie-eolienne.jpg';
+import imgEnergieHydraulique from './images/energie-hydraulique.jpg';
+import imgEnergieRenouvable from './images/energie-renouvable.jpg';
+import imgEnergieSolaire from './images/energie-solaire.png';
+import imgEolienne from './images/eolienne.jpg';
+import imgFaitMaison from './images/fait-maison.jpg';
+import imgFiliereAlimentaire from './images/filiere-alimentaire.png';
+import imgFormesEnergie from './images/formes-de-energie.png';
+import imgGaspillageAlimentaire from './images/gaspillage-alimentaire.png';
+import imgGeothermie from './images/geothermie.jpg';
+import imgHistoirePhotovoltaique from './images/histoire-du-photovoltaique.png';
+import imgImpactVoitures from './images/impact-des-voitures.jpg';
+import imgMaisonPassive from './images/maison-passive.png';
+import imgMarieCurie from './images/marie-curie.png';
+import imgObjetsSolaire from './images/objets-solaire.png';
+import imgPain from './images/pain.jpg';
+import imgPanneauPhotovoltaique from './images/panneau-photovoltaique.jpg';
+import imgPanneauThermique from './images/panneaux-thermique.png';
+import imgPDD from './images/PDD.png';
+import imgPertesChaleurChauffage from './images/pertes-chaleur-chauffage.png';
+import imgPollution from './images/pollution.jpg';
+import imgPollutionAtmospherique from './images/pollution-atmospherique.jpg';
+import imgProductionPanneauxPhotovoltaiques from './images/production-de-panneaux-photovoltaiques.jpg';
+import imgProductionEnergetique from './images/production-energetique.jpg';
+import imgQuestionnaireElectrique from './images/questionnaire-electrique.jpg';
+import imgRecyclage from './images/recyclage.png';
+import imgRecyclagePanneauxPhotovoltaique from './images/recyclage-des-panneaux-photovoltaiques.jpg';
+import imgRecyclagePillesUsages from './images/recyclage-des-pilles-usage.jpg';
+import imgReduireConsommationViande from './images/reduire-la-consommation-de-viande.png';
+import imgReduirePollutionAtmospherique from './images/reduire-la-pollution-atmospherique.jpg';
+import imgReduireSaConsommation from './images/reduire-sa-consommation.png';
+import imgReduireConsommationElectricite from './images/reduire-sa-consommation-eletricite.png';
+import imgReutiliser from './images/reutiliser.jpg';
+import imgTransformationAlimentaire from './images/transformation-alimentaire.jpg';
+import imgTransportCommun from './images/transport-commun.png';
+import imgTriDechet from './images/tri-de-dechets.jpg';
+import imgTriDensitairePlastiques from './images/tri-densitaire-des-plastiques.jpg';
+import imgTriParDensite from './images/tri-par-densite.jpg';
+import imgZeroDechet from './images/zero-dechet.jpg';
+
 export const PDDTypes = {
   ALIMENTATION: 'alimentation',
   DECHETS: 'déchets',
@@ -486,7 +541,7 @@ export const PDDDataComplete = [
     content: '',
     crossRefs: [],
     id: 0,
-    image: 'https://sciences.brussels/dd/imgs/logo-DD.png',
+    image: imgPDD,
     parent: '',
     title: 'Plateforme DD',
     type: 'none',
@@ -504,8 +559,7 @@ export const PDDDataComplete = [
       '<p>Pour en apprendre un peu plus sur ces questions, naviguez dans les différents chapitres de ce thème et découvrez les travaux des élèves bruxellois qui ont participé au volet scolaire de la plateforme DD.</p>',
     crossRefs: [],
     id: 1,
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/a/a0/Tractors_in_Potato_Field.jpg',
+    image: imgAlimentation,
     parent: 0,
     title: 'Alimentation',
     type: PDDTypes.ALIMENTATION,
@@ -521,8 +575,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 2,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/DD-d%C3%A9pots-clandestins.jpg',
+    image: imgDechets,
     parent: 0,
     title: 'Déchets',
     type: PDDTypes.DECHETS,
@@ -538,7 +591,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 3,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Pokemon.png',
+    image: imgEnergie,
     parent: 0,
     title: 'Énergie',
     type: PDDTypes.ENERGIE,
@@ -558,8 +611,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [6, 8, 19],
     id: 4,
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/a/a0/Tractors_in_Potato_Field.jpg',
+    image: imgAgriculture,
     parent: 1,
     title: "L'agriculture",
     type: PDDTypes.ALIMENTATION,
@@ -572,8 +624,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 5,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Plateforme-DD-Fili%C3%A8re-alimentaire.png',
+    image: imgFiliereAlimentaire,
     parent: 1,
     title: 'La filiere alimentaire',
     type: PDDTypes.ALIMENTATION,
@@ -587,7 +638,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [7, 8, 19],
     id: 6,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/IMG_0942.jpg',
+    image: imgTransformationAlimentaire,
     parent: 1,
     title: 'La transformation alimentaire',
     type: PDDTypes.ALIMENTATION,
@@ -603,7 +654,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [6, 17],
     id: 7,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/P1066105.jpg',
+    image: imgPain,
     parent: 6,
     title: 'Le pain',
     type: PDDTypes.ALIMENTATION,
@@ -617,8 +668,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [4, 6, 9, 19, 37, 49],
     id: 8,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/alimentation.jpg',
+    image: imgAssiette,
     parent: 1,
     title: "L'assiette",
     type: PDDTypes.ALIMENTATION,
@@ -645,8 +695,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [49],
     id: 9,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/PlateformeDD-logo-alimentation.png',
+    image: imgReduireConsommationViande,
     parent: 8, // l'assiette
     title: 'Réduire sa consommation de viande',
     type: PDDTypes.ALIMENTATION,
@@ -664,7 +713,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [13, 15],
     id: 10,
-    image: 'https://www.arp-gan.be/images/upload/images/Sacs_orange_plus.jpg',
+    image: imgTriDechet,
     parent: 2,
     title: 'Le tri des déchets',
     type: PDDTypes.DECHETS,
@@ -685,7 +734,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [13],
     id: 11,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/IMG_9904.jpg',
+    image: imgTriParDensite,
     parent: 10, // tri des déchets
     title: 'Le tri par densite',
     type: PDDTypes.DECHETS,
@@ -699,8 +748,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [13],
     id: 12,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2018/05/tri-densitaire.jpg',
+    image: imgTriDensitairePlastiques,
     parent: 10, // tri des déchets
     title: 'Le tri densitaire des plastiques',
     type: PDDTypes.DECHETS,
@@ -715,7 +763,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [10, 11, 12, 56],
     id: 13,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Recyclage.png',
+    image: imgRecyclage,
     parent: 2,
     title: 'Le recyclage',
     type: PDDTypes.DECHETS,
@@ -731,8 +779,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [40, 42],
     id: 14,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/06/Recyclage-des-panneaux-solaires-photovoltaiques.jpg',
+    image: imgRecyclagePanneauxPhotovoltaique,
     parent: 13, // recyclage
     title: 'Le recyclage des panneaux photovoltaïques',
     type: PDDTypes.DECHETS,
@@ -748,8 +795,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [10],
     id: 15,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/IMG_2642-e1528712886440.jpg',
+    image: imgRecyclagePillesUsages,
     parent: 13, // recyclage
     title: 'Recyclage des piles usagées',
     type: PDDTypes.DECHETS,
@@ -763,8 +809,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 16,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/zero-d%C3%A9chets.jpg',
+    image: imgZeroDechet,
     parent: 2,
     title: 'Zéro déchet',
     type: PDDTypes.DECHETS,
@@ -788,7 +833,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [7, 18],
     id: 17,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/P1044655.jpg',
+    image: imgFaitMaison,
     parent: 16, // zéro déchet
     title: 'Fait maison',
     type: PDDTypes.DECHETS,
@@ -804,7 +849,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [17],
     id: 18,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/P1044655.jpg',
+    image: imgReutiliser,
     parent: 16, // zéro déchet
     title: 'Réutiliser',
     type: PDDTypes.DECHETS,
@@ -824,8 +869,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [1, 4, 6, 8, 56],
     id: 19,
-    image:
-      'http://www.insidebrussels.be/V2/wp-content/uploads/2017/01/Screen-Shot-2017-01-08-at-20.23.51.png',
+    image: imgGaspillageAlimentaire,
     parent: 2,
     title: 'Le gaspillage alimentaire',
     type: PDDTypes.DECHETS,
@@ -843,7 +887,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [45],
     id: 20,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Pollution.jpg',
+    image: imgPollution,
     parent: 2,
     title: 'La pollution',
     type: PDDTypes.DECHETS,
@@ -856,8 +900,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [23],
     id: 21,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/temps-de-d%C3%A9gradation-des-d%C3%A9chets-de-l%C3%A9cole.jpg',
+    image: imgDechetsDansLaNature,
     parent: 20,
     title: 'Les déchets dans la nature',
     type: PDDTypes.DECHETS,
@@ -874,8 +917,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 22,
-    image:
-      'http://2.bp.blogspot.com/-3vuMU4pzzHQ/T1EdtX4OSKI/AAAAAAAAAFU/ZO9ByYlW2bU/s1600/vortex.jpg',
+    image: imgDechetsDansLesOceans,
     parent: 21, // les déchets dans la nature
     title: 'Les déchets dans les océans',
     type: PDDTypes.DECHETS,
@@ -892,7 +934,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [21],
     id: 23,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/smog.jpg',
+    image: imgPollutionAtmospherique,
     parent: 20, // la pollution
     title: 'La pollution atmosphérique',
     type: PDDTypes.DECHETS,
@@ -909,7 +951,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [53, 54],
     id: 24,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/smog.jpg',
+    image: imgReduirePollutionAtmospherique,
     parent: 23, // la pollution atmosphérique
     title: 'Réduire la pollution atmosphérique',
     type: PDDTypes.DECHETS,
@@ -935,8 +977,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 25,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/repartition-des-transports.jpg',
+    image: imgImpactVoitures,
     parent: 23, // la pollution
     title: "L'impact des voitures",
     type: PDDTypes.DECHETS,
@@ -969,8 +1010,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [20, 45],
     id: 26,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/repartition-des-transports.jpg',
+    image: '',
     parent: 23, // la pollution
     title: "La consommation d'eau",
     type: PDDTypes.DECHETS,
@@ -989,8 +1029,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [31],
     id: 27,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/PlateformeDD-logo-energie.png',
+    image: imgFormesEnergie,
     parent: 3,
     title: "Les formes d'énergie",
     type: PDDTypes.ENERGIE,
@@ -1004,7 +1043,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [39, 40],
     id: 28,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/DD-Soleil.png',
+    image: imgEnergieSolaire,
     parent: 27, // formes d'énergie
     title: "L'énergie solaire",
     type: PDDTypes.ENERGIE,
@@ -1018,8 +1057,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [36],
     id: 29,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Champ_d%C3%A9oliennes.jpg',
+    image: imgEnergieEolienne,
     parent: 27, // formes d'énergie
     title: "L'énergie éolienne",
     type: PDDTypes.ENERGIE,
@@ -1033,8 +1071,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [35],
     id: 30,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/%C3%A9nergie-hydaulique.jpg',
+    image: imgEnergieHydraulique,
     parent: 27, // formes d'énergie
     title: "L'énergie hydraulique",
     type: PDDTypes.ENERGIE,
@@ -1054,8 +1091,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [27, 43, 45],
     id: 31,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/06/centrale-a-charbon.jpg',
+    image: imgProductionEnergetique,
     parent: 3,
     title: 'La production énergétique',
     type: PDDTypes.ENERGIE,
@@ -1070,8 +1106,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [3],
     id: 32,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/DD-Centrale_nucl%C3%A9aire_de_belleville_-_tours_de_refroidissement_1.jpg',
+    image: imgCentraleNucleaire,
     parent: 31, // la production énergétique
     title: 'Les centrales nucleaires',
     type: PDDTypes.ENERGIE,
@@ -1092,8 +1127,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [27],
     id: 33,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Marie_Curie_c1920.png',
+    image: imgMarieCurie,
     parent: 32, // les centrales nucleaires
     title: 'Marie Curie et la radioactivité',
     type: PDDTypes.ENERGIE,
@@ -1109,8 +1143,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [27],
     id: 34,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Champ_d%C3%A9oliennes.jpg',
+    image: imgEnergieRenouvable,
     parent: 31, // la production énergétique
     title: 'Les énergies renouvables',
     type: PDDTypes.ENERGIE,
@@ -1127,7 +1160,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [30],
     id: 35,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/barrage.jpg',
+    image: imgBarrage,
     parent: 34, // les énergies renouvables
     title: 'Les barrages',
     type: PDDTypes.ENERGIE,
@@ -1154,7 +1187,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [29],
     id: 36,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/eolienne.jpg',
+    image: imgEolienne,
     parent: 34, // les énergies renouvables
     title: 'Les éoliennes',
     type: PDDTypes.ENERGIE,
@@ -1175,7 +1208,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [8],
     id: 37,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/biomasse.jpg',
+    image: imgBiomasse,
     parent: 34, // les énergies renouvables
     title: 'La biomasse',
     type: PDDTypes.ENERGIE,
@@ -1197,8 +1230,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [48],
     id: 38,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/DD-G%C3%A9othermie-islande.jpg',
+    image: imgGeothermie,
     parent: 34, // les énergies renouvables
     title: 'La géothermie',
     type: PDDTypes.ENERGIE,
@@ -1217,8 +1249,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [28, 46, 47, 48],
     id: 39,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/DD-G%C3%A9othermie-islande.jpg',
+    image: '',
     parent: 34, // les énergies renouvables
     title: 'Les panneaux solaires',
     type: PDDTypes.ENERGIE,
@@ -1250,8 +1281,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [14, 28, 47],
     id: 40,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/DD-un-panneau-solaire.jpg',
+    image: imgPanneauPhotovoltaique,
     parent: 39, // les panneaux solaires
     title: 'Les panneaux photovoltaiques',
     type: PDDTypes.ENERGIE,
@@ -1266,7 +1296,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 41,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Milikan.png',
+    image: imgHistoirePhotovoltaique,
     parent: 40, // les panneaux photovoltaiques
     title: 'Histoire du photovoltaiques',
     type: PDDTypes.ENERGIE,
@@ -1293,8 +1323,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [14],
     id: 42,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/06/production-de-cellules-photovoltaiques.jpg',
+    image: imgProductionPanneauxPhotovoltaiques,
     parent: 40, // les panneaux photovoltaiques
     title: 'La production des panneaux photovoltaiques',
     type: PDDTypes.ENERGIE,
@@ -1316,8 +1345,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [31, 45, 51],
     id: 43,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/06/800px-Pylone400kv.jpg',
+    image: imgDistributionElectricite,
     parent: 3,
     title: "La distribution de l'électricité",
     type: PDDTypes.ENERGIE,
@@ -1335,7 +1363,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 44,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/P1066111.jpg',
+    image: imgQuestionnaireElectrique,
     parent: 43, // la distribution de l'électricité
     title: 'Questionnaire electrique',
     type: PDDTypes.ENERGIE,
@@ -1351,8 +1379,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [26, 31, 43],
     id: 45,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/PlateformeDD-logo-energie.png',
+    image: imgConsommationEnergetique,
     parent: 3,
     title: 'La consommation énergétique',
     type: PDDTypes.ENERGIE,
@@ -1372,8 +1399,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [39],
     id: 46,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Passive_House_scheme_1_multilingual.svg_.png',
+    image: imgMaisonPassive,
     parent: 45, // consommation énergétique
     title: 'La maison passive',
     type: PDDTypes.ENERGIE,
@@ -1388,8 +1414,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [39, 40],
     id: 47,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/objets-solaire.png',
+    image: imgObjetsSolaire,
     parent: 45, // consommation énergétique
     title: "Les objets qui fonctionnent à l'énergie solaire",
     type: PDDTypes.ENERGIE,
@@ -1429,8 +1454,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [8, 9, 26],
     id: 49,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/PlateformeDD-logo-energie.png',
+    image: imgReduireSaConsommation,
     parent: 45, // consommation énergétique
     title: 'Réduire sa consommation',
     type: PDDTypes.ENERGIE,
@@ -1465,8 +1489,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 50,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/PlateformeDD-logo-energie.png',
+    image: imgReduireConsommationElectricite,
     parent: 49, // réduire sa consommation
     title: "Réduire sa consommation d'électricité",
     type: PDDTypes.ENERGIE,
@@ -1504,8 +1527,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [24],
     id: 52,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/Aire_de_Covoiturage_Arvert-La_Tremblade.jpg',
+    image: imgCoVoiturage,
     parent: 49, // réduire sa consommation
     title: 'Le co-voiturage',
     type: PDDTypes.ENERGIE,
@@ -1524,8 +1546,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [24],
     id: 53,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/a-pied-ou-a-v%C3%A9lo.jpg',
+    image: imgDeplacerPiedVelo,
     parent: 49, // réduire sa consommation
     title: 'Se déplacer à pied ou à vélo',
     type: PDDTypes.ENERGIE,
@@ -1545,7 +1566,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [24],
     id: 54,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/la-stib.png',
+    image: imgTransportCommun,
     parent: 49, // réduire sa consommation
     title: 'Les transports en commun',
     type: PDDTypes.ENERGIE,
@@ -1568,8 +1589,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [],
     id: 55,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/PlateformeDD-logo-energie.png',
+    image: imgPertesChaleurChauffage,
     parent: 49, // réduire sa consommation
     title: 'Réduire les pertes de chaleur du chauffage',
     type: PDDTypes.ENERGIE,
@@ -1590,7 +1610,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [19],
     id: 56,
-    image: 'http://sciences.ulb.ac.be/wp-content/uploads/2018/06/ValueBugs.jpg',
+    image: imgBioconversionAlimentaire,
     parent: 16, // zéro déchet
     title: 'Bioconversion alimentaire',
     type: PDDTypes.DECHETS,
@@ -1612,8 +1632,7 @@ export const PDDDataComplete = [
       '</div>',
     crossRefs: [27, 28, 48],
     id: 57,
-    image:
-      'http://sciences.ulb.ac.be/wp-content/uploads/2017/05/PlateformeDD-logo-energie.png',
+    image: imgPanneauThermique,
     parent: 39, // les panneaux solaires
     title: 'Les panneaux thermique',
     type: PDDTypes.ENERGIE,

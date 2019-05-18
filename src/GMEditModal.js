@@ -141,7 +141,8 @@ class GMEditModal extends React.Component {
             {((this.props.mode === Modes.MAP_CREATOR &&
               this.props.node.children === undefined &&
               this.props.node.data.id !== 0) ||
-              (this.props.node.parent !== null &&
+              (this.props.mode === Modes.MAP_CREATOR &&
+                this.props.node.parent !== null &&
                 this.props.node.parent.data.type === GMNodeTypes.CHOICE)) && (
               <button
                 className={

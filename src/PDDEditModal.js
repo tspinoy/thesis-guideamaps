@@ -125,7 +125,7 @@ class PDDEditModal extends React.Component {
                     <img
                       alt={'Image'}
                       className={'float-left'}
-                      src={this.props.node.data.image}
+                      src={'.' + this.props.node.data.image}
                       style={{
                         border:
                           '2px solid ' + getPrimaryNodeColor(this.props.node),
