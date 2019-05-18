@@ -1,8 +1,16 @@
 \chapter{Another Use Case}\label{ch:usecase}
-\textcolor{blue}{To demonstrate that we achieved Research Goal \ref{item:goal:generic}, we implemented a different use case, called \textit{Plateforme DD}. In the first section, we describe the purpose of this use case. The second section is about how the library can be used to create a visualization for the system.}
+\textcolor{blue}{
+To demonstrate that we achieved \ref{goal:generic}, we implemented a different use case, called \textit{Plateforme DD (PDD)}. In the first section of this chapter, we describe the purpose of this use case and explain what Plateforme DD is exactly. The second section is about how the library can be used to create a visualization for the system.
+}
 
 \section{Plateforme DD}\label{sec:pdd}
-The goal was to visualize the links between the projects mentioned on their website\footnote{https://sciences.brussels/dd/} because this was not clear from the structure of the site for the following reasons. The site is divided into different parts. There are lots of links to other pages on the site, which belong to a particular part. By following these links, the user can get lost quite easily on this site and it is very difficult to understand how the different projects are linked to each other. Therefore, the responsible people of Plateforme DD were looking for a visualization to make it easier for user to grasp the relationships between the different projects. To create such a visualization, we could make use of our own library. In this way, we can show that our tool can be used in cases where the visualization and functionality is completely different from the one for GuideaMaps. The created visualization for a subset of the projects on the Plateforme DD website can be seen in Figure \ref{fig:plateforme-dd}.\\
+\textcolor{blue}{
+PDD is a project with a scientific mission, i.e. durable development in Brussels. On the one hand, they try to arouse interest in sciences among pupils in Brussels. On the other hand, they want to make it easier (for everyone, not only pupils) to understand the situation in Brussels and to make them take efforts for a durable development in the city.
+}\\
+
+\textcolor{blue}{
+The different pages on the website\footnote{https://sciences.brussels/dd/} of Plateforme DD correspond to projects the pupils worked on in small groups. The content on every page can be seen as a small report about what they learned about the topic. Many of these topics are linked to each other in some way. However, it is absolutely not easy to understand the underlying tree structure by browsing through the website. On each page corresponding to one of the topics, a number of links can be found. But by following these links, the user can get lost quite easily on this site and it is very difficult to understand how the different projects are linked to each other. Therefore, we visualized the tree structure by creating a separate node for each topic on the site. In this way, it should be easier for the user to grasp the relationships between the different projects. To create such a visualization, we could make use of our own library. In this way, we can show that our tool can be used in cases where the visualization and functionality is completely different from the one for GuideaMaps. The created visualization for the content of the Plateforme DD website can be seen in \autoref{fig:plateforme-dd}.
+}
 
 \begin{figure}[H]
 	\centering
@@ -14,7 +22,7 @@ The goal was to visualize the links between the projects mentioned on their webs
 
 
 \section{Customization Effort}\label{sec:customization-effort}
-In Figure \ref{fig:examplecode-library}, we showed how we could alter the visualization of the data without affecting the default code. Remember that the props in that figure are not the only customizable props of the library. Figure \ref{fig:differences-gm-vs-pdd} shows the differences in configuration when we compare the visualization of GuideaMaps with the one of Plateforme DD.
+In \autoref{fig:examplecode-library}, we showed how we could alter the visualization of the data without affecting the default code. Remember that the props in that figure are not the only customizable props of the library. \autoref{fig:differences-gm-vs-pdd} shows the differences in configuration when we compare the visualization of GuideaMaps with the one of Plateforme DD.
 
 \begin{figure}[H]
 	\begin{minipage}{0.5\textwidth}
@@ -67,7 +75,7 @@ If the user does not need a different style for the links, he does not have to c
 
 
 \subsection{EditModalComp}\label{sec:usecase-editmodalcomp}
-The edit modal of Plateforme DD is completely different compared to the one of GuideaMaps. First of all, it is not a real \textit{edit}-modal because a user of the PDD visualization is not allowed to update the data of the nodes, he can only consult the available data, which is shown like in Figure \ref{fig:pdd-editmodal}.
+The edit modal of Plateforme DD is completely different compared to the one of GuideaMaps. First of all, it is not a real \textit{edit}-modal because a user of the PDD visualization is not allowed to update the data of the nodes, he can only consult the available data, which is shown like in \autoref{fig:pdd-editmodal}.
 
 \begin{figure}[H]
 	\centering
