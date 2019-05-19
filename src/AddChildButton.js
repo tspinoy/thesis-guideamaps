@@ -142,7 +142,7 @@ class AddChildButton extends React.Component {
       choices: [
         ...this.state.choices,
         <div
-          className={'border border-solid mb-4 p-4 rounded'}
+          className={'border border-solid mb-4 p-4 relative rounded'}
           key={'choice' + id}>
           <div className={'mb-4'}>
             <label className={'block font-bold mb-2 text-grey-darker text-lg'}>
@@ -172,6 +172,17 @@ class AddChildButton extends React.Component {
               type={'text'}
             />
           </div>
+          <button
+            className={
+              'absolute bg-blue hover:bg-blue-dark mr-4 px-4 py-2 text-white'
+            }
+            onClick={e => {
+              e.preventDefault();
+              this.addCustomChoice(this.state.choices.length);
+            }}
+            style={{borderRadius: '50%', outline: 'none', right: 0}}>
+            <FontAwesomeIcon className={'text-base'} icon={'plus'} />
+          </button>
         </div>,
       ],
     });
