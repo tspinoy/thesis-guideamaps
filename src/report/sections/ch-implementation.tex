@@ -215,15 +215,15 @@ The last part of a node is the controls-div. With \textit{controls} we mean the 
 
 The number of actions a user can perform depends on the mode. An end-user has two buttons: one to ``open'' the node to view and edit the data, and one to expand or collapse the node, i.e. to show or hide the child nodes, respectively. When a node is collapsed, all child nodes on all lower levels in the hierarchy are hidden. On the other hand, when a node is expanded, only the child-nodes of the next level in the hierarchy are shown.\\
 
-Because a map creator is allowed to add child nodes, a third button can be found in his controls-div of the node to add a child node. A click on this button opens a small modal window, where some information about the new node should be provided before the node can be created. \autoref{fig:gm-add-general} illustrates what the modal window looks like when the user wants to add a regular node. He has to start by selecting the option ``Default'' at the top, after which two input fields appear to insert the title and the description for the node. A click on the button at the bottom will add a child node of the selected type and with the provided title and description.\\
+Because a map creator is allowed to add child nodes, a third button can be found in his controls-div of the node to add a child node. A click on this button opens a small modal window, where some information about the new node should be provided before the node can be created. \autoref{fig:gm-add-regular} illustrates what the modal window looks like when the user wants to add a regular node. He has to start by selecting the option ``Default'' at the top, after which two input fields appear to insert the title and the description for the node. A click on the button at the bottom will add a child node of the selected type and with the provided title and description.\\
 
 It is possible to add an \textit{empty} node if the user does not provide a title and/or a description. Even though it is not really useful to add nodes without any context, we only require the user to select the type of the child node. If the type is unknown, the node will not be added. A situation where a map creator would add an empty node is when he wants to remind himself that a child node is necessary at that place, but details about the expected content are not yet known.\\
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{GMAddChildNodeModal-General.png}}
-	\caption{Adding a general node.}
-	\label{fig:gm-add-general}
+	\frame{\includegraphics[width=\linewidth]{GMAddChildNodeModal-Regular.png}}
+	\caption{Adding a regular node.}
+	\label{fig:gm-add-regular}
 \end{figure}
 
 
