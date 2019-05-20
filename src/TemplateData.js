@@ -176,7 +176,7 @@ export const TemplateData = {
       // Product
       {
         description:
-          'A lot of information can be provided about product. Select what you want to include.',
+          'A lot of information can be provided about product. Specify what you want to include.',
         id: 13,
         name: 'Product',
         optional: false,
@@ -222,7 +222,7 @@ export const TemplateData = {
       },
       // Searching
       {
-        choiceLowerLimit: 0,
+        choiceLowerLimit: 1,
         choiceUpperLimit: 2,
         choices: {
           Search: {

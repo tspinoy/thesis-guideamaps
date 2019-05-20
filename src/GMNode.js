@@ -387,6 +387,7 @@ class GMNode extends React.Component {
       }
 
       const choices = node.choices;
+      console.log(this.state.activeChoices);
       // Check all checkboxes and add the selected nodes
       Object.values(choices).forEach((c, index) => {
         const el = document.getElementById(c.name);
@@ -408,17 +409,21 @@ class GMNode extends React.Component {
             });
           }, 250);
         } else if (!el.checked && this.state.activeChoices.includes(id)) {
-          this.props.onDeleteNode(id); // Delete the node with the id that we created ourselves. This is why we had to create the id: we needed it to be able to delete the node.
-          // And update the state
-          let updatedActiveChoices = [...this.state.activeChoices]; // make a separate copy of the array
-          const pos = updatedActiveChoices.indexOf(id);
-          if (pos !== -1) {
-            updatedActiveChoices.splice(pos, 1);
-            this.setState({activeChoices: updatedActiveChoices});
-          }
+          // timeout needed to avoid simultaneously deleting two nodes which results in wrong behaviour
+          setTimeout(() => {
+            this.props.onDeleteNode(id); // Delete the node with the id that we created ourselves. This is why we had to create the id: we needed it to be able to delete the node.
+            // And update the state
+            let updatedActiveChoices = [...this.state.activeChoices]; // make a separate copy of the array
+            const pos = updatedActiveChoices.indexOf(id);
+            if (pos !== -1) {
+              updatedActiveChoices.splice(pos, 1);
+              this.setState({activeChoices: updatedActiveChoices});
+            }
+          }, 250);
         }
       });
 
+      let newUpperLimit = node.choiceUpperLimit;
       for (
         let i = Object.keys(this.props.node.choices).length;
         i < this.state.customChoices.length;
@@ -434,12 +439,13 @@ class GMNode extends React.Component {
           name: title,
           type: GMNodeTypes.DEFAULT,
         };
+        newUpperLimit++;
       }
       this.props.onNodeChoicesUpdate(
         node.data.id,
         choices,
         node.choiceLowerLimit,
-        node.choiceUpperLimit,
+        newUpperLimit,
       );
 
       this.toggleModal();

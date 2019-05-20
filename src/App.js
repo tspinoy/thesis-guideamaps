@@ -75,7 +75,7 @@ const [width, height] = [windowWidth * 0.9, windowHeight * 0.9];
 const EMPTY = 'New map';
 const GUIDEAMAPS = 'GuideaMaps';
 const PLATEFORMEDD = 'PlateformeDD';
-let current_visualization = GUIDEAMAPS;
+let current_visualization = TemplateData.eCommerce.name;
 
 let currentData = null;
 let savedData = {};
