@@ -20,6 +20,8 @@
 \usepackage{titles}
 \setcounter{secnumdepth}{4}
 
+
+
 \usepackage{setspace}
 \usepackage{etoolbox}
 \AtBeginEnvironment{quote}{\singlespace\vspace{-\topsep}\small}
@@ -295,6 +297,14 @@
 \bibliographystyle{apacite}
 \bibliography{thesisbib} % change to your bib!
 %\addcontentsline{toc}{section}{References}
+
+\includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{GM Evaluation Map Creator\label{appendix:gm-evaluation-map-creator}}},offset=0 -10cm]{sections/evaluation-form-map-creator.pdf}
+\markboth{GM Evaluation Map Creator}{GM Evaluation Map Creator} % ensure the correct name appears in the header and footer
+\includepdf[pages=2-,pagecommand={\pagestyle{fancy}}]{sections/evaluation-form-map-creator.pdf}
+
+\includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{GM Evaluation End User\label{appendix:gm-evaluation-end-user}}},offset=0 -10cm]{sections/evaluation-form-end-user.pdf}
+\markboth{GM Evaluation End User}{GM Evaluation End User} % ensure the correct name appears in the header and footer
+\includepdf[pages=2-,pagecommand={\pagestyle{fancy}}]{sections/evaluation-form-end-user.pdf}
 
 \includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{Plateforme DD Questionnaire\label{appendix:pdd-questionnaire}}},offset=0 -10cm]{sections/PDDQuestionnaire.pdf}
 \markboth{Plateforme DD Questionnaire}{Plateforme DD Questionnaire} % ensure the correct name appears in the header and footer

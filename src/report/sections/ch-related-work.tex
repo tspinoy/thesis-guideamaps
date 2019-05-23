@@ -30,12 +30,12 @@ Another technique that can be used to represent content is the use of visual met
 ``A visual metaphor is a graphic structure that uses the shape and elements of a familiar natural or manmade artefact or of an easily recognizable activity or story to organize content meaningfully and use the associations with the metaphor to convey additional meaning about the content.'' \hfill \citep{eppler-2006}
 \end{quote}
 
-This technique could be used if you want to help users to memorize the most important elements of a topic, method or concept. In that case, you have to choose a metaphor which has properties in common with the topic, concept or method. \citep{eppler-2006} An example of a visual metaphor is shown in Figure \ref{fig:visual-metaphor}. It shows ``a mixed visual metaphor/conceptual diagram template to structure learning content in a narrative structure during a class room discussion'' \citep{eppler-2006}. 
+This technique could be used if you want to help users to memorize the most important elements of a topic, method or concept. In that case, you have to choose a metaphor which has properties in common with the topic, concept or method. \citep{eppler-2006} An example of a visual metaphor is shown in \autoref{fig:visual-metaphor}. It shows ``a mixed visual metaphor/conceptual diagram template to structure learning content in a narrative structure during a class room discussion'' \citep{eppler-2006}. 
 
 \begin{figure}[H]
 	\centering
 	\frame{\includegraphics[width=0.75\linewidth]{visual-metaphor.png}}
-	\caption{Example of a visual metaphor.}
+	\caption{Example of a visual metaphor \citep{eppler-2006}.}
 	\label{fig:visual-metaphor}
 \end{figure}
 
@@ -73,6 +73,24 @@ Bubbl.us\footnote{\url{https://bubbl.us/}} is an online mind-mapping tool with v
 
 A second browser-based tool is called ``MindMeister''\footnote{\url{https://www.mindmeister.com/}}. It is very easy to create an account, on which your different visualizations can be stored. Users are allowed to drag and drop the nodes to other positions and change their layout in terms of color and borders. However, you cannot show a preview of the content in the node itself. You always have to click the node to be able to see the content. Further, it is not possible to customize the links, which can be a drawback because now they are represented as a solid line and it is not possible to add an arrow on them. As a consequence, this is a second well-created tool with some important functionality missing.
 
+
+\subsection{Moodle}
+
+\cite{scherl2012moodle} described Moodle as follows:
+\begin{quote}
+	``Moodle is a widely used learning management system. It visualizes inner and interdisciplinary relations between learning objects and is generated dynamically depending on user set parameters and interactions. It is a free open-source software package that provides a course management system for the implementation of internet-based learning environments.''
+\end{quote}
+
+In Moodle, navigation between courses only works by binding URLs to words or pictures, like the way Wikipedia does it. This way of linking resources makes it difficult to  ``stay on top of things''. Therefore, \cite{scherl2012moodle} extended Moodle to provide a clear orientation throughout navigation. In this extended version, new learning activities can be linked to already existing learning activities in any course present in the Moodle platform. In so-called concept map-based navigation, the students can open a full-screen concept map (example in \autoref{fig:moodle-concept-map}). Every node represents a learning object and a click on it opens the corresponding resource. Further, currently visited learning object (node) is always in the center of the map, which is dynamically changed and updated based on user interactions. Hence, this system is comparable with the one we want to build: in our system, the currently selected node will be at the center as well and it should be possible to open nodes to see their content.
+
+\begin{figure}[H]
+	\centering
+	\frame{\includegraphics[width=0.75\linewidth]{relatedwork/moodle.pdf}}
+	\caption{Example of concept map-based navigation in Moodle.}
+	\label{fig:moodle-concept-map}
+\end{figure}
+
+
 \subsection{CmapTools}
 In the paper of \cite{novak2006conceptmapping}, they did the following:
 \begin{quote}
@@ -80,7 +98,6 @@ In the paper of \cite{novak2006conceptmapping}, they did the following:
 \end{quote}
 
 TODO: Another paper of cmaptools to discuss: \citep{canas2004conceptmapping}.\\
-TODO: reference van Olga: \citep{scherl2012moodle}.
 
 
 
