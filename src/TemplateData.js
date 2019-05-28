@@ -239,7 +239,7 @@ export const TemplateData = {
           },
         },
         description:
-          'A customer should be able to easily find products. Select at least on possibility.',
+          'A customer should be able to easily find products. Select at least one possibility.',
         id: 18,
         name: 'Searching',
         optional: false,
