@@ -252,6 +252,35 @@ Moody, D.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Nesbit%
+\ \BBA {} Adesope%
+}{%
+Nesbit%
+\ \BBA {} Adesope%
+}{%
+{\protect \APACyear {2006}}%
+}]{%
+nesbit2006conceptmaps}
+\APACinsertmetastar {%
+nesbit2006conceptmaps}%
+\begin{APACrefauthors}%
+Nesbit, J\BPBI C.%
+\BCBT {}\ \BBA {} Adesope, O\BPBI O.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2006}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{Learning With Concept and Knowledge Maps: A
+  Meta-Analysis}} {{Learning With Concept and Knowledge Maps: A
+  Meta-Analysis}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Review of Educational Research}{76}{3}{413-448}.
+\newblock
+\begin{APACrefDOI} \doi{10.3102/00346543076003413} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Novak%
 \ \BBA {} Ca{\~n}as%
 }{%
@@ -365,6 +394,34 @@ Scherl, A.%
 \APACjournalVolNumPages{Advances in Physiology Education}{36}{4}{284-297}.
 \newblock
 \begin{APACrefDOI} \doi{10.1152/advan.00086.2012} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Tullis%
+\ \BBA {} Stetson%
+}{%
+Tullis%
+\ \BBA {} Stetson%
+}{%
+{\protect \APACyear {2004}}%
+}]{%
+tullis2004comparison}
+\APACinsertmetastar {%
+tullis2004comparison}%
+\begin{APACrefauthors}%
+Tullis, T\BPBI S.%
+\BCBT {}\ \BBA {} Stetson, J\BPBI N.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2004}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{A Comparison of Questionnaires for Assessing Website
+  Usability}} {{A Comparison of Questionnaires for Assessing Website
+  Usability}}.{\BBCQ}
+\newblock
+\BIn{} \APACrefbtitle {{Usability Professional Association Conference (UPA)}}
+  {{Usability Professional Association Conference (UPA)}}\ (\BVOL~1).
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

@@ -7,9 +7,9 @@ Before we started with the actual implementation, we had to decide how to achiev
 
 Nowadays, a lot of browsers exist, each with their own characteristics and differences. Because the goal of this thesis was to have a functional prototype, it is not required that the application works perfectly on \textit{all} possible browsers. However, we wanted to make sure that the tool works without any issues in one of the most popular browsers, being Google Chrome.\\
 
-\textcolor{blue}{
-Another possibility would have been to use cross-platform tools like PhoneGap\footnote{\url{https://phonegap.com/}} and Cordova\footnote{\url{https://cordova.apache.org/}}. The benefit of those tools is that, if a real application is preferable to a browser-based application, it is still possible to wrap the browser app into a real app. Hence, from then on the application can be installed on the device itself. A drawback of this is that the app cannot be used if the device has not enough disk space. Further, the app is possibly not up-to-date at any time. This can become an issue when the app would be collaborative and multiple users with different versions of the app want to work with it. Therefore, we concluded that a browser-based solution is better for our goal than the Java Virtual Machine and cross-platform tools.
-}
+Another possibility would have been to use a cross-platform development tool like PhoneGap\footnote{\url{https://phonegap.com/}} or Cordova\footnote{\url{https://cordova.apache.org/}}. The benefit of those tools is that you can create a web-based application which then is converted to target platforms with simple commands (e.g. ``cordova platform add ios'' and ``cordova build ios''). Hence, from then on the application can be installed on the device itself. A drawback of this is that the app cannot be used if the device has not enough disk space. Further, the app is possibly not up-to-date at any time. This can become an issue when the app would be collaborative and multiple users with different versions of the app want to work with it. However, incompatible versions can be avoided by forcing the user to update to the latest version before he can continue to use the app. Furthermore, cross-platform tools are very well suited for simple UIs, while in the case of more complex UIs, they are not always applicable. Therefore, we concluded that a browser-based solution is better for our goal than the Java Virtual Machine or cross-platform tools.
+
+
 
 % --------------------
 % --- TECHNOLOGIES ---
@@ -83,7 +83,7 @@ Bootstrap can be very interesting to use in applications and websites that shoul
 With the technologies mentioned in the previous section, the most important pillars the application relies on are discussed. In this section, we will explain the main structure of the code, such that it is clear how all elements work together. Figure \ref{fig:overall-structure} shows a visualization of the structure of the code.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{thesis-architecture.pdf}
+	\includegraphics[width=\linewidth]{implementation/thesis-architecture.pdf}
 	\caption{Structure of the application.}
 	\label{fig:overall-structure}
 \end{figure}
@@ -136,7 +136,7 @@ The right part of the navigation bar contains a single button. A click on this b
 
 \begin{figure}[h]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{guideamaps.png}}
+	\frame{\includegraphics[width=\linewidth]{implementation/guideamaps.png}}
 	\caption{GuideaMaps Layout.}
 	\label{fig:guideamaps}
 \end{figure}
@@ -154,7 +154,7 @@ The left part of the navigation bar is created to be able to switch between the 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{GMStructure.pdf}
+	\includegraphics[width=\linewidth]{implementation/GMStructure.pdf}
 	\caption{Structure of GuideaMapsNode.}
 	\label{fig:gmnodestructure}
 \end{figure}
@@ -187,25 +187,25 @@ The last part of a node is the controls-div. With \textit{controls} we mean the 
 	\centering
 	\begin{subfigure}{.2\textwidth}
   		\centering
-  		\includegraphics[width=.25\linewidth]{plusicon}
+  		\includegraphics[width=.25\linewidth]{implementation/icon-plus}
   		\caption{Plus}
   		\label{fig:plusicon}
 	\end{subfigure}%
 	\begin{subfigure}{.2\textwidth}
   		\centering
-  		\includegraphics[width=.25\linewidth]{magnifyingicon}
+  		\includegraphics[width=.25\linewidth]{implementation/icon-magnifier}
   		\caption{Explore/Edit}
   		\label{fig:editicon}
 	\end{subfigure}
 	\begin{subfigure}{.2\textwidth}
 		\centering
-  		\includegraphics[width=.25\linewidth]{expandicon}
+  		\includegraphics[width=.25\linewidth]{implementation/icon-expand}
   		\caption{Expand}
   		\label{fig:expandicon}
 	\end{subfigure}
 	\begin{subfigure}{.2\textwidth}
   		\centering
-  		\includegraphics[width=.25\linewidth]{collapseicon}
+  		\includegraphics[width=.25\linewidth]{implementation/icon-collapse}
   		\caption{Collapse}
   		\label{fig:collapseicon}
 	\end{subfigure}
@@ -221,7 +221,7 @@ It is possible to add an \textit{empty} node if the user does not provide a titl
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{GMAddChildNodeModal-Regular.png}}
+	\frame{\includegraphics[width=\linewidth]{implementation/GMAddChildNodeModal-Regular.png}}
 	\caption{Adding a regular node.}
 	\label{fig:gm-add-regular}
 \end{figure}
@@ -239,14 +239,14 @@ The possibility to change the background color of the nodes and the fact that th
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{GMEditModal-MapCreator.png}}
+	\frame{\includegraphics[width=\linewidth]{implementation/GMEditModal-MapCreator.png}}
 	\caption{The edit modal in map creator mode.}
 	\label{fig:gm-editmodal-mapcreator}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{GMEditModal-EndUser.png}}
+	\frame{\includegraphics[width=\linewidth]{implementation/GMEditModal-EndUser.png}}
 	\caption{The edit modal in end user mode.}
 	\label{fig:gm-editmodal-enduser}
 \end{figure}
@@ -269,7 +269,7 @@ Another feature particular for choice nodes consists of the cardinalities a map 
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{GMAddChildNodeModal-Choice.png}}
+	\frame{\includegraphics[width=\linewidth]{implementation/GMAddChildNodeModal-Choice.png}}
 	\caption{Adding a choice node.}
 	\label{fig:gm-add-choice}
 \end{figure}
@@ -278,7 +278,7 @@ After the node is created, the map creator can edit the node by performing a sin
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{GMChoiceNode-MapCreator.png}}
+	\frame{\includegraphics[width=\linewidth]{implementation/GMChoiceNode-MapCreator.png}}
 	\caption{An opened choice node in map creator mode.}
 	\label{fig:gm-choicenode-mapcreator}
 \end{figure}
@@ -288,14 +288,14 @@ The modal window showing up when the end-user clicks on a choice node (see \auto
 Next to selecting choices given by the map creator, it can sometimes be necessary to be able to add an extra possibility, which was not given by the map creator. Therefore, an end-user can create additional choices, which he can select later on. Additional choices can be created in the same way as the map creator can do it. By a click on the button, an additional part of the form appears in the modal window. When the form is submitted, the additional choice is registered with the given title and description. An example is shown in \autoref{fig:gm-choicenode-enduser-extraoption}.
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{GMChoiceNode-EndUser.png}}
+	\frame{\includegraphics[width=\linewidth]{implementation/GMChoiceNode-EndUser.png}}
 	\caption{An opened choice node in end user mode.}
 	\label{fig:gm-choicenode-enduser}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{GMChoiceNode-EndUser-ExtraOption.png}}
+	\frame{\includegraphics[width=\linewidth]{implementation/GMChoiceNode-EndUser-ExtraOption.png}}
 	\caption{An opened choice node in end user mode with option to select additional choice.}
 	\label{fig:gm-choicenode-enduser-extraoption}
 \end{figure}

@@ -1,20 +1,15 @@
 \chapter{Another Use Case}\label{ch:usecase}
-\textcolor{blue}{
-To demonstrate that we achieved \ref{goal:generic}, we implemented a different use case, called \textit{Plateforme DD (PDD)}. In the first section of this chapter, we describe the purpose of this use case and explain what Plateforme DD is exactly. The second section is about how the library can be used to create a visualization for the system.
-}
+To demonstrate that we achieved \ref{goal:generic}, we implemented a different use case for the system called \textit{Plateforme DD (PDD)}. In the first section of this chapter, we describe the purpose of this use case and explain Plateforme DD. The second section is about how the library could be used to create a visualization for this system.
 
 \section{Plateforme DD}\label{sec:pdd}
-\textcolor{blue}{
-PDD is a project with a scientific mission, i.e. durable development in Brussels. On the one hand, they try to arouse interest in sciences among pupils in Brussels. On the other hand, they want to make it easier (for everyone, not only pupils) to understand the situation in Brussels and to make them take efforts for a durable development in the city.
-}\\
+PDD is a ULB (Universit\'e Libre de Bruxelles) project with a scientific mission, i.e. durable development in Brussels. On the one hand, the project tries to arouse interest in sciences among pupils in Brussels. On the other hand, it wants to make it easier (for everyone, not only pupils) to understand the situation in Brussels and to make them take efforts for a durable development in the city.\\
 
-\textcolor{blue}{
-The different pages on the website\footnote{https://sciences.brussels/dd/} of Plateforme DD correspond to projects the pupils worked on in small groups. The content on every page can be seen as a small report about what they learned about the topic. Many of these topics are linked to each other in some way. However, it is absolutely not easy to understand the underlying tree structure by browsing through the website. On each page corresponding to one of the topics, a number of links can be found. But by following these links, the user can get lost quite easily on this site and it is very difficult to understand how the different projects are linked to each other. Therefore, we visualized the tree structure by creating a separate node for each topic on the site. In this way, it should be easier for the user to grasp the relationships between the different projects. To create such a visualization, we could make use of our own library. In this way, we can show that our tool can be used in cases where the visualization and functionality is completely different from the one for GuideaMaps. The created visualization for the content of the Plateforme DD website can be seen in \autoref{fig:plateforme-dd}.
-}
+The different pages on the website\footnote{https://sciences.brussels/dd/} of Plateforme DD correspond to projects the pupils worked on in small groups. The content on every page can be seen as a small report about what they learned about the topic. Many of these topics are linked to each other in some way. However, it is absolutely not easy to understand the underlying tree structure by browsing through the website. On each page corresponding to one of the topics, a number of links can be found. But by following these links, the user can get lost quite easily on this site and it is very difficult to understand how the different projects are linked to each other. Therefore, the project owners wanted to have a better visualization of the relationships between the different Web pages. Therefore, we visualized the tree structure by creating a separate node for each (sub)topic on the site. In this way, it should be easier for the user to grasp the relationships between the different projects. To create such a visualization, we could make use of our library. In this way, we can show that our tool can be used in cases where the visualization and functionality is completely different from the one for GuideaMaps. The created visualization for the content of the Plateforme DD website can be seen in \autoref{fig:plateforme-dd}.
+
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{plateforme-dd.png}}
+	\frame{\includegraphics[width=\linewidth]{usecase/plateforme-dd.png}}
 	\caption{Plateforme DD Visualization.}
 	\label{fig:plateforme-dd}
 \end{figure}
@@ -79,7 +74,7 @@ The edit modal of Plateforme DD is completely different compared to the one of G
 
 \begin{figure}[H]
 	\centering
-	\frame{\includegraphics[width=\linewidth]{PDDEditModal.png}}
+	\frame{\includegraphics[width=\linewidth]{usecase/PDDEditModal.png}}
 	\caption{Plateforme DD Edit Modal.}
 	\label{fig:pdd-editmodal}
 \end{figure}

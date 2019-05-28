@@ -20,8 +20,6 @@
 \usepackage{titles}
 \setcounter{secnumdepth}{4}
 
-
-
 \usepackage{setspace}
 \usepackage{etoolbox}
 \AtBeginEnvironment{quote}{\singlespace\vspace{-\topsep}\small}
@@ -94,7 +92,6 @@
 %\usepackage{listings}
 \usepackage{fancyhdr}
 \usepackage{nameref}
-\usepackage{mfirstuc}
 
 \definecolor{java}{RGB}{127,0,85}
 \definecolor{mygreen}{RGB}{125,142,49}
@@ -196,13 +193,13 @@
 
 %only if your thesis is written in English; otherwise delete this page
 \title{Editable and Customizable Knowledge Maps}
-\pretitle{Thesis submitted in partial fulfillment of the requirements for the degree of Master of Science in Applied Sciences and Engineering: Computer Science}
-%\subtitle{An optional Subtitle Here}
-\faculty{Sciences and Bio-Engineering Sciences} % Note: without the word "Faculty"!
+\pretitle{Masterproef ingediend in gedeeltelijke vervulling van de eisen voor het behalen van de graad Master of Science in de Ingenieurswetenschappen: Computerwetenschappen}
+%%\subtitle{An optional Subtitle Here}
+\faculty{Wetenschappen \& Bio-ingenieurswetenschappen} % Note: without the word "Faculty"!
 \author{Thijs Spinoy}
-\date{June 2019}
+\date{Juni 2019}
+\promotors{Prof.\ Dr.\ Olga De Troyer\\ \vspace{0.5mm} \\Assistent: \\Jan Maushagen \vspace{0.5mm} }
 
-\promotors{Prof.\ Dr.\ Olga De Troyer\\ \vspace{0.5mm} \\Advisor: \\Jan Maushagen \vspace{0.5mm} }
 
 \usepackage{natbib}
 \begin{document}
@@ -216,106 +213,5 @@
 
 
 \maketitle
-
-%\cleardoublepage
-%\pagebreak
-\includepdf[pages=-]{titlepage_nl/thesis.pdf}
-
-
-\newpage\null\thispagestyle{empty}\newpage
-
-\setcounter{page}{1}
- \pagenumbering{roman}
-
-\addtocontents{toc}{\protect\setcounter{tocdepth}{0}} % don't add the next sections to the table of contents
-\pagestyle{section} % use the section page style for the fancy header
-\input{sections/abstract-eng}
-\clearpage
-
-\input{sections/samenvatting}
-\clearpage
-
-\input{sections/acknowledgements}
-\clearpage
-
-\input{sections/declaration}
-\clearpage
-\addtocontents{toc}{\protect\setcounter{tocdepth}{5}} % stop limiting the addition to the table of contents from here
-
-\pagestyle{fancy} % use the fancy page style again from here
-\tableofcontents
-%\addcontentsline{toc}{chapter}{Contents}
-\clearpage
-
-\listoffigures
-\addcontentsline{toc}{chapter}{List of Figures}
-\clearpage
-
-\lstlistoflistings
-\addcontentsline{toc}{chapter}{List of Listings}
-\clearpage
-
-%\listoftables
-%\addcontentsline{toc}{chapter}{List of Tables}
-%\clearpage
-
-\setcounter{page}{1}
- \pagenumbering{arabic}
-
-\input{sections/ch-introduction}
-\clearpage
-
-\input{sections/ch-background-gm}
-\clearpage
-
-\input{sections/ch-related-work}
-\clearpage
-
-\input{sections/ch-requirements}
-\clearpage
-
-\input{sections/ch-implementation}
-\clearpage
-
-\input{sections/ch-usecase}
-\clearpage
-
-\input{sections/ch-evaluation}
-\clearpage
-
-\input{sections/ch-conclusion}
-\clearpage
-
-%\appendix
-%renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname}\ \thechapter.\ #1}{}}
-%\input{sections/appendix}
-
-\renewcommand{\bibname}{References\hfill}
-%\renewcommand{\bibsection}{\chapter{\refname}}
-%\cleardoublepage
-\addcontentsline{toc}{section}{References}
-\bibliographystyle{apacite}
-\bibliography{thesisbib} % change to your bib!
-
-\appendix
-
-\includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{GM Evaluation Map Creator\label{appendix:gm-evaluation-map-creator}}},offset=0 -10cm]{sections/evaluation-form-map-creator.pdf}
-\markboth{GM Evaluation Map Creator}{GM Evaluation Map Creator} % ensure the correct name appears in the header and footer
-\includepdf[pages=2-,pagecommand={\pagestyle{fancy}}]{sections/evaluation-form-map-creator.pdf}
-
-\includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{GM Evaluation End User\label{appendix:gm-evaluation-end-user}}},offset=0 -10cm]{sections/evaluation-form-end-user.pdf}
-\markboth{GM Evaluation End User}{GM Evaluation End User} % ensure the correct name appears in the header and footer
-\includepdf[pages=2-,pagecommand={\pagestyle{fancy}}]{sections/evaluation-form-end-user.pdf}
-
-\includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{Plateforme DD Questionnaire\label{appendix:pdd-questionnaire}}},offset=0 -10cm]{sections/PDDQuestionnaire.pdf}
-\markboth{Plateforme DD Questionnaire}{Plateforme DD Questionnaire} % ensure the correct name appears in the header and footer
-\includepdf[pages=2-,pagecommand={\pagestyle{fancy}}]{sections/PDDQuestionnaire.pdf}
-\clearpage
-
-\includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{User Experience Questionnaire\label{appendix:ueq-questionnaire}}},offset=0 -10cm]{sections/UEQ_English.pdf}
-\markboth{User Experience Questionnaire}{User Experience Questionnaire} % ensure the correct name appears in the header and footer
-\includepdf[pages=2-,pagecommand={\pagestyle{fancy}}]{sections/UEQ_English.pdf}
-\clearpage
-
 
 \end{document}

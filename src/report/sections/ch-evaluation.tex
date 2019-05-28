@@ -1,9 +1,7 @@
 \chapter{Evaluation}\label{ch:evaluation}
-\color{blue}
+For our tool, usability and user experience are very important. Therefore, we did two user studies. The first was to test the usability of GuideaMaps 2.0 (as map creator and as end-user), while the second study evaluated whether the visualization provided for Plateforme DD was an improvement over the original structure provided on the website.\\
 
-In our tool, usability and user experience are very important. Therefore, we did two user studies. The first was to test the functionality of the GuideaMaps (as map creator and as end-user), while the second tested the use case about Plateforme DD.\\
-
-This chapter is divided in two sections. The first describes the user study of GuideaMaps together with its results. In the second section, the same is done for the user study of Plateforme DD.
+This chapter is divided in two sections. The first describes the user study of GuideaMaps 2.0 together with its results. In the second section, the same is done for the user study of Plateforme DD.
 
 
 
@@ -13,42 +11,49 @@ This chapter is divided in two sections. The first describes the user study of G
 In this section, we describe the evaluation of the default implementation of the tool. With ``default'' we mean that no implementation is plugged in into the library but the standard visualization is used as described in \autoref{sec:default-implementation}.
 
 \subsection{Setup}
-The evaluation was split in two parts, each testing one of the two modes. In the first part, we tested the map creator mode. For this mode, we asked people with a background in Computer Science and/or visualization techniques to participate. As we expect end-users can be almost everyone, this was not a requirement to participate in the part testing the functionality of the end-user.\\
+The evaluation was split in two parts, each evaluating one of the two modes. In the first part, we evaluated the map creator mode. Because GuideaMaps is intended for the requirements elicitation of domain-specific software, the map creators will in general be people from the domain of Computer Science. Therefore, we asked people with a background in Computer Science and/or visualization techniques to participate. However, the users that will provide the actual requirements can be almost everyone. Therefore, a computer science background was not a requirement to participate in the part evaluating the end-user mode.\\
 
 All participants answered the questions at home without additional explanation than the text provided at the beginning of the questionnaire.
 
 \subsection{Tasks \& Questions}
-For each mode, a different questionnaire was created (\autoref{appendix:gm-evaluation-map-creator} and \autoref{appendix:gm-evaluation-end-user}). They both start with a brief explanation about the tool, because nobody knew it or used it before. Before the actual questions, we ask the participant to enter his age and whether he has a background in Computer Science and/or visualization techniques or not.\\
+For the two modes, a different (online) questionnaire was created (\autoref{appendix:gm-evaluation-map-creator} and \autoref{appendix:gm-evaluation-end-user}). Both questionnaires start with a brief explanation about the tool.\\
 
-This is followed by the questions concerning the functionality of the tool. The goal was to let the participants experience the actions a real map creator or end-user can perform. After each action, we ask to indicate how intuitive it was for them to get to the expected result. This can be very useful to know, e.g. when the majority indicates a certain action was not intuitive at all, we know something should be changed in the design of the tool. When all questions with tasks are answered, the participant should upload a screenshot of his screen, so that we can check whether everything went as intended.\\
+Next, the participant was asked for his age and whether he had a background in Computer Science and/or visualization techniques or not. These general questions were followed by a number of tasks the participants had to perform followed by some questions.\\
 
-Further, we wanted to test the usability of the tool. Therefore, we added a SUS usability questionnaire\footnote{\url{https://www.usability.gov/how-to-and-tools/methods/system-usability-scale.html}}.\\
+The goal was to let the participants experience the actions a real map creator or end-user can perform. After each action, we asked to indicate how intuitive it was for them to obtain to the requested result. We asked this question because we want the tool to be usable without much explanation or training. When the majority of the participants would indicate that a certain action was not intuitive at all, we know something should be changed in the design of the tool. After all these tasks were finished, the participant was asked to upload a screenshot of his screen, so that we can check whether everything went as intended.\\
 
-The questionnaire was concluded with some open questions where the participant could provide his opinion. We asked to tell us what was good about the visualization and where they think we could have done better.
+Furthermore, to obtain a general idea of the usability of the tool, the participants were afterwards asked to fill out the SUS usability questionnaire\footnote{\url{https://www.usability.gov/how-to-and-tools/methods/system-usability-scale.html}}. We chose for this questionnaire because, according to a study of \cite{tullis2004comparison}, SUS gives the most reliable results in comparison to other questionnaires (e.g. QUIS and CSUQ). Further, SUS is the only questionnaire of the ones they studied that addresses multiple aspects of the user's reaction to the system (in their case a website), while other questionnaires ask more about specific features of the system.\\
+
+The questionnaire was concluded with some open questions. We asked to tell us what was good about the visualization and where they think we could have done better.
 
 \subsection{Results}
-We expect that participants taking the role of map creator will experience more tasks as intuitive than participants taking the role of end-user.
 
 
 
 
 \section{Plateforme DD}
-The evaluation of the use case about Plateforme DD is different in comparison to the one about GuideaMaps. A first difference is that our audience is different: for GuideaMaps we chose for participants with a background in Computer Science to take the role as map creator. The participants taking the role of end-user were also more than 20 years old. Now, for Plateforme DD, our audience is between ten and fifteen years old. This is because the content on the website\footnote{\url{https://sciences.brussels/dd/}} was created by children of similar ages \textcolor{red}{(TODO: check this)}. However, the participants of the user study never worked with the website before.
+The goal of the evaluation of the Plateforme DD use case was different in comparison to the one about GuideaMaps. Here the goal was to investigate whether our visualization would be easier to use and understand than the current website\footnote{\url{https://sciences.brussels/dd/}} of Plateforme DD for the target audience, being pupils from secondary schools.\\
+
+In this evaluation, the participants were around 15 years old. This age group was chosen because the content on the current website was created by youngsters of similar ages. Note that the participants of this user study never worked with the website before.
 
 \subsection{Setup}
-The children were divided in two groups: one group solved the questionnaire using the website, while the other group solved the same questionnaire using the application. There was one tablet per two children on which the website or the application was running (depending on the group they were in). It was important they did not work with both systems because then there was the possibility a learning effect of having used one system before the other could influence the results. 
+We divided the participants into an experimental and a control group. The control group solved the questionnaire using the website, while the experimental group solved the same questionnaire using our application.\\
+
+There was one tablet per two children on which the website or the application was running (depending on the group they were in). Note that they did not work with both systems to avoid a learning effect (having used one system could influence the results for the other system). 
 
 \subsection{Tasks \& Questions}
-The user study consisted of different tasks and questions the children had to solve. Before they started with the actual tasks and questions, we gave them five minutes to explore the website or the application so that they could get used to it a bit. We mentioned that it was important to understand the structure as much as possible because some questions would follow after this introduction period.\\
+The user study consisted of different questions the children had to answer for which they had to explore or search in the system. Before they started with the actual tasks, we gave them five minutes to explore the system, i.e. the website or the application, so that they could become somewhat familiar with the system. We mentioned that it was important to understand the structure as much as possible because some questions would follow after this introduction period.\\
 
-After five to ten minutes, we distributed the papers with the tasks and the questions. With other words, all children (of both groups) received part 1 of the questionnaire (see \autoref{appendix:pdd-questionnaire}). The first six questions of part 1 were about the understanding of the structure of the content. Then, four more questions were added to test the searching and finding of information in both systems. The participants using the application also had to answer four more questions about ``insight'' in the way the information is structured and linked. Participants using the website did not have to answer these questions because these are specific for the application.\\
+After five to ten minutes, we distributed the papers with the tasks and the questions. With other words, all children (of both groups) received part 1 of the questionnaire (see \autoref{appendix:pdd-questionnaire}). The first six questions of part 1 intended to test the understanding of the structure of the content. Then, four more questions were added to test the ease of searching and finding information in the system. The participants using our application also had to answer four more questions to measure their understanding of the visualization approach used.\\
 
-After twenty minutes, all questionnaires of part 1 were collected, even if the participant did not finish all questions yet. Together with the pages, the tablets were collected as well because there are no questions left where the participants really needed the application or the website anymore. After collecting everything, part two of the questionnaire was distributed to all participants. In this part, the questions were not about the content or the structure of the information, but about usability and user experience. Hence, we wanted to know the opinion of the participants about the system they used so that we could compare which of the two systems they liked the most. The questions about usability and user experience can be found in \autoref{appendix:pdd-questionnaire} and \autoref{appendix:ueq-questionnaire}, respectively. The usability questions are based on the SUS questionnaire previously mentioned. Note that it is different than the SUS questionnaire for the evaluation of GuideaMaps. We adapted the questions a bit because not all questions were useful for our purpose.
+After twenty minutes, all questionnaires of part 1 were collected, even if the participant did not finish all questions yet. Together with the questionnaires, the tablets were collected, as they were not needed anymore for part 2 of the user study. After collecting everything, part two of the questionnaire was distributed to all participants. In this part, the questions were not about the content or the structure of the information, but about usability and user experience. This part consisted of filling out a second questionnaire, about usability and user experience. We did this because we also wanted to be able to compare the results about usability and user experience of the two systems. The questions about usability and user experience can be found in \autoref{appendix:pdd-questionnaire} and \autoref{appendix:ueq-questionnaire}, respectively. The usability questions are based on the SUS questionnaire previously mentioned, but adapted a bit because not all questions were relevant for our purpose.
 
 
 
 \subsection{Results}
-In general, we predict that participants using the application are better in answering most of the questions of part 1 correctly than the participants using the website. Certainly because they only have 20 minutes to answer all questions. We expect that not all participants using the website will be able to answer all questions in this amount of time. Even though we know it is possible that some participants using the application will not be able to finish the questionnaire either, we predict participants using the application will be able to answer more of the questions than participants using the website.
+In general, we hypothesize that participants using our application answer more of part 1 correctly than the participants using the website.\\
+
+Note that the participants only got 20 minutes to answer all questions. We expected that not all participants using the website would be able to answer all questions in this amount of time. Even though we know it is possible that some participants using our application would also not be able to finish the questionnaire either, we predict that participants using the application will be able to answer more of the questions than participants using the website.
 
 \subsubsection{Structure Comprehension}
 
@@ -59,10 +64,14 @@ In general, we predict that participants using the application are better in ans
 	\label{fig:evaluation-pdd-first6}
 \end{figure}
 
-\autoref{fig:evaluation-pdd-first6} shows the results of the first six questions of the questionnaire. We can see that almost every participant correctly found that the content is divided over three major topics. But more important is that participants using the application were significantly better in finding which topic contains the most and which the least number of subtopics. We expected this because in the application, the tree structure is more clear. As a consequence, these users have a better overview than the participants using the website. To the questions about which is not a direct subtopic of a certain topic, the participants using the website gave a correct answer more frequently. This is probably because these users cannot see indirect subtopics of the topics in the questions. Participants using the application possibly made some indirect subtopics visible by clicking on the plus-button and were then a bit disturbed.
+\autoref{fig:evaluation-pdd-first6} shows the results of the first six questions of the questionnaire. We can see that almost every participant correctly found that the content is divided over three major topics.\\
+
+Participants using our application were significantly better in finding which topic contains the most and which the least number of subtopics. We expected this because in our application, the tree structure is more clear. As a consequence, these users have a better overview than the participants using the website.\\
+
+To the questions about which topic is not a direct subtopic of a certain topic, the participants using the website gave a correct answer more frequently. This is probably because these users cannot see the indirect subtopics of the topics in the questions. Participants using our application possibly made some indirect subtopics visible by clicking on the plus-button.
 
 \subsubsection{Search \& Find}
-After the first six questions, in which they discovered the structure of the content, we asked them to search and find information in the tool they were using. The results can be found in \autoref{fig:evaluation-pdd-search-find}. In general, we see that participants using the application are better in retrieving the information from the tool than the ones using the website.
+The results to search and find related questions can be found in \autoref{fig:evaluation-pdd-search-find}. In general, we see that participants using our application are better in retrieving the information than the ones using the website. However, in one question participants using the website were slightly better in finding the correct result, but the difference is almost negligible.
 
 \begin{figure}[H]
 	\centering
@@ -71,10 +80,14 @@ After the first six questions, in which they discovered the structure of the con
 	\label{fig:evaluation-pdd-search-find}
 \end{figure}
 
-We also asked them to write the titles as possible of topics which are still ``under construction''. This was not very successful because more than half of the participants could not find such a topic. The average number of topics found per participant is 0.42 in the case of the application and 0.81 in case of the website. This is probably because going through the topics on the website is quite fast, i.e. you just click on other topics until you find one that is under construction, while in the application you have to open and close the nodes one by one which takes more time.
+We also asked them to write as much titles as possible of topics that are still ``under construction''. This was not very successful because more than half of the participants could not find such a topic. The average number of topics found per participant is 0.42 in the case of our application and 0.81 in case of the website. This is probably because going through the topics on the website is quite fast, i.e. you just click on other topics until you find one that is under construction, while in our application you have to open and close the nodes one by one which takes more time.
 
-\subsubsection{Insight}
-The participants using the application had to answer four additional multiple choice questions to test their insight about the tool. The results (\autoref{fig:evaluation-pdd-insight}) make clear that most of the participants understand that subtopics give more detailed information about their parent node when an example is given. However, when this concept is generalized (second question), a lot of the participants were wrong or indicated they did not know the answer. Even though the answer was almost revealed in question D, only 38\% found the correct answer. Further, many of them did not know question C was about the cross references. Hence, the insight questions were not very successful, except when the question contained elements literally visible in the tool.
+\subsubsection{Understanding of the Visualization}
+The participants using the application had to answer four additional (multiple choice) questions to test their understanding of the visualization. The results (\autoref{fig:evaluation-pdd-insight}) make clear that most of the participants understand that subtopics give more detailed information about their parent node when a concrete example is used. However, when this question was formulated in a more general way (question B), a lot of the participants were wrong or indicated they did not know the answer. Even though the answer was almost revealed in question D (``A click on the plus-button of a bubble allows me to find projects on more specialized topics for that bubble.'', only 35\% found the correct answer.\\
+
+Many participants did not know the answer on question C, which was about the cross references (``There is no connection (arrow) between the bubble ``Les d\'echets dans la nature'' and the bubble ``La pollution atmosph\'erique''. However, are these topics in some other way related?''). Only 38\% of the answers on this question was correct.\\
+
+Hence, we were not very successful in testing the understanding of the visualization. Either, the youngsters did not understand the visualization or the level of abstraction used in those questions was too high for them.
 
 \begin{figure}[H]
 	\centering
@@ -98,67 +111,77 @@ The participants using the application had to answer four additional multiple ch
 %\end{figure}
 
 \subsubsection{Usability}
-For the second part of the questionnaire, we expect the website is less usable than the visualization. Further, because we had more difficulties to search and find information on the website than in the application, we expect the user experience of the application will be better in comparison to the website. \\
+For the second part, we hypothesize that the website is less usable than our visualization and that our application provides a better user experience.\\
 
-\autoref{fig:evaluation-pdd-usability} shows eight graphs, each representing the results of one of the eight questions about usability of plateforme dd. When we look at the results of the first question, we can conclude that most of the participants whether they want to use the system more frequently or not.\\
+\autoref{fig:evaluation-pdd-usability} shows eight graphs, each representing the results of one of the eight questions about usability of Plateforme DD. When we look at the results of the first question, we can conclude that most of the participants (in both groups) are not very sure about whether they want to use the system more frequently or not.\\
 
-In question two and three, we tested the simplicity of the website and the application. We see that the majority of the participants using the application (strongly) disagrees with the statement that the tool is too difficult to use. On the other hand, we see a peak of participants using the website who agree with the same statement. In the next statement, the opposite was asked. Here we can make similar conclusions. In case of the application, the majority answered this question with ``strongly agree'', while in case of the website an equal percentage answered ``disagree''. Hence, based on these two questions, we can conclude that the application was easier to use than the website.\\
+In question two and three, we asked about the simplicity of the website or our application. We see that the majority of the participants using our application (strongly) disagrees with the statement that the tool is too difficult to use. On the other hand, we see a peak of participants using the website who agree with the same statement. In the next statement, the opposite was asked. Here we can make similar conclusions. In case of our application, the majority answered this question with ``strongly agree'', while in case of the website an equal percentage answered ``disagree''. Hence, based on these two questions, we can conclude that our application was easier to use than the website.\\
 
-Further, almost all participants using the application (all except 6\%) think they will be able to use the tool in the future without help. In case of the website, 40\% is still neutral or disagrees with this statement. The fifth question enforces this result even more: 80\% of the respondents using the application thinks their friends would be able to learn the system quickly, while in case of the website this is only 50\%.\\
+Furthermore, almost all participants using our application (all except 6\%) think they will be able to use the tool in the future without help. In case of the website, 40\% is neutral or disagrees with this statement. The fifth question enforces this result even more: 80\% of the respondents using our application thinks their friends would be able to learn the system quickly, while in case of the website this is only 50\%.\\
 
-We see that participants using the application agree quite often with the sixth question, ``I found it too much hassle to use the system'', while the majority using the website disagrees with this statement. This is probably because the application was a bit slower than expected on the used devices. As a consequence, the tool was not always responding immediately, which was sometimes confusing for the users.\\
+We see that participants using our application agree quite often with the sixth question, ``I found it too much hassle to use the system'', while the majority using the website disagrees with this statement. This is probably because our application was a bit slower than expected on the used tablets. As a consequence, the tool was not always responding immediately, which was sometimes confusing for the users.\\
 
-Overall, based on the answers from this usability questionnaire, we can conclude that the application scores a bit better than the website. Hence, by creating the tool we succeeded in our intention to make the structure of the content more clear and more attractable than the website.
+Overall, based on the answers from this usability questionnaire, we can conclude that the application scores slightly better on usability than the website. Hence, by creating the tool we succeeded in our intention to make the structure of the content more clear and more attractable than the website. This is supported by a note on the form of a participant using the website: ``I don't understand it''.
 
 
 \begin{figure}[h]
 	\centering
-	\begin{subfigure}{.49\textwidth}
+	\begin{subfigure}{.8\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{evaluation/usability-q1.pdf}
   		\caption{Results for question 1.}
   		%\label{fig:plusicon}
-	\end{subfigure}%
-	\begin{subfigure}{.49\textwidth}
+	\end{subfigure}\par\bigskip
+	
+	\begin{subfigure}{.8\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{evaluation/usability-q2.pdf}
   		\caption{Results for question 2.}
   		%\label{fig:editicon}
 	\end{subfigure}\par\bigskip
 	
-	\begin{subfigure}{.49\textwidth}
+	\begin{subfigure}{.8\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{evaluation/usability-q3.pdf}
   		\caption{Results for question 3.}
   		%\label{fig:plusicon}
-	\end{subfigure}%
-	\begin{subfigure}{.49\textwidth}
+	\end{subfigure}
+\end{figure}
+
+\begin{figure}\ContinuedFloat
+	\centering
+	\begin{subfigure}{.8\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{evaluation/usability-q4.pdf}
   		\caption{Results for question 4.}
   		%\label{fig:editicon}
 	\end{subfigure}\par\bigskip
 	
-	\begin{subfigure}{.49\textwidth}
+	\begin{subfigure}{.8\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{evaluation/usability-q5.pdf}
   		\caption{Results for question 5.}
   		%\label{fig:plusicon}
-	\end{subfigure}%
-	\begin{subfigure}{.49\textwidth}
+	\end{subfigure}\par\bigskip
+	
+	\begin{subfigure}{.8\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{evaluation/usability-q6.pdf}
   		\caption{Results for question 6.}
   		%\label{fig:editicon}
-	\end{subfigure}\par\bigskip
-	
-	\begin{subfigure}{.49\textwidth}
+	\end{subfigure}
+\end{figure}
+
+\begin{figure}\ContinuedFloat
+	\centering
+	\begin{subfigure}{.8\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{evaluation/usability-q7.pdf}
   		\caption{Results for question 7.}
   		%\label{fig:plusicon}
-	\end{subfigure}%
-	\begin{subfigure}{.49\textwidth}
+	\end{subfigure}\par\bigskip
+	
+	\begin{subfigure}{.8\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{evaluation/usability-q8.pdf}
   		\caption{Results for question 8.}
@@ -168,12 +191,15 @@ Overall, based on the answers from this usability questionnaire, we can conclude
 	\label{fig:evaluation-pdd-usability}
 \end{figure}
 
+
 \subsubsection{User Experience}
-To test the user experience, we used a questionnaire\footnote{\url{https://www.ueq-online.org/}} composed in such a way that inconsistencies can be easily detected. Together with the questionnaire, you can download an excel-file in which you have to insert all given answers. In the file, the answers are immediately analyzed and graphs are created for you.\\
+To evaluate the user experience, we used the UEQ questionnaire\footnote{\url{https://www.ueq-online.org/}} (\autoref{appendix:ueq-questionnaire}) composed in such a way that inconsistencies can be easily detected. Together with the questionnaire, an excel-file is available that allows to analyze the answers and create graphs.\\
 
-The questionnaire consists of 26 terms at one side with their opposite at the other side. Between each to terms, the numbers one to seven can be found. The opposites are structured in such a way that the most negative of the two is not always number one or always number seven. Also, each couple of terms corresponds to one of six categories: attractiveness, perspicuity, efficiency, stimulation or novelty.\\
+The questionnaire consists of 26 terms at one side with their opposite at the other side, e.g. annoying versus enjoyable. A number between one and seven is used to give a score to this criterion. Each couple of terms, i.e. criterion, corresponds to one of six categories: attractiveness, perspicuity, efficiency, dependability, stimulation, and novelty.\\
 
-It is the task of the respondent to indicate the number which lies the closest to his opinion/feelings about the system he used. Afterwards we inserted all numbers in the excel-file, which converts the numbers from one to seven to a range between -3 and +3, where a -3 stands for the most negative answer and +3 for the most positive answer of the two. Then for each couple of opposites, the mean is taken for all converted answers. Hence, we get again a number between -3 and +3. Because it is very unlikely to have a mean lower than -2 and higher than 2, the graphs are created with a range between -2 and +2. This is also done because a mean of 1.5, which is already a quite good value, still seems to be less positive as it is on a scale from -3 to +3. The resulting graphs can be found in \autoref{fig:evaluation-pdd-ueq}.
+The excel-file converts the numbers from one to seven to a range between -3 and +3, where -3 stands for the most negative answer and +3 for the most positive answer of the two. For each couple of opposites, the mean is calculated based on the converted answers, resulting in a number between -3 and +3. Because it is very unlikely to have a mean lower than -2 and higher than 2, the graphs are given with a range between -2 and +2. The resulting graphs can be found in \autoref{fig:evaluation-pdd-ueq}.\\
+
+We can see that the score for the perspicuity of our application is higher than the one for the website, which means the application is more clear. A remarkable result is the one for efficiency: the application seems to be less efficient than the website. Maybe this can be explained as follows. The majority of the respondents indicated that our application was slow. As already mentioned, this is due to the devices used, but it was very inconvenient for them and this probably influenced the score for efficiency. \textcolor{red}{TODO: andere categori\"en bespreken}
 
 \begin{figure}[h]
 	\centering
@@ -192,8 +218,6 @@ It is the task of the respondent to indicate the number which lies the closest t
 	\caption{User Experience Results Plateforme DD.}
 	\label{fig:evaluation-pdd-ueq}
 \end{figure}
-
-\color{black}
 
 
 

@@ -24,20 +24,18 @@ This chapter starts by identifying the different user classes. Next, we will pre
 For our system, we can identify three user classes: (1) developer, (2) map creator and (3) end-user. The class the user belongs to will define its rights and possibilities. An overlap in the rights is possible, i.e. users of different classes can have a number of rights and possibilities in common. The different user classes are described into more detail in the following subsections.
 
 \subsection{Developer}\label{sec:user-class-developer}
-A developer is a user who can define and implement a custom visualization for the nodes and the links. This means that a developer can make sure that the tool can be used with a different visualization while the possibilities (in terms of functionality) are still the same. Developers are the only users that are able to do this because map creators and end-users are not allowed to extend the code with a custom implementation. The exact steps that need to be taken in order to provide a custom visualization in the tool are explained in chapter \ref{ch:implementation} and \ref{ch:usecase}.
+A developer is a user who can define and implement a custom visualization for the nodes and the links. This means that a developer can make sure that the tool can be used with a different visualization while the possibilities (in terms of functionality) are still the same. Developers are the only users that are able to do this because map creators and end-users are not allowed to extend the code with a custom implementation. The exact steps that need to be taken in order to provide a custom visualization in the tool are explained in \autoref{ch:implementation} and \ref{ch:usecase}.
 
 \subsection{Map Creator}\label{sec:user-class-map-creator}
-A map creator has the rights to create a so-called Guidea template or change the structure of an existing template. With the structure, we do not mean the layout of the nodes and the links, but the composition of the map itself. Hence, the map creator ``initializes'' the map by creating the nodes and links necessary for his goal. He provides a title and a description for each node. As a map creator, it is not possible to already provide the content of the node because that is the responsibility of the end-user. Note that this user corresponds to the template creator in GuideaMaps 1.0. However, in GuideaMaps 1.0 this had to be done in XML, while in our version it will be done in a graphical way \textcolor{blue}{to achieve \ref{goal:templates-graphical}}. We use the term ``map'' here (instead of template) because the term ``map'' is easier to understand than the term ``template'' by non-ICT schooled users.
+A map creator has the rights to create a so-called Guidea template or change the structure of an existing template. With the structure, we do not mean the layout of the nodes and the links, but the composition of the map itself. Hence, the map creator ``initializes'' the map by creating the nodes and links necessary for his goal. He provides a title and a description for each node. As a map creator, it is not possible to already provide the content of the node because that is the responsibility of the end-user. Note that this user corresponds to the template creator in GuideaMaps 1.0. However, in GuideaMaps 1.0 this had to be done in XML, while in our version it will be done in a graphical way to achieve \ref{goal:templates-graphical}. We use the term ``map'' here (instead of template) because the term ``map'' is easier to understand than the term ``template'' by non-ICT schooled users.
 
 \subsection{End User}\label{sec:user-class-end-user}
 The end-user is the most restricted user in terms of rights and functionalities. He will use the map defined by a map creator and fill it with content. The end-user cannot change the title or the description, provided by the map creator, of a node but only provide the content. We have this restriction because otherwise this would give them the opportunity to change the structure of the map (which is a right reserved for the map creator). If the map creator did not provide this information, the end-user can add it, but never change it again afterwards, because, once the information is added, it is the same situation as when the map creator would have provided it.\\
 
-\textcolor{blue}{
 Further, an end-user is allowed to add child-nodes but they cannot delete nodes, because otherwise it would be possible for end-users to change the pre-defined map completely. The purpose of allowing the end-user to edit the map in some restricted way is to allow them to adjust the map to situations that were not foreseen by the map creator.
-}
 
 
-\color{blue}
+
 % ----------------------------------
 % ---------- REQUIREMENTS ----------
 % ----------------------------------
@@ -73,7 +71,7 @@ Further, an end-user is allowed to add child-nodes but they cannot delete nodes,
 		\ref{goal:generic} formulated earlier states that the application should be usable for different purposes. While GuideaMaps was usable in the context of domain specific requirement elicitation, our tool should also be useful in many other cases. Therefore, some requirements concerning the genericity of the application are needed:
   	\begin{enumerate}
 		\item The tool should be generic in such a way that it is possible to use a different representation, e.g. shape/size for the nodes and the links.
-		\item The default implementation should not be changed. An implementation for the nodes and the links created by a developer, should be \textit{plugged in} into the system, without affecting the default implementation.
+		\item The major implementation should not be changed to achieve (a). An implementation for the nodes and the links created by a developer, should be \textit{plugged in} into the system, without affecting the rest of the implementation.
 	\end{enumerate}
 	
 	\item \label{fr:work-simultaneously}
@@ -89,19 +87,19 @@ Further, an end-user is allowed to add child-nodes but they cannot delete nodes,
 \begin{enumerate}[label=\textbf{UR \arabic*}., ref=UR \arabic*, labelindent=0.5cm, leftmargin=*]
 
 	\item \label{ur:intuitiveness}
-		The tool should not only be used by people with experience in Computer Science. It does not matter whether or not the user has a background in Computer Science, he should be able to easily learn to use the system in a short time.
+		The tool should not only be usable for people with experience in Computer Science. It does not matter whether or not the user has a background in Computer Science, he should be able to easily learn to use the system in a short time.
 	
 	\item \label{ur:icons}
-		Possible actions should be labeled by clear, not misunderstandable icons. The icons should not be ambiguous, they should link to one particular action and thus the user should know exactly what to expect when clicking on the icon. Well chosen icons are one of the factors in the design that contribute to learnability and ease of use.
+		Possible actions should be labeled by clear, not unmistakable icons. The icons should not be ambiguous, each icon should link to one particular action and thus the user should know exactly what to expect when clicking on the icon. Well chosen icons are one of the factors in the design that contribute to learnability and ease of use.
 	
 	\item \label{ur:gestures}
-		Gestures for common actions should not differ from the gestures used for the same action in other applications. (e.g. the scrolling gesture is probably the best gesture for zooming, because this is a well-known way to zoom in applications (e.g. Google Maps). Using the same gesture as in other applications will improve the learnability of our tool.)
+		Gestures for common actions should not differ from the gestures used for the same action in other applications. (e.g. the scrolling gesture is probably the best gesture for zooming, because this is a well-known way to zoom in applications (e.g. Google Maps)). Using the same gesture as in other applications will improve the learnability of our tool.
 	
 	\item \label{ur:accessibility}
-		The target audience of the application should be limited as little as possible: color blind people should still be able to use the system.
+		The target audience of the application should not be limited in some way: e.g. colorblind people should also be able to use the system.
 	
 	\item \label{ur:time}
-		To save time, end-users should be able to add extra options to choice nodes without having to contact the map creator to update the options.
+		End-users should be able to make small changes to the structure of the map, such as adding extra options to choice nodes, without having to contact the map creator to perform these updates.
 	
 \end{enumerate}
 
@@ -111,13 +109,9 @@ Further, an end-user is allowed to add child-nodes but they cannot delete nodes,
 
 \begin{enumerate}[label=\textbf{OR \arabic*}., ref=OR \arabic*, labelindent=0.5cm, leftmargin=*]
 	\item \label{or:device-os-independent}
-		To achieve \ref{goal:device-os-independent}, the application should run on different kinds of devices (e.g. tablets, laptops and desktops) and operating systems (Android, iOS, MacOS and Windows). While version 1.0 was only designed for an iPad, our version should provide a solution for this restriction.\\
-	
-	The only restriction on the used device is that it needs to have a screen that is large enough because it is not very convenient to work with the visualization on small screen areas, e.g. on smartphones. The application could run on smartphones but it is not recommended nor required to use it on devices with relatively small screens.
+		To achieve \ref{goal:device-os-independent}, the application should run on different kinds of devices (i.e. tablets, laptops, and desktops) and operating systems (i.e. Android, iOS, MacOS, and Windows). The only restriction on the used device is that it needs to have a screen that is large enough because it is not very convenient to work with the visualization on small screen areas, e.g. on smartphones. The application could run on smartphones but it is not recommended nor required to use it on devices with relatively small screens.
 	
 	\item \label{item:code-separation}
 		The core of the application should be completely separated from custom implementations created by developers.
 
 \end{enumerate}
-
-\color{black}
