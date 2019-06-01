@@ -30,7 +30,7 @@ A developer is a user who can define and implement a custom visualization for th
 A map creator has the rights to create a so-called Guidea template or change the structure of an existing template. With the structure, we do not mean the layout of the nodes and the links, but the composition of the map itself. Hence, the map creator ``initializes'' the map by creating the nodes and links necessary for his goal. He provides a title and a description for each node. As a map creator, it is not possible to already provide the content of the node because that is the responsibility of the end-user. Note that this user corresponds to the template creator in GuideaMaps 1.0. However, in GuideaMaps 1.0 this had to be done in XML, while in our version it will be done in a graphical way to achieve \ref{goal:templates-graphical}. We use the term ``map'' here (instead of template) because the term ``map'' is easier to understand than the term ``template'' by non-ICT schooled users.
 
 \subsection{End User}\label{sec:user-class-end-user}
-The end-user is the most restricted user in terms of rights and functionalities. He will use the map defined by a map creator and fill it with content. The end-user cannot change the title or the description, provided by the map creator, of a node but only provide the content. We have this restriction because otherwise this would give them the opportunity to change the structure of the map (which is a right reserved for the map creator). If the map creator did not provide this information, the end-user can add it, but never change it again afterwards, because, once the information is added, it is the same situation as when the map creator would have provided it.\\
+The end-user is the most restricted user in terms of rights and functionalities. He will use the map defined by a map creator and fill it with content. The end-user cannot change the title or the description, provided by the map creator, of a node but only provides the content. We have this restriction because otherwise this would give them the opportunity to change the structure of the map (which is a right reserved for the map creator). If the map creator did not provide this information, the end-user can add it, but never change it again afterwards, because, once the information is added, it is the same situation as when the map creator would have provided it.\\
 
 Further, an end-user is allowed to add child-nodes but they cannot delete nodes, because otherwise it would be possible for end-users to change the pre-defined map completely. The purpose of allowing the end-user to edit the map in some restricted way is to allow them to adjust the map to situations that were not foreseen by the map creator.
 
@@ -47,7 +47,7 @@ Further, an end-user is allowed to add child-nodes but they cannot delete nodes,
 \begin{enumerate}[label=\textbf{FR \arabic*}., labelindent=0.5cm, ref=FR \arabic*, leftmargin=*]
 
 	\item \label{fr:modes-rights}
-		The system needs two modes: and end-user mode and a map creator mode. Depending on the mode used, the corresponding functionality should be available. 
+		The system needs two modes: an end-user mode and a map creator mode. Depending on the mode used, the corresponding functionality should be available. 
 	
 	\item \label{fr:mapcreator:template}
 		A map creator should be able to define a structure for the visualization and provide a title and description for each added node and options for choice nodes.
@@ -75,7 +75,7 @@ Further, an end-user is allowed to add child-nodes but they cannot delete nodes,
 	\end{enumerate}
 	
 	\item \label{fr:work-simultaneously}
-		Multiple users should be able to work on the same visualization at the same time.
+		Multiple users should be able to work on the same visualization at the same time. \textcolor{red}{TODO: dit is niet ge\"implementeerd, moet dit dan weg?}
   
 \end{enumerate}
 
@@ -90,7 +90,7 @@ Further, an end-user is allowed to add child-nodes but they cannot delete nodes,
 		The tool should not only be usable for people with experience in Computer Science. It does not matter whether or not the user has a background in Computer Science, he should be able to easily learn to use the system in a short time.
 	
 	\item \label{ur:icons}
-		Possible actions should be labeled by clear, not unmistakable icons. The icons should not be ambiguous, each icon should link to one particular action and thus the user should know exactly what to expect when clicking on the icon. Well chosen icons are one of the factors in the design that contribute to learnability and ease of use.
+		Possible actions should be labeled by clear, unmistakable icons. The icons should not be ambiguous, each icon should link to one particular action and thus the user should know exactly what to expect when clicking on the icon. Well chosen icons are one of the factors in the design that contribute to learnability and ease of use.
 	
 	\item \label{ur:gestures}
 		Gestures for common actions should not differ from the gestures used for the same action in other applications. (e.g. the scrolling gesture is probably the best gesture for zooming, because this is a well-known way to zoom in applications (e.g. Google Maps)). Using the same gesture as in other applications will improve the learnability of our tool.

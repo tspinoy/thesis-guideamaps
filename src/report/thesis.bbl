@@ -152,6 +152,36 @@ Eppler, M\BPBI J.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Goldenberg%
+, Mazursky%
+\BCBL {}\ \BBA {} Solomon%
+}{%
+Goldenberg%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {1999}}%
+}]{%
+goldenberg1999ideation}
+\APACinsertmetastar {%
+goldenberg1999ideation}%
+\begin{APACrefauthors}%
+Goldenberg, J.%
+, Mazursky, D.%
+\BCBL {}\ \BBA {} Solomon, S.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1999}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{Toward Identifying the Inventive Templates of New
+  Products: A Channeled Ideation Approach}} {{Toward Identifying the Inventive
+  Templates of New Products: A Channeled Ideation Approach}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Marketing Research}{36}{2}{200-210}.
+\newblock
+\begin{APACrefDOI} \doi{10.2307/3152093} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 ISO%
 }{%
 ISO%
@@ -394,6 +424,57 @@ Scherl, A.%
 \APACjournalVolNumPages{Advances in Physiology Education}{36}{4}{284-297}.
 \newblock
 \begin{APACrefDOI} \doi{10.1152/advan.00086.2012} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Shih%
+}{%
+Shih%
+}{%
+{\protect \APACyear {2011}}%
+}]{%
+shih2011brainstorming}
+\APACinsertmetastar {%
+shih2011brainstorming}%
+\begin{APACrefauthors}%
+Shih, P.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2011}{}{}.
+\newblock
+\APACrefbtitle {{Brainstorming Beyond the Laboratory: Idea Generation Practices
+  in Software Development Firms}.} {{Brainstorming Beyond the Laboratory: Idea
+  Generation Practices in Software Development Firms}.}
+\newblock
+\APAChowpublished {University of California}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Susi%
+, Johannesson%
+\BCBL {}\ \BBA {} Backlund%
+}{%
+Susi%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2007}}%
+}]{%
+susi2007serious}
+\APACinsertmetastar {%
+susi2007serious}%
+\begin{APACrefauthors}%
+Susi, T.%
+, Johannesson, M.%
+\BCBL {}\ \BBA {} Backlund, P.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2007}{}{}.
+\newblock
+\APACrefbtitle {{Serious Games: An Overview}.} {{Serious Games: An Overview}.}
+\newblock
+\APACaddressPublisher{}{Institutionen f{\"o}r kommunikation och information
+  (Sweden)}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

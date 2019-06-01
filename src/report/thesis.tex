@@ -21,7 +21,6 @@
 \setcounter{secnumdepth}{4}
 
 
-
 \usepackage{setspace}
 \usepackage{etoolbox}
 \AtBeginEnvironment{quote}{\singlespace\vspace{-\topsep}\small}
@@ -174,7 +173,15 @@
   \fancyfoot[LE,RO]{\thepage}
   \renewcommand{\headrulewidth}{0pt}% Line at the header invisible
   \renewcommand{\footrulewidth}{0.1pt} % 0pt -> line invisible
+}
 
+\fancypagestyle{appendix}{
+  \fancyhf{}
+  %\fancyfoot[C]{\MakeUppercase\rightmark}
+  \fancyfoot[LO,RE]{\MakeUppercase\rightmark}
+  \fancyfoot[LE,RO]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}% Line at the header invisible
+  \renewcommand{\footrulewidth}{0.1pt} % 0pt -> line invisible
 }
 
 \fancypagestyle{plain}{
@@ -193,6 +200,9 @@
       {.5\baselineskip}%
       {\normalfont\normalsize\bfseries}}
 \makeatother
+
+\let\subsectionautorefname\sectionautorefname
+\let\subsubsectionautorefname\sectionautorefname
 
 %only if your thesis is written in English; otherwise delete this page
 \title{Editable and Customizable Knowledge Maps}
@@ -298,6 +308,7 @@
 \bibliography{thesisbib} % change to your bib!
 
 \appendix
+\pagestyle{appendix} % use the fancy page style again from here
 
 \includepdf[pages=1,pagecommand={\pagestyle{fancy}\chapter{GM Evaluation Map Creator\label{appendix:gm-evaluation-map-creator}}},offset=0 -10cm]{sections/evaluation-form-map-creator.pdf}
 \markboth{GM Evaluation Map Creator}{GM Evaluation Map Creator} % ensure the correct name appears in the header and footer

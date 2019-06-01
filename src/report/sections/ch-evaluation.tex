@@ -11,7 +11,7 @@ This chapter is divided in two sections. The first describes the user study of G
 In this section, we describe the evaluation of the default implementation of the tool. With ``default'' we mean that no implementation is plugged in into the library but the standard visualization is used as described in \autoref{sec:default-implementation}.
 
 \subsection{Setup}
-The evaluation was split in two parts, each evaluating one of the two modes. In the first part, we evaluated the map creator mode. Because GuideaMaps is intended for the requirements elicitation of domain-specific software, the map creators will in general be people from the domain of Computer Science. Therefore, we asked people with a background in Computer Science and/or visualization techniques to participate. However, the users that will provide the actual requirements can be almost everyone. Therefore, a computer science background was not a requirement to participate in the part evaluating the end-user mode.\\
+The evaluation was split in two parts, each evaluating one of the two modes. In the first part, we evaluated the map creator mode with eight participants. Because GuideaMaps is intended for the requirements elicitation of domain-specific software, the map creators will in general be people from the domain of Computer Science. Therefore, we asked people with a background in Computer Science and/or visualization techniques to participate. However, the users that will provide the actual requirements can be almost everyone. Therefore, a computer science background was not a requirement to participate in the part evaluating the end-user mode, which was evaluated by eight participants. All participants for the evaluation of both modes were unique, i.e. there was no participant that evaluated both modes.\\
 
 All participants answered the questions at home without additional explanation than the text provided at the beginning of the questionnaire.
 
@@ -27,6 +27,26 @@ Furthermore, to obtain a general idea of the usability of the tool, the particip
 The questionnaire was concluded with some open questions. We asked to tell us what was good about the visualization and where they think we could have done better.
 
 \subsection{Results}
+Because there are different questionnaires for the two modes, the results are separated in the next two sections. For the questions about the intuitiveness of the task, we only discuss remarkable results or questions of which the result was (absolutely) not intuitive.
+
+\subsubsection{Map Creator}
+The first task to evaluate the functionality of the map creator was to provide a title to the root node. We see that 25\% of the participants indicated this action was not intuitive and another 25\% were neutral about the intuitiveness of this task. A frequently returning remark was that participants tried to click on the title to edit it. They also said they did not link the magnification icon to editing possibilities. Suggestions for better icons were a gear or a pencil. Hence, requirement \ref{ur:icons} is achieved if we replace the magnifier icon with a better one.\\
+
+The other tasks were evaluated as intuitive to very intuitive, with sometimes some exceptions indicating \textit{neutral}. However, the task to delete an option of a choice node was not intuitive for 87,5\% and absolutely not intuitive for 12,5\% of the participants. This means we could have done much better for this functionality. A comment we encountered frequently was that a small button to delete an option would be much more intuitive than having to delete the title and description. Now, the functionality is somewhat hidden and difficult to find. Another remark about buttons is that the position of the button to delete a node was weird.\\
+
+Finally, the participants answered the ten SUS questions and the results are satisfying: the average score is 72,5 on 100. 
+
+\subsubsection{End User}
+As already mentioned, different tasks and questions were provided to evaluate the functionality of the end-user. In the first task was asked to add content to a specific node. While 83\% experienced this as a (very) intuitive action, 17\% found it not intuitive. This has possibly a similar reason than in case of the map creator: the participants probably clicked on the place of the node where the content should be visible, but could not insert the content from there.\\
+
+Further, when some options of a choice node are selected, child nodes are added to the visualization. We asked the participants to delete one of these options. While 50\% indicated this action is intuitive, 17\% experienced the same action as not intuitive and 33\% as neutral. Hence, deleting an option was not super clear for half of the participants.\\
+
+In the end, the participants answered the ten SUS questions and with an average score of 73,75 on 100, the result is almost equal to the one of the map creator.
+
+\subsubsection{Overall}
+In general, the user studies yielded important information. First of all, we have to be even more careful than we expected with the icons we use for actions (\ref{ur:icons}). We saw that users do not click on a button if they are convinced it is not meant for what they are searching for.\\
+
+In the future, deleting elements should always be done via a button. Other ways are not intuitive (enough).
 
 
 
@@ -55,7 +75,7 @@ In general, we hypothesize that participants using our application answer more o
 
 Note that the participants only got 20 minutes to answer all questions. We expected that not all participants using the website would be able to answer all questions in this amount of time. Even though we know it is possible that some participants using our application would also not be able to finish the questionnaire either, we predict that participants using the application will be able to answer more of the questions than participants using the website.
 
-\subsubsection{Structure Comprehension}
+\subsubsection{Structure Comprehension}\label{sec:evaluation-pdd-structure-comprehension}
 
 \begin{figure}[H]
 	\centering
@@ -80,7 +100,9 @@ The results to search and find related questions can be found in \autoref{fig:ev
 	\label{fig:evaluation-pdd-search-find}
 \end{figure}
 
-We also asked them to write as much titles as possible of topics that are still ``under construction''. This was not very successful because more than half of the participants could not find such a topic. The average number of topics found per participant is 0.42 in the case of our application and 0.81 in case of the website. This is probably because going through the topics on the website is quite fast, i.e. you just click on other topics until you find one that is under construction, while in our application you have to open and close the nodes one by one which takes more time.
+We also asked them to write as much titles as possible of topics that are still ``under construction''. This was not very successful because more than half of the participants could not find such a topic. The average number of topics found per participant is 0.42 in the case of our application and 0.81 in case of the website. This is probably because going through the topics on the website is quite fast, i.e. you just click on other topics until you find one that is under construction, while in our application you have to open and close the nodes one by one which takes more time.\\
+
+In general, when looking at \autoref{fig:evaluation-pdd-first6} and \autoref{fig:evaluation-pdd-search-find}, we can conclude that our hypothesis was correct, i.e. participants using our application answer more questions correctly. Furthermore, in case our application has more correct answers, it outperforms the website almost every time. Hence, our application certainly is better than the website for structure comprehension (\autoref{sec:evaluation-pdd-structure-comprehension}) and searching and finding information.
 
 \subsubsection{Understanding of the Visualization}
 The participants using the application had to answer four additional (multiple choice) questions to test their understanding of the visualization. The results (\autoref{fig:evaluation-pdd-insight}) make clear that most of the participants understand that subtopics give more detailed information about their parent node when a concrete example is used. However, when this question was formulated in a more general way (question B), a lot of the participants were wrong or indicated they did not know the answer. Even though the answer was almost revealed in question D (``A click on the plus-button of a bubble allows me to find projects on more specialized topics for that bubble.'', only 35\% found the correct answer.\\
@@ -92,7 +114,7 @@ Hence, we were not very successful in testing the understanding of the visualiza
 \begin{figure}[H]
 	\centering
 	\frame{\includegraphics[width=\linewidth]{evaluation/part1-insight.pdf}}
-	\caption{Results of insight questions.}
+	\caption{Results of questions about understanding of the visualization.}
 	\label{fig:evaluation-pdd-insight}
 \end{figure}
 
@@ -199,7 +221,11 @@ The questionnaire consists of 26 terms at one side with their opposite at the ot
 
 The excel-file converts the numbers from one to seven to a range between -3 and +3, where -3 stands for the most negative answer and +3 for the most positive answer of the two. For each couple of opposites, the mean is calculated based on the converted answers, resulting in a number between -3 and +3. Because it is very unlikely to have a mean lower than -2 and higher than 2, the graphs are given with a range between -2 and +2. The resulting graphs can be found in \autoref{fig:evaluation-pdd-ueq}.\\
 
-We can see that the score for the perspicuity of our application is higher than the one for the website, which means the application is more clear. A remarkable result is the one for efficiency: the application seems to be less efficient than the website. Maybe this can be explained as follows. The majority of the respondents indicated that our application was slow. As already mentioned, this is due to the devices used, but it was very inconvenient for them and this probably influenced the score for efficiency. \textcolor{red}{TODO: andere categori\"en bespreken}
+We can see that the score for the perspicuity of our application is higher than the one for the website, which means the application is more clear. A remarkable result is the one for efficiency: the application seems to be less efficient than the website. Maybe this can be explained as follows. The majority of the respondents indicated that our application was slow. As already mentioned, this is due to the devices used, but it was very inconvenient for them and this probably influenced the score for efficiency.\\
+
+Further, we also see that our application scores significantly lower for novelty than the website. We think this is mainly due to the answers on the ``dull/creative''-criterion. Participants using the website found the website more creative than the respondents using our application.\\
+
+The excel-file also detects inconsistencies in the answers. The answers containing three or more inconsistent answers were removed, as advised in the file. In this way, we should have the most correct results from the answers.
 
 \begin{figure}[h]
 	\centering
