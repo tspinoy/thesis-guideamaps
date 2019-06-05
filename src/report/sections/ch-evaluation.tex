@@ -58,7 +58,7 @@ As a conclusion, we can say that our application scores reasonably well in terms
 \section{Plateforme DD}
 The goal of the evaluation of the Plateforme DD use case (\autoref{ch:usecase}) was different in comparison to the one about GuideaMaps. Here the goal was to investigate whether our visualization would be easier to use and understand than the current website\footnote{\url{https://sciences.brussels/dd/}} of Plateforme DD for the target audience, being pupils from secondary schools.\\
 
-In this evaluation, the participants were around 15 years old. This age group was chosen because the content on the current website was created by youngsters of similar ages. Note that the participants of this user study never worked with the website before.
+In this evaluation, the participants (52 in total) were around 15 years old. This age group was chosen because the content on the current website was created by youngsters of similar ages. Note that the participants of this user study never worked with the website before.
 
 \subsection{Setup}
 We divided the participants into an experimental and a control group. The control group solved the questionnaire using the website, while the experimental group solved the same questionnaire using our application.\\
@@ -160,24 +160,6 @@ The questionnaire consists of 26 terms at one side with their opposite at the ot
 
 The excel-file converts the numbers from one to seven to a range between -3 and +3, where -3 stands for the most negative answer and +3 for the most positive answer of the two. For each couple of opposites, the mean is calculated based on the converted answers, resulting in a number between -3 and +3. Because it is very unlikely to have a mean lower than -2 and higher than 2, the graphs are given with a range between -2 and +2. The resulting graphs can be found in \autoref{fig:evaluation-pdd-ueq}.\\
 
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}{.49\textwidth}
-  		\centering
-  		\includegraphics[width=\linewidth]{evaluation/evaluation-pdd-ueq-app.pdf}
-  		\caption{Results User Experience Application}
-  		%\label{fig:plusicon}
-	\end{subfigure}%
-	\begin{subfigure}{.49\textwidth}
-  		\centering
-  		\includegraphics[width=\linewidth]{evaluation/evaluation-pdd-ueq-website.pdf}
-  		\caption{Results User Experience Website}
-  		%\label{fig:editicon}
-	\end{subfigure}
-	\caption{User Experience Results Plateforme DD.}
-	\label{fig:evaluation-pdd-ueq}
-\end{figure}
-
 We can see that the score for the perspicuity of our application is higher than the one for the website, which means the application is more clear. A remarkable result is the one for efficiency: the application seems to be less efficient than the website. Maybe this can be explained as follows. The majority of the respondents indicated that our application was slow. As already mentioned, this is due to the devices used, but it was very inconvenient for them and this probably influenced the score for efficiency.\\
 
 Further, we also see that our application scores significantly lower for novelty than the website. We think this is mainly due to the answers on the ``dull/creative''-criterion. Participants using the website found the website more creative than the respondents using our application, which has its impact on the score for novelty.\\
@@ -189,6 +171,13 @@ Finally, the attractiveness of the website seems to be slightly higher. However,
 Note that the excel-file also detects inconsistencies in the answers. The answers containing three or more inconsistencies (15 in total) were removed, as advised in the file. In this way, we should have the most correct results from the answers.
 
 \subsubsection{Overall}
+Our hypothesis that participants using our application answer more of part 1 correctly than the participants using the website is confirmed by the results.\\
+
+Further, our application scores slightly better on usability than the website. However, the questions testing the understanding of the visualization were not very well answered. Also, some questions about structure comprehension were answered better by the participants using the website. But for other questions, the results of participants using our application outperformed the other results.\\
+
+The question to search for as much topics as possible that are ``under construction'' showed that the website allows users to browse faster through the topics. In our application, you always have to open and close nodes, which slows down the browsing process.\\
+
+As a summary, we can say that our application makes the structure of the content more clear and is easier to use than the website, but some adaptations could still improve the visualization.
 
 \begin{figure}[H]
 	\centering
@@ -215,7 +204,7 @@ Note that the excel-file also detects inconsistencies in the answers. The answer
 \end{figure}
 
 \begin{figure}[H]\ContinuedFloat
-	\centering
+	\centering	
 	\begin{subfigure}{.8\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{evaluation/usability-q4.pdf}
@@ -256,7 +245,24 @@ Note that the excel-file also detects inconsistencies in the answers. The answer
 	\caption{Usability Results Plateforme DD.}
 	\label{fig:evaluation-pdd-usability}
 \end{figure}
-\clearpage
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.49\textwidth}
+  		\centering
+  		\includegraphics[width=\linewidth]{evaluation/evaluation-pdd-ueq-app.pdf}
+  		\caption{Results User Experience Application}
+  		%\label{fig:plusicon}
+	\end{subfigure}%
+	\begin{subfigure}{.49\textwidth}
+  		\centering
+  		\includegraphics[width=\linewidth]{evaluation/evaluation-pdd-ueq-website.pdf}
+  		\caption{Results User Experience Website}
+  		%\label{fig:editicon}
+	\end{subfigure}
+	\caption{User Experience Results Plateforme DD.}
+	\label{fig:evaluation-pdd-ueq}
+\end{figure}
 
 
 
