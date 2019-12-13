@@ -12,7 +12,7 @@
     "d3-dsv": "^1.0.10",
     "event-propagation-path": "^1.0.5",
     "lodash": "latest",
-    "npm": "^6.4.1",
+    "npm": "^6.13.4",
     "react": "^16.6.3",
     "react-color": "^2.14.1",
     "react-dnd": "^5.0.0",
